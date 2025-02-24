@@ -1,0 +1,158 @@
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-dark.css";
+@import "@radix-ui/colors/sky-dark.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/red-dark.css";
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/orange-dark.css";
+@import "@radix-ui/colors/amber.css";
+@import "@radix-ui/colors/amber-dark.css";
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/plum-dark.css";
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/crimson-dark.css";
+@import "@radix-ui/colors/white-alpha.css";
+@import "@radix-ui/colors/black-alpha.css";
+
+/*
+  Our app is monochrome, so we only need the color-gray scale, no color-accent scale. See: https://www.radix-ui.com/themes/docs/theme/color
+
+  Our color scale consists of steps with specific use cases. To know how this works, see: https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
+ */
+
+@layer base {
+  :root {
+    /* GRAY */
+    /* backgrounds */
+    /* --color-gray-base: var(--gray-1); */
+    --color-gray-base: white;
+    --color-gray-bg-subtle: var(--gray-2);
+    /* --color-gray-bg: var(--gray-3); */
+    --color-gray-bg: #fafafa; /* Apple */
+    /* --color-gray-bg-hover: var(--gray-3); */
+    --color-gray-bg-hover: #f6f6f6;
+    /* --color-gray-bg-active: var(--gray-5); */
+    --color-gray-bg-active: #f5f5f7; /* Apple */
+
+    /* borders, lines & focus rings */
+    --color-gray-line: var(--gray-4);
+    --color-gray-border: var(--gray-4); /* 7 is too dark */
+    --color-gray-border-hover: var(--gray-7);
+
+    /* solids */
+    --color-gray-solid-light: var(--gray-8);
+    --color-gray-solid: var(--gray-10);
+    --color-gray-solid-hover: var(--gray-10);
+
+    /* text fills (avoids namespace clash with Tailwind text-*) */
+    --color-gray-fill: var(--gray-11);
+    --color-gray-fill-contrast: var(--gray-12);
+
+    /* ACCENT 1 (red) */
+    --color-accent1-bg: var(--red-3);
+    --color-accent1-solid: var(--red-9);
+    --color-accent1-solid-hover: var(--red-10);
+
+    /* ACCENT 2 (orange) */
+    --color-accent2: var(--orange-9);
+
+    /* ACCENT 3 (yellow) */
+    --color-accent3-bg: var(--amber-2);
+    --color-accent3-solid: var(--amber-9);
+    --color-accent3-solid-hover: var(--amber-10);
+  }
+}
+
+/*
+  Slightly different dark base.
+  Because `.dark` only exists when next-themes renders it,
+  we don't wrap it in `base` b/c we don't want Tailwind to omit it.
+ */
+.dark {
+  --color-gray-base: var(--sky-1) !important;
+  --color-gray-bg-subtle: var(--sky-2);
+  --color-gray-bg: var(--sky-3);
+  --color-gray-bg-hover: var(--sky-4);
+  /* only used on home page! */
+  /* --color-gray-bg-active: #0d141f; */
+  --color-gray-bg-active: var(--sky-1);
+  /* I don't really want to do this, but solid is otherwise not legible… */
+  --color-gray-solid: var(--gray-10);
+  /* …and I hate burning my eyes in dark mode */
+  --color-gray-fill-contrast: var(--gray-11);
+
+  --color-accent1-bg: var(--amber-3);
+  --color-accent1-solid: var(--amber-9);
+  --color-accent1-solid-hover: var(--amber-10);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.871 0.006 286.286);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.871 0.006 286.286);
+}
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.141 0.005 285.823);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.141 0.005 285.823);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.274 0.006 286.033);
+  --input: oklch(0.274 0.006 286.033);
+  --ring: oklch(0.442 0.017 285.786);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.274 0.006 286.033);
+  --sidebar-ring: oklch(0.442 0.017 285.786);
+}

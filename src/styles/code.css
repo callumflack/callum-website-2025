@@ -1,0 +1,82 @@
+/* @import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-dark.css";
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/indigo-dark.css"; */
+@import './theme-colors.css';
+
+/**
+  * https://github.com/huozhi/sugar-high
+  * Types that sugar-high have:
+  * identifier
+  * keyword
+  * string
+  * Class, number and null
+  * property
+  * entity
+  * jsx literals
+  * sign
+  * comment
+  * break
+  * space
+*/
+:root {
+  /* default theme */
+  /* --sh-class: #2d5e9d;
+  --sh-identifier: #354150;
+  --sh-sign: #8996a3;
+  --sh-property: #0550ae;
+  --sh-entity: #249a97;
+  --sh-jsxliterals: #6266d1;
+  --sh-string: #00a99a;
+  --sh-keyword: #f47067;
+  --sh-comment: #a19595; */
+
+  --sh-class: var(--color-gray-fill-contrast);
+  --sh-identifier: var(--indigo-11);
+  --sh-sign: var(--color-gray-fill-contrast);
+  --sh-property: var(--color-gray-fill-contrast);
+  --sh-entity: var(--color-gray-solid);
+  --sh-jsxliterals: var(--color-gray-solid);
+  --sh-string: var(--color-gray-fill-contrast);
+  --sh-keyword: var(--color-gray-solid);
+  --sh-comment: #a19595;
+
+  /* custom for File component */
+  --code-line-highlight: rgb(51 19 247 / 50%);
+  --code-line-marker: rgb(51 19 247);
+
+  /*
+  --sh-string: #007f7a;
+  --sh-keyword: #e02518;
+  --sh-comment: #a19595;
+  --sh-jsxliterals: #6266d1;
+  --sh-property: #e25a1c;
+  --sh-entity: #e25a1c; */
+}
+
+.dark {
+  --sh-class: var(--color-gray-fill-contrast);
+  --sh-identifier: var(--indigo-11);
+  --sh-sign: var(--color-gray-fill-contrast);
+  --sh-property: var(--color-gray-fill-contrast);
+  --sh-entity: var(--color-gray-solid);
+  --sh-jsxliterals: var(--color-gray-solid);
+  --sh-string: var(--color-gray-fill-contrast);
+  --sh-keyword: var(--color-gray-solid);
+  --sh-comment: #a19595;
+}
+
+/*
+  Adds sugar-high line numbers
+  NB. Not possible to add this in either <Prose> nor <mdx-components>!
+  https://github.com/huozhi/sugar-high?tab=readme-ov-file#line-number
+ */
+.Prose pre code {
+  counter-reset: sh-line-number;
+}
+.Prose pre code .sh__line::before {
+  content: counter(sh-line-number);
+  counter-increment: sh-line-number 1;
+  @apply !font-normal text-solid-light text-right;
+  @apply inline-block mr-4 w-4;
+}

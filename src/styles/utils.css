@@ -1,0 +1,153 @@
+/* https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities */
+
+/* Override tw utils or add new ones */
+@utility container {
+  margin-inline: auto;
+  padding-inline: var(--spacing-inset);
+  max-width: var(--container-text-px);
+}
+
+@utility link {
+  @apply relative;
+  @apply underline underline-offset-[0.25em];
+  @apply decoration-solid decoration-[0.025em];
+  /* @apply hover:!text-accent hover:decoration-accent hover:decoration-[0.05em]; */
+  /* @apply transition-colors duration-300 ease-linear; */
+}
+
+/* parent link modifiers */
+@utility link-block {
+  & a:not(.Button) {
+    @apply link;
+  }
+}
+
+@utility link-alt {
+  @apply relative no-underline;
+  @apply hover:text-accent;
+}
+
+@utility link-block-alt {
+  & a:not(.Button) {
+    @apply relative no-underline;
+    @apply hover:text-accent;
+  }
+}
+
+@utility link-accent {
+  @apply link !decoration-transparent;
+}
+
+@utility link-block-accent {
+  & a:not(.Button) {
+    @apply link !decoration-transparent;
+  }
+}
+
+@utility link-large {
+  @apply before:absolute before:-inset-[0.25em];
+}
+
+@utility link-block-large {
+  & a:not(.Button) {
+    @apply before:absolute before:-inset-[0.25em];
+  }
+}
+
+@utility link-block-reset {
+  & a:not(.Button) {
+    @apply no-underline;
+  }
+}
+
+/* must add a height when used within a flex parent */
+@utility hr-vertical {
+  @apply w-px border-l;
+}
+
+@utility border-dark-transparent {
+  @apply dark:!border-transparent;
+}
+
+/* bullets reset */
+@utility no-bullets {
+  @apply list-none pl-0;
+  & ul {
+    @apply list-none pl-0;
+  }
+  & ol {
+    @apply list-none pl-0;
+  }
+  & li:before {
+    @apply content-none;
+  }
+}
+
+/* https://sebhastian.com/hide-scrollbar-css/ */
+/* Firefox */
+@utility hide-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* .dark? */
+/* "dark:invert" = https://tailwindcss.com/docs/filter-invert */
+@utility dark-scheme-invert {
+  @media (prefers-color-scheme: dark) {
+    & img {
+      filter: invert(1);
+    }
+  }
+}
+
+/* SVG line drawing dark mode */
+/* The dotdotdots as used in post-link-content */
+@utility dotdotdot {
+  background-image: radial-gradient(currentColor 1px, transparent 0);
+  background-size: 0.9em 0.9em;
+  background-position: -0.425em -0.425em;
+}
+
+/* Carousel mask. Ps. this fade did not work: https://rauno.me/craft/nextjs */
+@utility mask {
+  mask-image:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(0, 0, 0) 17.5%,
+      rgb(0, 0, 0) 82.5%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(0, 0, 0) 17.5%,
+      rgb(0, 0, 0) 82.5%,
+      rgba(0, 0, 0, 0) 100%
+    );
+}
+
+@utility mask-bottom-up {
+  mask-composite: exclude;
+  --background: #ffffff;
+  --fade-stop: 90%;
+  mask-image:
+    linear-gradient(to top, var(--background) var(--fade-stop), transparent),
+    linear-gradient(to top, var(--background) var(--fade-stop), transparent),
+    linear-gradient(black, black);
+  /* mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 0%,
+        rgb(0, 0, 0) 17.5%,
+        rgb(0, 0, 0) 82.5%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      linear-gradient(
+        to top,
+        transparent 0%,
+        rgba(0, 0, 0, 0.8) 20%,
+        rgb(0, 0, 0) 32%
+      ); */
+}

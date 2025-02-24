@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@import "./colors";
+@import "./utils";
+
+/* https://tailwindcss.com/docs/adding-custom-styles */
+/* https://tailwindcss.com/docs/functions-and-directives */
+
+/* const lineHeight = {
+  body: `${24 / 17}`,
+};
+const letterSpacing = {
+  fine: "0.0175em",
+  metaHeading: "0.125em",
+  body: "0",
+  heading: "-0.01em",
+  title: "-0.0075em",
+}; */
+
+/* Shadcn defaulted to inline? TW says when defining theme variables that reference other variables, use the inline option: https://tailwindcss.com/docs/theme#using-your-theme-variables */
+@theme inline {
+  /* completely disable all default theme variables */
+  /* --*: initial; */
+
+  /* --font-sans: "Unica", "sans-serif"; */
+  /* --font-mono: "SohneMono", "monospace"; */
+
+  --text-*: initial;
+  --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
+  --text-meta: clamp(11.5px, 9.7143px + 0.3571vw, 14px);
+  --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
+  --text-body--line-height: calc(24 / 17);
+  --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
+  --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
+
+  --spacing: 4px;
+  --radius-xs: 2px;
+
+  --spacing-em: 1em;
+  --spacing-bullet: 1.35em;
+  --spacing-inset: 20px;
+  --spacing-nav: 80px;
+  --spacing-tab: 54px;
+
+  --container-text-px: 660px;
+  --container-hero-px: 1000px;
+  --container-text: calc(var(--container-text-px) - (var(--spacing-inset) * 2));
+  --container-hero: calc(var(--container-hero-px) - (var(--spacing-inset) * 2));
+
+  --inset-full: calc((100vw - (var(--spacing-inset) * 2)));
+  --inset-text: calc((100vw - var(--container-text)) / 2);
+  --inset-hero: calc((100vw - var(--container-hero)) / 2);
+
+  --spacing-gap: clamp(10.5px, 6.5714px + 0.7857vw, 16px);
+  --spacing-small: clamp(16px, 10.2857px + 1.1429vw, 24px);
+  --spacing-minor: clamp(32px, 20.5714px + 2.2857vw, 48px);
+  --spacing-submajor: clamp(54px, 35.4286px + 3.7143vw, 80px);
+  --spacing-major: clamp(64px, 41.1429px + 4.5714vw, 96px);
+
+  --spacing-w4: clamp(10.5px, 6.5714px + 0.7857vw, 16px);
+  --spacing-w6: clamp(16px, 10.2857px + 1.1429vw, 24px);
+  --spacing-w8: clamp(21px, 13.1429px + 1.5714vw, 32px);
+  --spacing-w12: clamp(32px, 20.5714px + 2.2857vw, 48px);
+  --spacing-w16: clamp(43px, 28px + 3vw, 64px);
+  --spacing-w20: clamp(54px, 35.4286px + 3.7143vw, 80px);
+  --spacing-w24: clamp(64px, 41.1429px + 4.5714vw, 96px);
+  --spacing-w28: clamp(75px, 48.5714px + 5.2857vw, 112px);
+  --spacing-w32: clamp(85px, 54.2857px + 6.1429vw, 128px);
+  --spacing-w36: clamp(96px, 61.7143px + 6.8571vw, 144px);
+  --spacing-w42: clamp(112px, 72px + 8vw, 168px);
+  --spacing-w48: clamp(128px, 82.2857px + 9.1429vw, 192px);
+  --spacing-w64: clamp(171px, 110.2857px + 12.1429vw, 256px);
+  --spacing-w72: clamp(192px, 123.4286px + 13.7143vw, 288px);
+  --spacing-w96: clamp(256px, 164.5714px + 18.2857vw, 384px);
+
+  /* colors: {
+        // GRAY
+        canvas: "var(--color-gray-base)",
+        "background-subtle": "var(--color-gray-bg-subtle)",
+        background: "var(--color-gray-bg)",
+        "background-hover": "var(--color-gray-bg-hover)",
+        "background-active": "var(--color-gray-bg-active)",
+        line: "var(--color-gray-line)",
+        border: "var(--color-gray-border)",
+        "border-hover": "var(--color-gray-border-hover)",
+        "solid-light": "var(--color-gray-solid-light)",
+        solid: "var(--color-gray-solid)",
+        "solid-hover": "var(--color-gray-solid-hover)",
+        "fill-tint": "var(--color-gray-fill)",
+        fill: "var(--color-gray-fill-contrast)",
+
+        // ACCENTS
+        "accent1-background": "var(--color-accent1-bg)",
+        accent: "var(--color-accent1-solid)",
+        "accent1-hover": "var(--color-accent1-solid-hover)",
+        accent2: "var(--color-accent2)",
+        "accent3-background": "var(--color-accent3-bg)",
+        accent3: "var(--color-accent3-solid)",
+        "accent3-hover": "var(--color-accent3-solid-hover)",
+
+        // ALPHAS: text-black-a4
+        black: generateScale("black"),
+        white: generateScale("white"),
+      }, */
+
+  --color-*: initial;
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+
+  --color-canvas: var(--color-gray-base);
+  --color-line: var(--color-gray-line);
+  --color-border: var(--color-gray-border);
+  --color-border-hover: var(--color-gray-border-hover);
+  --color-solid-light: var(--color-gray-solid-light);
+  --color-solid: var(--color-gray-solid);
+  --color-solid-hover: var(--color-gray-solid-hover);
+  --color-fill-tint: var(--color-gray-fill);
+  --color-fill: var(--color-gray-fill-contrast);
+  --color-accent: var(--color-accent1-solid);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  /* --color-accent: var(--accent); */
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  /* --color-border: var(--border); */
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  ::selection {
+    @apply bg-fill text-canvas;
+  }
+  html {
+    @apply bg-canvas;
+  }
+  body {
+    @apply relative min-h-screen;
+    @apply text-body font-sans font-normal antialiased;
+    @apply bg-canvas text-fill;
+    /* @apply bg-background text-foreground; */
+
+    /* 1. Apple kerning, from http://design.byform.co/ */
+    /* font-feature-settings: "kern" 1,'ss01' 1,'ss02' 1,'ss03' 1,'ss04' 1; */
+    /* font-feature-settings:
+      "kern" 1,
+      "liga" 1; */
+    /* transition everywhere: do NOT use tailwind here as the variables are inherited on every child transition */
+    transition: color 50ms ease 0s;
+  }
+}
+
+/*
+  Use the components layer for any more complicated classes you want to add to your project that you'd still like to be able to override with utility classes.
+  By defining component classes in the components layer, you can still use utility classes to override them when necessary.
+  https://tailwindcss.com/docs/adding-custom-styles
+ */
+
+/* @layer components {
+  .container {
+    margin-inline: auto;
+    padding-inline: 2rem;
+  }
+} */
