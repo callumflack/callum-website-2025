@@ -6,13 +6,14 @@
 @import "./colors";
 @import "./utils";
 
-/* https://tailwindcss.com/docs/adding-custom-styles */
-/* https://tailwindcss.com/docs/functions-and-directives */
+/*
+  Learn Tailwind 4
+  https://tailwindcss.com/docs/adding-custom-styles
+  https://tailwindcss.com/docs/functions-and-directives
+  https://tailwindcss.com/docs/theme
+ */
 
-/* const lineHeight = {
-  body: `${24 / 17}`,
-};
-const letterSpacing = {
+/* const letterSpacing = {
   fine: "0.0175em",
   metaHeading: "0.125em",
   body: "0",
@@ -28,13 +29,19 @@ const letterSpacing = {
   /* --font-sans: "Unica", "sans-serif"; */
   /* --font-mono: "SohneMono", "monospace"; */
 
+  --default-line-height: calc(24 / 17);
+
   --text-*: initial;
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-meta: clamp(11.5px, 9.7143px + 0.3571vw, 14px);
-  --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
-  --text-body--line-height: calc(24 / 17);
+  /* --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px); */
+  --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
   --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
   --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
+
+  --text-body--line-height: var(--default-line-height);
+  --text-heading--line-height: var(--default-line-height);
+  --text-title--line-height: var(--default-line-height);
 
   --spacing: 4px;
   --radius-xs: 2px;
@@ -45,10 +52,14 @@ const letterSpacing = {
   --spacing-nav: 80px;
   --spacing-tab: 54px;
 
-  --container-text-px: 660px;
-  --container-hero-px: 1000px;
-  --container-text: calc(var(--container-text-px) - (var(--spacing-inset) * 2));
-  --container-hero: calc(var(--container-hero-px) - (var(--spacing-inset) * 2));
+  --container-text: 620px;
+  --container-hero: 960px;
+  --container-text-inset: calc(
+    var(--container-text) + (var(--spacing-inset) * 2)
+  );
+  --container-hero-inset: calc(
+    var(--container-hero) + (var(--spacing-inset) * 2)
+  );
 
   --inset-full: calc((100vw - (var(--spacing-inset) * 2)));
   --inset-text: calc((100vw - var(--container-text)) / 2);

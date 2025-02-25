@@ -2,7 +2,7 @@ import type { HTMLAttributes } from "react";
 import type { VariantProps } from "cva";
 import { cx, cva } from "cva";
 
-/* 
+/*
   Prose applies parent styles to Markdown blocks.
   The markdown styles are set in mdx-components using Text,
   except for these below, which require targeting from the parent.
@@ -13,6 +13,8 @@ export const proseVariants = cva({
     "Prose space-y-2.5 group",
     "[&_strong]:font-medium",
     "[&_em]:not-italic",
+    // Make every immediate child except images have max-width of 620px and center it
+    "[&>:not(.ZoomableImage)]:max-w-[620px] [&>*]:mx-auto",
     // button > media overrides
     "[&_button:first-child>.MediaFigure]:pt-0",
     "[&_button+button]:!mt-0",

@@ -22,8 +22,9 @@ export default async function PostPage({ params }: { params: Params }) {
   // return <PagePost post={post} />;
   return (
     <PageWrapper>
-      <div className="container">
-        <h1>{post.title}</h1>
+      {/* container = 620px wide */}
+      <div className="container max-w-(--container-hero-inset)">
+        <h1 className="container">{post.title}</h1>
         <Mdx code={post.content} />
       </div>
     </PageWrapper>

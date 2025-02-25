@@ -4,7 +4,7 @@
 @utility container {
   margin-inline: auto;
   padding-inline: var(--spacing-inset);
-  max-width: var(--container-text-px);
+  max-width: var(--container-text-inset);
 }
 
 @utility link {

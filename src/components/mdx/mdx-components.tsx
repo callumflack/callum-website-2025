@@ -5,6 +5,8 @@ import { Link } from "../atoms/next-link";
 import type { TextProps } from "../atoms/text";
 import { Text, textVariants } from "../atoms/text";
 import { LinkWithArrow } from "../elements";
+import { ZoomableImage } from "./zoomable-image";
+import { ImageProps } from "next/image";
 // import { MediaDialogImage } from "../composites/media-dialog-image";
 // import { MediaDialogVideo } from "../composites/media-dialog-video";
 // import { MdxImage } from "./mdx-image";
@@ -40,9 +42,18 @@ export const components = {
       />
     );
   },
-  p: ({ children, ...props }: ParagraphProps) => (
-    <p {...(props as TextProps)}>{children}</p>
-  ),
+  p: ({ children, ...props }: ParagraphProps) => {
+    // Check if children is a single element and is an image
+    if (
+      children &&
+      !Array.isArray(children) &&
+      typeof children === "object" &&
+      "props" in children
+    ) {
+      return children;
+    }
+    return <p {...props}>{children}</p>;
+  },
   ul: ({ children, ...props }: ListProps) => (
     <ul
       className={cx(
@@ -101,6 +112,29 @@ export const components = {
       <hr />
     </div>
   ),
+  img: ({ src, alt, ...props }: ImageProps) => {
+    // Extract aspect ratio from alt text if it matches pattern [width:height]
+    const aspectMatch = alt?.match(/\[(\d+):(\d+)\]/);
+    let aspectRatio;
+    let cleanAlt = alt || "";
+
+    if (aspectMatch) {
+      const width = parseInt(aspectMatch[1], 10);
+      const height = parseInt(aspectMatch[2], 10);
+      aspectRatio = width / height;
+      // Remove the aspect ratio part from alt text
+      cleanAlt = cleanAlt.replace(aspectMatch[0], "").trim();
+    }
+
+    return (
+      <ZoomableImage
+        src={src?.toString() ?? ""}
+        alt={cleanAlt}
+        aspectRatio={aspectRatio}
+        {...props}
+      />
+    );
+  },
   Note: (props: ComponentPropsWithoutRef<"div">) => (
     <div className={cx(noteStyle)} {...props} />
   ),
