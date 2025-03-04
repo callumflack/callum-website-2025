@@ -1,14 +1,10 @@
 "use client";
 
-// import { cx } from "cva";
-// import { useRef } from "react";
-// import { useIntersection } from "react-use";
-// import config from "@/config";
-// import { Nav, FooterShape } from "@repo/ui/page";
-// import { TitleHeader } from "@repo/ui/elements";
-// import { Signoff } from "~/src/components/elements/signoff";
+import { cx } from "cva";
+import { RefObject, useRef, useEffect } from "react";
+import { useIntersection } from "react-use";
+import { OutsetRule } from "../elements/outset-rule";
 import { Nav } from "./nav";
-
 export const PageWrapper = ({
   activeNav,
   children,
@@ -18,12 +14,22 @@ export const PageWrapper = ({
   children: React.ReactNode;
   footerChildren?: React.ReactNode;
 }) => {
-  // const intersectionRef = useRef(null);
-  // const intersection = useIntersection(intersectionRef, {
-  //   root: null,
-  //   rootMargin: "0px",
-  //   threshold: 1,
-  // });
+  const intersectionRef = useRef<HTMLDivElement>(null);
+  const intersection = useIntersection(
+    intersectionRef as RefObject<HTMLElement>,
+    {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1,
+    }
+  );
+
+  useEffect(() => {
+    document.body.classList.toggle(
+      "bg-panel",
+      (intersection?.intersectionRatio ?? 0) === 1
+    );
+  }, [intersection?.intersectionRatio]);
 
   return (
     <>
@@ -38,24 +44,41 @@ export const PageWrapper = ({
           // { href: config.PUBLIC_NOTES_URL, label: "Notes" },
           { href: "/index", label: "Index" },
           { href: "/work", label: "Work" },
+          { href: "/notes", label: "Notes" },
           { href: "/about", label: "About" },
         ]}
-        // ruleClassName={cx(
-        //   intersection && intersection.intersectionRatio < 1
-        //     ? "border-border"
-        //     : "!border-transparent"
-        // )}
+        className={cx(
+          intersection && intersection.intersectionRatio < 1 ? "" : "!bg-panel"
+        )}
+        ruleClassName={cx(
+          intersection && intersection.intersectionRatio < 1
+            ? "border-border"
+            : "border-solid"
+        )}
       />
 
-      {children}
+      {/* container max-w-(--container-hero-inset) */}
+      <div className="pt-w12 space-y-w6">{children}</div>
 
-      {footerChildren}
-      {/* <FooterShape intersectionRef={intersectionRef}>
-        <TitleHeader as="div" isContainedChild>
-          <Signoff />
-        </TitleHeader>
+      {/* relative z-20 */}
+      <OutsetRule wrapperClassName="" />
+      {/* This ensure tailwind renders the bg-panel class */}
+      <div className="bg-panel hidden h-px"></div>
+      <footer
+        className={cx(
+          "pt-w16 relative container",
+          "flex flex-col justify-between",
+          "min-h-[calc(100dvh-var(--spacing-nav)-1px)]"
+        )}
+      >
         {footerChildren}
-      </FooterShape> */}
+        {intersectionRef ? (
+          <div
+            className="bg-panel absolute bottom-0 h-px"
+            ref={intersectionRef}
+          />
+        ) : null}
+      </footer>
     </>
   );
 };

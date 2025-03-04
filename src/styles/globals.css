@@ -5,12 +5,14 @@
 
 @import "./colors";
 @import "./utils";
+@import "./code";
 
 /*
   Learn Tailwind 4
   https://tailwindcss.com/docs/adding-custom-styles
   https://tailwindcss.com/docs/functions-and-directives
   https://tailwindcss.com/docs/theme
+  https://tailwindcss.com/docs/theme#default-theme-variable-reference
  */
 
 /* const letterSpacing = {
@@ -29,19 +31,35 @@
   /* --font-sans: "Unica", "sans-serif"; */
   /* --font-mono: "SohneMono", "monospace"; */
 
-  --default-line-height: calc(24 / 17);
-
   --text-*: initial;
+  /* THIS? clamp(2.2rem, 4cqw + 0.5rem, 2.8rem); */
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-meta: clamp(11.5px, 9.7143px + 0.3571vw, 14px);
-  /* --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px); */
+  --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
   --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
   --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
+  --text-heading: clamp(17px, 14.1429px + 0.5714vw, 21px);
+  --text-heading: clamp(17px, 14.8571px + 0.4286vw, 20px);
+  --text-heading: clamp(16px, 13.8571px + 0.4286vw, 19px);
   --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
+  --text-title: clamp(21px, 16.7143px + 0.8571vw, 27px);
+  --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
+  --text-title: clamp(21px, 16px + 1vw, 28px);
 
+  --default-line-height: calc(24 / 17);
   --text-body--line-height: var(--default-line-height);
   --text-heading--line-height: var(--default-line-height);
-  --text-title--line-height: var(--default-line-height);
+  --text-title--line-height: 1.1;
+
+  --default-tracking: 0;
+  --text-fine--letter-spacing: 0.0175em;
+  --text-metaHeading--letter-spacing: 0.125em;
+  --text-body--letter-spacing: var(--default-tracking);
+  --text-heading--letter-spacing: -0.01em;
+  --text-title--letter-spacing: -0.015em;
+
+  --text-heading--font-weight: 500;
+  --text-title--font-weight: 500;
 
   --spacing: 4px;
   --radius-xs: 2px;
@@ -52,8 +70,8 @@
   --spacing-nav: 80px;
   --spacing-tab: 54px;
 
-  --container-text: 620px;
-  --container-hero: 960px;
+  --container-text: 580px;
+  --container-hero: 900px;
   --container-text-inset: calc(
     var(--container-text) + (var(--spacing-inset) * 2)
   );
@@ -121,6 +139,8 @@
   --color-black: #000;
   --color-white: #fff;
 
+  --color-panel: var(--color-canvas-contrast);
+
   --color-avocado-100: oklch(0.99 0 0);
   --color-avocado-200: oklch(0.98 0.04 113.22);
 
@@ -131,7 +151,7 @@
   --color-solid-light: var(--color-gray-solid-light);
   --color-solid: var(--color-gray-solid);
   --color-solid-hover: var(--color-gray-solid-hover);
-  --color-fill-tint: var(--color-gray-fill);
+  --color-fill-light: var(--color-gray-fill);
   --color-fill: var(--color-gray-fill-contrast);
   --color-accent: var(--color-accent1-solid);
 

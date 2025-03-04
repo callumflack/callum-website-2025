@@ -1,15 +1,14 @@
-import Image from "next/image";
 import { allPosts } from "content-collections";
 // import { MDXContent } from "@content-collections/mdx/react";
-import NextLink from "next/link";
 import { PageWrapper } from "@/components/page/page-wrapper";
+import NextLink from "next/link";
 
 export default function Home() {
   // console.log(allPosts);
   return (
     <PageWrapper>
       <main className="container">
-        <ul>
+        <ul className="space-y-4">
           {allPosts.map((post) => (
             <li key={post._meta.path}>
               <NextLink href={`/${post.slug}`}>

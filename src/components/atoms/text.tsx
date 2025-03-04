@@ -10,8 +10,8 @@ export const textVariants = cva({
       meta: "text-meta",
       body: "text-body",
       bodyHeading: "text-meta font-bold",
-      heading: "text-heading font-medium",
-      title: "text-title font-medium",
+      heading: "text-heading",
+      title: "text-title",
     },
     color: {
       canvas: "text-canvas",

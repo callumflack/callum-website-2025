@@ -7,7 +7,7 @@ export const OutsetRule = ({
   wrapperClassName?: string;
   className?: string;
 }) => (
-  <div className={cx("max-w-hero-px container grid", wrapperClassName)}>
+  <div className={cx("container px-0", wrapperClassName)}>
     <hr className={cx("transition-colors duration-300", className)} />
   </div>
 );

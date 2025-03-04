@@ -1,4 +1,4 @@
-import config from "@repo/ui/config";
+import config from "@/components/config";
 
 export default function robots() {
   return {

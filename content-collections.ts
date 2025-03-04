@@ -13,7 +13,7 @@ const exec = util.promisify(execCallback);
   Uses: https://github.com/kentcdodds/mdx-bundler
   Set any plugins in next.config.ts withMdX?
   Plugins:
-    remark-smartypants (translates plain ASCII punctuation characters into “smart” typographic punctuation HTML entities): https://github.com/remarkjs/remark-smartypants
+    remark-smartypants (translates plain ASCII punctuation characters into "smart" typographic punctuation HTML entities): https://github.com/remarkjs/remark-smartypants
     remark-gfm (autolink literals, footnotes, strikethrough, tables, tasklists): https://github.com/remarkjs/remark-gfm
  */
 
@@ -24,16 +24,52 @@ enum Category {
   HOME = "home",
   ABOUT = "about",
   CONTENT = "content",
+  NOTE = "note",
 }
 
-const posts = defineCollection({
+enum LibraryType {
+  SUPERSET = "superset",
+  TOPIC = "topic",
+  YEAR = "year",
+  POST = "post",
+  HIDE = "hide",
+}
+
+export { Category, LibraryType };
+
+// Export string values for easier use
+export type CategoryType = `${Category}`;
+export type LibraryTypeValue = `${LibraryType}`;
+
+export type Asset = {
+  src: string;
+  poster?: string;
+  alt: string;
+  aspect: string;
+};
+
+export const posts = defineCollection({
   name: "posts",
-  directory: "src/posts",
+  directory: "posts",
   include: "**/*.mdx",
-  // exclude: ["**/*.json"],
+  exclude: ["_*.mdx"], // excludes _TEMPLATE, also can do ["**/*.json"],
   schema: (z) => ({
+    draft: z.boolean().optional(),
+    date: z.string(),
+    endDate: z.string().optional(),
+    showAsNew: z.boolean().optional(),
     title: z.string(),
     summary: z.string(),
+    libraryType: z
+      .enum([
+        LibraryType.SUPERSET,
+        LibraryType.TOPIC,
+        LibraryType.YEAR,
+        LibraryType.POST,
+        LibraryType.HIDE,
+      ])
+      .optional()
+      .default(LibraryType.POST),
     category: z.enum([
       Category.WRITING,
       Category.PROJECTS,
@@ -41,8 +77,23 @@ const posts = defineCollection({
       Category.HOME,
       Category.ABOUT,
       Category.CONTENT,
+      Category.NOTE,
     ]),
     tags: z.array(z.string()).optional(),
+    nextPostLink: z.string().optional(),
+    thumbnailLink: z.string().optional(), // External link used on thumbnails. If present, the UI does not link to the Post page
+    projectLink: z.string().optional(),
+    tweet: z.string().optional(),
+    assets: z
+      .array(
+        z.object({
+          src: z.string(),
+          poster: z.string().optional(),
+          alt: z.string(),
+          aspect: z.string(),
+        })
+      )
+      .optional(),
   }),
   transform: async (post, ctx) => {
     const lastModified = await ctx.cache(
@@ -65,9 +116,9 @@ const posts = defineCollection({
     return {
       ...post,
       _id: post._meta.filePath,
-      // or post._meta.path?
-      slug: post.title.toLowerCase().replace(/ /g, "-"),
-      readingTime: readingStats.text,
+      // slug: post.title.toLowerCase().replace(/ /g, "-"),
+      slug: post._meta.path,
+      readingTime: readingStats.minutes,
       lastModified,
       content,
     };

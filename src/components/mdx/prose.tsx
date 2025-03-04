@@ -14,13 +14,14 @@ export const proseVariants = cva({
     "[&_strong]:font-medium",
     "[&_em]:not-italic",
     // Make every immediate child except images have max-width of 620px and center it
-    "[&>:not(.ZoomableImage)]:max-w-[620px] [&>*]:mx-auto",
+    // "[&>:not(.ZoomableImage):not(footer)]:max-w-(--container-text) [&>*]:mx-auto",
+    "[&>:not(.ZoomableImage)]:max-w-(--container-text) [&>*]:mx-auto",
     // button > media overrides
     "[&_button:first-child>.MediaFigure]:pt-0",
     "[&_button+button]:!mt-0",
     // specifically highlight within a paragraph
-    // "[&_p>span]:bg-accent3-background",
-    "[&_p>span]:text-fil [&_p>span]:font-medium",
+    // "[&_p>span]:bg-accent3-background [&_p>span]:text-fil",
+    "[&_p>span]:font-medium",
     // Code styles that can't be set in mdx-components due highlight() function
     // or when <code> is used without being wrapped by <pre>
     "[&_code]:text-[0.825em] [&_code]:bg-background-active [&_code]:font-mono",
@@ -61,5 +62,5 @@ export interface ProseProps
     VariantProps<typeof proseVariants> {}
 
 export const Prose = ({ className, ...props }: ProseProps) => {
-  return <div className={cx(proseVariants({ className }))} {...props} />;
+  return <main className={cx(proseVariants({ className }))} {...props} />;
 };

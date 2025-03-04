@@ -12,5 +12,5 @@ export {
 } from "./polymorphic-element";
 export { Text, textVariants, type TextProps } from "./text";
 export { Link, type LinkProps } from "./next-link";
-// export { Button, buttonVariants, type ButtonProps } from "./button";
+export { Button, buttonVariants, type ButtonProps } from "./button";
 export { Svg, type SvgIconProps } from "./svg";

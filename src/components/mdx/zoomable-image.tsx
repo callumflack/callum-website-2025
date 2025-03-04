@@ -1,13 +1,10 @@
 "use client";
 
 import { cx } from "cva";
-// import Image, { ImageProps } from "next/image";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import { useState } from "react";
 
-type ZoomableImageProps = {
-  src: string;
-  alt: string;
+export type ZoomableImageProps = ImageProps & {
   maxWidth?: number;
   aspectRatio?: number;
   transitionDuration?: number;
@@ -17,10 +14,11 @@ type ZoomableImageProps = {
 export function ZoomableImage({
   src,
   alt,
-  maxWidth = 620,
+  maxWidth = 580,
   aspectRatio = 16 / 9,
   transitionDuration = 0.3,
   scaleAmount = 1.5,
+  ...props
 }: ZoomableImageProps) {
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -41,7 +39,7 @@ export function ZoomableImage({
       <figure
         onClick={() => setIsZoomed(!isZoomed)}
         className={cx(
-          "h-full w-full cursor-zoom-in",
+          "relative h-full w-full cursor-zoom-in",
           isZoomed && "cursor-zoom-out"
         )}
       >
@@ -52,6 +50,7 @@ export function ZoomableImage({
           fill
           sizes="(min-width: 660px) 620px, 100vw"
           draggable={false}
+          priority={props.priority}
         />
       </figure>
     </div>

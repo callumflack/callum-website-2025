@@ -20,6 +20,7 @@
     "cva": "^1.0.0-beta.3",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
+    "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "next-contentlayer2": "^0.5.4",
@@ -29,11 +30,15 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-scrollbooster": "^0.1.2",
+    "react-use": "^17.6.0",
     "reading-time": "^1.5.0",
     "remark-smartypants": "^3.0.2",
+    "sugar-high": "^0.9.3",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.8",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "use-resize-observer": "^9.1.0"
   },
   "devDependencies": {
     "@content-collections/core": "^0.8.0",
@@ -46,5 +51,11 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "typescript": "^5"
+  },
+  "overrides": {
+    "use-resize-observer": {
+      "react": "^19",
+      "react-dom": "^19"
+    }
   }
 }

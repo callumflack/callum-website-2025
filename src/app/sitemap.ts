@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import config from "@repo/ui/config";
-import { allPosts } from "contentlayer/generated";
+import config from "@/components/config";
+import { allPosts } from "content-collections";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return Promise.resolve([

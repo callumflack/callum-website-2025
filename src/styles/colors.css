@@ -60,6 +60,9 @@
     --color-accent3-bg: var(--amber-2);
     --color-accent3-solid: var(--amber-9);
     --color-accent3-solid-hover: var(--amber-10);
+
+    --color-canvas-contrast: #f0f8ff;
+    --color-canvas-contrast: #f9f4ec;
   }
 }
 

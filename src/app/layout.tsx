@@ -59,14 +59,21 @@ export default function RootLayout({
   );
 }
 
-// Log this in a component to get your font size styles
 export const clampSizes = {
-  // font-sizes
-  fine: generateClampSize(500, 1200, 9, 11),
-  meta: generateClampSize(500, 1200, 11.5, 14),
-  body: generateClampSize(500, 1200, 15, 17),
-  heading: generateClampSize(500, 1200, 16, 18),
-  title: generateClampSize(500, 1200, 17, 21),
+  11: generateClampSize(500, 1200, 9, 11),
+  14: generateClampSize(500, 1200, 11.5, 14),
+  16: generateClampSize(500, 1200, 14, 16),
+  17: generateClampSize(500, 1200, 15, 17),
+  18: generateClampSize(500, 1200, 16, 18),
+  19: generateClampSize(500, 1200, 16, 19),
+  20: generateClampSize(500, 1200, 17, 20),
+  21: generateClampSize(500, 1200, 17, 21),
+  22: generateClampSize(500, 1200, 17, 22),
+  23: generateClampSize(500, 1200, 18, 23),
+  24: generateClampSize(500, 1200, 20, 24),
+  27: generateClampSize(500, 1200, 21, 27),
+  28: generateClampSize(500, 1200, 21, 28),
+  32: generateClampSize(500, 1200, 22, 32),
 
   // spacers
   // lower value is 2/3 of upper value

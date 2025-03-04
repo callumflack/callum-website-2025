@@ -1,0 +1,281 @@
+---
+date: 2024-09-12
+showAsNew: false
+title: Configuring Tailwind as a Design System
+summary: Well-crafted UI is your last defense against the coming slopwave of careless AI apps. Here's how customizing Tailwind can save you time and design bugs so you can focus on the irrational amount of care good UI requires.
+assets:
+  - src: /images/post-tailwind-config-1920-1080.jpg
+    alt: Configuring your design system
+    aspect: 1920-1080
+category: writing
+tags:
+  - engineering
+  - teamwork
+  - featured
+nextPostLink: iteration-and-prototyping
+tweet: https://x.com/callumflack/status/1836658663223889958
+---
+
+<Callout>
+### TLDR;
+
+- Like all infastructure tools built for convenience, Tailwind's easy set-up can quickly become costly. Ease of use is not ease of knowledge.
+- Use `tailwind.config` to its full potential. Take the time to centralise and group your design tokens and avoid the "implement classes everywhere" trap.
+- Use `clamp()` for fluid typography and spacing.
+- Set color variables on `:root` and `.dark` for effortless dark mode.
+- Name colors and spacing semantically: `background` beats `gray-100` any day.
+
+</Callout>
+
+## Design systems live by consistency and comprehension
+
+For design systems, consistency and comprehension are everything. A good design system ensures consistency of implementation through the configuration of code that implements it. It needs to be:
+
+- easy to comprehend without foregoing the nuance that good design requires;
+- scalable and maintainable without compromising consistency.
+
+Using my default stack of [React](https://react.dev/) with [Tailwind](https://tailwindcss.com/), I'll show you how setting your own defaults for typography, colour and spacing is not just the starting point for differentiating your app's look and feel. More importantly, it drastically cuts down the code we have to write and maintain, which reduces the mental load of implementing styles in a systematic, consistent and error-free way.
+
+I'll start with a major criticism that I see all the time, and then breakdown a series of configuration steps that I use to solve it.
+
+## Ease of use does not equate to ease of knowledge
+
+Tailwind makes it easy for developers to write styles, which is great for rapid prototyping. But that ease doesn't guarantee good design or a scalable, maintainable design system.
+
+Defaults and zero-config tools like Tailwind are the [infrastructure pace layer](https://jollycontrarian.com/index.php?title=Pace_layering) that create more time for building. But if you're scaling an app that uses a design system to differentiate itself, you can't rely solely on "free as in lunch" out-of-the-box configs.
+
+If you run with the default Tailwind config and push style management to the application of classes on components, the result is often a mess of hard-to-reason-about classes spread across components, masquerading as a design system.
+
+<Img
+  src="/images/post-tailwind-config-smush-01.png"
+  alt="A smush of tailwind classes"
+  aspect="1300-920"
+  priority
+/>
+
+Above is a prime example. It is almost illegible and takes signficant time to understand, let alone manipulate. Attempts to do so are highly likely to lead to duplication and error, spiralling away from design consistency throughout the app.
+
+It is easy to smush your design classes into a single className. But there is no ease of knowledge in doing so.
+
+## Configure your system for ease of knowledge
+
+Ease of use comes with trade-offs. Using someone else's standard means relying on their knowhow. This can be beneficial, but it can also be a trap. Let's take a step back and think about what the basics of a design system consist of:
+
+- typography
+- colour
+- spacing
+- responsiveness (which includes color mode)
+
+In the context of React with Tailwind, these and many other design system elements are set in the Tailwind config, which we can customise.
+
+{/* prettier-ignore */}
+```ts
+const config = {
+  theme: {
+    fontSize: { /* ... */ },
+    colors: { /* ... */ },
+    spacing: { /* ... */ },
+  },
+};
+```
+
+### Typographic defaults
+
+Have you ever struggled to remember the correct letter-spacing for your small text? What if you could set it once and forget about it?
+
+We can set leading (line-height) and tracking (letter-spacing) as parameters for each font size tuple directly in `tailwind.config`. This means we don't need to set leading or tracking when we use a font-size class. No need to remember (or fail to look up) what the letter-spacing of small text is.
+
+```ts
+fontSize: {
+  small: [
+    "13px",
+    { lineHeight: 1.5, letterSpacing: "0.015em" },
+  ],
+  body: [
+    "16px",
+    { lineHeight: 1.5, letterSpacing: 0 },
+  ],
+}
+```
+
+Using `text-small` now sets the tuple of font-size, line-height and letter-spacing in one class. Enclosing the core typographic settings centralises their implementation in the config instead of across a codebase. A huge win for maintainability.
+
+```jsx
+/* 13px/1.5 with 0.015em letter-spacing */
+<div className="text-small" />
+```
+
+### Color defaults
+
+We can use CSS variables to set responsive colours under `:root` and `html.dark` scopes. This means we write and manage one class, such as `bg-canvas`, instead of two, such as `bg-gray-100 dark:bg-gray-800`.
+
+```css
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-dark.css";
+
+:root {
+  --color-gray-base: var(--gray-1);
+  --color-gray-bg: var(--gray-3);
+  --color-gray-line: var(--gray-4);
+  --color-gray-border: var(--gray-5);
+  --color-gray-solid: var(--gray-10);
+  --color-gray-fill: var(--gray-12);
+}
+```
+
+Because I'm using [Radix Colors](https://www.radix-ui.com/colors) here, I don't need to set the `.dark` scope as that's [already done for me](https://github.com/radix-ui/colors/blob/8a03dad3bc93ea4ed48ce2b70847a3538097e02f/scripts/build-css-modules.js#L19). Another reason I like Radix Colors is that they're [easy to customise](https://www.radix-ui.com/colors/custom).
+
+Then set the CSS variables in the Tailwind config.
+
+```ts
+colors: {
+  canvas: "var(--color-gray-base)",
+  background: "var(--color-gray-bg)",
+  line: "var(--color-gray-line)",
+  border: "var(--color-gray-border)",
+  solid: "var(--color-gray-solid)",
+  fill: "var(--color-gray-fill-contrast)",
+}
+```
+
+Using `bg-canvas` now sets the appropriate color in light or dark mode. Removing this duplication across a codebase centralises color management to our config instead of spreading it across the implementation of classes on components. A huge win for cognitiion and maintainability.
+
+```jsx
+/* sets --gray-1 as #fcfcfc on :root or #111111 on html.dark */
+<div className="bg-canvas" />
+```
+
+### Semantic naming
+
+I advocate semantic names for colours and font-sizes because semantic naming is a forcing function that ties meaning to use. Doing so removes implementation guess work and reduces error.
+
+I've seen countless projects where inconsistent `gray-50`, `gray-100` or `gray-200` are all used for backgrounds. This is easily solved by defining a color called `background`.
+
+In the same way, it is easier to remember the names for dark and light text colors when they are called `fill` and `solid`. It's harder and more error-prone when they're called `gray-900` and `gray-600` because then you have to remember specifically that it wasn't `gray-950` and `gray-500`, or `gray-800` and `gray-700`.
+
+But naming things—and agreeing on naming—is hard. In the spirit of zero-config, I suggest taking [Radix Color](https://www.radix-ui.com/colors)'s backgrounds, borders, solids & fills paradigm. Or [this](https://github.com/rainbow-me/rainbowkit/blob/d8c64ee4baf865d3452a6b92e0525c123f680ec1/site/css/tokens.ts#L120) palette semantics.
+
+And once you've set this in `tailwind.config`, Typescript will jog your memory at your fingertips with autocomplete.
+
+### Avoid namespace clashes
+
+If you're [extending a Tailwind theme](https://tailwindcss.com/docs/plugins#extending-the-configuration) and not writing your own, don't use a scale key that's already been used. You may inadvertently overwrite a class that you need to use.
+
+You'll note in the previous colour config example that I set the `--color-gray-base` var to `canvas`, not `base`. If I used `base` then using this color scale as a text colour (`text-base`) would clash with the [default font-size base value](https://github.com/tailwindlabs/tailwindcss/blob/818d10ab8461e682a185475dd4718e741103a4e3/stubs/config.full.js#L327), which is also `text-base`.
+
+This isn't a downfall of customising the Tailwind config, it's a legacy of its theme naming: setting font-size or color classes in Tailwind both use `text-*`.[^1]
+
+### Spacing defaults
+
+We can also use CSS variables to set spacings.
+
+```css
+:root {
+  --height-nav: 80px;
+  --height-tab: 54px;
+  --space-inset: 20px;
+  --container-text-px: 660px;
+  --container-hero-px: 1000px;
+}
+```
+
+```ts
+spacing: {
+  em: "1em", /* relate icon size to parent font-size */
+  nav: "var(--height-nav)",
+  inset: "var(--space-inset)",
+  text: "var(--container-text)",
+  hero: "var(--container-hero)",
+}
+```
+
+One could argue this is over-engineering. Except that when it comes time to compute complex interactive layouts like sticky headers, scroll margins and so on, this upfront configuration work makes it straight forward and error-free, to the pixel.
+
+```jsx
+<div className="top-[calc(theme(spacing.nav)+theme(spacing.tab))]">
+  <div className="scroll-mt-[calc(theme(spacing.nav)+theme(spacing.tab))]">
+    /* ... */
+  </div>
+</div>
+```
+
+Note again the use of semantic naming makes it easy to remember and use.
+
+## Augmenting your Tailwind config
+
+We have now configured typography, colour and spacing tokens in a manner that is easy to understand and maintain in a single, centralised place. And we don't need to wrire as many classes to implement the system. Winning. And there's further steps we can take to reduce this implementation overhead.
+
+### Clamp() your classes
+
+What if I told you there's a way to completely avoid writing `text-lg lg:text-xl xl:text-2xl p-2 md:p-4 lg:p-8` everywhere?
+
+We can avoid setting responsive font-size classes by using clamp as a a font-size value in `tailwind.config`. Here's the [simple clamp function](https://github.com/callumflack/callum-website/blob/3746ca4eef7eaae1663e39584bb75a35e732ccf1/packages/config-tailwind/generate-clamp-size.ts#L7) I use.
+
+```ts
+fontSize: {
+  title: [
+    /* clamp(17px, 14.1429px + 0.5714vw, 21px) */
+    generateClampSize(500, 1200, 17, 21),
+    { lineHeight: 1.5, letterSpacing: "-0.015em" },
+  ];
+}
+```
+
+So instead of writing `text-lg lg:text-xl xl:text-2xl` we can just write `text-title`. Once again, by hoisting font-size responsiveness into a clamp value, we avoid the "implement classes" pitfall again, saving mental effort, errors and debugging time.
+
+Keep in mind, this means we've moved from `text-lg lg:text-xl xl:text-2xl leading-none tracking-wide` to `text-title` by properly configuring Tailwind. Winning!
+
+```ts
+/* 17px at 500px, 21px at 1200, fluidly calculated inbetween */
+/* …with default line-height and letter-spacing also specified */
+<h2 className="text-title">
+  Heading copy
+</h2>
+```
+
+We can also do this for spacing. When extending a theme, I prefix these keys with `d` for "dynamic" to differentiate it from the default spacing scale.
+
+```ts
+spacing: {
+  /* lower value is 2/3 of upper value */
+  d4: generateClampSize(500, 1200, 10.5, 16),
+  d8: generateClampSize(500, 1200, 21, 32),
+  d16: generateClampSize(500, 1200, 43, 64),
+  d24: generateClampSize(500, 1200, 64, 96),
+  d64: generateClampSize(500, 1200, 171, 256),
+}
+```
+
+This allows us to write `py-d24` instead of `py-16 md:py-20 lg:py-24`. This alleviates the weight of holding a range of website versions for each media-query in our minds. Instead it encourages us to picture fluidly responsive layouts where measurements don't matter as much as consistent relationships.
+
+```ts
+<main className="pt-d24 pb-d64 space-y-w8">
+  <header className="container max-w-hero space-y-1">
+    /* ... */
+  </header>
+  <article className="container space-y-2">
+    /* ... */
+  </article>
+</main>
+```
+
+## Summary
+
+Well-crafted UI is your last defense against the coming slopwave of careless AI apps. Here's how customizing Tailwind can save you time and headaches so you can focus on the irrational amount of care it takes to build UI that works in the blink of an eye:
+
+- Use `tailwind.config` to its full potential. Take the time to centralise and group your design tokens and avoid the "implement classes everywhere" trap.
+- Use `clamp()` for fluid typography and spacing.
+- Set color variables on `:root` and `.dark` for effortless dark mode.
+- Name colors and spacing semantically: `background` beats `gray-100` any day.
+- Relate icons to text size with `size-em`.
+
+Yes, there's an upfront time cost. But it pays off in spades: less code, fewer errors, greater design consistency, and a team that actually understands the system.
+
+Don't spread you design system into classes all across your app. Configure it.
+
+<Note>
+Next up: We'll explore how to use [Class Variance Authority](https://cva.style/docs) to create a bulletproof styling API with semantic props drawn from Tailwind. Stay tuned.
+
+[^1]: This is also why I dislike using [tailwind-merge](https://github.com/dcastil/tailwind-merge) to remove duplicate Tailwind classes in JSX. More often than not, I find it removing a `text-color` in favour of a `text-fontSize` when both are needed. I'm surprised more developers don't raise this issue.
+
+</Note>

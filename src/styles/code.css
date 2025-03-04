@@ -2,7 +2,7 @@
 @import "@radix-ui/colors/gray-dark.css";
 @import "@radix-ui/colors/indigo.css";
 @import "@radix-ui/colors/indigo-dark.css"; */
-@import './theme-colors.css';
+@import "./colors.css";
 
 /**
   * https://github.com/huozhi/sugar-high
@@ -71,12 +71,12 @@
   NB. Not possible to add this in either <Prose> nor <mdx-components>!
   https://github.com/huozhi/sugar-high?tab=readme-ov-file#line-number
  */
-.Prose pre code {
+/* .Prose pre code {
   counter-reset: sh-line-number;
 }
 .Prose pre code .sh__line::before {
   content: counter(sh-line-number);
   counter-increment: sh-line-number 1;
-  @apply !font-normal text-solid-light text-right;
-  @apply inline-block mr-4 w-4;
-}
+  @apply text-solid-light text-right !font-normal;
+  @apply mr-4 inline-block w-4;
+} */

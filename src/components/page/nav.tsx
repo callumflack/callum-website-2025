@@ -2,15 +2,16 @@
 
 import { cx } from "class-variance-authority";
 import { usePathname } from "next/navigation";
-// import { useWindowScroll } from "react-use";
+import { useWindowScroll } from "react-use";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { textVariants } from "../atoms/text";
 import { Link } from "../atoms/next-link";
-// import { OutsetRule } from "../elements/outset-rule";
+import { OutsetRule } from "../elements/outset-rule";
 
 const linkStyle = [
   "h-tab flex items-center gap-0 relative hover:text-accent",
+  // "font-medium",
   "before:absolute before:left-[-2px] before:right-[-2px] before:bottom-[-1px] before:border-b",
   // "hover:before:border-accent",
 ];
@@ -20,6 +21,7 @@ interface NavProps {
   navItems: NavLinkProps[];
   activeNav?: string;
   showRootActive?: boolean;
+  className?: string;
   ruleClassName?: string;
 }
 
@@ -28,25 +30,30 @@ export const Nav = ({
   navItems,
   activeNav,
   showRootActive = false,
-  // ruleClassName,
+  className,
+  ruleClassName,
 }: NavProps) => {
   const pathname = usePathname();
-  // const { y } = useWindowScroll();
-  // const [isScrolled, setIsScrolled] = useState(false);
+  const { y } = useWindowScroll();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // useEffect(() => {
-  //   setIsScrolled(y > 150);
-  // }, [y]);
+  useEffect(() => {
+    setIsScrolled(y > 150);
+  }, [y]);
 
   return (
     // Want id="top"? Move it to a parent element without sticky positioning
     <div
-      // bg-opacity-70 backdrop-blur-md
-      className="Nav bg-canvas sticky top-0 z-50"
+      className={cx(
+        "Nav bg-canvas sticky top-0 z-5",
+        // "bg-canvas border-b"
+        // "bg-canvas-[0.99] backdrop-blur-xl"
+        className
+      )}
     >
       <nav
         className={cx(
-          "container flex items-center gap-4",
+          "container flex items-center gap-2.5",
           "pt-[calc(var(--spacing-nav)-var(--spacing-tab))]"
         )}
       >
@@ -68,12 +75,13 @@ export const Nav = ({
           ))}
         </div>
       </nav>
-      {/* <OutsetRule
+
+      <OutsetRule
         className={cx(
           isScrolled ? "border-border" : "border-transparent",
           ruleClassName
         )}
-      /> */}
+      />
     </div>
   );
 };

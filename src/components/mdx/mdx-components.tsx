@@ -1,12 +1,14 @@
 import { cx } from "cva";
 import type { ComponentPropsWithoutRef } from "react";
-// import { highlight } from "sugar-high";
+import { highlight } from "sugar-high";
 import { Link } from "../atoms/next-link";
 import type { TextProps } from "../atoms/text";
 import { Text, textVariants } from "../atoms/text";
 import { LinkWithArrow } from "../elements";
-import { ZoomableImage } from "./zoomable-image";
+import { ZoomableImage, type ZoomableImageProps } from "./zoomable-image";
+import { ZoomableMedia, type ZoomableMediaProps } from "./zoomable-media";
 import { ImageProps } from "next/image";
+// import { MdxVideo } from "./mdx-video";
 // import { MediaDialogImage } from "../composites/media-dialog-image";
 // import { MediaDialogVideo } from "../composites/media-dialog-video";
 // import { MdxImage } from "./mdx-image";
@@ -76,9 +78,10 @@ export const components = {
       as="blockquote"
       {...(props as TextProps)}
       className={cx(
-        "group pb-2",
-        "[&_p]:border-border-hover [&_p]:text-solid-hover [&_p]:border-l [&_p]:pb-0 [&_p]:pl-2.5 md:[&_p]:pl-4",
-        "group-[&_strong]:text-meta group-[&_strong]:table group-[&_strong]:pt-[calc(5/16*1em)] group-[&_strong]:!font-normal"
+        "group py-1.5",
+        // "[&_p]:text-fill-light",
+        "[&_p]:border-border-hover [&_p]:border-l [&_p]:pb-0 [&_p]:pl-2.5 md:[&_p]:pl-4",
+        "[&_strong]:text-meta [&_strong]:table [&_strong]:pt-[calc(4/16*1em)] [&_strong]:!font-normal"
       )}
     >
       {children}
@@ -86,6 +89,7 @@ export const components = {
   ),
   h2: (props: HeadingProps) => <HeadingWithId as="h2" {...props} />,
   h3: (props: HeadingProps) => <HeadingWithId as="h3" {...props} />,
+  h4: (props: TextProps) => <Text as="h4" weight="bold" {...props} />,
   pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
     <div className="py-1">
       <pre
@@ -102,17 +106,17 @@ export const components = {
       </pre>
     </div>
   ),
-  // code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
-  //   // sugar-high encapsulates code styles so we can't set them here nor in <Prose> but we can in a global CSS file, see styles/theme-code.css
-  //   const codeHTML = highlight(children as string);
-  //   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
-  // },
+  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
+    // sugar-high encapsulates code styles so we can't set them here nor in <Prose> but we can in a global CSS file, see styles/code.css
+    const codeHTML = highlight(children as string);
+    return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+  },
   hr: () => (
     <div className={cx(noteStyle)}>
       <hr />
     </div>
   ),
-  img: ({ src, alt, ...props }: ImageProps) => {
+  img: ({ src, alt, width, height, ...props }: ImageProps) => {
     // Extract aspect ratio from alt text if it matches pattern [width:height]
     const aspectMatch = alt?.match(/\[(\d+):(\d+)\]/);
     let aspectRatio;
@@ -127,14 +131,34 @@ export const components = {
     }
 
     return (
-      <ZoomableImage
+      <ZoomableMedia
         src={src?.toString() ?? ""}
         alt={cleanAlt}
         aspectRatio={aspectRatio}
+        type="image"
+        width={width ? Number(width) : undefined}
+        height={height ? Number(height) : undefined}
         {...props}
       />
     );
   },
+  Img: (props: ZoomableImageProps) => <ZoomableImage {...props} />,
+  ZoomableImage: (props: ZoomableImageProps) => <ZoomableImage {...props} />,
+  ZoomableMedia: (props: ZoomableMediaProps) => <ZoomableMedia {...props} />,
+  Video: ({
+    src,
+    width,
+    height,
+    ...props
+  }: ComponentPropsWithoutRef<"video">) => (
+    <ZoomableMedia
+      src={src?.toString() ?? ""}
+      type="video"
+      width={width ? Number(width) : undefined}
+      height={height ? Number(height) : undefined}
+      {...props}
+    />
+  ),
   Note: (props: ComponentPropsWithoutRef<"div">) => (
     <div className={cx(noteStyle)} {...props} />
   ),
@@ -168,7 +192,8 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
       as={as}
       className="group/heading not-first:mt-w8 scroll-mt-[calc(var(--spacing-nav)+var(--spacing-inset))]"
       id={id}
-      intent={as === "h2" ? "heading" : "fineHeading"}
+      intent={as === "h2" ? "heading" : "body"}
+      weight="medium"
     >
       {children ? (
         <Link
