@@ -1,7 +1,7 @@
 "use server";
 
 import { allPosts, Post } from "content-collections";
-import { Category, PostCategory, PostsData } from "./types";
+import { Category, PostCategory, PostsData } from "@/types/content";
 
 // Map from string literals to enum values
 const categoryMap: Record<PostCategory, Category> = {
@@ -10,7 +10,7 @@ const categoryMap: Record<PostCategory, Category> = {
 };
 
 export async function getPosts(category: PostCategory): Promise<Post[]> {
-  // Do this within client components when you want to mark specific functions as server actions
+  // Do this within client components to mark specific functions as server actions
   // "use server";
 
   return allPosts.filter(

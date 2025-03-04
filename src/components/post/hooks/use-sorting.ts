@@ -2,11 +2,7 @@
 
 import { useMemo } from "react";
 import type { Post } from "content-collections";
-import type {
-  PostCategory,
-  SortMethod,
-  SortedPostsMap,
-} from "@/lib/posts/types";
+import type { PostCategory, SortMethod, SortedPostsMap } from "@/types/content";
 import {
   groupByYear,
   groupByTopic,

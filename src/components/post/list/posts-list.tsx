@@ -5,7 +5,7 @@ import type {
   GroupedPosts,
   PostCategory,
   SortedPostsMap,
-} from "@/lib/posts/types";
+} from "@/types/content";
 import type { Post } from "content-collections";
 import { PostLine } from "./post-line";
 import { PostsListGrouped } from "./posts-list-grouped";

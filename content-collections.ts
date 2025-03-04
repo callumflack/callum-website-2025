@@ -1,10 +1,10 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
 import smartypants from "remark-smartypants";
-import readingTime from "reading-time";
-
+import { Category, LibraryType } from "./src/types/content";
 import { exec as execCallback } from "child_process";
 import util from "util";
+import readingTime from "reading-time";
 
 const exec = util.promisify(execCallback);
 
@@ -17,36 +17,10 @@ const exec = util.promisify(execCallback);
     remark-gfm (autolink literals, footnotes, strikethrough, tables, tasklists): https://github.com/remarkjs/remark-gfm
  */
 
-enum Category {
-  WRITING = "writing",
-  PROJECTS = "projects",
-  LIBRARY = "library",
-  HOME = "home",
-  ABOUT = "about",
-  CONTENT = "content",
-  NOTE = "note",
-}
-
-enum LibraryType {
-  SUPERSET = "superset",
-  TOPIC = "topic",
-  YEAR = "year",
-  POST = "post",
-  HIDE = "hide",
-}
+console.log("Process CWD:", process.cwd());
+console.log("Content collections config initialized");
 
 export { Category, LibraryType };
-
-// Export string values for easier use
-export type CategoryType = `${Category}`;
-export type LibraryTypeValue = `${LibraryType}`;
-
-export type Asset = {
-  src: string;
-  poster?: string;
-  alt: string;
-  aspect: string;
-};
 
 export const posts = defineCollection({
   name: "posts",

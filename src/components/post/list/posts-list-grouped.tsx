@@ -4,7 +4,7 @@ import { Link } from "@/components/atoms";
 import { cx } from "cva";
 import { useMemo } from "react";
 import type { Post } from "content-collections";
-import type { GroupedPosts } from "@/lib/posts/types";
+import type { GroupedPosts } from "@/types/content";
 import { PostLine } from "./post-line";
 import { sortButtonStyle } from "../sort";
 import { hideFeaturedDotStyle } from "../styles";

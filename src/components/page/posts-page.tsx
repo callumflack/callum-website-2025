@@ -8,7 +8,7 @@ import {
   sortButtonStyle,
   useSortedPosts,
 } from "@/components/post";
-import type { PostCategory, SortMethod } from "@/lib/posts/types";
+import type { PostCategory, SortMethod } from "@/types/content";
 import type { Post } from "content-collections";
 import { cx } from "cva";
 import { useRouter } from "next/navigation";

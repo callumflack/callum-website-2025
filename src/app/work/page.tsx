@@ -4,7 +4,7 @@ import type { SearchParams } from "@/types/search-params";
 import { PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page/posts-page";
 import { getAllPosts } from "@/lib/posts/actions";
-import type { PostCategory } from "@/lib/posts/types";
+import type { PostCategory } from "@/types/content";
 import { TitleHeader } from "@/components/elements/title-header";
 import config from "@/config";
 
