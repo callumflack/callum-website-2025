@@ -69,7 +69,11 @@ export const Nav = ({
           {navItems.map(({ href, label }) => (
             <NavLink
               href={href}
-              isActive={pathname === href || activeNav === href}
+              isActive={
+                pathname === href ||
+                (activeNav && href.includes(activeNav)) ||
+                pathname.includes(href.substring(1))
+              }
               key={href}
               label={label}
             />

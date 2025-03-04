@@ -26,7 +26,7 @@ export const PostsListBlock = ({
   const key = sortBy ?? kind;
   const sorted = sortedPostsMap[key];
 
-  console.log("Rendering PostsListBlock with:", key, sorted);
+  // console.log("Rendering PostsListBlock with:", key, sorted);
 
   return (
     <div className={wrapperClassName}>

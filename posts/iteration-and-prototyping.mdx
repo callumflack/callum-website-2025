@@ -1,0 +1,109 @@
+---
+date: 2023-02-06
+title: The difference between iteration and prototyping
+summary: Iteration and prototyping are not the same thing but they're related over time during a build process. To determine which method you're using, ask yourself are we trying to test a solution or are we trying to release a solution?
+assets:
+  - src: /images/post-prototype-iteration-1920-1080.jpg
+    alt: Never trust supposed simplicity before the process begins
+    aspect: 1920-1080
+category: writing
+tags:
+  - engineering
+  - teamwork
+  - featured
+---
+
+When building software products, we often hear two separate phrases with different meanings used interchangeably: iteration and prototyping. They're not the same thing, but they're related over time during a build process. The easiest way to see the difference is to map them on a [Hill Chart](https://www.feltpresence.com/hills.html).
+
+<Img
+  priority
+  darkSchemeInvert
+  border={false}
+  background={false}
+  src="/images/hill.png"
+  alt="Hill Chart"
+  aspect={805 / 195}
+  caption={
+    <>
+      <a
+        href="https://www.feltpresence.com/hills.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Basecamp's Hill Chart
+      </a>{" "}
+      helps us visualise a software build process over time
+    </>
+  }
+/>
+
+**Prototyping** comes first, at the start of the hill. We're trying to find the best method of solving for a particular intention within the project and use that as a tool to make better decisions. For example, do we show an onboarding flow as multiple choice radio buttons or do we rephrase the questions as yes/no and use a swipe left/right flow? If it's the later, how responsive to touch will it be on a smartphone?
+
+**Iteration** happens after the apex, when we've "walked up hill" to discover all the interrelated dependencies so that we're able to decide exactly how we're building the thing. Iteration is the descent along a singular path towards a release. No new requirements should be introduced. Instead, like any editing process, we're probably shedding them as we nail down the existing details and make them work.\*
+
+During a build process, we always hope not to discover anything that puts the project at risk. And that is the job of prototyping: discover technical or design possibilities and determine if they're opportunities or trade-offs. If there is some essential discovery that puts the project at risk, we want it to occur during protoyping, if at all. But we would not want nor expect that during any iteration work. That would be a sign of not enough initial prototyping or even insufficient research prior to signing-off the build process.
+
+It's important to note that any project build phase should be aiming to release as soon as possible. Deferring features for later releases is the easiest way to stick to the timeline. This means we can also think of iteration via projects, not just within a project.
+
+We can now generalise these methods together as specific tempo-based jobs: _Prototype to discover. Iterate to release._
+
+<Img
+  darkSchemeInvert
+  background={false}
+  border={false}
+  src="/images/hill-blobs.png"
+  alt="Hill Chart with blobs"
+  aspect={805 / 195}
+  caption="Prototype to discover. Iterate to release. Roughly."
+/>
+
+## Prototyping does not mean "design tools"
+
+Don't make the mistake of thinking that because Figma has a "prototyping" mode that its your prototyping tool. You may want figure out how far you can get with the Google Sheet API before you add a database, and you can't do that with any design tool.
+
+And if it is a design hypothesis (of the visual, flow or interaction kind) that you want to test, then designing in code is as close as possible to ["the nitty-gritty material of the medium"](https://twitter.com/callumflack/status/1622380350562516992) you can possibly get. As [I've said before](/designers-should-code), what often looks perfect in Figma can look not at all perfect in the reality of the browser. Inspect your assumptions in the DOM.
+
+## Developing a spidey sense for discover-or-release
+
+While these two concepts are not the only two things that occur during a build phase, _discover-or-release_ is a useful abstraction to distinguish between attitudes in decision making at different times during the process. Here's a few ways to think of them:
+
+- Prototyping is uphill. Iteration is downhill.
+
+- Prototyping discovers requirements. Iteration binds requirements.
+
+- Prototyping creates a flow of investment. Iteration creates durable stock.
+
+- Prototyping pulls towards complexity. Iteration pushes towards simplicity.
+
+- Prototyping diverges the possible. Iteration rounds the probable.
+
+Which ever way you say it, the key question is: _are we trying to discover ways to solve a problem or are we trying to release a solution?_
+
+This helps us—as a team—stay focused on doing the right thing at the right time to prevent unnecessary loss of momentum.
+
+<Img
+  src="/images/post-prototype-iteration-1920-1080.jpg"
+  alt="Never trust supposed simplicity before the process begins"
+  aspect={1920 / 1080}
+  caption="Never trust supposed simplicity before the process begins"
+/>
+
+## Simplicity on the far side of complexity
+
+> Simplicity is interrelationships that make it feel more like one thing.
+> Complexity is interrelationships that make it feel like many different things.
+> **[Ryan Singer](https://twitter.com/rjs/status/1572573848046014465?s=20&t=qJF31ambTfg5uYMubOwuNw)**
+
+Alfred North Whitehead said "the only simplicity to be trusted is the simplicity on the far side of complexity." Simplicity is always the desired outcome for a software product because it represents a user experience that wins hearts ("delight") and minds ("don't make me think"). To get there—_to make the thing whole for a person using it_—the build process must traverse upwards through discovery to the fog of decisions before we can slash-and-burn, edit-and-cut, spit-and-polish downwards through the thicket of details.
+
+<Note>
+
+\*[YAGNI](https://martinfowler.com/bliki/Yagni.html). Only implement things
+when you actually need them, never when you foresee that you'll need them.
+The cost isn't just in implementation, but also in all future maintenance. As
+[Fried](https://basecamp.com/gettingreal/05.3-start-with-no) said, "you should
+only consider features if they're willing to stand on the porch for three days
+waiting to be let in." Please note that this is a rule of thumb and there are
+[contextual counterpoints](https://lukeplant.me.uk/blog/posts/yagni-exceptions/).
+
+</Note>

@@ -1,6 +1,6 @@
 import { allPosts } from "content-collections";
 // import { MDXContent } from "@content-collections/mdx/react";
-import { PageWrapper } from "@/components/page/page-wrapper";
+import { PageWrapper } from "@/components/page/page-wrapper-0";
 import NextLink from "next/link";
 
 export default function Home() {

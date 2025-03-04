@@ -83,7 +83,9 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
             >
               {sort === "projects" || sort === "writing"
                 ? " Selected"
-                : sort.replace(/-/g, " ")}
+                : sort === "a-to-z"
+                  ? "A-Z"
+                  : sort.replace(/-/g, " ")}
             </StyledSortButton>
           </Fragment>
         ))}

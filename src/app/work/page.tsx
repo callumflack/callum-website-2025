@@ -1,6 +1,5 @@
 import { Link, Text } from "@/components/atoms";
-// import { TitleHeader } from "@/components/elements";
-// import type { Metadata } from "next";
+import type { Metadata } from "next";
 import type { SearchParams } from "@/types/search-params";
 import { PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page/posts-page";
@@ -12,7 +11,7 @@ import config from "@/config";
 export default async function WorkIndexPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
   const kind = "projects" as PostCategory;
   const { sort } = await searchParams;
@@ -26,13 +25,13 @@ export default async function WorkIndexPage({
   });
 
   return (
-    <PageWrapper>
+    <PageWrapper activeNav="work">
       <TitleHeader>
         <Text as="h1" intent="title">
           {/* Design & programming services since 1998. */}
           Designing since 1998. Coding since 2010.
         </Text>
-        <Text dim>
+        <Text intent="meta" dim>
           The value of good design is only realised if you have an engineer
           capable of discerning the details in code (or if you&apos;re lucky,
           they&apos;re one and the same).{" "}
@@ -50,7 +49,7 @@ export default async function WorkIndexPage({
 const title = `Work — Callum Flack Design & Development`;
 const description = "An archive of design and programming projects.";
 
-export const generateMetadata = () => {
+export function generateMetadata(): Metadata {
   return {
     title,
     description,
@@ -59,4 +58,4 @@ export const generateMetadata = () => {
       description,
     },
   };
-};
+}

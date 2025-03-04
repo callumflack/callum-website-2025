@@ -74,7 +74,7 @@
   --spacing-nav: 80px;
   --spacing-tab: 54px;
 
-  --container-text: 580px;
+  --container-text: 600px;
   --container-hero: 900px;
   --container-text-inset: calc(
     var(--container-text) + (var(--spacing-inset) * 2)

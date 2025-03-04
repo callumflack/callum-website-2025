@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Button, Link, Text } from "@/components/atoms";
 import { Mdx } from "@/components/mdx";
 import { PageWrapper } from "@/components/page";
+import type { Metadata } from "next";
 import { ContactIcons } from "@/components/page/contacts";
 import { SiteTime } from "@/components/page/site-time";
 import { formatPostDate, getYear, isVideoFile } from "@/lib/utils";
@@ -42,11 +43,7 @@ export default async function SlugPage({ params }: { params: Params }) {
   };
 
   return (
-    <PageWrapper
-      showIntersection
-      activeNav={renderActiveNav()}
-      footerChildren={<FooterBlock />}
-    >
+    <PageWrapper activeNav={renderActiveNav()} footerChildren={<FooterBlock />}>
       {post.category !== "about" && (
         <header className="container space-y-2">
           <Text as="h1" intent="title" balance>
@@ -198,7 +195,11 @@ export function generateStaticParams(): Params[] {
   }));
 }
 
-export async function generateMetadata({ params }: { params: Params }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata | undefined> {
   const { slug } = await params;
   const post = allPosts.find((p) => p.slug === slug);
   if (!post) {
