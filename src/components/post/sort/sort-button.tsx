@@ -5,8 +5,6 @@ import { useCallback } from "react";
 import { textVariants } from "@/components/atoms";
 import { cx } from "cva";
 
-// https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams
-
 interface SortButtonProps {
   sortBy: string;
   className?: string;
@@ -24,48 +22,44 @@ export const SortButton = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams);
       params.set(name, value);
-
       return params.toString();
     },
     [searchParams]
   );
 
   return (
-    // using useRouter, but can also use Link — see above URL
     <button
       className={className}
+      type="button"
       onClick={() => {
-        // shape: <pathname>?sort=asc
-        router.push(`${pathname}?${createQueryString("sort", sortBy)}`);
+        router.push(`${pathname}?${createQueryString("sort", sortBy)}`, {
+          scroll: false,
+        });
         onClick?.();
       }}
-      type="button"
     >
       {children}
     </button>
   );
 };
 
-type StyledSortButtonProps = SortButtonProps & {
-  searchParamsValue: string | undefined;
-  initialSortBy: string;
-  children: React.ReactNode;
-};
-
 export const sortButtonStyle = [
   "inline-flex h-tab items-center gap-2",
   textVariants({ intent: "meta", weight: "medium" }),
-  "capitalize",
+  "capitalize tracking-[0.015em]",
   "pl-2 pr-1 first:pl-0",
-  "hover:text-fill",
+  "hover:text-fill hover:cursor-pointer",
   "border-y border-transparent",
 ];
+
+interface StyledSortButtonProps extends SortButtonProps {
+  searchParamsValue: string | undefined;
+  initialSortBy: string;
+}
 
 export const StyledSortButton = ({
   sortBy,

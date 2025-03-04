@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 // import { textVariants } from "../atoms/text";
 import { Link } from "../atoms/next-link";
 import { OutsetRule } from "../elements/outset-rule";
+import { textVariants } from "../atoms/text";
 
 const linkStyle = [
   "h-tab flex items-center gap-0 relative hover:text-accent",
@@ -45,7 +46,7 @@ export const Nav = ({
     // Want id="top"? Move it to a parent element without sticky positioning
     <div
       className={cx(
-        "Nav bg-canvas sticky top-0 z-5",
+        "Nav bg-canvas sticky top-0 z-50",
         // "bg-canvas border-b"
         // "bg-canvas-[0.99] backdrop-blur-xl"
         className
@@ -96,7 +97,7 @@ interface NavLinkProps {
 const NavLink = ({ href, isActive, label, className }: NavLinkProps) => (
   <Link
     className={cx(
-      // textVariants({ intent: "fineHeading" }),
+      textVariants({ intent: "meta", weight: "medium" }),
       linkStyle,
       isActive
         ? "before:border-fill hover:before:border-accent"

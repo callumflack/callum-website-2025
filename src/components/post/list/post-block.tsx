@@ -4,10 +4,9 @@ import { mediaWrapperVariants } from "@/components/media";
 import { isVideoFile } from "@/lib/utils";
 import { cx } from "cva";
 import { type Post } from "content-collections";
-// CardTitleMeta
 import { CardImage } from "@/components/card";
-import { PostLinkHeadingWrapper } from "./post-link-heading-wrapper";
-import { postIconStyle } from "./post.styles";
+import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
+import { postIconStyle } from "../styles";
 
 interface PostBlockProps {
   post: Post;

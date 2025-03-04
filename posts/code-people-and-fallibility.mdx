@@ -1,0 +1,44 @@
+---
+date: 2022-04-22
+title: Code, people and fallibility
+summary: Tech failures, like Facebook's DNS mishap and Atlassian's outage, highlight a key insight — it's not just about the code, but the humans behind it. These incidents underscore the importance of communication and collaboration in technology, reminding us that at the core of every technical glitch is a human error waiting to be understood and addressed.
+category: writing
+tags:
+  - teamwork
+  - engineering
+---
+
+Last year, Facebook accidentally overwrote its own DNS records leading to a “cascade of errors” and worldwide outage for all its platforms. The outage was likely caused by Facebook network engineers accidentally locking themselves out of the larger configuration system during an update. [This quote](https://news.ycombinator.com/item?id=28749244), purportedly from a member of the recovery team, is particularly insightful:
+
+> …the people with physical access is separate from the people with knowledge of how to actually authenticate to the systems and people who know what to actually do, so there is now a logistical challenge with getting all that knowledge unified.
+
+In the last fortnight, [Atlassian had the longest outage they’ve ever had](https://newsletter.pragmaticengineer.com/p/scoop-atlassian?s=r). What started out as “downtime” on April 4, turned into 10 days of complete shutdown. And they took until [day 9 to formally communicate with their customers](https://twitter.com/SriViswan/status/1514072080181956608?s=20&t=VcElOD_KVnRCdgNOLeB5Ig). We can only guess at the chaos behind the scenes.
+
+Of course, we can say that’s Big Tech, they should have the resources and bright people to figure this out and stop this happening. Shame on them. Or we can say that that's Big Tech, that's different to the scale of what we do. It would never happen to us. And yet if we pause for a minute and consider all the mundane moments that occurred in the prior days, months and perhaps years that lead to these incidents, we may gain a unitary insight into _how organisations of people work with code_.
+
+## The world of code
+
+A piece of code takes an input to produce an output and if you add the wrong input, that code itself is none the wiser. But just above that piece of code, we have a world in which the human organisation and the people involved provide the wherewithal for the code to be written into a codebase: what it’s for, how it works, its dependent inputs, the chain of its related outputs and so on.
+
+Now picture in your mind how that codebase relates to the larger system at play: the intent of the people in the organisation, their multiple, mixed and shared drivers for what they do, how they co-operate and the end customers they’re beholden to.
+
+If we consider the world of code in which the Atlassian Incident took place, we might ask ourselves a few simple questions: did they safeguard the kind of input for this piece of code? Were the people doing the work tired and simply made a mistake? Were there pre-existing issues that had been acknowledged among the group? Was this communicated and with which group?
+
+Once we consider questions like these, it is easy to see that _the code itself is but one small piece in a larger puzzle that is mostly about human agency and co-operation_.
+
+Because it is so malleable, we can do all kinds of new things with code, some of which have been [surprisingly valuable](http://web.archive.org/web/19980610100009/www.redherring.com/mag/issue55/economics.html) for the communications and business spheres in the past three decades. And precisely because it is so malleable, code always contains the possibility of surprising us towards the other side of the reward spectrum: _risk_.
+
+## The human code
+
+Beyond a certain point—as Atlassian and Facebook will attest to—what is complicated can turn into unbounded complexity. It is easy to gawk at the runaway train of incidents resulting from such complexity until you too wish to make use of what code might do for you. Then you will engage in your own “world of code”: a place where code does exactly what you and your organisation tell it to, in order to reap the returns across the risk/reward spectrum.
+
+How then do we mitigate risk in the world of code? Our best advice is to understand that _behind the code is always a fallible human who understands how the code works_. And that human has to co-ordinate and communicate with other fallible humans around their ideas of what that code should do.
+
+In such scenarios, we should be humble not just about our ability to programme complicated systems, but also about our ability to mutually understand, trust and co-ordinate with each-other.
+
+A unitary insight into working with code is that it’s not about code, it’s about people.
+
+<Note>
+  This article was originally published on the [Grade
+  Substack](https://grade.substack.com/p/code-people-and-fallibility).
+</Note>

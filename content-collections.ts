@@ -59,6 +59,7 @@ export const posts = defineCollection({
     endDate: z.string().optional(),
     showAsNew: z.boolean().optional(),
     title: z.string(),
+    linkTitle: z.string().optional(), // optional link title, to shorten post titles in UI
     summary: z.string(),
     libraryType: z
       .enum([

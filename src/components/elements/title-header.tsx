@@ -5,7 +5,6 @@ import type { PolymorphicProps } from "../atoms/polymorphic-element";
 import { PolymorphicElement } from "../atoms/polymorphic-element";
 
 type TitleHeaderProps = PolymorphicProps<React.ElementType> & {
-  isContainedChild?: boolean;
   hasMetaSubheading?: boolean;
   className?: string;
 };
@@ -13,7 +12,6 @@ type TitleHeaderProps = PolymorphicProps<React.ElementType> & {
 export const TitleHeader = ({
   as,
   children,
-  isContainedChild,
   hasMetaSubheading,
   className,
   ...props
@@ -22,9 +20,8 @@ export const TitleHeader = ({
     <PolymorphicElement
       as={as || "header"}
       className={cx(
-        "TitleHeader text-balance",
+        "container",
         hasMetaSubheading ? "space-y-[3px]" : "space-y-2",
-        isContainedChild ? "" : "pt-submajor pb-small container",
         className
       )}
       {...props}

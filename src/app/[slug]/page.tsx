@@ -1,27 +1,24 @@
 import { notFound } from "next/navigation";
-// import config from "@/components/config";
-// import { isVideoFile } from "@/components/utils";
-// import { allPosts } from "content-collections";
-// import { PagePost } from "@/components/page";
-import { allPosts } from "content-collections";
-import { PageWrapper, PostMeta } from "@/components/page";
-import { Mdx } from "@/components/mdx";
 import { Button, Link, Text } from "@/components/atoms";
-import { formatPostDate, getYear } from "@/lib/utils";
-import Image from "next/image";
+import { Mdx } from "@/components/mdx";
+import { PageWrapper } from "@/components/page";
 import { ContactIcons } from "@/components/page/contacts";
 import { SiteTime } from "@/components/page/site-time";
+import { formatPostDate, getYear, isVideoFile } from "@/lib/utils";
+import { DownloadIcon, Link2Icon } from "@radix-ui/react-icons";
+import { allPosts } from "content-collections";
+import Image from "next/image";
 import { Suspense } from "react";
-import { Link2Icon, DownloadIcon } from "@radix-ui/react-icons";
-import { MdiLanguageMarkdownOutline } from "@/components/icons/MdiLanguageMarkdownOutline";
-import { cx } from "class-variance-authority";
 import { OutsetRule } from "@/components/elements/outset-rule";
+import config from "@/config";
+// import { MdiLanguageMarkdownOutline } from "@/components/icons/MdiLanguageMarkdownOutline";
+// import { PagePost } from "@/components/page";
 
 interface Params {
   slug: string;
 }
 
-export default async function PostPage({ params }: { params: Params }) {
+export default async function SlugPage({ params }: { params: Params }) {
   const { slug } = await params;
 
   const post = allPosts.find((p) => p.slug === slug);
@@ -38,9 +35,18 @@ export default async function PostPage({ params }: { params: Params }) {
 
   // console.log(post);
 
-  // return <PagePost post={post} />;
+  const renderActiveNav = () => {
+    if (post.category === "projects") return "/work";
+    if (post.category === "writing") return "/writing";
+    return undefined;
+  };
+
   return (
-    <PageWrapper footerChildren={<FooterBlock />}>
+    <PageWrapper
+      showIntersection
+      activeNav={renderActiveNav()}
+      footerChildren={<FooterBlock />}
+    >
       {post.category !== "about" && (
         <header className="container space-y-2">
           <Text as="h1" intent="title" balance>
@@ -185,3 +191,48 @@ const FooterBlock = () => {
     </div>
   );
 };
+
+export function generateStaticParams(): Params[] {
+  return allPosts.map((post) => ({
+    slug: post._meta.path,
+  }));
+}
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params;
+  const post = allPosts.find((p) => p.slug === slug);
+  if (!post) {
+    return;
+  }
+
+  const { title, date: publishedTime, summary: description, assets } = post;
+  const asset = assets?.[0];
+  let image;
+
+  if (asset?.src) {
+    if (isVideoFile(asset.src) && asset.poster) {
+      image = `${config.PUBLIC_URL}${asset.poster}`;
+    } else {
+      image = `${config.PUBLIC_URL}${asset.src}`;
+    }
+  } else {
+    image = `${config.PUBLIC_URL}/opengraph-image.png`;
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${title} — Callum Flack`,
+      description,
+      type: "article",
+      publishedTime,
+      url: `${config.PUBLIC_URL}/${post.slug}`,
+      images: [
+        {
+          url: image,
+        },
+      ],
+    },
+  };
+}

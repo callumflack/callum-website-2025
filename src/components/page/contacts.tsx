@@ -3,6 +3,7 @@ import { cx } from "cva";
 import {
   IonSocialLinkedinOutline,
   MynauiBrandGithub,
+  SimpleIconsSubstack,
 } from "@/components/icons";
 import config from "@/config";
 import { ContactIcon } from "./contact-icon";
@@ -55,13 +56,13 @@ export const ContactIcons = ({
       >
         <ReadCv />
       </ContactIcon> */}
-      {/* <ContactIcon
-      label={showLabel ? "Substack" : undefined}
-      href={config.SUBSTACK_URL}
-      className="translate-y-[-1px] transform [&_svg]:!size-[0.9em]"
-    >
-      <SimpleIconsSubstack />
-    </ContactIcon> */}
+      <ContactIcon
+        label={showLabel ? "Substack" : undefined}
+        href={config.SUBSTACK_URL}
+        className="translate-y-[-1px] transform [&_svg]:!size-[0.9em]"
+      >
+        <SimpleIconsSubstack />
+      </ContactIcon>
     </ul>
   );
 };

@@ -1,20 +1,18 @@
 import { Link, Text } from "@/components/atoms";
-// import { TitleHeader } from "@/components/elements";
-// import type { Metadata } from "next";
-import type { SearchParams } from "@/types/search-params";
 import { PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page/posts-page";
+import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { PostCategory } from "@/lib/posts/types";
-import { TitleHeader } from "@/components/elements/title-header";
-import config from "@/config";
+import type { SearchParams } from "@/types/search-params";
+import { TitleHeader } from "@/components/elements";
 
 export default async function WorkIndexPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
-  const kind = "projects" as PostCategory;
+  const kind = "writing" as PostCategory;
   const { sort } = await searchParams;
   const currentSort = (sort as string) || kind;
   const postsData = await getAllPosts();
@@ -29,13 +27,11 @@ export default async function WorkIndexPage({
     <PageWrapper>
       <TitleHeader>
         <Text as="h1" intent="title">
-          {/* Design & programming services since 1998. */}
-          Designing since 1998. Coding since 2010.
+          If you have the words, you'll find the way.
         </Text>
-        <Text dim>
-          The value of good design is only realised if you have an engineer
-          capable of discerning the details in code (or if you&apos;re lucky,
-          they&apos;re one and the same).{" "}
+        <Text intent="body" dim>
+          Writing about creativity, design and complexity through the lens of
+          attention, interfaces and systems composition.{" "}
           <Link className="link" href={config.SUBSTACK_URL}>
             Signup for new posts
           </Link>
@@ -47,7 +43,7 @@ export default async function WorkIndexPage({
   );
 }
 
-const title = `Work — Callum Flack Design & Development`;
+const title = `Writing — Callum Flack Design & Development`;
 const description = "An archive of design and programming projects.";
 
 export const generateMetadata = () => {

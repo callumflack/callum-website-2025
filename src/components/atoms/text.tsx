@@ -65,6 +65,10 @@ export const textVariants = cva({
     //   size: ["heading"],
     //   class: "!tracking-[0.05em]",
     // },
+    {
+      intent: ["title"],
+      balance: true,
+    },
   ],
   defaultVariants: {
     // intent: "body",

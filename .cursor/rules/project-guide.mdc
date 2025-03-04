@@ -1,0 +1,69 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# NextJS 15 Project Guide
+
+Tooling and code repo for a multi-featured blog and portfolio website.
+
+## Tech Stack
+- NextJS 15
+- Bun (package manager and runtime)
+- Content Collections for type-safe MDX rendering
+- TailwindCSS for styling
+- Shadcn (Radix) UI components
+
+## Project Structure
+```
+/app            - NextJS app router pages and layouts
+/components     - Reusable UI components (atomic design)
+  /atoms        - Base components (Button, Text, Link)
+  /card         - Card components for posts
+  /elements     - Composite UI elements
+  /page         - Page-level components
+/lib            - Utility functions
+/data           - Data files
+/types          - TypeScript types
+/.content-collections - Generated content from MDX
+```
+
+## Content Collections
+Content is managed through MDX files with a schema defined in `content-collections.ts`:
+
+```typescript
+// Post schema defines frontmatter fields
+export const posts = defineCollection({
+  name: "posts",
+  directory: "posts",
+  include: "**/*.mdx",
+  schema: (z) => ({
+    draft: z.boolean().optional(),
+    date: z.string(),
+    title: z.string(),
+    summary: z.string(),
+    category: z.enum([...]), // Categories like WRITING, PROJECTS
+    // other fields...
+  }),
+  // Transform adds computed fields like readingTime
+})
+```
+
+Always defer to the collection types in the zod schema in `content-collections.ts`. Do not create one-offs in any util file.
+
+## Adding Content
+Place MDX files in the `/posts` directory with proper frontmatter.
+
+## Rendering Content
+Posts are accessed via slug in dynamic routes:
+```typescript
+// app/[slug]/page.tsx
+const post = allPosts.find((p) => p.slug === slug);
+return <Mdx code={post.content} />
+```
+
+## Components
+Uses atomic design pattern with:
+- Atoms: `Text`, `Button`, `Link`
+- Cards: `PostCard`, `SnapCard`
+- Elements: Composite components

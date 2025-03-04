@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export type ZoomableImageProps = ImageProps & {
   maxWidth?: number;
+  aspect?: number;
   aspectRatio?: number;
   transitionDuration?: number;
   scaleAmount?: number;
@@ -15,6 +16,7 @@ export function ZoomableImage({
   src,
   alt,
   maxWidth = 580,
+  aspect = 16 / 9,
   aspectRatio = 16 / 9,
   transitionDuration = 0.3,
   scaleAmount = 1.5,
@@ -29,7 +31,7 @@ export function ZoomableImage({
     <div
       className="ZoomableImage mx-auto"
       style={{
-        aspectRatio: aspectRatio,
+        aspectRatio: aspect || aspectRatio,
         // Container width changes based on zoom state
         width: isZoomed ? zoomedWidth : maxWidth,
         transition: `width ${transitionDuration}s ease`,

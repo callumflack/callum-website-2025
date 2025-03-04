@@ -5,15 +5,20 @@ import { RefObject, useRef, useEffect } from "react";
 import { useIntersection } from "react-use";
 import { OutsetRule } from "../elements/outset-rule";
 import { Nav } from "./nav";
+
+type Props = {
+  activeNav?: string;
+  showIntersection?: boolean;
+  children: React.ReactNode;
+  footerChildren?: React.ReactNode;
+};
+
 export const PageWrapper = ({
   activeNav,
   children,
   footerChildren,
-}: {
-  activeNav?: string;
-  children: React.ReactNode;
-  footerChildren?: React.ReactNode;
-}) => {
+  showIntersection,
+}: Props) => {
   const intersectionRef = useRef<HTMLDivElement>(null);
   const intersection = useIntersection(
     intersectionRef as RefObject<HTMLElement>,
@@ -24,12 +29,16 @@ export const PageWrapper = ({
     }
   );
 
-  useEffect(() => {
-    document.body.classList.toggle(
-      "bg-panel",
-      (intersection?.intersectionRatio ?? 0) === 1
-    );
-  }, [intersection?.intersectionRatio]);
+  // useEffect(() => {
+  //   if (showIntersection) {
+  //     document.body.classList.toggle(
+  //       "bg-panel",
+  //       (intersection?.intersectionRatio ?? 0) === 1
+  //     );
+  //   }
+
+  //   return () => document.body.classList.remove("bg-panel");
+  // }, [intersection?.intersectionRatio, showIntersection]);
 
   return (
     <>
@@ -37,23 +46,28 @@ export const PageWrapper = ({
         activeNav={activeNav}
         anchorName="Callum"
         navItems={[
-          // { href: "/about", label: "About" },
-          // { href: "/work", label: "Work" },
-          // { href: "/writing", label: "Writing" },
           // { href: "/graphics", label: "GxIx" },
           // { href: config.PUBLIC_NOTES_URL, label: "Notes" },
-          { href: "/index", label: "Index" },
+          // { href: "/index", label: "Index" },
+          { href: "/writing", label: "Writing" },
           { href: "/work", label: "Work" },
-          { href: "/notes", label: "Notes" },
+          { href: "/work", label: "Notes" },
+          { href: "/work", label: "Friends" },
+          { href: "/work", label: "Graphics" },
+          { href: "/work", label: "Shelf" },
           { href: "/about", label: "About" },
         ]}
-        className={cx(
-          intersection && intersection.intersectionRatio < 1 ? "" : "!bg-panel"
-        )}
+        // className={cx(
+        //   showIntersection
+        //     ? intersection && intersection.intersectionRatio < 1
+        //       ? ""
+        //       : "!bg-panel"
+        //     : ""
+        // )}
         ruleClassName={cx(
           intersection && intersection.intersectionRatio < 1
             ? "border-border"
-            : "border-solid"
+            : "border-solid-light"
         )}
       />
 
@@ -61,9 +75,9 @@ export const PageWrapper = ({
       <div className="pt-w12 space-y-w6">{children}</div>
 
       {/* relative z-20 */}
-      <OutsetRule wrapperClassName="" />
       {/* This ensure tailwind renders the bg-panel class */}
       <div className="bg-panel hidden h-px"></div>
+      <OutsetRule wrapperClassName="" />
       <footer
         className={cx(
           "pt-w16 relative container",

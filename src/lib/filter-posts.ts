@@ -1,5 +1,5 @@
 import { format, isSameYear, parseISO } from "date-fns";
-import { type Post, type CategoryType } from "content-collections";
+import { type Post } from "content-collections";
 import { featuredWorkSlugs } from "@/data";
 import { sortByCustomSlugOrder, sortByDate, sortByTitle } from "./sort-posts";
 
@@ -46,7 +46,7 @@ const featuredWritingPosts = (posts: Post[]) => {
 };
 
 // by category
-const postsByCategory = (category: CategoryType, posts: Post[]) => {
+const postsByCategory = (category: Post["category"], posts: Post[]) => {
   const FP = everyPost(posts);
   const P = FP.filter((p) => p.category === category);
   return sortByDate(P);

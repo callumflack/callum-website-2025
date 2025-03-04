@@ -23,7 +23,10 @@
   title: "-0.0075em",
 }; */
 
-/* Shadcn defaulted to inline? TW says when defining theme variables that reference other variables, use the inline option: https://tailwindcss.com/docs/theme#using-your-theme-variables */
+/*
+  When defining theme variables that reference other variables, use the inline option:
+  https://tailwindcss.com/docs/theme#using-your-theme-variables
+ */
 @theme inline {
   /* completely disable all default theme variables */
   /* --*: initial; */
@@ -42,9 +45,10 @@
   --text-heading: clamp(17px, 14.8571px + 0.4286vw, 20px);
   --text-heading: clamp(16px, 13.8571px + 0.4286vw, 19px);
   --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
-  --text-title: clamp(21px, 16.7143px + 0.8571vw, 27px);
   --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
   --text-title: clamp(21px, 16px + 1vw, 28px);
+  --text-title: clamp(21px, 16.7143px + 0.8571vw, 27px);
+  --text-title: clamp(20px, 17.1429px + 0.5714vw, 24px);
 
   --default-line-height: calc(24 / 17);
   --text-body--line-height: var(--default-line-height);
