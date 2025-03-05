@@ -29,7 +29,7 @@ export default async function WorkIndexPage({
         <Text as="h1" intent="title">
           If you have the words, you&apos;ll find the way.
         </Text>
-        <Text intent="meta" dim>
+        <Text dim>
           Writing about creativity, design and complexity through the lens of
           attention, interfaces and systems composition.{" "}
           <Link className="link" href={config.SUBSTACK_URL}>
