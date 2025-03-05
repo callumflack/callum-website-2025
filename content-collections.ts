@@ -60,7 +60,7 @@ export const posts = defineCollection({
           src: z.string(),
           poster: z.string().optional(),
           alt: z.string(),
-          aspect: z.string(),
+          aspect: z.number(),
         })
       )
       .optional(),

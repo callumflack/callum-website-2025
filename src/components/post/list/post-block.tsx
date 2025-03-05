@@ -30,7 +30,7 @@ export const PostBlock = ({
       <div
         className={cx(
           "relative w-full",
-          theme === "index" ? "sm:w-1/3 sm:shrink-0" : ""
+          theme === "index" ? "sm:w-1/4 sm:shrink-0" : ""
         )}
       >
         {post.assets && post.assets.length > 0 ? (
@@ -62,6 +62,8 @@ export const PostBlock = ({
             )}
           >
             <Text
+              color="canvas"
+              intent="fineHeading"
               className={cx(
                 "bg-accent2 group-hover:bg-accent",
                 "px-gap flex h-[20px] items-center",
@@ -70,8 +72,6 @@ export const PostBlock = ({
                   ? "sm:rounded-bl-button"
                   : "sm:rounded-tr-button"
               )}
-              color="canvas"
-              intent="fineHeading"
             >
               <span className="translate-y-[0.1em] transform">New</span>
             </Text>
@@ -89,7 +89,7 @@ export const PostBlock = ({
             <ArrowTopRightIcon className={cx(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
-        <Text dim intent="meta">
+        <Text dim>
           {post.summary}
           {/* <span className={cx("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}

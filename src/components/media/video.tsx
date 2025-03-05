@@ -6,13 +6,20 @@ import { useEffect, useRef, useState } from "react";
 import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { VideoLoader } from "./video-loader";
 
-export interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
+export interface VideoProps
+  extends Omit<VideoHTMLAttributes<HTMLVideoElement>, "onError"> {
   src: string;
   poster: string;
-  aspect: string;
+  aspect: number;
   className: string;
   allowSound?: boolean;
+  onError?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   // sizes?: string;
+}
+
+// Helper to normalize aspect ratio for CSS
+function normalizeAspectRatio(aspect: number): string {
+  return String(aspect);
 }
 
 export const Video = ({
@@ -21,12 +28,14 @@ export const Video = ({
   aspect,
   className,
   allowSound,
+  onError,
+  ...rest
 }: VideoProps) => {
   const { isMobileViewport } = useDeviceDetect();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [videoStatus, setVideoStatus] = useState<
-    "loading" | "ready" | "playing"
+    "loading" | "ready" | "playing" | "error"
   >("loading");
   const [sound, setSound] = useState(false);
 
@@ -58,9 +67,36 @@ export const Video = ({
       setVideoStatus("playing");
     };
 
+    const handleError = (e: Event) => {
+      console.error("Video error:", e);
+      setVideoStatus("error");
+      if (onError && video) {
+        // Create a synthetic event to match React's expected type
+        const syntheticEvent = {
+          nativeEvent: e,
+          currentTarget: video,
+          target: e.target,
+          preventDefault: () => e.preventDefault?.(),
+          stopPropagation: () => e.stopPropagation?.(),
+          isPropagationStopped: () => false,
+          isDefaultPrevented: () => false,
+          persist: () => {},
+          type: e.type,
+        } as React.SyntheticEvent<HTMLVideoElement, Event>;
+
+        onError(syntheticEvent);
+      }
+    };
+
     const setupVideo = async () => {
-      await handleMetadataLoaded();
-      video.addEventListener("play", handlePlay);
+      try {
+        await handleMetadataLoaded();
+        video.addEventListener("play", handlePlay);
+        video.addEventListener("error", handleError);
+      } catch (err) {
+        console.error("Error setting up video:", err);
+        setVideoStatus("error");
+      }
     };
 
     // Call the async function using void operator
@@ -68,12 +104,20 @@ export const Video = ({
 
     return () => {
       video.removeEventListener("play", handlePlay);
+      video.removeEventListener("error", handleError);
     };
-  }, []);
+  }, [onError]);
 
   // useEffect(() => {
   //   console.log("Video status:", videoStatus);
   // }, [videoStatus]);
+
+  // Note for future: Consider addressing mobile autoplay behavior
+  // Current implementation might conflict with browser autoplay policies
+  // especially on mobile devices where autoplay with sound is often blocked
+
+  // Normalize aspect ratio for consistent handling
+  const normalizedAspect = normalizeAspectRatio(aspect);
 
   return (
     <div className="relative">
@@ -88,15 +132,19 @@ export const Video = ({
         playsInline
         ref={videoRef}
         style={{
-          display: videoStatus === "loading" ? "none" : "block",
-          aspectRatio: aspect.replace("-", " / "),
+          display:
+            videoStatus === "loading" || videoStatus === "error"
+              ? "none"
+              : "block",
+          aspectRatio: normalizedAspect,
         }}
+        {...rest}
       >
         <source src={src} type="video/mp4" />
       </video>
 
       {/* SOUND (Desktop) */}
-      {allowSound ? (
+      {allowSound && videoStatus !== "error" ? (
         <div className="absolute right-4 bottom-4">
           <button
             aria-label={sound ? "Mute" : "Unmute"}
@@ -120,10 +168,18 @@ export const Video = ({
         />
       )} */}
 
-      {/* LOADING */}
-      {/* !isMobileViewport? */}
-      {videoStatus === "loading" && poster ? (
-        <VideoLoader aspect={aspect} className={className} poster={poster} />
+      {/* LOADING OR ERROR - both show the poster */}
+      {(videoStatus === "loading" || videoStatus === "error") && poster ? (
+        <div className="relative">
+          <VideoLoader aspect={aspect} className={className} poster={poster} />
+          {videoStatus === "error" && (
+            <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-black">
+              <div className="max-w-[80%] rounded bg-white p-2 text-center dark:bg-gray-800">
+                <p className="text-sm">Video could not be loaded</p>
+              </div>
+            </div>
+          )}
+        </div>
       ) : null}
     </div>
   );

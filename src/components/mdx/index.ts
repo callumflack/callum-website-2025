@@ -4,4 +4,4 @@
  */
 
 export { Mdx } from "./mdx";
-export { Prose, proseVariants, type ProseProps } from "./mdx-prose";
+export { MdxProse, proseVariants, type ProseProps } from "./mdx-prose";

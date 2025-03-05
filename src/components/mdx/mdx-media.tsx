@@ -10,13 +10,15 @@ import {
 } from "@/components/media";
 import { cx } from "cva";
 import NextImage, { type ImageProps } from "next/image";
+import React from "react";
+import { splitAspect } from "@/lib/utils";
 
 export type MdxImageProps = Partial<ZoomableProps> &
   Partial<Omit<MediaFigureProps, "children">> &
   Partial<MediaWrapperProps> &
   ImageProps & {
     caption?: React.ReactNode;
-    aspect?: number | string;
+    aspect?: number;
   };
 
 export type ZoomableVideoProps = Omit<VideoProps, "className"> &
@@ -25,12 +27,15 @@ export type ZoomableVideoProps = Omit<VideoProps, "className"> &
     caption?: React.ReactNode;
   };
 
+/**
+ * Shared function to process media properties like dimensions and captions
+ */
 function processMediaProps(
   src: ImageProps["src"] | string | undefined,
   alt: string = "",
   width: string | number | undefined,
   height: string | number | undefined,
-  aspect: string | number | undefined,
+  aspect: number | undefined,
   caption: React.ReactNode | undefined
 ) {
   // Process caption
@@ -43,23 +48,18 @@ function processMediaProps(
     cleanAlt = alt.replace(captionMatch[0], "").trim();
   }
 
-  // Calculate dimensions
-  const aspectRatio = aspect
-    ? typeof aspect === "number"
-      ? aspect
-      : eval(aspect.toString())
-    : 16 / 9;
+  // Use splitAspect to get the dimensions from aspect ratio
+  const { width: aspectWidth, height: aspectHeight } = splitAspect(aspect);
 
-  let calculatedWidth = width ? Number(width) : undefined;
-  let calculatedHeight = height ? Number(height) : undefined;
+  // If explicit dimensions were provided, use those instead
+  let calculatedWidth = width ? Number(width) : aspectWidth;
+  let calculatedHeight = height ? Number(height) : aspectHeight;
 
-  if (!calculatedWidth && calculatedHeight) {
-    calculatedWidth = Math.round(Number(calculatedHeight) * aspectRatio);
-  } else if (calculatedWidth && !calculatedHeight) {
-    calculatedHeight = Math.round(Number(calculatedWidth) / aspectRatio);
-  } else if (!calculatedWidth && !calculatedHeight) {
-    calculatedWidth = 900;
-    calculatedHeight = Math.round(calculatedWidth / aspectRatio);
+  // If one dimension is missing, calculate it
+  if (!width && height) {
+    calculatedWidth = Math.round(Number(height) * (aspectWidth / aspectHeight));
+  } else if (width && !height) {
+    calculatedHeight = Math.round(Number(width) / (aspectWidth / aspectHeight));
   }
 
   const isPortrait = Boolean(
@@ -70,8 +70,8 @@ function processMediaProps(
     src,
     cleanAlt,
     extractedCaption,
-    width: calculatedWidth ?? 0,
-    height: calculatedHeight ?? 0,
+    width: calculatedWidth,
+    height: calculatedHeight,
     isPortrait,
   };
 }
@@ -90,13 +90,24 @@ export function ZoomableImage(props: MdxImageProps) {
     rounded,
   } = props;
 
+  // Add this line before processMediaProps call to standardize aspect handling
+  const standardizedAspect =
+    typeof aspect === "string" || typeof aspect === "number"
+      ? aspect
+      : undefined;
+
   const {
     cleanAlt,
     extractedCaption,
     width: calculatedWidth,
     height: calculatedHeight,
     isPortrait,
-  } = processMediaProps(src, alt, width, height, aspect, caption);
+  } = processMediaProps(src, alt, width, height, standardizedAspect, caption);
+
+  // Ensure we have dimensions for NextImage
+  if (!calculatedHeight && !calculatedWidth) {
+    console.warn("Image missing dimensions, using defaults");
+  }
 
   return (
     <Zoomable className="py-w4 first:pt-0">
@@ -104,8 +115,8 @@ export function ZoomableImage(props: MdxImageProps) {
         <NextImage
           src={src}
           alt={cleanAlt}
-          width={calculatedWidth}
-          height={calculatedHeight}
+          width={calculatedWidth || 1600} // Default width if not calculated
+          height={calculatedHeight || 1000} // Default height if not calculated
           priority={priority}
           sizes="(min-width: 660px) 620px, 100vw"
           draggable={false}
@@ -141,46 +152,14 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
     caption
   );
 
-  // Handle aspect ratio conversion for Video component
-  // Video component expects format like "16-9" or "1728-1080"
-  // but we're standardizing on numeric values like 16/9 or 1728/1080
-  let formattedAspect: string;
-
-  if (typeof aspect === "number") {
-    // For numeric aspect ratios (e.g. 1.6), convert to closest standard ratio (e.g. "16-10")
-    // or if it's not a standard ratio, use the original number with high precision
-    const standardRatios = {
-      // common aspect ratios and their string equivalents
-      [16 / 9]: "16-9",
-      [4 / 3]: "4-3",
-      [1]: "1-1",
-      [21 / 9]: "21-9",
-      [1728 / 1080]: "1728-1080", // example from the MDX
-    };
-
-    // Check if it's a standard ratio first
-    formattedAspect =
-      standardRatios[aspect] ||
-      // If not, convert to string with format like "1.6" → "16-10"
-      `${Math.round(aspect * 1000)}`.replace(/(\d+)(\d{3})/, "$1-$2");
-  } else if (typeof aspect === "string" && aspect.includes("/")) {
-    // Handle string division format like "16/9"
-    const [width, height] = aspect
-      .split("/")
-      .map((num) => parseInt(num.trim(), 10));
-    formattedAspect = `${width}-${height}`;
-  } else {
-    // Fallback to the string as-is
-    formattedAspect = aspect?.toString() || "16-9";
-  }
-
+  // Video component already handles proper aspect ratio formatting internally
   return (
     <Zoomable className="py-w4 first:pt-0">
       <MediaFigure caption={extractedCaption} isPortrait={isPortrait}>
         <Video
           src={typeof src === "string" ? src : ""}
           poster={poster || ""}
-          aspect={formattedAspect}
+          aspect={typeof aspect === "number" ? aspect : 16 / 9}
           allowSound={allowSound}
           className={cx(mediaWrapperVariants({ border, background, rounded }))}
           {...rest}

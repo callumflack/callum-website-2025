@@ -28,7 +28,7 @@ export const PageWrapper = ({ activeNav, children, footerChildren }: Props) => {
         ]}
       />
 
-      <div className="pt-w12 space-y-w6">{children}</div>
+      <div className="pt-w16 space-y-w6">{children}</div>
 
       <OutsetRule />
       <footer

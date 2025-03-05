@@ -61,7 +61,10 @@ export default function RootLayout({
 
 export const clampSizes = {
   11: generateClampSize(500, 1200, 9, 11),
+  12: generateClampSize(500, 1200, 10, 12),
+  13: generateClampSize(500, 1200, 11, 13),
   14: generateClampSize(500, 1200, 11.5, 14),
+  15: generateClampSize(500, 1200, 12, 15),
   16: generateClampSize(500, 1200, 14, 16),
   17: generateClampSize(500, 1200, 15, 17),
   18: generateClampSize(500, 1200, 16, 18),

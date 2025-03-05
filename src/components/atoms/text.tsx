@@ -7,7 +7,9 @@ export const textVariants = cva({
     intent: {
       fine: "text-fine", // subpixel-antialiased?
       fineHeading: "text-fine font-bold uppercase tracking-metaHeading",
+      ui: "text-ui",
       meta: "text-meta",
+      // small: "text-small",
       body: "text-body",
       bodyHeading: "text-meta font-bold",
       heading: "text-heading",

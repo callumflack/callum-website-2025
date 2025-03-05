@@ -31,7 +31,7 @@ export default async function WorkIndexPage({
           {/* Design & programming services since 1998. */}
           Designing since 1998. Coding since 2010.
         </Text>
-        <Text intent="meta" dim>
+        <Text dim>
           The value of good design is only realised if you have an engineer
           capable of discerning the details in code (or if you&apos;re lucky,
           they&apos;re one and the same).{" "}

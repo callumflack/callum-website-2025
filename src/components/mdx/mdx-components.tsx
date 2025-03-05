@@ -151,7 +151,7 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
       className="group/heading not-first:mt-w8 scroll-mt-[calc(var(--spacing-nav)+var(--spacing-inset))]"
       id={id}
       intent={as === "h2" ? "heading" : "body"}
-      weight="medium"
+      weight={as === "h2" ? "normal" : "medium"}
     >
       {children ? (
         <Link

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, ReactNode } from "react";
+import { CONTAINER_TEXT_WIDTH } from "@/lib/constants";
 
 export type ZoomableProps = {
   children: ReactNode;
@@ -12,7 +13,7 @@ export type ZoomableProps = {
 
 export function Zoomable({
   children,
-  maxWidth = 600,
+  maxWidth = CONTAINER_TEXT_WIDTH,
   scaleAmount = 1.5,
   transitionDuration = 0.3,
   className,

@@ -48,12 +48,22 @@ export const PostLine = ({
         ) : null}
       </PostLinkHeadingWrapper>
 
-      {/* DOTDOTDOT */}
-      <DotDotDot />
+      {/* DOTDOTDOT (utils) */}
+      <div
+        className={cx(
+          "dotdotdot h-[1px] flex-1 translate-y-[-0.2em] opacity-40",
+          "group-hover:text-accent group-hover:opacity-100"
+          // "ease transition-colors duration-300"
+        )}
+      />
 
       {/* END */}
       <Text
         as="div"
+        inline
+        // intent="fineHeading"
+        intent="meta"
+        dim
         className={cx(
           "group-hover:!text-accent relative",
           "flex items-center gap-3.5",
@@ -63,9 +73,6 @@ export const PostLine = ({
           // cover the last dot
           "pl-2"
         )}
-        dim
-        inline
-        intent="fineHeading"
       >
         {/* END HOVER LABEL */}
         <div
@@ -93,13 +100,3 @@ export const PostLine = ({
     </div>
   );
 };
-
-export const DotDotDot = () => (
-  <div
-    className={cx(
-      "dotdotdot h-[1px] flex-1 translate-y-[-0.2em] opacity-40",
-      "group-hover:text-accent group-hover:opacity-100",
-      "ease transition-colors duration-300"
-    )}
-  />
-);

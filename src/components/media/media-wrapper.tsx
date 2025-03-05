@@ -23,7 +23,7 @@ export const mediaWrapperVariants = cva({
     },
   },
   defaultVariants: {
-    // border: true,
+    border: true,
     background: true,
     rounded: true,
   },
