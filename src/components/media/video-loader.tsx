@@ -1,6 +1,6 @@
 import NextImage from "next/image";
 import { cx } from "cva";
-import { getDimensions, formatAspectForCSS } from "@/lib/media-utils";
+import { getDimensions, formatAspectForCSS } from "@/components/media/utils";
 import { Spinner } from "@/components/elements/spinner";
 import { mediaWrapperVariants } from "./media-wrapper";
 

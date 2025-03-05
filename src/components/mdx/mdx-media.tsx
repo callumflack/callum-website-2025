@@ -8,7 +8,7 @@ import {
   type VideoProps,
   type ZoomableProps,
 } from "@/components/media";
-import { calculateMissingDimension } from "@/lib/media-utils";
+import { calculateMissingDimension } from "@/components/media/utils";
 import { cx } from "cva";
 import NextImage, { type ImageProps } from "next/image";
 import React from "react";

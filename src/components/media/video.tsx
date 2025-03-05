@@ -3,7 +3,7 @@
 import { SpeakerLoudIcon, SpeakerOffIcon } from "@radix-ui/react-icons";
 import type { SVGProps, VideoHTMLAttributes } from "react";
 import { useEffect, useRef, useState } from "react";
-import { formatAspectForCSS } from "@/lib/media-utils";
+import { formatAspectForCSS } from "@/components/media/utils";
 import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { VideoLoader } from "./video-loader";
 // import { useIsMobileViewport } from "@/hooks/use-breakpoint";

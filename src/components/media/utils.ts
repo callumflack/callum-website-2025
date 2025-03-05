@@ -130,3 +130,5 @@ export function calculateMissingDimension(
 
   return { width: calculatedWidth, height: calculatedHeight };
 }
+
+export const isVideoFile = (url: string) => url.toLowerCase().endsWith(".mp4");

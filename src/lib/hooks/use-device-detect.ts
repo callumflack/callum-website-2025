@@ -7,7 +7,7 @@ interface DeviceDetect {
   isMobileViewport: boolean;
 }
 
-const useDeviceDetect = (): DeviceDetect => {
+export const useDeviceDetect = (): DeviceDetect => {
   const userAgent =
     typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
   const deviceProperties = detectDevice(userAgent);
@@ -50,5 +50,3 @@ const detectDevice = (userAgent: string) => {
     isSSR,
   };
 };
-
-export { useDeviceDetect };

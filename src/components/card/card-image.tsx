@@ -1,6 +1,9 @@
-import { Video } from "@/components/media";
-import { isVideoFile } from "@/lib/utils";
-import { DEFAULT_ASPECT, getDimensions } from "@/lib/media-utils";
+import {
+  Video,
+  DEFAULT_ASPECT,
+  getDimensions,
+  isVideoFile,
+} from "@/components/media";
 import NextImage from "next/image";
 import { cx } from "cva";
 import { Post } from "content-collections";
@@ -12,7 +15,6 @@ export interface CardImageProps {
   className: string;
 }
 
-// NB! CardImage aspects must always be 16:10
 export const CardImage = ({
   asset,
   sizes = "(min-width: 1000px) 1080px, 100vw",
@@ -21,8 +23,8 @@ export const CardImage = ({
 }: CardImageProps) => {
   const isVideo = isVideoFile(asset.src);
 
-  // Set aspect to 16:10
-  const aspect = DEFAULT_ASPECT; // use constant from media-utils
+  // NB! CardImage aspects must always be 16:10
+  const aspect = DEFAULT_ASPECT;
   const { width, height } = getDimensions(aspect);
 
   return (
@@ -32,7 +34,7 @@ export const CardImage = ({
         <Video
           key={asset.src}
           aspect={aspect}
-          className={cx("CardImageVideo", className)}
+          className={cx("CardImage-Video", className)}
           poster={asset.poster || ""}
           src={asset.src}
         />
@@ -41,7 +43,7 @@ export const CardImage = ({
         <NextImage
           key={asset.src}
           alt={asset.alt}
-          className={cx("CardImageImage", className)}
+          className={cx("CardImage-Image", className)}
           priority={priority}
           sizes={sizes}
           src={asset.src}

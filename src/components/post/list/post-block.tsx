@@ -1,7 +1,6 @@
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Text } from "@/components/atoms";
-import { mediaWrapperVariants } from "@/components/media";
-import { isVideoFile } from "@/lib/utils";
+import { mediaWrapperVariants, isVideoFile } from "@/components/media";
 import { cx } from "cva";
 import { type Post } from "content-collections";
 import { CardImage } from "@/components/card";

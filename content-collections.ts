@@ -5,7 +5,7 @@ import { Category, LibraryType } from "./src/types/content";
 import { exec as execCallback } from "child_process";
 import util from "util";
 import readingTime from "reading-time";
-import { getDimensions } from "./src/lib/media-utils";
+import { getDimensions } from "./src/components/media/utils";
 
 const exec = util.promisify(execCallback);
 
