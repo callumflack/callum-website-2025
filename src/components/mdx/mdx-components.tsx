@@ -80,7 +80,7 @@ export const components = {
       {...(props as TextProps)}
       className={cx(
         "group py-1.5",
-        // "[&_p]:text-fill-light",
+        "[&_p]:text-fill-light",
         "[&_p]:border-border-hover [&_p]:border-l [&_p]:pb-0 [&_p]:pl-2.5 md:[&_p]:pl-4",
         "[&_strong]:text-meta [&_strong]:table [&_strong]:pt-[calc(4/16*1em)] [&_strong]:!font-normal"
       )}

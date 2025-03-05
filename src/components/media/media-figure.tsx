@@ -4,7 +4,7 @@ import { Caption } from "./caption";
 
 const mediaFigureVariants = cva({
   base: [
-    "MediaFigure relative overflow-hidden space-y-2",
+    "MediaFigure relative overflow-hidden space-y-3",
     // "[&_img]:max-h-[70vh] [&_video]:max-h-[70vh]",
   ],
   variants: {
@@ -74,11 +74,11 @@ const MediaFigure = ({
     {children}
     {caption ? (
       <Caption
-        className={cx(
-          mediaFigureVariants({
-            figureIntent: captionIntent,
-          })
-        )}
+      // className={cx(
+      //   mediaFigureVariants({
+      //     figureIntent: captionIntent,
+      //   })
+      // )}
       >
         {caption}
       </Caption>

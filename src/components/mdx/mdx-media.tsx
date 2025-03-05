@@ -68,6 +68,8 @@ function processMediaProps(
   };
 }
 
+const mediaSpacing = "py-w8 first:pt-0";
+
 export function ZoomableImage(props: MdxImageProps) {
   const {
     src,
@@ -99,7 +101,7 @@ export function ZoomableImage(props: MdxImageProps) {
   }
 
   return (
-    <Zoomable className="py-w4 first:pt-0">
+    <Zoomable className={mediaSpacing}>
       <MediaFigure caption={extractedCaption} isPortrait={isPortrait}>
         <NextImage
           src={src}
@@ -110,6 +112,7 @@ export function ZoomableImage(props: MdxImageProps) {
           sizes="(min-width: 660px) 620px, 100vw"
           draggable={false}
           className={cx(mediaWrapperVariants({ border, background, rounded }))}
+          style={aspect ? { aspectRatio: aspect } : undefined}
         />
       </MediaFigure>
     </Zoomable>
@@ -145,7 +148,7 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
 
   // Video component already handles proper aspect ratio formatting internally
   return (
-    <Zoomable className="py-w4 first:pt-0">
+    <Zoomable className={mediaSpacing}>
       <MediaFigure caption={extractedCaption} isPortrait={isPortrait}>
         <Video
           src={typeof src === "string" ? src : ""}

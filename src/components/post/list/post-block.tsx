@@ -32,50 +32,52 @@ export const PostBlock = ({
           theme === "index" ? "sm:w-1/4 sm:shrink-0" : ""
         )}
       >
-        {post.assets && post.assets.length > 0 ? (
-          <CardImage
-            asset={{
-              ...post.assets[0],
-              // Don't show videos, only images
-              src: isVideoFile(post.assets[0]?.src)
-                ? post.assets[0]?.poster || post.assets[0]?.src || ""
-                : post.assets[0]?.src || "",
-            }}
-            className={cx(
-              mediaWrapperVariants(),
-              theme === "home" && "!aspect-[2/1]"
-            )}
-            priority
-            sizes="(min-width: 660px) 205px, 100vw"
-          />
-        ) : null}
-        {post.showAsNew ? (
-          <div
-            className={cx(
-              "sm:rounded-button absolute inset-0 flex overflow-hidden",
-              "border-accent2 group-hover:border-accent border",
-              "transition-colors duration-300 ease-linear",
-              theme === "index"
-                ? "items-start justify-end"
-                : "items-end justify-start"
-            )}
-          >
-            <Text
-              color="canvas"
-              intent="fineHeading"
+        <div className="relative">
+          {post.assets && post.assets.length > 0 ? (
+            <CardImage
+              asset={{
+                ...post.assets[0],
+                // Don't show videos, only images
+                src: isVideoFile(post.assets[0]?.src)
+                  ? post.assets[0]?.poster || post.assets[0]?.src || ""
+                  : post.assets[0]?.src || "",
+              }}
               className={cx(
-                "bg-accent2 group-hover:bg-accent",
-                "px-gap flex h-[20px] items-center",
-                "transition-colors duration-300 ease-linear",
+                mediaWrapperVariants(),
+                theme === "home" && "!aspect-[2/1]"
+              )}
+              priority
+              sizes="(min-width: 660px) 205px, 100vw"
+            />
+          ) : null}
+          {post.showAsNew ? (
+            <div
+              className={cx(
+                "sm:rounded-button absolute inset-0 flex overflow-hidden",
+                "border-accent2 group-hover:border-accent border",
+                "transition-colors duration-100 ease-linear",
                 theme === "index"
-                  ? "sm:rounded-bl-button"
-                  : "sm:rounded-tr-button"
+                  ? "items-start justify-end"
+                  : "items-end justify-start"
               )}
             >
-              <span className="translate-y-[0.1em] transform">New</span>
-            </Text>
-          </div>
-        ) : null}
+              <Text
+                color="canvas"
+                intent="fineHeading"
+                className={cx(
+                  "bg-accent2 group-hover:bg-accent",
+                  "px-gap flex h-[20px] items-center",
+                  "transition-colors duration-300 ease-linear",
+                  theme === "index"
+                    ? "sm:rounded-bl-button"
+                    : "sm:rounded-tr-button"
+                )}
+              >
+                <span className="translate-y-[0.1em] transform">New</span>
+              </Text>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {/* CAPTION */}
