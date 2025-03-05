@@ -1,5 +1,6 @@
 import { Video } from "@/components/media";
-import { isVideoFile, splitAspect } from "@/lib/utils";
+import { isVideoFile } from "@/lib/utils";
+import { DEFAULT_ASPECT, getDimensions } from "@/lib/media-utils";
 import NextImage from "next/image";
 import { cx } from "cva";
 import { Post } from "content-collections";
@@ -18,36 +19,33 @@ export const CardImage = ({
   priority,
   className,
 }: CardImageProps) => {
-  // const isVideo = Boolean(isVideoFile(asset.src));
   const isVideo = isVideoFile(asset.src);
 
   // Set aspect to 16:10
-  const aspect = "1600-1000";
-  const { width, height } = splitAspect(aspect);
+  const aspect = DEFAULT_ASPECT; // use constant from media-utils
+  const { width, height } = getDimensions(aspect);
 
   return (
     <>
       {isVideo ? (
+        // videos use aspect ratio directly
         <Video
+          key={asset.src}
           aspect={aspect}
           className={cx("CardImageVideo", className)}
-          key={asset.src}
-          poster={asset.poster ?? "/images/VIDEO-POSTER-TODO.png"}
+          poster={asset.poster || ""}
           src={asset.src}
         />
       ) : (
+        // but images use extracted dimensions
         <NextImage
-          // quality={50}
+          key={asset.src}
           alt={asset.alt}
           className={cx("CardImageImage", className)}
-          height={height}
-          key={asset.src}
           priority={priority}
           sizes={sizes}
           src={asset.src}
-          style={{
-            aspectRatio: aspect.replace("-", " / "),
-          }}
+          height={height}
           width={width}
         />
       )}

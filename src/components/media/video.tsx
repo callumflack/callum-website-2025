@@ -3,8 +3,10 @@
 import { SpeakerLoudIcon, SpeakerOffIcon } from "@radix-ui/react-icons";
 import type { SVGProps, VideoHTMLAttributes } from "react";
 import { useEffect, useRef, useState } from "react";
+import { formatAspectForCSS } from "@/lib/media-utils";
 import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { VideoLoader } from "./video-loader";
+// import { useIsMobileViewport } from "@/hooks/use-breakpoint";
 
 export interface VideoProps
   extends Omit<VideoHTMLAttributes<HTMLVideoElement>, "onError"> {
@@ -19,9 +21,10 @@ export interface VideoProps
 
 // Helper to normalize aspect ratio for CSS
 function normalizeAspectRatio(aspect: number): string {
-  return String(aspect);
+  return formatAspectForCSS(aspect);
 }
 
+// Video component with lazy loading and autoplay
 export const Video = ({
   src,
   poster,

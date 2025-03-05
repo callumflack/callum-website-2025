@@ -1,6 +1,6 @@
 import NextImage from "next/image";
 import { cx } from "cva";
-import { splitAspect } from "@/lib/utils";
+import { getDimensions, formatAspectForCSS } from "@/lib/media-utils";
 import { Spinner } from "@/components/elements/spinner";
 import { mediaWrapperVariants } from "./media-wrapper";
 
@@ -12,7 +12,7 @@ interface VideoLoaderProps {
 
 // Helper to normalize aspect ratio for CSS
 function normalizeAspectRatio(aspect: number): string {
-  return String(aspect);
+  return formatAspectForCSS(aspect);
 }
 
 export const VideoLoader = ({
@@ -20,7 +20,7 @@ export const VideoLoader = ({
   aspect,
   className,
 }: VideoLoaderProps) => {
-  const { width, height } = splitAspect(aspect);
+  const { width, height } = getDimensions(aspect);
   const aspectRatio = normalizeAspectRatio(aspect);
 
   return (
@@ -35,9 +35,7 @@ export const VideoLoader = ({
         sizes="(min-width: 1000px) 960px, (min-width: 660px) 620px, 100vw"
         src={poster}
         style={{
-          aspectRatio: aspectRatio.includes("/")
-            ? aspectRatio
-            : aspectRatio.replace("-", " / "),
+          aspectRatio,
         }}
         width={width}
       />

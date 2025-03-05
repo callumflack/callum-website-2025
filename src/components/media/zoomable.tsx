@@ -14,7 +14,7 @@ export type ZoomableProps = {
 export function Zoomable({
   children,
   maxWidth = CONTAINER_TEXT_WIDTH,
-  scaleAmount = 1.5,
+  scaleAmount = 2,
   transitionDuration = 0.3,
   className,
 }: ZoomableProps) {

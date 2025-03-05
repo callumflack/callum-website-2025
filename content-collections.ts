@@ -5,6 +5,7 @@ import { Category, LibraryType } from "./src/types/content";
 import { exec as execCallback } from "child_process";
 import util from "util";
 import readingTime from "reading-time";
+import { getDimensions } from "./src/lib/media-utils";
 
 const exec = util.promisify(execCallback);
 
@@ -16,6 +17,20 @@ const exec = util.promisify(execCallback);
     remark-smartypants (translates plain ASCII punctuation characters into "smart" typographic punctuation HTML entities): https://github.com/remarkjs/remark-smartypants
     remark-gfm (autolink literals, footnotes, strikethrough, tables, tasklists): https://github.com/remarkjs/remark-gfm
  */
+
+// Utility to parse aspect ratio from string format (e.g. "1728-1080") to number (e.g. 1.6)
+function parseAspectRatio(aspect: string | number): number {
+  // Already a number, return as-is
+  if (typeof aspect === "number") {
+    return aspect;
+  }
+
+  // Parse dimensions from string format
+  const { width, height } = getDimensions(aspect);
+
+  // Calculate the numeric ratio
+  return width / height;
+}
 
 export const posts = defineCollection({
   name: "posts",
@@ -60,7 +75,7 @@ export const posts = defineCollection({
           src: z.string(),
           poster: z.string().optional(),
           alt: z.string(),
-          aspect: z.number(),
+          aspect: z.union([z.string(), z.number()]),
         })
       )
       .optional(),
@@ -76,6 +91,14 @@ export const posts = defineCollection({
         return new Date().toISOString();
       }
     );
+
+    // Process assets to convert string aspect ratios to numbers
+    if (post.assets) {
+      post.assets = post.assets.map((asset) => ({
+        ...asset,
+        aspect: parseAspectRatio(asset.aspect),
+      }));
+    }
 
     const content = await compileMDX(ctx, post, {
       remarkPlugins: [smartypants],
