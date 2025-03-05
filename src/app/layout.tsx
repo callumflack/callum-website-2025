@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import "../styles/globals.css";
 // import localFont from "next/font/local";
 import { sans, mono } from "@/lib/fonts";
-import { cx } from "class-variance-authority";
+import { cx } from "cva";
 import config from "@/config";
 import { Providers } from "./providers";
 import { generateClampSize } from "@/lib/generate-clamp-size";

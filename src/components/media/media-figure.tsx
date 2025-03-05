@@ -57,7 +57,7 @@ const mediaFigureVariants = cva({
 interface MediaFigureProps
   extends ComponentProps<"figure">,
     VariantProps<typeof mediaFigureVariants> {
-  caption?: React.ReactNode;
+  caption?: React.ReactNode | string;
   captionIntent?: VariantProps<typeof mediaFigureVariants>["figureIntent"];
 }
 
@@ -67,7 +67,10 @@ const MediaFigure = ({
   children,
   ...props
 }: MediaFigureProps) => (
-  <figure className={cx(mediaFigureVariants(props))}>
+  <figure
+    data-component="MediaFigure"
+    className={cx(mediaFigureVariants(props))}
+  >
     {children}
     {caption ? (
       <Caption

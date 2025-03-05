@@ -17,11 +17,6 @@ const exec = util.promisify(execCallback);
     remark-gfm (autolink literals, footnotes, strikethrough, tables, tasklists): https://github.com/remarkjs/remark-gfm
  */
 
-console.log("Process CWD:", process.cwd());
-console.log("Content collections config initialized");
-
-export { Category, LibraryType };
-
 export const posts = defineCollection({
   name: "posts",
   directory: "posts",

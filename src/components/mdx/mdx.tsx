@@ -1,6 +1,6 @@
 import { useMDXComponent } from "@content-collections/mdx/react";
 import { components } from "./mdx-components";
-import { Prose } from "./prose";
+import { MdxProse } from "./mdx-prose";
 
 interface MdxProps {
   code: string;
@@ -11,11 +11,11 @@ export function Mdx({ code, children }: MdxProps) {
   const Component = useMDXComponent(code);
 
   return (
-    <Prose>
+    <MdxProse>
       <Component components={components} />
 
-      {/* allow children to be passed in to make it easy to compose eg. ContactIcons or Available components */}
+      {/* allow children to be passed in to make it easy to compose eg. MetaTags, ContactIcons or Available components */}
       {children}
-    </Prose>
+    </MdxProse>
   );
 }

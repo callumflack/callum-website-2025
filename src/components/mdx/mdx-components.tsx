@@ -1,19 +1,18 @@
+import type { TextProps } from "@/components/atoms";
+import { Link, Text, textVariants } from "@/components/atoms";
+import { LinkWithArrow } from "@/components/elements";
+import { Contacts } from "@/components/page";
 import { cx } from "cva";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
-import { Link } from "../atoms/next-link";
-import type { TextProps } from "../atoms/text";
-import { Text, textVariants } from "../atoms/text";
-import { LinkWithArrow } from "../elements";
-import { ZoomableImage, type ZoomableImageProps } from "./zoomable-image";
-import { ZoomableMedia, type ZoomableMediaProps } from "./zoomable-media";
-import { ImageProps } from "next/image";
-// import { MdxVideo } from "./mdx-video";
-// import { MediaDialogImage } from "../composites/media-dialog-image";
-// import { MediaDialogVideo } from "../composites/media-dialog-video";
-// import { MdxImage } from "./mdx-image";
-// import { MdxVideo } from "./mdx-video";
+import {
+  MdxImageProps,
+  ZoomableImage,
+  ZoomableVideo,
+  ZoomableVideoProps,
+} from "./mdx-media";
 
+// Basic component types
 type AnchorProps = ComponentPropsWithoutRef<"a">;
 type HeadingProps = ComponentPropsWithoutRef<"h2">;
 type ParagraphProps = ComponentPropsWithoutRef<"p">;
@@ -22,12 +21,14 @@ type ListItemProps = ComponentPropsWithoutRef<"li">;
 type BlockquoteProps = ComponentPropsWithoutRef<"blockquote">;
 type DivProps = ComponentPropsWithoutRef<"div">;
 
-export const noteStyle = [
-  "Note !mt-w12 space-y-2 text-meta text-solid link-block",
-  "[&_p]:text-meta [&_p]:text-solid",
-];
-
 export const components = {
+  Image: (props: MdxImageProps) => <ZoomableImage {...props} />,
+  Video: (props: ZoomableVideoProps) => <ZoomableVideo {...props} />,
+  // This doesn't fucking work
+  img: (props: MdxImageProps) => {
+    console.log("img props:", props);
+    return components.Image(props);
+  },
   a: ({ href, ...props }: AnchorProps) => {
     const isExternal = href && /^(?:https?:)?\/\//.test(href);
     return isExternal ? (
@@ -116,52 +117,8 @@ export const components = {
       <hr />
     </div>
   ),
-  img: ({ src, alt, width, height, ...props }: ImageProps) => {
-    // Extract aspect ratio from alt text if it matches pattern [width:height]
-    const aspectMatch = alt?.match(/\[(\d+):(\d+)\]/);
-    let aspectRatio;
-    let cleanAlt = alt || "";
-
-    if (aspectMatch) {
-      const width = parseInt(aspectMatch[1], 10);
-      const height = parseInt(aspectMatch[2], 10);
-      aspectRatio = width / height;
-      // Remove the aspect ratio part from alt text
-      cleanAlt = cleanAlt.replace(aspectMatch[0], "").trim();
-    }
-
-    return (
-      <ZoomableMedia
-        src={src?.toString() ?? ""}
-        alt={cleanAlt}
-        aspectRatio={aspectRatio}
-        type="image"
-        width={width ? Number(width) : undefined}
-        height={height ? Number(height) : undefined}
-        {...props}
-      />
-    );
-  },
-  Img: (props: ZoomableImageProps) => <ZoomableImage {...props} />,
-  ZoomableImage: (props: ZoomableImageProps) => <ZoomableImage {...props} />,
-  ZoomableMedia: (props: ZoomableMediaProps) => <ZoomableMedia {...props} />,
-  Video: ({
-    src,
-    width,
-    height,
-    ...props
-  }: ComponentPropsWithoutRef<"video">) => (
-    <ZoomableMedia
-      src={src?.toString() ?? ""}
-      type="video"
-      width={width ? Number(width) : undefined}
-      height={height ? Number(height) : undefined}
-      {...props}
-    />
-  ),
-  Note: (props: ComponentPropsWithoutRef<"div">) => (
-    <div className={cx(noteStyle)} {...props} />
-  ),
+  Contact: () => <Contacts className="pt-0.5 !pl-0" />,
+  Note: (props: DivProps) => <div className={cx(noteStyle)} {...props} />,
   Callout: ({ children }: DivProps) => (
     <div
       className={cx(
@@ -172,12 +129,13 @@ export const components = {
       {/* <CalloutIcon className="size-[1.25em]" /> */}
       {children}
     </div>
-    // Img: MdxImage,
-    // Video: MdxVideo,
-    // MediaDialogVideo,
-    // MediaDialogImage,
   ),
 };
+
+export const noteStyle = [
+  "Note !mt-w12 space-y-2 text-meta text-solid link-block",
+  "[&_p]:text-meta [&_p]:text-solid",
+];
 
 type HeadingWithIdProps = HeadingProps &
   Pick<TextProps, "as" | "intent"> & {

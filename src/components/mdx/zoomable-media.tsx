@@ -29,7 +29,7 @@ export function ZoomableMedia({
   type,
   width,
   height,
-  maxWidth = 580,
+  maxWidth = 600, // matches --container-text: 600px;
   aspectRatio,
   transitionDuration = 0.3,
   scaleAmount = 1.5,
@@ -63,10 +63,13 @@ export function ZoomableMedia({
       }}
     >
       <figure
-        onClick={() => setIsZoomed(!isZoomed)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsZoomed(!isZoomed);
+        }}
         className={cx(
-          "relative h-full w-full cursor-zoom-in",
-          isZoomed && "cursor-zoom-out"
+          "relative h-full w-full",
+          isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
         )}
       >
         {mediaType === "image" ? (

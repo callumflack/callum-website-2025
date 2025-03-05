@@ -15,7 +15,7 @@ export type ZoomableImageProps = ImageProps & {
 export function ZoomableImage({
   src,
   alt,
-  maxWidth = 580,
+  maxWidth = 600, // matches --container-text: 600px;
   aspect = 16 / 9,
   aspectRatio = 16 / 9,
   transitionDuration = 0.3,

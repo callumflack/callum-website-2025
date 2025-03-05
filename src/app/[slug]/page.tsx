@@ -1,16 +1,14 @@
 import { notFound } from "next/navigation";
 import { Button, Link, Text } from "@/components/atoms";
 import { Mdx } from "@/components/mdx";
-import { PageWrapper } from "@/components/page";
+import { PageWrapper, Contacts, SiteTime } from "@/components/page";
 import type { Metadata } from "next";
-import { ContactIcons } from "@/components/page/contacts";
-import { SiteTime } from "@/components/page/site-time";
 import { formatPostDate, getYear, isVideoFile } from "@/lib/utils";
 import { DownloadIcon, Link2Icon } from "@radix-ui/react-icons";
 import { allPosts } from "content-collections";
 import Image from "next/image";
 import { Suspense } from "react";
-import { OutsetRule } from "@/components/elements/outset-rule";
+import { OutsetRule } from "@/components/elements";
 import config from "@/config";
 // import { MdiLanguageMarkdownOutline } from "@/components/icons/MdiLanguageMarkdownOutline";
 // import { PagePost } from "@/components/page";
@@ -141,7 +139,7 @@ const FooterBlock = () => {
           <SiteTime />
         </Suspense>
       </Text>
-      <ContactIcons showLabel />
+      <Contacts showLabel />
 
       {/* <hr className="my-w6" />
           <div className="grid grid-cols-2 gap-4">

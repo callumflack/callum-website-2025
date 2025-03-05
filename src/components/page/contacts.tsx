@@ -9,7 +9,7 @@ import config from "@/config";
 import { ContactIcon } from "./contact-icon";
 import { EmailIcon } from "./email-icon";
 
-export const ContactIcons = ({
+export const Contacts = ({
   showLabel,
   theme = "inline",
   className,

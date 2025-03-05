@@ -1,7 +1,7 @@
 import { cva, cx, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
 
-const mediaWrapperVariants = cva({
+export const mediaWrapperVariants = cva({
   base: [
     // do NOT add w-full! This breaks the outset styles
     "MediaWrapper relative overflow-hidden",
@@ -23,19 +23,19 @@ const mediaWrapperVariants = cva({
     },
   },
   defaultVariants: {
-    border: true,
+    // border: true,
     background: true,
     rounded: true,
   },
 });
 
-interface MediaWrapperProps
+export interface MediaWrapperProps
   extends ComponentProps<"div">,
     VariantProps<typeof mediaWrapperVariants> {
   aspect: string; // always <width>-<height>
 }
 
-const MediaWrapper = ({
+export const MediaWrapper = ({
   border,
   background,
   rounded,
@@ -65,5 +65,3 @@ const MediaWrapper = ({
     </div>
   );
 };
-
-export { MediaWrapper, mediaWrapperVariants, type MediaWrapperProps };

@@ -1,6 +1,6 @@
 "use client";
 
-import { cx } from "class-variance-authority";
+import { cx } from "cva";
 import { usePathname } from "next/navigation";
 import { useWindowScroll } from "react-use";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";

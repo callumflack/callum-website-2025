@@ -1,7 +1,7 @@
-/* 
-  Rule of least permission! 
+/*
+  Rule of least permission!
   1. Only export what is needed for the apps/web directory
-  2. Do not export if it's only used within this directory 
+  2. Do not export if it's only used within this directory
  */
 
 export {
@@ -14,4 +14,6 @@ export {
   mediaFigureVariants,
   type MediaFigureProps,
 } from "./media-figure";
+export { Zoomable, type ZoomableProps } from "./zoomable";
 export { Video, type VideoProps } from "./video";
+export { Caption, type CaptionProps } from "./caption";

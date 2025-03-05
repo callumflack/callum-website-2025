@@ -13,9 +13,8 @@ export const proseVariants = cva({
     "Prose space-y-2.5 group",
     "[&_strong]:font-medium",
     "[&_em]:not-italic",
-    // Make every immediate child except images have max-width of 620px and center it
-    // "[&>:not(.ZoomableImage):not(footer)]:max-w-(--container-text) [&>*]:mx-auto",
-    "[&>:not(.ZoomableImage)]:max-w-(--container-text) [&>*]:mx-auto",
+    // Make every immediate child except zoomable components have max-width of 620px and center it
+    "[&>:not(.ZoomableMedia):not(.ZoomableImage):not([data-component=Zoomable])]:max-w-(--container-text) [&>*]:mx-auto",
     // button > media overrides
     "[&_button:first-child>.MediaFigure]:pt-0",
     "[&_button+button]:!mt-0",
@@ -61,6 +60,6 @@ export interface ProseProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof proseVariants> {}
 
-export const Prose = ({ className, ...props }: ProseProps) => {
+export const MdxProse = ({ className, ...props }: ProseProps) => {
   return <main className={cx(proseVariants({ className }))} {...props} />;
 };
