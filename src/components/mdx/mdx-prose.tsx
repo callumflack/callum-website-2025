@@ -15,6 +15,8 @@ export const proseVariants = cva({
     "[&_em]:not-italic",
     // Make every immediate child except zoomable components have max-width of 620px and center it
     "[&>:not([data-component=Zoomable])]:max-w-(--container-text) [&>*]:mx-auto",
+    // If it's directly an a tag, make it a block so it obeys the container
+    "[&>a]:block",
     // button > media overrides
     "[&_button:first-child>.MediaFigure]:pt-0",
     "[&_button+button]:!mt-0",

@@ -82,7 +82,7 @@ export const Nav = ({
       </nav>
 
       <OutsetRule
-        className={cx(
+        ruleClassName={cx(
           isScrolled ? "border-border" : "border-transparent",
           ruleClassName
         )}

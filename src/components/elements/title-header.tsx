@@ -21,7 +21,7 @@ export const TitleHeader = ({
       as={as || "header"}
       className={cx(
         "container",
-        hasMetaSubheading ? "space-y-[3px]" : "space-y-2",
+        hasMetaSubheading ? "space-y-[3px]" : "space-y-2.5",
         className
       )}
       {...props}

@@ -8,8 +8,7 @@ interface Props {
 
 export const FooterWrapper = ({ children, intersectionRef }: Props) => (
   <>
-    {/* relative z-20 */}
-    <OutsetRule wrapperClassName="" />
+    <OutsetRule />
     <footer
       className={cx(
         "relative container flex flex-col",

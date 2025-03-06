@@ -1,12 +1,12 @@
 import { Link, Text } from "@/components/atoms";
-import type { Metadata } from "next";
-import type { SearchParams } from "@/types/search-params";
+import { TitleHeader } from "@/components/elements/title-header";
 import { PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page/posts-page";
+import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { PostCategory } from "@/types/content";
-import { TitleHeader } from "@/components/elements/title-header";
-import config from "@/config";
+import type { SearchParams } from "@/types/search-params";
+import type { Metadata } from "next";
 
 export default async function WorkIndexPage({
   searchParams,
@@ -31,7 +31,7 @@ export default async function WorkIndexPage({
           {/* Design & programming services since 1998. */}
           Designing since 1998. Coding since 2010.
         </Text>
-        <Text dim>
+        <Text dim intent="meta">
           The value of good design is only realised if you have an engineer
           capable of discerning the details in code (or if you&apos;re lucky,
           they&apos;re one and the same).{" "}

@@ -5,7 +5,7 @@ import { Category, LibraryType } from "./src/types/content";
 import { exec as execCallback } from "child_process";
 import util from "util";
 import readingTime from "reading-time";
-import { getDimensions } from "./src/components/media/utils";
+import { parseAspectRatio } from "./src/components/media/utils";
 
 const exec = util.promisify(execCallback);
 
@@ -18,29 +18,16 @@ const exec = util.promisify(execCallback);
     remark-gfm (autolink literals, footnotes, strikethrough, tables, tasklists): https://github.com/remarkjs/remark-gfm
  */
 
-// Utility to parse aspect ratio from string format (e.g. "1728-1080") to number (e.g. 1.6)
-function parseAspectRatio(aspect: string | number): number {
-  // Already a number, return as-is
-  if (typeof aspect === "number") {
-    return aspect;
-  }
-
-  // Parse dimensions from string format
-  const { width, height } = getDimensions(aspect);
-
-  // Calculate the numeric ratio
-  return width / height;
-}
-
 export const posts = defineCollection({
   name: "posts",
   directory: "posts",
   include: "**/*.mdx",
-  exclude: ["_*.mdx"], // excludes _TEMPLATE, also can do ["**/*.json"],
+  exclude: ["_*.mdx", "_*/**"], // excludes _TEMPLATE and _leftovers dir
   schema: (z) => ({
     draft: z.boolean().optional(),
     date: z.string(),
     endDate: z.string().optional(),
+    lastEditedDate: z.string().optional(),
     showAsNew: z.boolean().optional(),
     title: z.string(),
     linkTitle: z.string().optional(), // optional link title, to shorten post titles in UI

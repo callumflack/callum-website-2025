@@ -21,6 +21,8 @@ export const ContactIcon = ({
     <Link
       className={cx(
         buttonVariants({ variant: "icon", size: "icon" }),
+        // account for the icon size
+        "min-w-[42px]",
         "text-solid hover:text-fill",
         label && "!w-auto gap-1.5 px-3",
         className
@@ -29,7 +31,9 @@ export const ContactIcon = ({
       onClick={onClick}
     >
       {children}
-      {label ? <span className="text-meta font-normal">{label}</span> : null}
+      {label ? (
+        <span className="text-meta font-normal max-sm:hidden">{label}</span>
+      ) : null}
     </Link>
   </li>
 );

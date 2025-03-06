@@ -7,7 +7,7 @@ import {
   groupByYear,
   groupByTopic,
   sortAlphabetically,
-  filterFeatured,
+  filterFeaturedByTag,
 } from "@/lib/posts/sorting";
 
 export function useSortedPosts(
@@ -22,11 +22,11 @@ export function useSortedPosts(
       [kind]: currentPosts,
       projects:
         sortMethod === "projects"
-          ? filterFeatured(posts.projects || [])
+          ? filterFeaturedByTag(posts.projects || [])
           : posts.projects || [],
       writing:
         sortMethod === "writing"
-          ? filterFeatured(posts.writing || [])
+          ? filterFeaturedByTag(posts.writing || [])
           : posts.writing || [],
       "a-to-z": sortAlphabetically(currentPosts),
     };

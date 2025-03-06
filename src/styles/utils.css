@@ -11,7 +11,7 @@
   @apply relative;
   @apply underline underline-offset-[0.25em];
   @apply decoration-solid decoration-[0.025em];
-  /* @apply hover:!text-accent hover:decoration-accent hover:decoration-[0.05em]; */
+  @apply hover:!text-accent hover:decoration-accent hover:decoration-[0.05em];
   /* @apply transition-colors duration-300 ease-linear; */
 }
 

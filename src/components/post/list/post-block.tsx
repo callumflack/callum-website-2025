@@ -37,10 +37,11 @@ export const PostBlock = ({
             <CardImage
               asset={{
                 ...post.assets[0],
-                // Don't show videos, only images
-                src: isVideoFile(post.assets[0]?.src)
-                  ? post.assets[0]?.poster || post.assets[0]?.src || ""
-                  : post.assets[0]?.src || "",
+                // Only show videos for home theme, otherwise use static images
+                src:
+                  isVideoFile(post.assets[0]?.src) && theme !== "home"
+                    ? post.assets[0]?.poster || post.assets[0]?.src || ""
+                    : post.assets[0]?.src || "",
               }}
               className={cx(
                 mediaWrapperVariants(),
@@ -90,7 +91,7 @@ export const PostBlock = ({
             <ArrowTopRightIcon className={cx(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
-        <Text dim>
+        <Text dim intent="meta">
           {post.summary}
           {/* <span className={cx("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}

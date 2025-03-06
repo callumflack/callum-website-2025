@@ -1,14 +1,23 @@
 import { cx } from "cva";
 import { OutsetRule } from "@/components/elements";
 import { Nav } from "./nav";
+import { Intro } from "./intro";
+import { Button } from "../atoms";
+import { DownloadIcon, Link2Icon } from "@radix-ui/react-icons";
 
 type Props = {
   activeNav?: string;
   children: React.ReactNode;
-  footerChildren?: React.ReactNode;
+  showIntro?: boolean;
+  showShare?: boolean;
 };
 
-export const PageWrapper = ({ activeNav, children, footerChildren }: Props) => {
+export const PageWrapper = ({
+  activeNav,
+  children,
+  showIntro = true,
+  showShare = false,
+}: Props) => {
   return (
     <>
       <Nav
@@ -18,27 +27,49 @@ export const PageWrapper = ({ activeNav, children, footerChildren }: Props) => {
           // { href: "/graphics", label: "GxIx" },
           // { href: config.PUBLIC_NOTES_URL, label: "Notes" },
           // { href: "/index", label: "Index" },
+          { href: "/stream", label: "Stream" },
           { href: "/writing", label: "Writing" },
           { href: "/work", label: "Work" },
-          { href: "/notes", label: "Notes" },
+          // { href: "/notes", label: "Notes" },
           { href: "/graphics", label: "Graphics" },
           // { href: "/shelf", label: "Shelf" },
-          { href: "/friends", label: "Friends" },
-          { href: "/about", label: "About" },
+          // { href: "/friends", label: "Friends" },
+          { href: "/the-work-and-team-im-after", label: "About" },
         ]}
       />
 
       <div className="pt-w16 space-y-w6">{children}</div>
 
-      <OutsetRule />
-      <footer
-        className={cx(
-          "pt-w16 relative container",
-          "flex flex-col justify-between",
-          "min-h-[calc(100dvh-var(--spacing-nav)-1px)]"
+      <footer className="pt-w12">
+        {showShare && (
+          <div className="pt-w1">
+            <OutsetRule />
+            <div className="py-w8 gap-w4 container flex items-center">
+              <Button
+                variant="outline"
+                size="sm"
+                PrefixIcon={<Link2Icon />}
+                // onClick={() => navigator.clipboard.writeText(window.location.href)}
+              >
+                Share
+              </Button>
+              {/* get the github raw file link, or public/john-boyds-bloody-mindedness.md */}
+              <Button variant="outline" size="sm" PrefixIcon={<DownloadIcon />}>
+                Download
+              </Button>
+            </div>
+          </div>
         )}
-      >
-        {footerChildren}
+        <OutsetRule />
+        <div
+          className={cx(
+            "pt-w8 container",
+            "flex flex-col justify-between",
+            "min-h-[calc(100dvh-var(--spacing-nav)-1px)]"
+          )}
+        >
+          {showIntro && <Intro />}
+        </div>
       </footer>
     </>
   );

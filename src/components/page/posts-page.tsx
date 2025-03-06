@@ -57,7 +57,7 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
   };
 
   return (
-    <main className={cx("pb-major relative container")}>
+    <main className="pb-w container">
       <ListHeader
         className={cx("top-nav translate-y-px transform")}
         rhsElement={

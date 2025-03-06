@@ -74,10 +74,9 @@ export const PageWrapper = ({
       {/* container max-w-(--container-hero-inset) */}
       <div className="pt-w12 space-y-w6">{children}</div>
 
-      {/* relative z-20 */}
       {/* This ensure tailwind renders the bg-panel class */}
       <div className="bg-panel hidden h-px"></div>
-      <OutsetRule wrapperClassName="" />
+      <OutsetRule />
       <footer
         className={cx(
           "pt-w16 relative container",

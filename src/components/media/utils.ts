@@ -29,6 +29,33 @@ export const DEFAULT_HEIGHT = 1000;
 export const DEFAULT_ASPECT = 16 / 10; // 1.6
 
 /**
+ * Parse any aspect ratio format into a numeric ratio
+ * Handles both string formats (like "1728-1080" or "1.6")
+ * and numeric values
+ */
+export function parseAspectRatio(aspect: AspectRatio): number {
+  // Already a number, return as-is
+  if (typeof aspect === "number") {
+    return aspect;
+  }
+
+  // Handle string format with dash (e.g. "1728-1080")
+  if (aspect.includes("-")) {
+    const [width, height] = aspect.split("-").map(Number);
+    return width / height;
+  }
+
+  // Handle string format without dash (e.g. "1.6")
+  if (!isNaN(parseFloat(aspect))) {
+    return parseFloat(aspect);
+  }
+
+  // Fallback to using getDimensions
+  const { width, height } = getDimensions(aspect);
+  return width / height;
+}
+
+/**
  * Parse any aspect ratio format into width/height dimensions
  */
 export function getDimensions(aspect?: AspectRatio): {

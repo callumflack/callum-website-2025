@@ -16,60 +16,51 @@
 
 /*
   Our app is monochrome, so we only need the color-gray scale, no color-accent scale. See: https://www.radix-ui.com/themes/docs/theme/color
-
   Our color scale consists of steps with specific use cases. To know how this works, see: https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
  */
 
-@layer base {
-  :root {
-    /* GRAY */
-    /* backgrounds */
-    /* --color-gray-base: var(--gray-1); */
-    --color-gray-base: white;
-    --color-gray-bg-subtle: var(--gray-2);
-    /* --color-gray-bg: var(--gray-3); */
-    --color-gray-bg: #fafafa; /* Apple */
-    /* --color-gray-bg-hover: var(--gray-3); */
-    --color-gray-bg-hover: #f6f6f6;
-    /* --color-gray-bg-active: var(--gray-5); */
-    --color-gray-bg-active: #f5f5f7; /* Apple */
+:root {
+  /* GRAY */
+  /* backgrounds */
+  --color-gray-base: white;
+  --color-gray-bg-subtle: var(--gray-2);
+  --color-gray-bg: #fafafa; /* Apple */
+  --color-gray-bg-hover: #f6f6f6;
+  --color-gray-bg-active: #f5f5f7; /* Apple */
 
-    /* borders, lines & focus rings */
-    --color-gray-line: var(--gray-4);
-    --color-gray-border: var(--gray-4); /* 7 is too dark */
-    --color-gray-border-hover: var(--gray-7);
+  /* borders, lines & focus rings */
+  --color-gray-line: var(--gray-4);
+  --color-gray-border: var(--gray-4); /* 7 is too dark */
+  --color-gray-border-hover: var(--gray-7);
 
-    /* solids */
-    --color-gray-solid-light: var(--gray-8);
-    --color-gray-solid: var(--gray-10);
-    --color-gray-solid-hover: var(--gray-10);
+  /* solids */
+  --color-gray-solid-light: var(--gray-8);
+  --color-gray-solid: var(--gray-10);
+  --color-gray-solid-hover: var(--gray-10);
 
-    /* text fills (avoids namespace clash with Tailwind text-*) */
-    --color-gray-fill: var(--gray-11);
-    --color-gray-fill-contrast: var(--gray-12);
+  /* text fills (avoids namespace clash with Tailwind text-*) */
+  --color-gray-fill: var(--gray-11);
+  --color-gray-fill-contrast: var(--gray-12);
 
-    /* ACCENT 1 (red) */
-    --color-accent1-bg: var(--red-3);
-    --color-accent1-solid: var(--red-9);
-    --color-accent1-solid-hover: var(--red-10);
+  /* ACCENT 1 (red) */
+  --color-accent1-bg: var(--red-3);
+  --color-accent1-solid: var(--red-9);
+  --color-accent1-solid-hover: var(--red-10);
 
-    /* ACCENT 2 (orange) */
-    --color-accent2: var(--orange-9);
+  /* ACCENT 2 (orange) */
+  --color-accent2: var(--orange-9);
 
-    /* ACCENT 3 (yellow) */
-    --color-accent3-bg: var(--amber-2);
-    --color-accent3-solid: var(--amber-9);
-    --color-accent3-solid-hover: var(--amber-10);
+  /* ACCENT 3 (yellow) */
+  --color-accent3-bg: var(--amber-2);
+  --color-accent3-solid: var(--amber-9);
+  --color-accent3-solid-hover: var(--amber-10);
 
-    --color-canvas-contrast: #f0f8ff;
-    --color-canvas-contrast: #f9f4ec;
-  }
+  --color-canvas-contrast: #f0f8ff;
+  --color-canvas-contrast: #f9f4ec;
 }
 
 /*
   Slightly different dark base.
-  Because `.dark` only exists when next-themes renders it,
-  we don't wrap it in `base` b/c we don't want Tailwind to omit it.
  */
 .dark {
   --color-gray-base: var(--sky-1) !important;

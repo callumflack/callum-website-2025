@@ -15,48 +15,17 @@
   https://tailwindcss.com/docs/theme#default-theme-variable-reference
  */
 
-/* READ CV */
-/* :root {
-  --type-size: 14px;
-  --secondary-type-size: 12px;
-  --line-height: 1.6;
-  --emoji-font: "color-emoji";
-  --default-font: "Graphik", sans-serif;
-  --backgroundColor: #fff;
-  --inputBackgroundColor: #f2f2f2;
-  --primaryBorderColor: #e5e5e5;
-  --secondaryBorderColor: #f2f2f2;
-  --backdrop: rgba(0, 0, 0, 0.3);
-  --transparentBorder: rgba(0, 0, 0, 0.05);
-  --grey1: #111;
-  --grey2: #555;
-  --grey3: #999;
-  --green: #32bd64;
-  --orange: orange;
-  --red: #f04b4b;
-  --blue: #0788f5;
-  --selectionColor: rgba(109, 175, 255, 0.5);
-  --content-padding: 72px;
-  --badge-color: #f04b4b;
-  --sidebar-width: min(330px, calc(100vw - 48px));
-  --compressed-sidebar-width: 60px;
-  --marketingBackground: #fafafa;
-  --wash1: #e5e5e5;
-  --wash2: #f2f2f2;
-} */
-
 /*
-  When defining theme variables that reference other variables, use the inline option:
+  Use "inline" when defining theme variables that reference other variables:
   https://tailwindcss.com/docs/theme#using-your-theme-variables
  */
 @theme inline {
   /* completely disable all default theme variables */
   /* --*: initial; */
 
-  /* --font-sans: "Unica", "sans-serif"; */
-  /* --font-mono: "SohneMono", "monospace"; */
-
+  /* text */
   --text-*: initial;
+
   /* THIS? clamp(2.2rem, 4cqw + 0.5rem, 2.8rem); */
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-ui: clamp(11px, 9.5714px + 0.2857vw, 13px);
@@ -70,9 +39,9 @@
   --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
 
   --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
-  --text-heading: clamp(17px, 14.1429px + 0.5714vw, 21px);
-  --text-heading: clamp(17px, 14.8571px + 0.4286vw, 20px);
   --text-heading: clamp(16px, 13.8571px + 0.4286vw, 19px);
+  --text-heading: clamp(17px, 14.8571px + 0.4286vw, 20px);
+  --text-heading: clamp(17px, 14.1429px + 0.5714vw, 21px);
 
   --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
   --text-title: clamp(20px, 17.1429px + 0.5714vw, 24px);
@@ -90,24 +59,12 @@
   --text-metaHeading--letter-spacing: 0.125em;
   --text-body--letter-spacing: var(--default-tracking);
   --text-heading--letter-spacing: -0.005em;
-  --text-title--letter-spacing: -0.015em;
+  --text-title--letter-spacing: -0.02em;
 
   --text-heading--font-weight: 400;
   --text-title--font-weight: 400;
 
-  --spacing: 4px;
-  --radius-xs: 2px;
-
-  --radius-soft: 2px;
-  --radius-button: 4px;
-  --radius-card: 9px;
-
-  --spacing-em: 1em;
-  --spacing-bullet: 1.35em;
-  --spacing-inset: 20px;
-  --spacing-nav: 80px;
-  --spacing-tab: 54px;
-
+  /* container */
   --container-text: 600px;
   --container-hero: 1200px;
   --container-text-inset: calc(
@@ -116,10 +73,24 @@
   --container-hero-inset: calc(
     var(--container-hero) + (var(--spacing-inset) * 2)
   );
+  --inset-full: calc(100vw - (var(--spacing-inset) * 2));
+  --inset-text: calc(100vw - (var(--container-text) / 2));
+  --inset-hero: calc(100vw - (var(--container-hero) / 2));
 
-  --inset-full: calc((100vw - (var(--spacing-inset) * 2)));
-  --inset-text: calc((100vw - var(--container-text)) / 2);
-  --inset-hero: calc((100vw - var(--container-hero)) / 2);
+  /* radius */
+  --radius-xs: 2px;
+  --radius-soft: 2px;
+  --radius-button: 4px;
+  --radius-card: 9px;
+
+  /* spacing */
+  --spacing: 4px;
+
+  --spacing-em: 1em;
+  --spacing-bullet: 1.35em;
+  --spacing-inset: 20px;
+  --spacing-nav: 80px;
+  --spacing-tab: 54px;
 
   --spacing-gap: clamp(10.5px, 6.5714px + 0.7857vw, 16px);
   --spacing-small: clamp(16px, 10.2857px + 1.1429vw, 24px);
@@ -143,46 +114,14 @@
   --spacing-w72: clamp(192px, 123.4286px + 13.7143vw, 288px);
   --spacing-w96: clamp(256px, 164.5714px + 18.2857vw, 384px);
 
-  /* colors: {
-        // GRAY
-        canvas: "var(--color-gray-base)",
-        "background-subtle": "var(--color-gray-bg-subtle)",
-        background: "var(--color-gray-bg)",
-        "background-hover": "var(--color-gray-bg-hover)",
-        "background-active": "var(--color-gray-bg-active)",
-        line: "var(--color-gray-line)",
-        border: "var(--color-gray-border)",
-        "border-hover": "var(--color-gray-border-hover)",
-        "solid-light": "var(--color-gray-solid-light)",
-        solid: "var(--color-gray-solid)",
-        "solid-hover": "var(--color-gray-solid-hover)",
-        "fill-tint": "var(--color-gray-fill)",
-        fill: "var(--color-gray-fill-contrast)",
-
-        // ACCENTS
-        "accent1-background": "var(--color-accent1-bg)",
-        accent: "var(--color-accent1-solid)",
-        "accent1-hover": "var(--color-accent1-solid-hover)",
-        accent2: "var(--color-accent2)",
-        "accent3-background": "var(--color-accent3-bg)",
-        accent3: "var(--color-accent3-solid)",
-        "accent3-hover": "var(--color-accent3-solid-hover)",
-
-        // ALPHAS: text-black-a4
-        black: generateScale("black"),
-        white: generateScale("white"),
-      }, */
-
+  /* colors */
   --color-*: initial;
   --color-black: #000;
   --color-white: #fff;
 
-  --color-panel: var(--color-canvas-contrast);
-
-  --color-avocado-100: oklch(0.99 0 0);
-  --color-avocado-200: oklch(0.98 0.04 113.22);
-
   --color-canvas: var(--color-gray-base);
+  --color-canvas-contrast: var(--color-canvas-contrast);
+  --color-panel: var(--color-canvas-contrast);
   --color-background-hover: var(--color-gray-bg-hover);
   --color-line: var(--color-gray-line);
   --color-border: var(--color-gray-border);
@@ -192,8 +131,14 @@
   --color-solid-hover: var(--color-gray-solid-hover);
   --color-fill-light: var(--color-gray-fill);
   --color-fill: var(--color-gray-fill-contrast);
-  --color-accent: var(--color-accent1-solid);
 
+  --color-accent: var(--color-accent1-solid);
+  --color-accent2: var(--color-accent2);
+  --color-accent3: var(--color-accent3-solid);
+  --color-accent3hover: var(--color-accent3-solid-hover);
+  --color-accent3bg: var(--color-accent3-solid-bg);
+
+  /* Shadcn UI */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -246,13 +191,13 @@
     @apply relative min-h-screen;
     @apply text-body font-sans font-normal antialiased;
     @apply bg-canvas text-fill;
-    /* @apply bg-background text-foreground; */
 
     /* 1. Apple kerning, from http://design.byform.co/ */
     /* font-feature-settings: "kern" 1,'ss01' 1,'ss02' 1,'ss03' 1,'ss04' 1; */
     /* font-feature-settings:
       "kern" 1,
       "liga" 1; */
+
     /* transition everywhere: do NOT use tailwind here as the variables are inherited on every child transition */
     transition: color 50ms ease 0s;
   }
@@ -264,9 +209,4 @@
   https://tailwindcss.com/docs/adding-custom-styles
  */
 
-/* @layer components {
-  .container {
-    margin-inline: auto;
-    padding-inline: 2rem;
-  }
-} */
+/* @layer components {} */

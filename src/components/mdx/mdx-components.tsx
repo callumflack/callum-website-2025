@@ -122,8 +122,9 @@ export const components = {
   Callout: ({ children }: DivProps) => (
     <div
       className={cx(
-        "bg-accent3-background px-w4 py-w4 rounded-button space-y-1.5",
-        "[&_code]:bg-black-a1 [&_ul]:text-[0.925em]"
+        "bg-accent3/10 md:pr-w12 rounded-button space-y-1.5 px-4 pt-3 pb-4",
+        "[&_code]:bg-black-a1 [&_ul]:text-[0.925em]",
+        "[&>*]:text-meta"
       )}
     >
       {/* <CalloutIcon className="size-[1.25em]" /> */}
@@ -156,7 +157,7 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
       {children ? (
         <Link
           aria-hidden="true"
-          className="relative !no-underline"
+          className="relative block !no-underline"
           href={`#${id}`}
         >
           <span className="-left-em absolute top-1/2 -translate-y-1/2 opacity-0 transition-opacity group-hover/heading:opacity-100">

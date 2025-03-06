@@ -10,9 +10,6 @@ const categoryMap: Record<PostCategory, Category> = {
 };
 
 export async function getPosts(category: PostCategory): Promise<Post[]> {
-  // Do this within client components to mark specific functions as server actions
-  // "use server";
-
   return allPosts.filter(
     (p) => !p.draft && p.category === categoryMap[category]
   );

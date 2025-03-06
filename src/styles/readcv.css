@@ -1,0 +1,29 @@
+/* READ CV */
+:root {
+  --type-size: 14px;
+  --secondary-type-size: 12px;
+  --line-height: 1.6;
+  --emoji-font: "color-emoji";
+  --default-font: "Graphik", sans-serif;
+  --backgroundColor: #fff;
+  --inputBackgroundColor: #f2f2f2;
+  --primaryBorderColor: #e5e5e5;
+  --secondaryBorderColor: #f2f2f2;
+  --backdrop: rgba(0, 0, 0, 0.3);
+  --transparentBorder: rgba(0, 0, 0, 0.05);
+  --grey1: #111;
+  --grey2: #555;
+  --grey3: #999;
+  --green: #32bd64;
+  --orange: orange;
+  --red: #f04b4b;
+  --blue: #0788f5;
+  --selectionColor: rgba(109, 175, 255, 0.5);
+  --content-padding: 72px;
+  --badge-color: #f04b4b;
+  --sidebar-width: min(330px, calc(100vw - 48px));
+  --compressed-sidebar-width: 60px;
+  --marketingBackground: #fafafa;
+  --wash1: #e5e5e5;
+  --wash2: #f2f2f2;
+}

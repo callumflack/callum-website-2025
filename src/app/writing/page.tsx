@@ -1,11 +1,11 @@
 import { Link, Text } from "@/components/atoms";
+import { TitleHeader } from "@/components/elements";
 import { PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page/posts-page";
 import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { PostCategory } from "@/types/content";
 import type { SearchParams } from "@/types/search-params";
-import { TitleHeader } from "@/components/elements";
 
 export default async function WorkIndexPage({
   searchParams,
@@ -18,10 +18,10 @@ export default async function WorkIndexPage({
   const postsData = await getAllPosts();
 
   // Log server-side for debugging
-  console.log("Server fetched posts:", {
-    projects: postsData.projects.length,
-    writing: postsData.writing.length,
-  });
+  // console.log("Server fetched posts:", {
+  //   projects: postsData.projects.length,
+  //   writing: postsData.writing.length,
+  // });
 
   return (
     <PageWrapper activeNav="writing">
