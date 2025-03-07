@@ -1,7 +1,12 @@
+import { OutsetRule } from "@/components/elements";
+import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
+import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
 import { PageWrapper, PostPage } from "@/components/page";
 import config from "@/config";
+import { getGithubRawUrl } from "@/lib/github/actions";
 import { allPosts } from "content-collections";
+import type { Post } from "content-collections";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -26,7 +31,26 @@ export default async function SlugPage({ params }: { params: Params }) {
   };
 
   return (
-    <PageWrapper activeNav={renderActiveNav()} showShare showIntro>
+    <PageWrapper
+      activeNav={renderActiveNav()}
+      showIntro
+      shareNode={
+        <div className="pt-w1">
+          <OutsetRule />
+          <div className="py-w8 gap-w4 container flex items-center">
+            <ShareButtonWrapper
+              url={`${config.PUBLIC_URL}/${post.slug}`}
+              theme="post"
+            />
+            <DownloadButtonWrapper
+              url={await getGithubRawUrl(post.slug, post)}
+              filename={`${post.slug}.md`}
+              label="Download"
+            />
+          </div>
+        </div>
+      }
+    >
       <PostPage post={post} />
     </PageWrapper>
   );

@@ -1,14 +1,17 @@
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
+import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { Mdx } from "@/components/mdx";
+import config from "@/config";
 import { formatPostDate, getYear } from "@/lib/utils";
 import type { Post } from "content-collections";
 
 type Props = {
   post: Post;
+  theme?: "post" | "feed";
 };
 
-export const PostPage = ({ post }: Props) => {
+export const PostPage = ({ post, theme = "post" }: Props) => {
   const categoryLink = post.category === "projects" ? `/work` : `/writing`;
   // const tagsWithoutFeatured = post.tags?.filter((tag) => tag !== "featured");
   const date = formatPostDate(post.date);
@@ -18,7 +21,7 @@ export const PostPage = ({ post }: Props) => {
     ? formatPostDate(post.lastEditedDate)
     : null;
 
-  console.log(post);
+  // console.log(post);
 
   return (
     <>
@@ -69,6 +72,16 @@ export const PostPage = ({ post }: Props) => {
                     : ""}
                 </>
               ) : null}
+
+              {theme === "feed" && (
+                <>
+                  {/* <hr className="hr-vertical border-border-hover h-[13px]" /> */}
+                  <ShareButtonWrapper
+                    url={`${config.PUBLIC_URL}/${post.slug}`}
+                    theme={theme}
+                  />
+                </>
+              )}
             </>
           </Text>
         </TitleHeader>

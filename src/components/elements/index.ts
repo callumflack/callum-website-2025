@@ -10,3 +10,7 @@ export { TitleHeader, TitleMetaHeading } from "./title-header";
 export { OutsetRule } from "./outset-rule";
 export { LinkWithArrow } from "./link-variants";
 export { Spinner } from "./spinner";
+export { ShareButton } from "./share-button";
+export { DownloadButton } from "./download-button";
+export { DownloadButtonWrapper } from "./download-button-wrapper";
+export type { DownloadButtonProps } from "./download-button";
