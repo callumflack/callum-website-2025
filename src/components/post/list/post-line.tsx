@@ -32,15 +32,20 @@ export const PostLine = ({
   };
 
   return (
-    <div className="PostLine group flex h-[2.25rem] items-end justify-between gap-2 py-1.5 leading-[2.25rem]">
-      {/* TITLE */}
-      <PostLinkHeadingWrapper>
+    <div
+      data-component="PostLine"
+      className={cx(
+        // h-[40px]
+        "group flex items-end justify-between gap-2 py-2.5 leading-none",
+        "hover:relative hover:z-0",
+        "hover:before:-inset-x-inset hover:before:bg-background-hover hover:before:absolute hover:before:inset-y-[-3px] hover:before:-z-[1] hover:before:content-['']",
+        "hover:before:rounded-squish"
+      )}
+    >
+      <PostLinkHeadingWrapper className="group-hover:!text-fill">
         {isFeatured ? (
-          // <div className="absolute top-[0.55em] left-[-0.7em] flex items-center justify-center sm:left-[-1em]">
-          <div className="absolute top-1/2 left-[-0.7em] -translate-y-1/2 sm:left-[-1em]">
-            {/* animate-pulse2 h-[0.35em] w-[0.35em] */}
-            {/* <div className="bg-accent2 group-hover:bg-accent size-[0.25em] rounded-full opacity-50 group-hover:opacity-100" /> */}
-            <StarFilledIcon className="text-accent2 group-hover:text-accent size-[0.6em]" />
+          <div className="absolute top-1/2 left-[-0.6em] -translate-y-1/2 sm:left-[-0.9em]">
+            <StarFilledIcon className="text-accent2 group-hover:text-fill size-[0.666em]" />
           </div>
         ) : null}
 
@@ -55,7 +60,7 @@ export const PostLine = ({
       <div
         className={cx(
           "dotdotdot h-[1px] flex-1 translate-y-[-0.2em] opacity-40",
-          "group-hover:text-accent group-hover:opacity-100"
+          "group-hover:text-fill group-hover:opacity-100"
           // "ease transition-colors duration-300"
         )}
       />
@@ -67,7 +72,7 @@ export const PostLine = ({
         intent="meta"
         dim
         className={cx(
-          "group-hover:!text-accent relative",
+          "group-hover:!text-fill relative",
           "flex items-center gap-3.5",
           "ease transition-colors duration-300",
           // shift everything down a bit
@@ -83,7 +88,7 @@ export const PostLine = ({
             isComingSoon ? "-left-[11.2em]" : "-left-[4.2em]"
           )}
         >
-          <span className="bg-canvas z-10 px-1">{hoverLabel()}</span>
+          <span className="bg-background-hover z-10 px-1">{hoverLabel()}</span>
         </div>
 
         {/* END META */}
@@ -91,8 +96,8 @@ export const PostLine = ({
         <hr
           className={cx(
             "hr-vertical h-[12px] translate-y-[-0.1em]",
-            "group-hover:border-accent",
-            "ease transition-colors duration-300"
+            "group-hover:border-fill"
+            // "ease transition-colors duration-300"
           )}
         />
         <div className="md:min-w-[33px]">

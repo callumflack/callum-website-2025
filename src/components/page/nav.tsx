@@ -73,7 +73,7 @@ export const Nav = ({
               isActive={
                 pathname === href ||
                 (activeNav && href.startsWith(`/${activeNav}`)) ||
-                pathname.includes(href.substring(1))
+                pathname.startsWith(href)
               }
               key={href}
               label={label}

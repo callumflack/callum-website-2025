@@ -62,9 +62,10 @@ export const textVariants = cva({
       balance: true,
     },
   ],
-  defaultVariants: {
-    intent: "body",
-  },
+  // Let the body text style flow thru
+  // defaultVariants: {
+  //   intent: "body",
+  // },
 });
 
 export interface TextProps

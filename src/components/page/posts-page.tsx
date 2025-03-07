@@ -42,7 +42,8 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
     currentSort as SortMethod
   );
 
-  const sortBy = [kind, "year", "topic", "a-to-z"];
+  // const sortBy = [kind, "year", "topic", "a-to-z"];
+  const sortBy = [kind, "year", "a-to-z"];
 
   const handleSortButtonClick = (sortKind: string) => {
     setCurrentSort(sortKind);
@@ -53,6 +54,13 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
     } else {
       setShowGrid(false);
     }
+  };
+
+  const getSortLabel = (sort: string): string => {
+    if (sort === "projects" || sort === "writing") return " Selected";
+    if (sort === "a-to-z") return "A-Z";
+    if (sort === "year") return "Chrono";
+    return sort.replace(/-/g, " ");
   };
 
   return (
@@ -79,11 +87,7 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
               searchParamsValue={currentSort}
               sortBy={sort}
             >
-              {sort === "projects" || sort === "writing"
-                ? " Selected"
-                : sort === "a-to-z"
-                  ? "A-Z"
-                  : sort.replace(/-/g, " ")}
+              {getSortLabel(sort)}
             </StyledSortButton>
           </Fragment>
         ))}
@@ -101,7 +105,9 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
           kind={kind as PostCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
-          wrapperClassName="pt-3 relative"
+          wrapperClassName={cx(
+            currentSort === "a-to-z" ? "pt-4 space-y-0" : "pt-0"
+          )}
         />
       )}
     </main>

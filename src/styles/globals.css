@@ -50,7 +50,7 @@
   --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
   --text-title: clamp(22px, 16.2857px + 1.1429vw, 30px);
 
-  --default-line-height: calc(24 / 17);
+  --default-line-height: calc(25 / 17);
   --text-body--line-height: var(--default-line-height);
   --text-heading--line-height: var(--default-line-height);
   --text-title--line-height: 1.1;

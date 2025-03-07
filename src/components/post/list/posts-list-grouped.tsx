@@ -45,12 +45,12 @@ export const PostsListGrouped = ({
       {sortedGroups.map(([group, posts]) => (
         <div
           data-component="PostsListGrouped"
-          className="relative space-y-2"
+          className="relative space-y-3"
           key={group}
         >
           <div
             className={cx(
-              "bg-background sticky z-9",
+              "bg-canvas sticky z-9",
               "top-[calc(var(--spacing-nav)+var(--spacing-tab))]",
               hideFeaturedDotStyle
             )}
@@ -69,7 +69,7 @@ export const PostsListGrouped = ({
             </div>
             <hr className="-mt-px" />
           </div>
-          <div className="pb-1.5">
+          <div className="space-y-0 pb-1.5">
             {Array.isArray(posts) &&
               posts.map((post: Post) => (
                 <Link href={post.thumbnailLink ?? post.slug} key={post._id}>

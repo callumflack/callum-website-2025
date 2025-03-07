@@ -35,8 +35,9 @@ export const PostsList = ({
       ) : (
         (sorted as Post[]).map((post: Post) => (
           <Link
-            href={post.thumbnailLink ? post.thumbnailLink : post.slug}
             key={post._id}
+            href={post.thumbnailLink ? post.thumbnailLink : post.slug}
+            className="block"
           >
             <PostLine
               isFeatured={post.tags?.includes("featured")}
