@@ -55,7 +55,8 @@ export const Nav = ({
       <nav
         className={cx(
           "container flex items-center gap-2.5",
-          "pt-[calc(var(--spacing-nav)-var(--spacing-tab))]"
+          "pt-[calc(var(--spacing-nav)-var(--spacing-tab))]",
+          "border-x"
         )}
       >
         <NavLink
@@ -71,7 +72,7 @@ export const Nav = ({
               href={href}
               isActive={
                 pathname === href ||
-                (activeNav && href.includes(activeNav)) ||
+                (activeNav && href.startsWith(`/${activeNav}`)) ||
                 pathname.includes(href.substring(1))
               }
               key={href}

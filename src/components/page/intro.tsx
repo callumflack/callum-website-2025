@@ -25,8 +25,8 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
         {/* I&apos;m Callum Flack — a software engineer, writer, and founder. I
         currently work as the CEO of Buttondown, the best way to start and grow
         your newsletter, and as a partner at Third South Capital. Read about me{" "} */}
-        I&apos;m Callum Flack — a design engineer and product leader with over
-        20 years of experience. From vision to details, my job is to build
+        I&apos;m Callum Flack—a design engineer and product leader with over 20
+        years of experience. From vision to details, my job is to build
         beautifully designed hypertext apps that work in the blink of an eye,
         creating the most valued currency—trust.
         {/* <Link href="/about" className="link">
@@ -34,7 +34,7 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
         </Link>
         . */}
       </Text>
-      <Text intent={textIntent} dim>
+      <Text intent={textIntent} dim className="flex flex-col gap-1">
         <WhatIWantLink />
         <SubstackLink />
       </Text>
@@ -98,7 +98,7 @@ export const WhatIWantLink = () => {
       className="link no-underline"
       href="/the-work-and-team-im-after"
     >
-      Read about what I do and who I want to work with
+      Read about what I do and who I work with
     </LinkWithArrow>
   );
 };
@@ -110,7 +110,7 @@ export const SubstackLink = () => {
       className="link no-underline"
       href={config.SUBSTACK_URL}
     >
-      I write reviews twice a year. You should subscribe.
+      I write occasional newsletters. You should subscribe.
     </LinkWithArrow>
   );
 };

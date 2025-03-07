@@ -1,7 +1,8 @@
-import { Link, Text } from "@/components/atoms";
+import { Text } from "@/components/atoms";
+import { LinkWithArrow } from "@/components/elements";
 import { TitleHeader } from "@/components/elements/title-header";
 import { PageWrapper } from "@/components/page";
-import { PostsPage } from "@/components/page/posts-page";
+import { PostsPage } from "@/components/page";
 import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { PostCategory } from "@/types/content";
@@ -35,9 +36,9 @@ export default async function WorkIndexPage({
           The value of good design is only realised if you have an engineer
           capable of discerning the details in code (or if you&apos;re lucky,
           they&apos;re one and the same).{" "}
-          <Link className="link" href={config.SUBSTACK_URL}>
+          <LinkWithArrow href={config.SUBSTACK_URL} className="link">
             Signup for new posts
-          </Link>
+          </LinkWithArrow>
           .
         </Text>
       </TitleHeader>

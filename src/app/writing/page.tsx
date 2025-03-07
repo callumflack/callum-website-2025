@@ -1,7 +1,7 @@
-import { Link, Text } from "@/components/atoms";
-import { TitleHeader } from "@/components/elements";
+import { Text } from "@/components/atoms";
+import { LinkWithArrow, TitleHeader } from "@/components/elements";
 import { PageWrapper } from "@/components/page";
-import { PostsPage } from "@/components/page/posts-page";
+import { PostsPage } from "@/components/page";
 import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { PostCategory } from "@/types/content";
@@ -29,12 +29,12 @@ export default async function WorkIndexPage({
         <Text as="h1" intent="title">
           If you have the words, you&apos;ll find the way.
         </Text>
-        <Text dim>
+        <Text dim intent="meta">
           Writing about creativity, design and complexity through the lens of
           attention, interfaces and systems composition.{" "}
-          <Link className="link" href={config.SUBSTACK_URL}>
+          <LinkWithArrow href={config.SUBSTACK_URL} className="link">
             Signup for new posts
-          </Link>
+          </LinkWithArrow>
           .
         </Text>
       </TitleHeader>

@@ -1,7 +1,7 @@
 import type { TextProps } from "@/components/atoms";
 import { Link, Text, textVariants } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
-import { Contacts } from "@/components/page";
+import { Contacts, WhatIWantLink } from "@/components/page";
 import { cx } from "cva";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
@@ -82,7 +82,7 @@ export const components = {
         "group py-1.5",
         "[&_p]:text-fill-light",
         "[&_p]:border-border-hover [&_p]:border-l [&_p]:pb-0 [&_p]:pl-2.5 md:[&_p]:pl-4",
-        "[&_strong]:text-meta [&_strong]:table [&_strong]:pt-[calc(4/16*1em)] [&_strong]:!font-normal"
+        "[&_strong]:text-meta [&_strong]:table [&_strong]:pt-[calc(6/16*1em)] [&_strong]:!font-normal"
       )}
     >
       {children}
@@ -117,8 +117,6 @@ export const components = {
       <hr />
     </div>
   ),
-  Contact: () => <Contacts className="pt-0.5 !pl-0" />,
-  Note: (props: DivProps) => <div className={cx(noteStyle)} {...props} />,
   Callout: ({ children }: DivProps) => (
     <div
       className={cx(
@@ -131,6 +129,9 @@ export const components = {
       {children}
     </div>
   ),
+  Note: (props: DivProps) => <div className={cx(noteStyle)} {...props} />,
+  Contact: () => <Contacts className="pt-0.5 !pl-0" />,
+  WhatIWantLink: () => <WhatIWantLink />,
 };
 
 export const noteStyle = [
@@ -160,7 +161,7 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
           className="relative block !no-underline"
           href={`#${id}`}
         >
-          <span className="-left-em absolute top-1/2 -translate-y-1/2 opacity-0 transition-opacity group-hover/heading:opacity-100">
+          <span className="absolute top-1/2 -left-[0.8em] -translate-y-1/2 opacity-0 transition-opacity group-hover/heading:opacity-100">
             #
           </span>
 

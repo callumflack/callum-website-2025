@@ -8,6 +8,7 @@ import { type Post } from "content-collections";
 import { PostCategoryIcon } from "../post-category-icon";
 import { postIconStyle } from "../post.styles";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 
 interface PostLineProps {
   post: Post;
@@ -35,9 +36,11 @@ export const PostLine = ({
       {/* TITLE */}
       <PostLinkHeadingWrapper>
         {isFeatured ? (
-          <div className="absolute top-[0.55em] left-[-0.7em] flex items-center justify-center sm:left-[-1em]">
+          // <div className="absolute top-[0.55em] left-[-0.7em] flex items-center justify-center sm:left-[-1em]">
+          <div className="absolute top-1/2 left-[-0.7em] -translate-y-1/2 sm:left-[-1em]">
             {/* animate-pulse2 h-[0.35em] w-[0.35em] */}
-            <div className="bg-accent2 group-hover:bg-accent size-[0.25em] rounded-full opacity-50 group-hover:opacity-100" />
+            {/* <div className="bg-accent2 group-hover:bg-accent size-[0.25em] rounded-full opacity-50 group-hover:opacity-100" /> */}
+            <StarFilledIcon className="text-accent2 group-hover:text-accent size-[0.6em]" />
           </div>
         ) : null}
 
@@ -61,7 +64,6 @@ export const PostLine = ({
       <Text
         as="div"
         inline
-        // intent="fineHeading"
         intent="meta"
         dim
         className={cx(

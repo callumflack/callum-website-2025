@@ -68,7 +68,7 @@ function processMediaProps(
   };
 }
 
-const mediaSpacing = "py-w8 first:pt-0";
+const mediaSpacing = "py-w6 first:pt-0";
 
 export function ZoomableImage(props: MdxImageProps) {
   const {

@@ -57,7 +57,7 @@ export function Zoomable({
           transform: `translateX(${offset}px)`,
           transformOrigin: "center",
           position: "relative",
-          zIndex: isZoomed ? 100 : 1,
+          zIndex: isZoomed ? 49 : 1,
         }}
       >
         {children}

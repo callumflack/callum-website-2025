@@ -30,7 +30,7 @@
 
   /* borders, lines & focus rings */
   --color-gray-line: var(--gray-4);
-  --color-gray-border: var(--gray-4); /* 7 is too dark */
+  --color-gray-border: var(--gray-3); /* 7 is too dark */
   --color-gray-border-hover: var(--gray-7);
 
   /* solids */

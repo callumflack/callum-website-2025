@@ -13,7 +13,6 @@ import type { Post } from "content-collections";
 import { cx } from "cva";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
-import { ListHeader } from "./list-header";
 
 interface PostsPageProps {
   posts: Record<PostCategory, Post[]>;
@@ -57,9 +56,8 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
   };
 
   return (
-    <main className="pb-w container">
+    <main className="container">
       <ListHeader
-        className={cx("top-nav translate-y-px transform")}
         rhsElement={
           kind === "projects" && (
             <LinkWithArrow
@@ -109,3 +107,28 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
     </main>
   );
 }
+
+export const ListHeader = ({
+  children,
+  rhsElement,
+  className,
+}: {
+  children: React.ReactNode;
+  rhsElement?: React.ReactNode;
+  className?: string;
+}) => (
+  <div
+    className={cx(
+      "bg-canvas top-nav sticky z-10",
+      "translate-y-px transform",
+      "before:w-inset before:-left-inset before:absolute before:top-0 before:bottom-0 before:z-[1] before:bg-inherit before:content-['']",
+      className
+    )}
+  >
+    <div className="flex justify-between">
+      <div className="gap-w4 flex items-center justify-start">{children}</div>
+      {rhsElement}
+    </div>
+    <hr className="-mt-px" />
+  </div>
+);

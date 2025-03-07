@@ -10,6 +10,7 @@ type Props = {
   children: React.ReactNode;
   showIntro?: boolean;
   showShare?: boolean;
+  childrenClassName?: string;
 };
 
 export const PageWrapper = ({
@@ -17,6 +18,7 @@ export const PageWrapper = ({
   children,
   showIntro = true,
   showShare = false,
+  childrenClassName,
 }: Props) => {
   return (
     <>
@@ -27,18 +29,20 @@ export const PageWrapper = ({
           // { href: "/graphics", label: "GxIx" },
           // { href: config.PUBLIC_NOTES_URL, label: "Notes" },
           // { href: "/index", label: "Index" },
-          { href: "/stream", label: "Stream" },
+          { href: "/feed", label: "Feed" },
           { href: "/writing", label: "Writing" },
           { href: "/work", label: "Work" },
           // { href: "/notes", label: "Notes" },
-          { href: "/graphics", label: "Graphics" },
+          { href: "/gallery", label: "Gallery" },
           // { href: "/shelf", label: "Shelf" },
           // { href: "/friends", label: "Friends" },
-          { href: "/the-work-and-team-im-after", label: "About" },
+          { href: "/about", label: "About" },
         ]}
       />
 
-      <div className="pt-w16 space-y-w6">{children}</div>
+      <div className={cx("pt-w16 space-y-w6", childrenClassName)}>
+        {children}
+      </div>
 
       <footer className="pt-w12">
         {showShare && (

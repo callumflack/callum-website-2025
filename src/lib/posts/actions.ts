@@ -25,3 +25,15 @@ export async function getAllPosts(): Promise<PostsData> {
     ),
   };
 }
+
+// filter ut "about" + "the-work-and-team-im-after"
+export async function getAllPostsChronological(): Promise<Post[]> {
+  return allPosts
+    .filter(
+      (p) =>
+        !p.draft &&
+        p.category !== "about" &&
+        p.slug !== "the-work-and-team-im-after"
+    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}

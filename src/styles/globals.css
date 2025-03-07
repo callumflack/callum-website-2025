@@ -30,13 +30,13 @@
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-ui: clamp(11px, 9.5714px + 0.2857vw, 13px);
 
-  --text-meta: clamp(11px, 9.5714px + 0.2857vw, 13px);
   --text-meta: clamp(10px, 8.5714px + 0.2857vw, 12px);
   --text-meta: clamp(11.5px, 9.7143px + 0.3571vw, 14px);
+  --text-meta: clamp(11px, 9.5714px + 0.2857vw, 13.5px);
 
   --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
-  --text-body: clamp(12px, 9.8571px + 0.4286vw, 15px);
   --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
+  --text-body: clamp(12px, 9.8571px + 0.4286vw, 15px);
 
   --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
   --text-heading: clamp(16px, 13.8571px + 0.4286vw, 19px);
@@ -48,6 +48,7 @@
   --text-title: clamp(21px, 16.7143px + 0.8571vw, 27px);
   --text-title: clamp(21px, 16px + 1vw, 28px);
   --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
+  --text-title: clamp(22px, 16.2857px + 1.1429vw, 30px);
 
   --default-line-height: calc(24 / 17);
   --text-body--line-height: var(--default-line-height);
@@ -86,11 +87,11 @@
   /* spacing */
   --spacing: 4px;
 
-  --spacing-em: 1em;
-  --spacing-bullet: 1.35em;
   --spacing-inset: 20px;
   --spacing-nav: 80px;
   --spacing-tab: 54px;
+  --spacing-em: 1em;
+  --spacing-bullet: 1.35em;
 
   --spacing-gap: clamp(10.5px, 6.5714px + 0.7857vw, 16px);
   --spacing-small: clamp(16px, 10.2857px + 1.1429vw, 24px);
@@ -177,6 +178,12 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@media (min-width: 1024px) {
+  :root {
+    --spacing-inset: 30px;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -200,6 +207,25 @@
 
     /* transition everywhere: do NOT use tailwind here as the variables are inherited on every child transition */
     transition: color 50ms ease 0s;
+
+    &::before,
+    &::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: var(--color-border);
+      z-index: 1;
+    }
+
+    &::before {
+      left: calc(50% - var(--container-text-inset) / 2);
+    }
+
+    &::after {
+      right: calc(50% - var(--container-text-inset) / 2);
+    }
   }
 }
 

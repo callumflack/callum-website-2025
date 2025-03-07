@@ -76,6 +76,7 @@ export const clampSizes = {
   24: generateClampSize(500, 1200, 20, 24),
   27: generateClampSize(500, 1200, 21, 27),
   28: generateClampSize(500, 1200, 21, 28),
+  30: generateClampSize(500, 1200, 22, 30),
   32: generateClampSize(500, 1200, 22, 32),
 
   // spacers

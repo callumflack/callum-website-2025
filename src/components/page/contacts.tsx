@@ -23,7 +23,7 @@ export const Contacts = ({
       className={cx(
         "link-block-reset no-bullets",
         theme === "inline" ? "-ml-2 flex items-center" : "flex flex-col",
-        showLabel ? "gap-[2px]" : "gap-0.5",
+        showLabel ? "gap-[0px]" : "gap-0.5",
         className
       )}
     >
