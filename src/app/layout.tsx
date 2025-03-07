@@ -45,7 +45,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log(clampSizes);
+  // console.log(clampSizes);
 
   return (
     <html lang="en">

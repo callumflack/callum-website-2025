@@ -34,7 +34,7 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
         </Link>
         . */}
       </Text>
-      <Text intent={textIntent} dim className="flex flex-col gap-1">
+      <Text intent={textIntent} dim className="flex flex-col gap-0.5">
         <WhatIWantLink />
         <SubstackLink />
       </Text>

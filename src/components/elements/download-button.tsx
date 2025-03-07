@@ -4,6 +4,7 @@ import { Button } from "@/components/atoms";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { ClickConfirmation } from "./share-button";
+import { Spinner } from "./spinner";
 
 export type DownloadButtonProps = {
   url: string;
@@ -90,7 +91,7 @@ export const DownloadButton = ({
       <Button
         variant="outline"
         size="sm"
-        PrefixIcon={<DownloadIcon />}
+        PrefixIcon={isDownloading ? <Spinner boxSize={15} /> : <DownloadIcon />}
         onClick={handleDownload}
         disabled={isDownloading}
       >

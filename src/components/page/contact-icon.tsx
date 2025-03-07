@@ -20,11 +20,9 @@ export const ContactIcon = ({
   <li>
     <Link
       className={cx(
-        buttonVariants({ variant: "icon", size: "icon" }),
-        // account for the icon size
-        "min-w-[42px]",
+        buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
         "text-solid hover:text-fill",
-        label && "!w-auto gap-1.5 px-3",
+        label && "!px-3",
         className
       )}
       href={href}

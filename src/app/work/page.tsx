@@ -20,10 +20,10 @@ export default async function WorkIndexPage({
   const postsData = await getAllPosts();
 
   // Log server-side for debugging
-  console.log("Server fetched posts:", {
-    projects: postsData.projects.length,
-    writing: postsData.writing.length,
-  });
+  // console.log("Server fetched posts:", {
+  //   projects: postsData.projects.length,
+  //   writing: postsData.writing.length,
+  // });
 
   return (
     <PageWrapper activeNav="work">
@@ -32,7 +32,7 @@ export default async function WorkIndexPage({
           {/* Design & programming services since 1998. */}
           Designing since 1998. Coding since 2010.
         </Text>
-        <Text dim intent="meta">
+        <Text dim balance intent="meta">
           The value of good design is only realised if you have an engineer
           capable of discerning the details in code (or if you&apos;re lucky,
           they&apos;re one and the same).{" "}

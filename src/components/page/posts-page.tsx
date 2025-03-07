@@ -30,11 +30,11 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
   );
 
   // Log received posts
-  console.log("Posts page received posts:", {
-    kind,
-    projectsCount: posts.projects?.length || 0,
-    writingCount: posts.writing?.length || 0,
-  });
+  // console.log("Posts page received posts:", {
+  //   kind,
+  //   projectsCount: posts.projects?.length || 0,
+  //   writingCount: posts.writing?.length || 0,
+  // });
 
   const sortedPostsMap = useSortedPosts(
     posts,
@@ -58,14 +58,14 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
   return (
     <main className="container">
       <ListHeader
-        rhsElement={
+        rhsNode={
           kind === "projects" && (
             <LinkWithArrow
               className={cx(sortButtonStyle, "text-solid pr-0")}
-              href="/graphics"
+              href="/gallery"
               iconClassName="!translate-y-[-0.2em]"
             >
-              GxIx
+              Show me
             </LinkWithArrow>
           )
         }
@@ -110,11 +110,11 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
 
 export const ListHeader = ({
   children,
-  rhsElement,
+  rhsNode,
   className,
 }: {
   children: React.ReactNode;
-  rhsElement?: React.ReactNode;
+  rhsNode?: React.ReactNode;
   className?: string;
 }) => (
   <div
@@ -127,7 +127,7 @@ export const ListHeader = ({
   >
     <div className="flex justify-between">
       <div className="gap-w4 flex items-center justify-start">{children}</div>
-      {rhsElement}
+      {rhsNode}
     </div>
     <hr className="-mt-px" />
   </div>

@@ -24,13 +24,9 @@ export const PageWrapper = ({
         activeNav={activeNav}
         anchorName="Callum"
         navItems={[
-          // { href: "/graphics", label: "GxIx" },
-          // { href: config.PUBLIC_NOTES_URL, label: "Notes" },
-          // { href: "/index", label: "Index" },
           { href: "/feed", label: "Feed" },
           { href: "/writing", label: "Writing" },
           { href: "/work", label: "Work" },
-          // { href: "/notes", label: "Notes" },
           { href: "/gallery", label: "Gallery" },
           // { href: "/shelf", label: "Shelf" },
           // { href: "/friends", label: "Friends" },

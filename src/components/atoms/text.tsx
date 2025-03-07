@@ -6,12 +6,8 @@ export const textVariants = cva({
   variants: {
     intent: {
       fine: "text-fine", // subpixel-antialiased?
-      fineHeading: "text-fine font-bold uppercase tracking-metaHeading",
-      ui: "text-ui",
       meta: "text-meta",
-      // small: "text-small",
       body: "text-body",
-      bodyHeading: "text-meta font-bold",
       heading: "text-heading",
       title: "text-title",
     },
@@ -34,7 +30,7 @@ export const textVariants = cva({
       right: "text-right",
     },
     link: {
-      // styles specified in theme-utils.css
+      // styles specified in utils.css
       default: "link",
       accent: "link-accent",
       large: "link-large",
@@ -60,20 +56,14 @@ export const textVariants = cva({
       ],
     },
   },
-  // Compound variants apply classes when multiple other variant conditions are met: https://cva.style/docs/getting-started/variants#compound-variants
   compoundVariants: [
-    // {
-    //   caps: true,
-    //   size: ["heading"],
-    //   class: "!tracking-[0.05em]",
-    // },
     {
       intent: ["title"],
       balance: true,
     },
   ],
   defaultVariants: {
-    // intent: "body",
+    intent: "body",
   },
 });
 
@@ -106,7 +96,7 @@ export const Text = ({
 
   return (
     <Component
-      {...props}
+      data-slot="text"
       className={cx(
         textVariants({
           intent,
@@ -122,9 +112,9 @@ export const Text = ({
         }),
         Component === "ul" ? "pl-bullet" : ""
       )}
+      {...props}
     >
       {formattedChildren}
-      {/* {children} */}
     </Component>
   );
 };

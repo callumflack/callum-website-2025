@@ -1,6 +1,10 @@
 import type { Post } from "content-collections";
 import { GroupedPosts } from "@/types/content";
-import { featuredSlugs } from "./featured-posts";
+import {
+  featuredSlugs,
+  featuredWorkSlugs,
+  featuredWritingSlugs,
+} from "./featured-posts";
 
 // Group posts by year
 export function groupByYear(posts: Post[]): GroupedPosts {
@@ -46,4 +50,33 @@ export function filterFeaturedByTag(posts: Post[]): Post[] {
   return posts
     .filter((post) => post.tags?.includes("featured"))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+// Sort posts for the "Selected" sort option (projects or writing)
+// 1. First show posts from featured lists in their order
+// 2. Then show any posts with "featured" tag that aren't already included
+export function sortSelectedPosts(
+  posts: Post[],
+  category: "projects" | "writing"
+): Post[] {
+  // Get the appropriate featured slugs list based on category
+  const featuredList =
+    category === "projects" ? featuredWorkSlugs : featuredWritingSlugs;
+
+  // First, get posts that match the featured list in their defined order
+  const featuredListPosts = featuredList
+    .map((slug) => posts.find((post) => post.slug === slug))
+    .filter(Boolean) as Post[];
+
+  // Get slugs of posts already included
+  const includedSlugs = featuredListPosts.map((post) => post.slug);
+
+  // Get posts with "featured" tag that aren't already included
+  const featuredTagPosts = posts.filter(
+    (post) =>
+      post.tags?.includes("featured") && !includedSlugs.includes(post.slug)
+  );
+
+  // Combine both lists
+  return [...featuredListPosts, ...featuredTagPosts];
 }

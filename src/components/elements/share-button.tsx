@@ -60,7 +60,12 @@ export const ShareButton = ({ url, theme = "post" }: ShareButtonProps) => {
       )}
       <Button
         variant={theme === "post" ? "outline" : "ghost"}
-        size="sm"
+        size={theme === "post" ? "sm" : "xs"}
+        className={
+          theme === "post"
+            ? ""
+            : "[&_svg]:size-[1.125em] [&_svg]:translate-y-[0.05em] [&_svg]:transform"
+        }
         PrefixIcon={theme === "post" ? <Link2Icon /> : <Link1Icon />}
         onClick={handleCopy}
       >

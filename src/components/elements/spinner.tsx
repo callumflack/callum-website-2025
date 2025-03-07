@@ -8,7 +8,7 @@ export const Spinner = ({
   boxSize?: string | number;
 }) => (
   <svg
-    className="animate-spinner"
+    className="animate-spin"
     fill="none"
     height={boxSize}
     viewBox="0 0 21 21"

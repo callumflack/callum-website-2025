@@ -6,7 +6,6 @@ import { PageWrapper, PostPage } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
 import { allPosts } from "content-collections";
-import type { Post } from "content-collections";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -24,9 +23,10 @@ export default async function SlugPage({ params }: { params: Params }) {
   }
 
   const renderActiveNav = () => {
-    if (post.category === "projects") return "/work";
-    if (post.category === "writing") return "/writing";
-    if (post.category === "about") return "/the-work-and-team-im-after";
+    if (post.category === "projects") return "work";
+    if (post.category === "writing") return "writing";
+    if (post.category === "note") return "feed";
+    if (post.category === "about") return "the-work-and-team-im-after";
     return undefined;
   };
 

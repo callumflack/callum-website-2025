@@ -26,7 +26,7 @@ export const components = {
   Video: (props: ZoomableVideoProps) => <ZoomableVideo {...props} />,
   // This doesn't fucking work
   img: (props: MdxImageProps) => {
-    console.log("img props:", props);
+    // console.log("img props:", props);
     return components.Image(props);
   },
   a: ({ href, ...props }: AnchorProps) => {
@@ -135,7 +135,7 @@ export const components = {
 };
 
 export const noteStyle = [
-  "Note !mt-w12 space-y-2 text-meta text-solid link-block",
+  "Note !mt-w8 space-y-2 text-meta text-solid link-block",
   "[&_p]:text-meta [&_p]:text-solid",
 ];
 

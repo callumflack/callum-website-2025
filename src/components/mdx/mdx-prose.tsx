@@ -10,24 +10,42 @@ import { cx, cva } from "cva";
 
 export const proseVariants = cva({
   base: [
+    // Base styles
     "Prose space-y-2.5 group",
+
+    // Restyle HTML elements we use to format MDX
     "[&_strong]:font-medium",
     "[&_em]:not-italic",
-    // Make every immediate child except zoomable components have max-width of 620px and center it
+
+    // Make every immediate child except zoomable components appear in a container
     "[&>:not([data-component=Zoomable])]:max-w-(--container-text) [&>*]:mx-auto",
+
+    // Manage Zoomable spacings
     "[&>[data-component=Zoomable]+[data-component=Zoomable]]:pt-0",
+    "[&>[data-component=Zoomable]+h2]:mt-w4",
+    "[&>[data-component=Zoomable]+h3]:mt-w4",
+    // "[&>[data-component=Zoomable]+blockquote]:mt-w4",
+
+    // Heading, etc spacings
+    "[&>h2+h3]:!mt-w4",
+
     // If it's directly an a tag, make it a block so it obeys the container
     "[&>a]:block",
+
     // button > media overrides
     "[&_button:first-child>.MediaFigure]:pt-0",
     "[&_button+button]:!mt-0",
+
     // specifically highlight within a paragraph
     // "[&_p>span]:bg-accent3-background [&_p>span]:text-fil",
     "[&_p>span]:font-medium",
+
     // Code styles that can't be set in mdx-components due highlight() function
     // or when <code> is used without being wrapped by <pre>
     "[&_code]:text-[0.825em] [&_code]:bg-background-active [&_code]:font-mono",
     "[&_code]:px-[2px] [&_code]:rounded-soft",
+
+    // ============================================== FOOTNOTES!
     // Hide the footnotes h2
     "[&_#footnotes]:hidden",
     // / Apply `noteStyle` styles to footnotes
