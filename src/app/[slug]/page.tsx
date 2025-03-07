@@ -2,7 +2,7 @@ import { OutsetRule } from "@/components/elements";
 import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
-import { PageWrapper, PostPage } from "@/components/page";
+import { PageWrapper, PostPage, PostPageInner } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
 import { allPosts } from "content-collections";
@@ -51,7 +51,9 @@ export default async function SlugPage({ params }: { params: Params }) {
         </div>
       }
     >
-      <PostPage post={post} />
+      <PostPageInner>
+        <PostPage post={post} />
+      </PostPageInner>
     </PageWrapper>
   );
 }

@@ -8,7 +8,6 @@ type Props = {
   children: React.ReactNode;
   showIntro?: boolean;
   shareNode?: React.ReactNode;
-  childrenClassName?: string;
 };
 
 export const PageWrapper = ({
@@ -16,7 +15,6 @@ export const PageWrapper = ({
   children,
   showIntro = true,
   shareNode,
-  childrenClassName,
 }: Props) => {
   return (
     <>
@@ -34,9 +32,7 @@ export const PageWrapper = ({
         ]}
       />
 
-      <div className={cx("pt-w16 space-y-w6", childrenClassName)}>
-        {children}
-      </div>
+      {children}
 
       <footer className="pt-w12">
         {shareNode}
@@ -53,4 +49,16 @@ export const PageWrapper = ({
       </footer>
     </>
   );
+};
+
+export const PostPageInner = ({ children }: { children: React.ReactNode }) => {
+  return <div className="pt-w12 space-y-w6">{children}</div>;
+};
+
+export const IndexPageInner = ({ children }: { children: React.ReactNode }) => {
+  return <div className="pt-w12 space-y-w6">{children}</div>;
+};
+
+export const FeedPageInner = ({ children }: { children: React.ReactNode }) => {
+  return <div className="pt-w8">{children}</div>;
 };

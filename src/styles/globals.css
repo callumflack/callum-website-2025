@@ -103,6 +103,7 @@
   --spacing-w4: clamp(10.5px, 6.5714px + 0.7857vw, 16px);
   --spacing-w6: clamp(16px, 10.2857px + 1.1429vw, 24px);
   --spacing-w8: clamp(21px, 13.1429px + 1.5714vw, 32px);
+  --spacing-w10: clamp(28px, 17.7143px + 2.2857vw, 40px);
   --spacing-w12: clamp(32px, 20.5714px + 2.2857vw, 48px);
   --spacing-w16: clamp(43px, 28px + 3vw, 64px);
   --spacing-w20: clamp(54px, 35.4286px + 3.7143vw, 80px);

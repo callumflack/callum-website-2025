@@ -1,6 +1,6 @@
 import { allPosts, Post } from "content-collections";
 // import { MDXContent } from "@content-collections/mdx/react";
-import { Intro, PageWrapper } from "@/components/page";
+import { IndexPageInner, Intro, PageWrapper } from "@/components/page";
 // import { OutsetRule } from "@/components/elements";
 import { Link, Text } from "@/components/atoms";
 import { CardImage } from "@/components/card";
@@ -12,35 +12,37 @@ export default function Home() {
   const featuredPosts = filterFeaturedBySlugs(allPosts);
 
   return (
-    <PageWrapper showIntro={false} showShare={false}>
-      <header className="space-y-w6 container">
-        <Intro showLabel={false} textIntent="body" />
-        {/* <Available /> */}
-        {/* <OutsetRule ruleClassName="-mx-inset" /> */}
-      </header>
+    <PageWrapper showIntro={false} shareNode={null}>
+      <IndexPageInner>
+        <header className="space-y-w6 container">
+          <Intro showLabel={false} textIntent="body" />
+          {/* <Available /> */}
+          {/* <OutsetRule ruleClassName="-mx-inset" /> */}
+        </header>
 
-      {/* xl:px-[4vw] */}
-      <main className="space-y-w6 px-inset pt-w12 container">
-        {/* <hr /> */}
-        {/* <ul className="space-y-4">
+        {/* xl:px-[4vw] */}
+        <main className="space-y-w6 px-inset pt-w12 container">
+          {/* <hr /> */}
+          {/* <ul className="space-y-4">
           {allPosts.map((post) => (
             <li key={post._meta.path}>
-              <NextLink href={`/${post.slug}`}>
-                <h3>{post.title}</h3>
-                <p>{post.summary}</p>
-                <MDXContent code={post.content} />
-              </NextLink>
+            <NextLink href={`/${post.slug}`}>
+            <h3>{post.title}</h3>
+            <p>{post.summary}</p>
+            <MDXContent code={post.content} />
+            </NextLink>
             </li>
-          ))}
-        </ul> */}
+            ))}
+            </ul> */}
 
-        {/* <GridLayout posts={featuredPosts} theme="default" /> */}
-        <div className="gap-w12 grid">
-          {featuredPosts.map((post) => (
-            <Card key={post._id} post={post} />
-          ))}
-        </div>
-      </main>
+          {/* <GridLayout posts={featuredPosts} theme="default" /> */}
+          <div className="gap-w12 grid">
+            {featuredPosts.map((post) => (
+              <Card key={post._id} post={post} />
+            ))}
+          </div>
+        </main>
+      </IndexPageInner>
     </PageWrapper>
   );
 }

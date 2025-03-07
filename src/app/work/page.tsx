@@ -1,7 +1,7 @@
 import { Text } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
 import { TitleHeader } from "@/components/elements/title-header";
-import { PageWrapper } from "@/components/page";
+import { IndexPageInner, PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page";
 import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
@@ -27,22 +27,24 @@ export default async function WorkIndexPage({
 
   return (
     <PageWrapper activeNav="work">
-      <TitleHeader>
-        <Text as="h1" intent="title">
-          {/* Design & programming services since 1998. */}
-          Designing since 1998. Coding since 2010.
-        </Text>
-        <Text dim balance intent="meta">
-          The value of good design is only realised if you have an engineer
-          capable of discerning the details in code (or if you&apos;re lucky,
-          they&apos;re one and the same).{" "}
-          <LinkWithArrow href={config.SUBSTACK_URL} className="link">
-            Signup for new posts
-          </LinkWithArrow>
-          .
-        </Text>
-      </TitleHeader>
-      <PostsPage initialSort={currentSort} kind={kind} posts={postsData} />
+      <IndexPageInner>
+        <TitleHeader>
+          <Text as="h1" intent="title">
+            {/* Design & programming services since 1998. */}
+            Designing since 1998. Coding since 2010.
+          </Text>
+          <Text dim balance intent="meta">
+            The value of good design is only realised if you have an engineer
+            capable of discerning the details in code (or if you&apos;re lucky,
+            they&apos;re one and the same).{" "}
+            <LinkWithArrow href={config.SUBSTACK_URL} className="link">
+              Signup for new posts
+            </LinkWithArrow>
+            .
+          </Text>
+        </TitleHeader>
+        <PostsPage initialSort={currentSort} kind={kind} posts={postsData} />
+      </IndexPageInner>
     </PageWrapper>
   );
 }

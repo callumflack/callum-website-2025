@@ -1,6 +1,6 @@
 import { Text } from "@/components/atoms";
 import { LinkWithArrow, TitleHeader } from "@/components/elements";
-import { PageWrapper } from "@/components/page";
+import { IndexPageInner, PageWrapper } from "@/components/page";
 import { PostsPage } from "@/components/page";
 import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
@@ -25,20 +25,22 @@ export default async function WorkIndexPage({
 
   return (
     <PageWrapper activeNav="writing">
-      <TitleHeader>
-        <Text as="h1" intent="title">
-          If you have the words, you&apos;ll find the way.
-        </Text>
-        <Text dim balance intent="meta">
-          Writing about creativity, design and complexity through the lens of
-          attention, interfaces and systems composition.{" "}
-          <LinkWithArrow href={config.SUBSTACK_URL} className="link">
-            Signup for new posts
-          </LinkWithArrow>
-          .
-        </Text>
-      </TitleHeader>
-      <PostsPage initialSort={currentSort} kind={kind} posts={postsData} />
+      <IndexPageInner>
+        <TitleHeader>
+          <Text as="h1" intent="title">
+            If you have the words, you&apos;ll find the way.
+          </Text>
+          <Text dim balance intent="meta">
+            Writing about creativity, design and complexity through the lens of
+            attention, interfaces and systems composition.{" "}
+            <LinkWithArrow href={config.SUBSTACK_URL} className="link">
+              Signup for new posts
+            </LinkWithArrow>
+            .
+          </Text>
+        </TitleHeader>
+        <PostsPage initialSort={currentSort} kind={kind} posts={postsData} />
+      </IndexPageInner>
     </PageWrapper>
   );
 }

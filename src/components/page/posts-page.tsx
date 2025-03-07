@@ -117,18 +117,18 @@ export const ListHeader = ({
   rhsNode?: React.ReactNode;
   className?: string;
 }) => (
-  <div
+  <nav
     className={cx(
       "bg-canvas top-nav sticky z-10",
       "translate-y-px transform",
-      "before:w-inset before:-left-inset before:absolute before:top-0 before:bottom-0 before:z-[1] before:bg-inherit before:content-['']",
+      "before:w-inset before:-left-inset before:absolute before:top-0 before:bottom-0 before:z-1 before:bg-inherit before:content-['']",
       className
     )}
   >
     <div className="flex justify-between">
-      <div className="gap-w4 flex items-center justify-start">{children}</div>
+      <div className="flex items-center justify-start gap-2.5">{children}</div>
       {rhsNode}
     </div>
     <hr className="-mt-px" />
-  </div>
+  </nav>
 );

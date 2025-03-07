@@ -1,6 +1,6 @@
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
-import { PageWrapper } from "@/components/page";
+import { IndexPageInner, PageWrapper } from "@/components/page";
 import type { Metadata } from "next";
 import { getProjects } from "./(components)/actions";
 import { graphicsDescription } from "./(components)/copy";
@@ -27,21 +27,23 @@ export default async function GraphicsIndexPage() {
 
   return (
     <PageWrapper activeNav="/graphics">
-      <TitleHeader>
-        <Text as="h1" intent="title">
-          Graphics and interactions.
-        </Text>
-        <Text dim intent="meta">
-          {graphicsDescription}{" "}
-          <Link className="link" href="/work">
-            View case studies
-          </Link>
-          .
-        </Text>
-      </TitleHeader>
-      <main className="pt-w6 pb-w12 container max-w-[1320px]">
-        <GraphicsGrid cols={3} projects={projects} />
-      </main>
+      <IndexPageInner>
+        <TitleHeader>
+          <Text as="h1" intent="title">
+            Graphics and interactions.
+          </Text>
+          <Text dim intent="meta">
+            {graphicsDescription}{" "}
+            <Link className="link" href="/work">
+              View case studies
+            </Link>
+            .
+          </Text>
+        </TitleHeader>
+        <main className="pt-w6 pb-w12 container max-w-[1320px]">
+          <GraphicsGrid cols={3} projects={projects} />
+        </main>
+      </IndexPageInner>
     </PageWrapper>
   );
 }

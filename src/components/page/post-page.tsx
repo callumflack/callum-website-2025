@@ -26,7 +26,7 @@ export const PostPage = ({ post, theme = "post" }: Props) => {
   return (
     <>
       {post.slug !== "about" && (
-        <TitleHeader>
+        <TitleHeader isContained={theme === "feed"}>
           <Text as="h1" intent="title" balance>
             <Link href={`/${post.slug}`}>{post.title}</Link>
           </Text>
@@ -74,13 +74,10 @@ export const PostPage = ({ post, theme = "post" }: Props) => {
               ) : null}
 
               {theme === "feed" && (
-                <>
-                  {/* <hr className="hr-vertical border-border-hover h-[13px]" /> */}
-                  <ShareButtonWrapper
-                    url={`${config.PUBLIC_URL}/${post.slug}`}
-                    theme={theme}
-                  />
-                </>
+                <ShareButtonWrapper
+                  url={`${config.PUBLIC_URL}/${post.slug}`}
+                  theme={theme}
+                />
               )}
             </>
           </Text>

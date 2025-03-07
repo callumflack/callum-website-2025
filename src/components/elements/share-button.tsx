@@ -50,7 +50,7 @@ export const ShareButton = ({ url, theme = "post" }: ShareButtonProps) => {
   };
 
   return (
-    <span className="relative">
+    <span className="relative -ml-0.5">
       {showCopied && (
         <ClickConfirmation
           isVisible={isVisible}
