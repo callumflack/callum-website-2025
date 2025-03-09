@@ -5,7 +5,12 @@ export const textVariants = cva({
   base: "",
   variants: {
     intent: {
-      fine: "text-fine", // subpixel-antialiased?
+      pill: [
+        // same as button
+        "text-pill font-mono font-medium uppercase",
+      ],
+      pillMeta: ["text-pillMeta font-mono uppercase"],
+      fine: "text-fine subpixel-antialiased",
       meta: "text-meta",
       body: "text-body",
       heading: "text-heading",
@@ -35,6 +40,9 @@ export const textVariants = cva({
       accent: "link-accent",
       large: "link-large",
     },
+    ui: {
+      true: "!font-mono !uppercase",
+    },
     dim: {
       true: "!text-solid",
     },
@@ -61,6 +69,14 @@ export const textVariants = cva({
       intent: ["title"],
       balance: true,
     },
+    // This is cool, but I can't use it in button.tsx because it's a compound variant.
+    // {
+    //   intent: ["pill"],
+    //   caps: true,
+    //   inline: true,
+    //   mono: true,
+    //   weight: "medium",
+    // },
   ],
   // Let the body text style flow thru
   // defaultVariants: {
@@ -97,7 +113,7 @@ export const Text = ({
 
   return (
     <Component
-      data-slot="text"
+      data-component="text"
       className={cx(
         textVariants({
           intent,

@@ -27,6 +27,7 @@ export const posts = defineCollection({
     draft: z.boolean().optional(),
     date: z.string(),
     endDate: z.string().optional(),
+    projectIsOngoing: z.boolean().optional(),
     lastEditedDate: z.string().optional(),
     showAsNew: z.boolean().optional(),
     title: z.string(),

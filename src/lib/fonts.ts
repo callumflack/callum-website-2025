@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 
-const sans = localFont({
+export const sans = localFont({
   variable: "--font-sans",
   display: "swap",
   src: [
@@ -37,16 +37,22 @@ const sans = localFont({
   ],
 });
 
-const mono = localFont({
+export const mono = localFont({
   variable: "--font-mono",
   display: "swap",
   src: [
     {
-      path: "../../public/fonts/SohneMono-Buch.woff2",
+      // public/fonts/IBMPlexMono-Medium.woff
+      // path: "../../public/fonts/SohneMono-Buch.woff2",
+      path: "../../public/fonts/GT-America-Mono-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      // path: "../../public/fonts/SohneMono-Buch.woff2",
+      path: "../../public/fonts/GT-America-Mono-Medium.woff2",
       weight: "500",
       style: "normal",
     },
   ],
 });
-
-export { mono, sans };

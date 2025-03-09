@@ -23,14 +23,15 @@
   /* GRAY */
   /* backgrounds */
   --color-gray-base: white;
+  --color-gray-base: var(--gray-1);
   --color-gray-bg-subtle: var(--gray-2);
   --color-gray-bg: #fafafa; /* Apple */
   --color-gray-bg-hover: #f6f6f6;
-  --color-gray-bg-active: #f5f5f7; /* Apple */
+  --color-gray-bg-active: #f2f2f0; /* Apple */
 
   /* borders, lines & focus rings */
   --color-gray-line: var(--gray-4);
-  --color-gray-border: var(--gray-3); /* 7 is too dark */
+  --color-gray-border: var(--gray-4); /* 7 is too dark */
   --color-gray-border-hover: var(--gray-7);
 
   /* solids */

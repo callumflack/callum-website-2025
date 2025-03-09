@@ -8,11 +8,30 @@ import {
   sortButtonStyle,
   useSortedPosts,
 } from "@/components/post";
-import type { PostCategory, SortMethod } from "@/types/content";
+import { PostsListGrouped } from "@/components/post/list/posts-list-grouped";
+import type { GroupedPosts, PostCategory, SortMethod } from "@/types/content";
 import type { Post } from "content-collections";
 import { cx } from "cva";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
+
+// Explicitly defines which sort types should display as grouped
+const GROUPED_SORT_TYPES = new Set(["year", "topic"]);
+
+// Flag to enable/disable grouped views
+const ENABLE_GROUPED_VIEWS = false;
+
+// Optional: For more configurability
+type DisplayMode = "flat" | "grouped" | "grid";
+
+const SORT_DISPLAY_MODES: Record<string, DisplayMode> = {
+  year: "grouped",
+  topic: "grouped",
+  latest: "flat",
+  "a-to-z": "flat",
+  projects: "grid",
+  writing: "grid",
+};
 
 interface PostsPageProps {
   posts: Record<PostCategory, Post[]>;
@@ -23,27 +42,21 @@ interface PostsPageProps {
 export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
   const router = useRouter();
   const [currentSort, setCurrentSort] = useState<string>(initialSort);
-  const [showGrid, setShowGrid] = useState(
-    initialSort === kind ||
-      initialSort === "projects" ||
-      initialSort === "writing"
-  );
 
-  // Log received posts
-  // console.log("Posts page received posts:", {
-  //   kind,
-  //   projectsCount: posts.projects?.length || 0,
-  //   writingCount: posts.writing?.length || 0,
-  // });
+  // Use the configuration to determine display mode
+  const [showGrid, setShowGrid] = useState(
+    SORT_DISPLAY_MODES[initialSort] === "grid" || initialSort === kind
+  );
 
   const sortedPostsMap = useSortedPosts(
     posts,
     kind as PostCategory,
-    currentSort as SortMethod
+    currentSort as SortMethod,
+    ENABLE_GROUPED_VIEWS
   );
 
-  // const sortBy = [kind, "year", "topic", "a-to-z"];
-  const sortBy = [kind, "year", "a-to-z"];
+  // "topic" + "a-to-z" also available
+  const SORT_BY = [kind, "year"];
 
   const handleSortButtonClick = (sortKind: string) => {
     setCurrentSort(sortKind);
@@ -78,7 +91,7 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
           )
         }
       >
-        {sortBy.map((sort) => (
+        {SORT_BY.map((sort) => (
           <Fragment key={sort}>
             <StyledSortButton
               initialSortBy={kind}
@@ -98,16 +111,18 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
           kind={kind as PostCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
-          wrapperClassName={cx("flex flex-col gap-w8 pt-w8")}
+          wrapperClassName={cx("flex flex-col gap-w6 pt-w8")}
+        />
+      ) : GROUPED_SORT_TYPES.has(currentSort) && ENABLE_GROUPED_VIEWS ? (
+        <PostsListGrouped
+          groupedPosts={sortedPostsMap[currentSort] as GroupedPosts}
         />
       ) : (
         <PostsList
           kind={kind as PostCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
-          wrapperClassName={cx(
-            currentSort === "a-to-z" ? "pt-4 space-y-0" : "pt-0"
-          )}
+          wrapperClassName="pt-3 space-y-0"
         />
       )}
     </main>
@@ -117,24 +132,29 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
 export const ListHeader = ({
   children,
   rhsNode,
-  className,
+  showContained,
 }: {
   children: React.ReactNode;
   rhsNode?: React.ReactNode;
-  className?: string;
+  showContained?: boolean;
 }) => (
-  <nav
-    className={cx(
-      "bg-canvas top-nav sticky z-10",
-      "translate-y-px transform",
-      "before:w-inset before:-left-inset before:absolute before:top-0 before:bottom-0 before:z-1 before:bg-inherit before:content-['']",
-      className
-    )}
+  <div
+    className={cx("bg-canvas top-nav sticky z-10", "translate-y-px transform")}
   >
-    <div className="flex justify-between">
-      <div className="flex items-center justify-start gap-2.5">{children}</div>
-      {rhsNode}
-    </div>
-    <hr className="-mt-px" />
-  </nav>
+    <nav
+      data-component="ListHeader"
+      className={cx(
+        showContained ? "container border-x" : "",
+        "before:w-inset before:-left-inset before:absolute before:top-0 before:bottom-0 before:z-1 before:bg-inherit before:content-['']"
+      )}
+    >
+      <div className="flex justify-between">
+        <div className="flex items-center justify-start gap-2.5">
+          {children}
+        </div>
+        {rhsNode}
+      </div>
+      <hr className="-mt-px" />
+    </nav>
+  </div>
 );

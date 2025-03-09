@@ -21,14 +21,26 @@ export const buttonVariants = cva({
       // accent: "bg-accent hover:bg-fill text-canvas",
       // reverse: "bg-background hover:bg-background text-fill",
       // link: "text-fill underline-offset-4 hover:underline link",
-      outline: "border border-line hover:border-solid-hover text-fill",
+      outline: [
+        "!text-pill font-mono font-medium uppercase",
+        "border hover:border-solid-hover text-fill",
+      ],
       ghost: squishStyle,
       icon: [squishStyle, "[&_svg]:size-[1.125em]"],
+      pill: [
+        // this doesn't set the compoun variants…
+        // textVariants({ intent: "pill" }),
+        // leading & trackings are handled in globals.css!
+        // subpixel-antialiased
+        "text-pill font-mono font-medium uppercase",
+        "flex rounded-[3px] border px-1 py-[3px]",
+      ],
     },
     size: {
       default: "h-[44px] px-w6 text-body",
       sm: "h-[36px] px-w4 text-meta",
       xs: "h-[27px] px-3 text-meta",
+      reset: "",
     },
     caps: {
       true: "uppercase tracking-meta",
@@ -38,19 +50,24 @@ export const buttonVariants = cva({
     },
     align: {
       // Align the label within the button
-      true: "[&>.Button-children]:translate-y-[-0.03em] transform",
+      true: "[&>.Button-children]:translate-y-[-0.03em] [&>.Button-children]:transform [&>.Button-children]:inline-block",
     },
   },
   compoundVariants: [
     {
-      // handle icon size
       variant: "icon",
       class: "!size-[44px] !px-0",
+    },
+    {
+      variant: "pill",
+      size: "reset",
+      align: true,
     },
   ],
   defaultVariants: {
     variant: "outline",
-    size: "default",
+    // for intent=pill, then these default size styles are set. Ugh!
+    // size: "default",
   },
 });
 

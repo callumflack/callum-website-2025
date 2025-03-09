@@ -6,6 +6,7 @@ import { type Post } from "content-collections";
 import { CardImage } from "@/components/card";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 import { postIconStyle } from "../styles";
+import { lineHoverStyle } from "./post-line";
 
 interface PostBlockProps {
   post: Post;
@@ -20,8 +21,11 @@ export const PostBlock = ({
 }: PostBlockProps) => {
   return (
     <div
+      data-component="PostBlock"
       className={cx(
-        "PostBlock group flex flex-col",
+        "group flex flex-col",
+        lineHoverStyle,
+        "hover:before:inset-y-[-12px]",
         theme === "index" ? "gap-w4 sm:flex-row" : "gap-3"
       )}
     >
@@ -64,7 +68,7 @@ export const PostBlock = ({
             >
               <Text
                 color="canvas"
-                intent="fineHeading"
+                intent="meta"
                 className={cx(
                   "bg-accent2 group-hover:bg-accent",
                   "px-gap flex h-[20px] items-center",
@@ -82,16 +86,17 @@ export const PostBlock = ({
       </div>
 
       {/* CAPTION */}
-      <div className="translate-y-[-0.2em] transform space-y-1">
+      <div className="translate-y-[-0.25em] transform space-y-1">
         <PostLinkHeadingWrapper>
-          <Text as="h2" weight="medium">
+          {/* <Text as="h2" weight="medium"> */}
+          <Text as="h2" intent="heading">
             {post.title}
           </Text>
           {post.thumbnailLink && !isComingSoon ? (
             <ArrowTopRightIcon className={cx(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
-        <Text dim intent="meta">
+        <Text dim intent="meta" className="group-hover:!text-fill-light">
           {post.summary}
           {/* <span className={cx("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}

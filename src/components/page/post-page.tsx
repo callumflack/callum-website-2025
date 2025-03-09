@@ -5,7 +5,6 @@ import { Mdx } from "@/components/mdx";
 import config from "@/config";
 import { formatPostDate, getYear } from "@/lib/utils";
 import type { Post } from "content-collections";
-
 type Props = {
   post: Post;
   theme?: "post" | "feed";
@@ -30,12 +29,14 @@ export const PostPage = ({ post, theme = "post" }: Props) => {
           <Text as="h1" intent="title" balance>
             <Link href={`/${post.slug}`}>{post.title}</Link>
           </Text>
-          <Text as="div" intent="meta" dim className="flex items-center gap-2">
+          <Text as="div" intent="pill" dim className="flex items-center gap-3">
             <>
               {/* Date */}
               <span>
+                {post.projectIsOngoing && <span>Since&nbsp;</span>}
+
                 <Link
-                  className="capitalize"
+                  // className="capitalize"
                   href={`${categoryLink}?sort=year#${year}`}
                 >
                   {post.category === "writing" || post.category === "note"
@@ -57,22 +58,22 @@ export const PostPage = ({ post, theme = "post" }: Props) => {
               </span>
 
               {/* Reading time */}
-              {(post.category === "writing" || post.category === "note") &&
-              post.readingTime >= 3 ? (
-                <>
-                  <hr className="hr-vertical border-border-hover h-[13px]" />
-                  {post.readingTime % 1 >= 0.7
-                    ? Math.ceil(post.readingTime)
-                    : Math.floor(post.readingTime)}{" "}
-                  min
-                  {(post.readingTime % 1 >= 0.7
-                    ? Math.ceil(post.readingTime)
-                    : Math.floor(post.readingTime)) !== 1
-                    ? "s"
-                    : ""}
-                </>
-              ) : null}
+              {/* {(post.category === "writing" || post.category === "note") &&
+              post.readingTime >= 3 ? ( */}
+              <>
+                <hr className="hr-vertical border-border-hover h-[13px]" />
+                {post.readingTime % 1 >= 0.7
+                  ? Math.ceil(post.readingTime)
+                  : Math.floor(post.readingTime)}{" "}
+                min
+                {(post.readingTime % 1 >= 0.7
+                  ? Math.ceil(post.readingTime)
+                  : Math.floor(post.readingTime)) !== 1
+                  ? "s"
+                  : ""}
+              </>
 
+              {/* Feed share */}
               {theme === "feed" && (
                 <ShareButtonWrapper
                   url={`${config.PUBLIC_URL}/${post.slug}`}

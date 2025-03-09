@@ -30,18 +30,24 @@
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-ui: clamp(11px, 9.5714px + 0.2857vw, 13px);
 
+  --text-pill: clamp(9px, 7.5714px + 0.2857vw, 11px);
+  --text-pill: clamp(10px, 8.5714px + 0.2857vw, 12px);
+  --text-pillMeta: clamp(11px, 9.5714px + 0.2857vw, 13.5px);
+
   --text-meta: clamp(10px, 8.5714px + 0.2857vw, 12px);
   --text-meta: clamp(11.5px, 9.7143px + 0.3571vw, 14px);
   --text-meta: clamp(11px, 9.5714px + 0.2857vw, 13.5px);
 
-  --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
-  --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
   --text-body: clamp(12px, 9.8571px + 0.4286vw, 15px);
+  --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
+  --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
 
   --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
   --text-heading: clamp(16px, 13.8571px + 0.4286vw, 19px);
   --text-heading: clamp(17px, 14.8571px + 0.4286vw, 20px);
   --text-heading: clamp(17px, 14.1429px + 0.5714vw, 21px);
+  /* TODO! This hasn't been calculated! */
+  --text-heading: clamp(17px, 14.1429px + 0.5714vw, 22px);
 
   --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
   --text-title: clamp(20px, 17.1429px + 0.5714vw, 24px);
@@ -50,16 +56,20 @@
   --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
   --text-title: clamp(22px, 16.2857px + 1.1429vw, 30px);
 
-  --default-line-height: calc(25 / 17);
+  --default-line-height: calc(24 / 17);
+  --text-pill--line-height: 1;
+  --text-pillMeta--line-height: 1;
   --text-body--line-height: var(--default-line-height);
-  --text-heading--line-height: var(--default-line-height);
+  --text-heading--line-height: 1.25;
   --text-title--line-height: 1.1;
 
   --default-tracking: 0;
+  --text-pill--letter-spacing: 0.025em;
+  --text-pillMeta--letter-spacing: 0.025em;
   --text-fine--letter-spacing: 0.0175em;
   --text-metaHeading--letter-spacing: 0.125em;
   --text-body--letter-spacing: var(--default-tracking);
-  --text-heading--letter-spacing: -0.005em;
+  --text-heading--letter-spacing: -0.01em;
   --text-title--letter-spacing: -0.02em;
 
   --text-heading--font-weight: 400;
@@ -125,7 +135,7 @@
   --color-canvas: var(--color-gray-base);
   --color-canvas-contrast: var(--color-canvas-contrast);
   --color-panel: var(--color-canvas-contrast);
-  --color-background-hover: var(--color-gray-bg-hover);
+  --color-background-hover: var(--color-gray-bg-active);
   --color-line: var(--color-gray-line);
   --color-border: var(--color-gray-border);
   --color-border-hover: var(--color-gray-border-hover);
@@ -181,7 +191,7 @@
 }
 
 @media (min-width: 1024px) {
-  :root {
+  @theme inline {
     --spacing-inset: 30px;
   }
 }

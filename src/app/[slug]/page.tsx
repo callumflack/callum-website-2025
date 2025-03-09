@@ -1,3 +1,5 @@
+import { buttonVariants } from "@/components/atoms";
+import { Link } from "@/components/atoms";
 import { OutsetRule } from "@/components/elements";
 import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
@@ -6,6 +8,7 @@ import { PageWrapper, PostPage, PostPageInner } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
 import { allPosts } from "content-collections";
+import { cx } from "cva";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -47,6 +50,27 @@ export default async function SlugPage({ params }: { params: Params }) {
               filename={`${post.slug}.md`}
               label="Download"
             />
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex items-center gap-1">
+                {post.tags
+                  .filter((tag) => tag !== "featured")
+                  .map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/tags/${tag}`}
+                      className={cx(
+                        buttonVariants({
+                          variant: "pill",
+                        }),
+                        "group-hover:border-fill"
+                      )}
+                    >
+                      <span>{tag}</span>
+                    </Link>
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       }

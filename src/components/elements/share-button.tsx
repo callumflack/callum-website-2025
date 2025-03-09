@@ -50,7 +50,7 @@ export const ShareButton = ({ url, theme = "post" }: ShareButtonProps) => {
   };
 
   return (
-    <span className="relative -ml-0.5">
+    <span className={cx("relative", theme === "post" && "-ml-0.5")}>
       {showCopied && (
         <ClickConfirmation
           isVisible={isVisible}
@@ -59,12 +59,12 @@ export const ShareButton = ({ url, theme = "post" }: ShareButtonProps) => {
         />
       )}
       <Button
-        variant={theme === "post" ? "outline" : "ghost"}
-        size={theme === "post" ? "sm" : "xs"}
+        variant={theme === "post" ? "outline" : "pill"}
+        size={theme === "post" ? "sm" : "reset"}
         className={
           theme === "post"
             ? ""
-            : "[&_svg]:size-[1.125em] [&_svg]:translate-y-[0.05em] [&_svg]:transform"
+            : "hover:text-fill hover:!border-fill !border-transparent [&_svg]:size-[1.3em] [&_svg]:translate-y-[0.05em] [&_svg]:transform"
         }
         PrefixIcon={theme === "post" ? <Link2Icon /> : <Link1Icon />}
         onClick={handleCopy}
@@ -89,13 +89,13 @@ export const ClickConfirmation = ({
   return (
     <span
       className={cx(
-        "absolute -top-[3em] left-1/2 z-50 min-w-max",
+        "absolute -top-[3.5em] left-1/2 z-50 min-w-max",
         "-translate-x-1/2 transform",
-        "text-canvas rounded-button px-w4 pt-1.5 pb-2 shadow-md",
+        "text-canvas rounded-button px-w4 pt-2 pb-2.5 shadow-md",
         "transition-all duration-200 ease-out",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-[1em] opacity-0",
         hasError ? "bg-red-500" : "bg-fill",
-        textVariants({ intent: "meta" })
+        textVariants({ intent: "pill" })
       )}
     >
       {message}

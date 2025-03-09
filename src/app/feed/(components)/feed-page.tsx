@@ -1,11 +1,12 @@
 "use client";
 
-import { Text } from "@/components/atoms";
-import { PostPage, ListHeader } from "@/components/page";
+import { Link } from "@/components/atoms";
+import { ListHeader, PostPage } from "@/components/page";
+import { PostLine } from "@/components/post/list/post-line";
+import { sortButtonStyle } from "@/components/post/sort";
 import { Post } from "content-collections";
 import { cx } from "cva";
 import { useState } from "react";
-import { sortButtonStyle } from "@/components/post/sort";
 
 interface FeedPageProps {
   posts: Post[];
@@ -16,34 +17,36 @@ export function FeedPage({ posts }: FeedPageProps) {
 
   return (
     <>
-      <div className="container">
-        <ListHeader
+      <ListHeader
+        showContained
         // rhsNode={
         //   <div className="gap-w4 flex items-center">
         //     Up
         //   </div>
         // }
+      >
+        <button
+          onClick={() => setShowInFull(!showInFull)}
+          className={cx(
+            sortButtonStyle,
+            showInFull ? "!border-b-fill text-fill" : "text-solid"
+          )}
         >
-          <button
-            onClick={() => setShowInFull(!showInFull)}
-            className={cx(
-              sortButtonStyle,
-              showInFull ? "!border-b-fill text-fill" : "text-solid"
-            )}
-          >
-            Full
-          </button>
-          <button
-            onClick={() => setShowInFull(!showInFull)}
-            className={cx(
-              sortButtonStyle,
-              !showInFull ? "!border-b-fill text-fill" : "text-solid"
-            )}
-          >
-            Index
-          </button>
-        </ListHeader>
-      </div>
+          Full
+        </button>
+        <button
+          onClick={() => {
+            setShowInFull(!showInFull);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className={cx(
+            sortButtonStyle,
+            !showInFull ? "!border-b-fill text-fill" : "text-solid"
+          )}
+        >
+          Index
+        </button>
+      </ListHeader>
 
       {showInFull ? (
         <main className="space-y-w10 pt-w8">
@@ -60,31 +63,19 @@ export function FeedPage({ posts }: FeedPageProps) {
           ))}
         </main>
       ) : (
-        <main className="container space-y-0 pt-3">
+        <main className="container pt-3">
           {posts.map((post: Post) => (
-            <div
-              key={post.slug}
-              id={post.slug}
-              className={cx(
-                "group py-w4 border-b-dark/[0.06] hover:border-b-dark/10 border-b"
-              )}
+            <Link
+              key={post._id}
+              href={post.thumbnailLink ? post.thumbnailLink : post.slug}
+              className="block"
             >
-              <div className={cx("gap-w4 flex flex-wrap items-center")}>
-                <Text as="h2" intent="heading" className="">
-                  <a href={`/${post.slug}`} className="link-heading">
-                    {post.title}
-                  </a>
-                </Text>
-                <div className="flex-1"></div>
-                <Text intent="meta" dim className="text-xs">
-                  {new Date(post.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </Text>
-              </div>
-            </div>
+              <PostLine
+                post={post}
+                isFeatured={post.tags?.includes("featured")}
+                isFeed
+              />
+            </Link>
           ))}
         </main>
       )}
