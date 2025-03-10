@@ -2,13 +2,17 @@ import { FeedPageInner, PageWrapper } from "@/components/page";
 import { getAllPostsChronological } from "@/lib/posts/actions";
 import { FeedPage } from "./(components)/feed-page";
 
-export default async function FeedIndexPage() {
+export default async function FeedIndexPage({
+  searchParams,
+}: {
+  searchParams: { show?: string };
+}) {
   const posts = await getAllPostsChronological();
 
   return (
     <PageWrapper activeNav="feed">
       <FeedPageInner>
-        <FeedPage posts={posts} />
+        <FeedPage posts={posts} initialShow={searchParams.show} />
       </FeedPageInner>
     </PageWrapper>
   );

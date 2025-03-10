@@ -11,5 +11,6 @@ export * from "./carbon-text-align-justify";
 export * from "./ion-social-linkedin-outline";
 export * from "./mynaui-brand-github";
 export * from "./simple-icons-substack";
-export * from "./arcticons-substack-reader";
+export * from "./arcticons-substack-reader2";
+export * from "./rss-1";
 export * from "./read-cv";

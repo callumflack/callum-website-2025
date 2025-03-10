@@ -10,14 +10,16 @@ import { lineHoverStyle } from "./post-line";
 
 interface PostBlockProps {
   post: Post;
-  isComingSoon?: boolean;
+  isExternal?: boolean;
   theme?: "home" | "index";
+  priority?: boolean;
 }
 
 export const PostBlock = ({
   post,
-  isComingSoon,
+  isExternal,
   theme = "index",
+  priority = false,
 }: PostBlockProps) => {
   return (
     <div
@@ -47,38 +49,42 @@ export const PostBlock = ({
                     ? post.assets[0]?.poster || post.assets[0]?.src || ""
                     : post.assets[0]?.src || "",
               }}
+              priority={priority}
+              sizes="(min-width: 660px) 205px, 100vw"
               className={cx(
                 mediaWrapperVariants(),
+                "group-hover:border-fill",
                 theme === "home" && "!aspect-[2/1]"
               )}
-              priority
-              sizes="(min-width: 660px) 205px, 100vw"
             />
           ) : null}
+
+          {/* NEW */}
           {post.showAsNew ? (
             <div
               className={cx(
                 "sm:rounded-button absolute inset-0 flex overflow-hidden",
-                "border-accent2 group-hover:border-accent border",
-                "transition-colors duration-100 ease-linear",
+                "border-fill group-hover:border-accent border",
+                // "transition-colors duration-100 ease-linear",
                 theme === "index"
                   ? "items-start justify-end"
                   : "items-end justify-start"
               )}
             >
               <Text
+                as="div"
                 color="canvas"
-                intent="meta"
+                intent="fine"
                 className={cx(
-                  "bg-accent2 group-hover:bg-accent",
-                  "px-gap flex h-[20px] items-center",
-                  "transition-colors duration-300 ease-linear",
+                  "bg-fill group-hover:bg-accent",
+                  "flex h-[20px] items-center px-3",
+                  // "transition-colors duration-100 ease-linear",
                   theme === "index"
                     ? "sm:rounded-bl-button"
                     : "sm:rounded-tr-button"
                 )}
               >
-                <span className="translate-y-[0.1em] transform">New</span>
+                <span className="translate-y-[-0.1em] transform">New</span>
               </Text>
             </div>
           ) : null}
@@ -89,10 +95,10 @@ export const PostBlock = ({
       <div className="translate-y-[-0.25em] transform space-y-1">
         <PostLinkHeadingWrapper>
           {/* <Text as="h2" weight="medium"> */}
-          <Text as="h2" intent="heading">
+          <Text as="h2" intent="body" weight="normal">
             {post.title}
           </Text>
-          {post.thumbnailLink && !isComingSoon ? (
+          {post.thumbnailLink && !isExternal ? (
             <ArrowTopRightIcon className={cx(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>

@@ -1,13 +1,14 @@
 "use client";
 
 import { Link } from "@/components/atoms";
-import { MediaFigure, mediaWrapperVariants } from "@/components/media";
-import { cx } from "cva";
-import Image from "next/image";
-import { memo, useMemo } from "react";
+import { mediaWrapperVariants, Video } from "@/components/media";
 import { slugify } from "@/lib/utils";
+import { cx } from "cva";
+import { memo, useMemo } from "react";
+import { useMedia } from "react-use";
 import type { Project } from "./projects";
-import { useMedia, useWindowSize } from "react-use";
+import { CardImage } from "@/components/card";
+import Image from "next/image";
 
 export const GraphicsGrid = memo(
   ({ projects, cols }: { projects: Project[]; cols: number }) => {
@@ -15,7 +16,8 @@ export const GraphicsGrid = memo(
     const isMobile = useMedia("(max-width: 640px)");
 
     // Track window size with optimized hook (prevents unnecessary rerenders)
-    const { width } = useWindowSize();
+    // from "react-use"
+    // const { width } = useWindowSize();
 
     // Memoize packed columns based on device type and window width
     const columns = useMemo(() => {
@@ -32,37 +34,58 @@ export const GraphicsGrid = memo(
           className={cx(`gap-w4 z-2 flex flex-col`, basisClass)}
           key={`column-${columnIndex}-${column[0]?.image || "empty"}`}
         >
-          {column.map((project) => (
-            <Link
-              className="w-full !py-0 focus-visible:outline-none"
-              href={`/graphics/${slugify(project.title)}`}
-              key={project.image}
-              scroll={false}
-            >
-              <MediaFigure
-                className="!py-0 focus-visible:outline-none"
-                figureIntent="inGrid"
+          {column.map((project) => {
+            return (
+              <Link
+                key={project.image}
+                href={`/graphics/${slugify(project.title)}`}
+                scroll={false}
+                className="w-full !py-0 focus-visible:outline-none"
               >
-                <Image
-                  alt={project.title}
-                  src={project.image}
-                  priority={columnIndex < 7}
-                  height={project.height}
-                  width={project.width}
-                  sizes="(min-width: 768px) 350px, 100vw"
-                  style={{
-                    aspectRatio: `${project.width}/${project.height}`,
+                {project.video ? (
+                  <Video
+                    key={project.video}
+                    aspect={project.aspect || 16 / 9}
+                    className=""
+                    poster={project.image}
+                    src={project.video}
+                  />
+                ) : (
+                  <Image
+                    alt={project.title}
+                    src={project.image}
+                    priority={columnIndex < 7}
+                    height={project.height}
+                    width={project.width}
+                    sizes="(min-width: 768px) 350px, 100vw"
+                    style={{
+                      aspectRatio: `${project.width}/${project.height}`,
+                    }}
+                    className={cx(
+                      mediaWrapperVariants({
+                        border: !project.noBorder,
+                      }),
+                      "focus-visible:outline-none"
+                    )}
+                  />
+                )}
+                {/* <CardImage
+                  asset={{
+                    src: project.image,
+                    alt: project.title,
+                    aspect: project.width / project.height,
                   }}
+                  sizes="(min-width: 768px) 350px, 100vw"
                   className={cx(
                     mediaWrapperVariants({
                       border: !project.noBorder,
                     }),
                     "focus-visible:outline-none"
                   )}
-                />
-              </MediaFigure>
-            </Link>
-          ))}
+                /> */}
+              </Link>
+            );
+          })}
         </div>
       ));
     }, [columns, cols, isMobile]);

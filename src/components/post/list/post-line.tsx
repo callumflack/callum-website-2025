@@ -1,14 +1,14 @@
 "use client";
 
-import { cx } from "cva";
+import { buttonVariants, Text } from "@/components/atoms";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { format, parseISO } from "date-fns";
-import { buttonVariants, Text, Link } from "@/components/atoms";
 import { type Post } from "content-collections";
+import { cx } from "cva";
+import { format, parseISO } from "date-fns";
 // import { PostCategoryIcon } from "../post-category-icon";
-import { postIconStyle } from "../post.styles";
-import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 import { StarFilledIcon } from "@radix-ui/react-icons";
+import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
+import { postIconStyle } from "../post.styles";
 
 export const lineHoverStyle = [
   "hover:relative hover:z-0",
@@ -23,12 +23,12 @@ interface PostLineProps {
 }
 
 export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
-  const hoverLabel = () => {
-    if (isFeed) return "View";
-    if (post.thumbnailLink) return "Open";
-    if (post.category === "projects") return "View";
-    return "Read";
-  };
+  // const hoverLabel = () => {
+  //   if (isFeed) return "View";
+  //   if (post.thumbnailLink) return "Open";
+  //   if (post.category === "projects") return "View";
+  //   return "Read";
+  // };
 
   return (
     <div
@@ -108,7 +108,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
           </div>
         )}
 
-        <div className="md:min-w-[33px]">
+        <div className={cx(isFeed ? "md:min-w-[91px]" : "")}>
           {isFeed
             ? format(parseISO(post.date), "MMM dd, yyyy")
             : format(parseISO(post.date), "yyyy")}

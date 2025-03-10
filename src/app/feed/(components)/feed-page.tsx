@@ -6,27 +6,34 @@ import { PostLine } from "@/components/post/list/post-line";
 import { sortButtonStyle } from "@/components/post/sort";
 import { Post } from "content-collections";
 import { cx } from "cva";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface FeedPageProps {
   posts: Post[];
+  initialShow?: string;
 }
 
-export function FeedPage({ posts }: FeedPageProps) {
-  const [showInFull, setShowInFull] = useState(true);
+export function FeedPage({ posts, initialShow = "full" }: FeedPageProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const showParam = searchParams.get("show") || initialShow;
+  const [showInFull, setShowInFull] = useState(showParam === "full");
+
+  const updateShowMode = (show: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("show", show);
+    router.push(`/feed?${params.toString()}`);
+  };
 
   return (
     <>
-      <ListHeader
-        showContained
-        // rhsNode={
-        //   <div className="gap-w4 flex items-center">
-        //     Up
-        //   </div>
-        // }
-      >
+      <ListHeader showContained>
         <button
-          onClick={() => setShowInFull(!showInFull)}
+          onClick={() => {
+            setShowInFull(true);
+            updateShowMode("full");
+          }}
           className={cx(
             sortButtonStyle,
             showInFull ? "!border-b-fill text-fill" : "text-solid"
@@ -36,7 +43,8 @@ export function FeedPage({ posts }: FeedPageProps) {
         </button>
         <button
           onClick={() => {
-            setShowInFull(!showInFull);
+            setShowInFull(false);
+            updateShowMode("index");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           className={cx(

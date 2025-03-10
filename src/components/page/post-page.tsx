@@ -62,13 +62,19 @@ export const PostPage = ({ post, theme = "post" }: Props) => {
               post.readingTime >= 3 ? ( */}
               <>
                 <hr className="hr-vertical border-border-hover h-[13px]" />
-                {post.readingTime % 1 >= 0.7
-                  ? Math.ceil(post.readingTime)
-                  : Math.floor(post.readingTime)}{" "}
+                {Math.max(
+                  1,
+                  post.readingTime % 1 >= 0.7
+                    ? Math.ceil(post.readingTime)
+                    : Math.floor(post.readingTime)
+                )}{" "}
                 min
-                {(post.readingTime % 1 >= 0.7
-                  ? Math.ceil(post.readingTime)
-                  : Math.floor(post.readingTime)) !== 1
+                {Math.max(
+                  1,
+                  post.readingTime % 1 >= 0.7
+                    ? Math.ceil(post.readingTime)
+                    : Math.floor(post.readingTime)
+                ) !== 1
                   ? "s"
                   : ""}
               </>

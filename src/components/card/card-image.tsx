@@ -49,6 +49,9 @@ export const CardImage = ({
           src={asset.src}
           height={height}
           width={width}
+          style={{
+            aspectRatio: `${width}/${height}`,
+          }}
         />
       )}
     </>

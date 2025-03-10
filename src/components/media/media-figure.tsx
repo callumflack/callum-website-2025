@@ -2,7 +2,7 @@ import { cva, cx, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
 import { Caption } from "./caption";
 
-const mediaFigureVariants = cva({
+export const mediaFigureVariants = cva({
   base: [
     "MediaFigure relative overflow-hidden space-y-3",
     // "[&_img]:max-h-[70vh] [&_video]:max-h-[70vh]",
@@ -17,7 +17,7 @@ const mediaFigureVariants = cva({
       outset: "-mx-inset md:mx-[-3vw]",
       superOutset: [
         // "-mx-inset",
-        "lg:mx-[calc((theme(maxWidth.hero)-theme(maxWidth.text)-theme(spacing.inset))/2*-1)]",
+        "lg:mx-[calc((var(--container-hero)-var(--container-text)-var(--spacing-inset))/2*-1)]",
         // lg:w-hero
       ],
     },
@@ -54,16 +54,15 @@ const mediaFigureVariants = cva({
   ],
 });
 
-interface MediaFigureProps
+export interface MediaFigureProps
   extends ComponentProps<"figure">,
     VariantProps<typeof mediaFigureVariants> {
   caption?: React.ReactNode | string;
-  captionIntent?: VariantProps<typeof mediaFigureVariants>["figureIntent"];
+  // captionIntent?: VariantProps<typeof mediaFigureVariants>["figureIntent"];
 }
 
-const MediaFigure = ({
+export const MediaFigure = ({
   caption,
-  captionIntent,
   children,
   ...props
 }: MediaFigureProps) => (
@@ -85,5 +84,3 @@ const MediaFigure = ({
     ) : null}
   </figure>
 );
-
-export { MediaFigure, mediaFigureVariants, type MediaFigureProps };

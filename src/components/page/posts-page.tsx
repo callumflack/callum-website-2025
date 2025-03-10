@@ -86,7 +86,7 @@ export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
               href="/gallery"
               iconClassName="!translate-y-[-0.2em]"
             >
-              Show me
+              Just show me
             </LinkWithArrow>
           )
         }

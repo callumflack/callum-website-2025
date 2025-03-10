@@ -9,12 +9,12 @@ import {
   DialogContent as RadixDialogContent,
 } from "@/components/ui/dialog";
 import { LinkWithArrow } from "@/components/elements";
-import { MediaFigure, mediaWrapperVariants } from "@/components/media";
+import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
 import { getYear } from "@/lib/utils";
 import { cx } from "cva";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CardIcon } from "@/components/card";
+// import { CardIcon } from "@/components/card";
 import type { Project } from "./projects";
 
 export interface DialogContentProps {
@@ -33,38 +33,41 @@ export const DialogContent = ({ project, isModal }: DialogContentProps) => {
 
   const content = (
     <MediaFigure
-      caption={
-        <div>
-          <hr className="hidden translate-y-[0.15em] transform sm:block" />
-          <div className="sm:pt-3">
-            <Caption project={project} />
-          </div>
-        </div>
-      }
-      className="space-y-3"
+      caption={<Caption project={project} />}
+      className="space-y-3 [&_img]:min-h-[60vh] [&_video]:min-h-[60vh]"
       figureIntent="superOutset"
       isPortrait={height >= width}
       style={{
         aspectRatio: `${width}/${height}`,
       }}
     >
-      <Image
-        alt={title}
-        className={cx(
-          mediaWrapperVariants({
-            border: false,
-            background: false,
-            rounded: false,
-          })
-        )}
-        height={height}
-        sizes="(min-width: 1024px) 940px, (min-width: 700px) 660px, 100vw"
-        src={image}
-        style={{
-          aspectRatio: `${width}/${height}`,
-        }}
-        width={width}
-      />
+      {project.video ? (
+        <Video
+          key={project.video}
+          aspect={project.aspect || 16 / 9}
+          className=""
+          poster={project.image}
+          src={project.video}
+        />
+      ) : (
+        <Image
+          alt={title}
+          className={cx(
+            mediaWrapperVariants({
+              border: false,
+              background: false,
+              rounded: false,
+            })
+          )}
+          height={height}
+          sizes="(min-width: 1024px) 940px, (min-width: 700px) 660px, 100vw"
+          src={image}
+          style={{
+            aspectRatio: `${width}/${height}`,
+          }}
+          width={width}
+        />
+      )}
     </MediaFigure>
   );
 
@@ -77,6 +80,8 @@ export const DialogContent = ({ project, isModal }: DialogContentProps) => {
       <RadixDialogContent
         aria-describedby={title}
         className="container flex"
+        overlayClassName="cursor-zoom-out"
+        showClose={false}
         // Prevent focus from returning to the trigger
         onCloseAutoFocus={(event) => {
           event.preventDefault();
@@ -85,17 +90,25 @@ export const DialogContent = ({ project, isModal }: DialogContentProps) => {
       >
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogDescription className="sr-only">{title}</DialogDescription>
-        <DialogClose className="flex w-full cursor-zoom-out">
-          {content}
-        </DialogClose>
+        <DialogClose className="w-full cursor-zoom-out">{content}</DialogClose>
       </RadixDialogContent>
     </Dialog>
   );
 };
 
+// alt caption wrapper
+{
+  /* <div>
+  <hr className="border-border-hover hidden translate-y-[0.15em] transform sm:block" />
+  <div className="sm:pt-3">
+    <Caption project={project} />
+  </div>
+</div>; */
+}
+
 const Caption = ({ project }: { project: Project }) => (
-  <div className="flex flex-col justify-between space-y-1 sm:flex-row">
-    <div className="flex items-center gap-2">
+  <div className="flex flex-col gap-1 sm:flex-row sm:gap-2">
+    <div className="flex items-baseline gap-2">
       <Text
         as="h2"
         className="flex gap-2"
@@ -109,22 +122,20 @@ const Caption = ({ project }: { project: Project }) => (
       {/* {getYear(project.date)} */}
       {/* duplicated from CardTitleMeta */}
       {/* <CardTitleMeta post={project} /> */}
-      <Text
-        className="flex shrink-0 translate-y-px transform items-center gap-2"
-        dim
-        intent="meta"
-      >
-        <CardIcon category="projects" className="hidden sm:block" />
+      {/* translate-y-px transform */}
+      <Text className="flex shrink-0 items-center gap-2" dim intent="meta">
+        {/* <CardIcon category="projects" className="hidden sm:block" /> */}
         <span className="hidden sm:block">{getYear(project.date)}</span>
       </Text>
     </div>
 
-    <div className="flex shrink-0 items-center gap-2">
-      <CardIcon category="projects" className="sm:hidden" />
+    <div className="flex shrink-0 items-baseline gap-2">
+      {/* <CardIcon category="projects" className="sm:hidden" /> */}
       <span className="sm:hidden">{getYear(project.date)}</span>
       {project.caseStudyLink ? (
         <>
-          <hr className="hr-vertical border-border-hover h-[0.7em] translate-y-[0.15em] transform sm:hidden" />
+          {/* sm:hidden */}
+          <hr className="hr-vertical border-border-hover h-[0.7em] translate-y-[0.15em] transform" />
           <LinkWithArrow
             className="group link-alt block"
             href={project.caseStudyLink}

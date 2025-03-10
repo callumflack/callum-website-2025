@@ -5,32 +5,37 @@ export const sans = localFont({
   display: "swap",
   src: [
     {
-      path: "../../public/fonts/neue-haas-unica-pro-regular.woff2",
+      path: "../../public/fonts/Sohne-Extraleicht.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Sohne-Leicht.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-regular.woff2",
+      path: "../../public/fonts/Sohne-Buch.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-medium.woff2",
+      path: "../../public/fonts/Sohne-Kraftig.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-medium.woff2",
+      path: "../../public/fonts/Sohne-Halbfett.woff2",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-bold.woff2",
+      path: "../../public/fonts/Sohne-Dreiviertelfett.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-bold.woff2",
+      path: "../../public/fonts/Sohne-Fett.woff2",
       weight: "800",
       style: "normal",
     },

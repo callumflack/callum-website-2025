@@ -3,12 +3,18 @@ import { Contacts } from "@/components/page";
 import config from "@/config";
 import Image from "next/image";
 import { LinkWithArrow } from "../elements";
+
 type Props = {
   showLabel?: boolean;
   textIntent?: TextProps["intent"];
+  showLinks?: boolean;
 };
 
-export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
+export const Intro = ({
+  showLabel = true,
+  textIntent = "meta",
+  showLinks = true,
+}: Props) => {
   return (
     <div className="space-y-2.5">
       <div className="shrink-0 pb-1">
@@ -25,19 +31,24 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
         {/* I&apos;m Callum Flack — a software engineer, writer, and founder. I
         currently work as the CEO of Buttondown, the best way to start and grow
         your newsletter, and as a partner at Third South Capital. Read about me{" "} */}
-        I&apos;m Callum Flack—a design engineer and product leader with over 20
+        {/* I&apos;m Callum Flack—a design engineer and product leader with over 20
         years of experience. From vision to details, my job is to build
         beautifully designed hypertext apps that work in the blink of an eye,
-        creating the most valued currency—trust.
+        creating the most valued currency—trust. */}
+        I&apos;m Callum Flack—a design engineer and product leader with over 20
+        years of experience. I’m a frontend engineer (12 years experience) with
+        a background in branding, graphic and UI design (10+ years).
         {/* <Link href="/about" className="link">
           here
         </Link>
         . */}
       </Text>
-      <Text intent={textIntent} dim className="flex flex-col gap-0.5">
-        <WhatIWantLink />
-        <SubstackLink />
-      </Text>
+      {showLinks && (
+        <Text intent={textIntent} dim className="flex flex-col gap-0.5">
+          <WhatIWantLink />
+          {/* <SubstackLink /> */}
+        </Text>
+      )}
       {/* <Text intent={textIntent} dim>
         <Suspense fallback={<>Loading time…</>}>
           <SiteTime />

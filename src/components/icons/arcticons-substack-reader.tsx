@@ -1,5 +1,7 @@
 import type { SVGProps } from "react";
 
+/* https://icones.js.org/collection/all?s=substack&icon=arcticons:substack-reader */
+
 export function ArcticonsSubstackReader(props: SVGProps<SVGSVGElement>) {
   return (
     <svg

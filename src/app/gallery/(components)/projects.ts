@@ -1,5 +1,7 @@
 export interface ProjectImage {
   image: string;
+  video?: string;
+  aspect?: number;
   height: number;
   width: number;
 }
@@ -169,6 +171,15 @@ const projects: Project[] = [
     image: "/images/roundtable-marinetti-back.jpg",
     width: 960,
     height: 680,
+  },
+  {
+    title: "Studio Round Dots",
+    date: "2020-01-01",
+    image: "/images/studio-round-dots-poster-1600-1000.jpg",
+    video: "https://cdn.callumflack.design/studio-round-dots-240722.mp4",
+    aspect: 1600 / 1000,
+    width: 1200,
+    height: 1697,
   },
   {
     title: "Dido & Aeneas poster for Vision Opera, London",

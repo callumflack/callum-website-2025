@@ -8,6 +8,8 @@ import { GraphicsGrid } from "./(components)/graphics-grid";
 // import type { PostsKind } from "@/components/post";
 // import type { SearchParams } from "@/types/search-params";
 
+// export type PostsKind = "projects" | "writing";
+
 export const metadata: Metadata = {
   title: "Graphics and interactions",
   description: graphicsDescription,
@@ -40,8 +42,8 @@ export default async function GraphicsIndexPage() {
             .
           </Text>
         </TitleHeader>
-        <main className="pt-w6 pb-w12 container max-w-[1320px]">
-          <GraphicsGrid cols={3} projects={projects} />
+        <main className="pt-w6 pb-w12 container max-w-[1500px]">
+          <GraphicsGrid cols={4} projects={projects} />
         </main>
       </IndexPageInner>
     </PageWrapper>

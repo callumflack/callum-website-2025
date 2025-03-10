@@ -9,7 +9,8 @@ export default async function InterceptedProjectPage({
 }: {
   params: { slug: string };
 }) {
-  const project = await getProjectBySlug(params.slug);
+  const resolvedParams = await params;
+  const project = await getProjectBySlug(resolvedParams.slug);
 
   if (!project) {
     notFound();

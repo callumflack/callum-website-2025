@@ -4,6 +4,8 @@ import {
   IonSocialLinkedinOutline,
   MynauiBrandGithub,
   SimpleIconsSubstack,
+  ArcticonsSubstackReader,
+  FluentRss20Regular,
 } from "@/components/icons";
 import config from "@/config";
 import { ContactIcon } from "./contact-icon";
@@ -59,10 +61,18 @@ export const Contacts = ({
       <ContactIcon
         label={showLabel ? "Substack" : undefined}
         href={config.SUBSTACK_URL}
-        className="translate-y-[-1px] transform [&_svg]:!size-[0.9em]"
+        className="translate-y-[-1px] transform [&_svg]:!size-[1.25em]"
       >
-        <SimpleIconsSubstack />
+        <ArcticonsSubstackReader />
+        {/* <SimpleIconsSubstack /> */}
       </ContactIcon>
+      {/* <ContactIcon
+        label={showLabel ? "Substack" : undefined}
+        href={config.SUBSTACK_URL}
+        className="translate-y-[-1px] transform [&_svg]:!size-[1.25em]"
+      >
+        <FluentRss20Regular />
+      </ContactIcon> */}
     </ul>
   );
 };

@@ -15,6 +15,7 @@ export const textVariants = cva({
       body: "text-body",
       heading: "text-heading",
       title: "text-title",
+      super: "text-super",
     },
     color: {
       canvas: "text-canvas",
@@ -25,6 +26,7 @@ export const textVariants = cva({
       accent: "text-accent",
     },
     weight: {
+      light: "font-light",
       normal: "font-normal",
       medium: "font-medium",
       bold: "font-bold",
@@ -66,7 +68,7 @@ export const textVariants = cva({
   },
   compoundVariants: [
     {
-      intent: ["title"],
+      intent: ["title", "super"],
       balance: true,
     },
     // This is cool, but I can't use it in button.tsx because it's a compound variant.

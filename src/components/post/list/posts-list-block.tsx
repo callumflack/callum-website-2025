@@ -25,12 +25,12 @@ export const PostsListBlock = ({
 
   return (
     <div data-component="PostsListBlock" className={wrapperClassName}>
-      {(sorted as Post[]).map((post: Post) => (
+      {(sorted as Post[]).map((post: Post, index: number) => (
         <Link
           href={post.thumbnailLink ? post.thumbnailLink : post.slug}
           key={post._id}
         >
-          <PostBlock post={post} />
+          <PostBlock post={post} priority={index < 4} />
         </Link>
       ))}
     </div>
