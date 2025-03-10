@@ -13,7 +13,7 @@ const exec = util.promisify(execCallback);
   See: https://www.content-collections.dev/docs/configuration
   Uses: https://github.com/kentcdodds/mdx-bundler
   Set any plugins in next.config.ts withMdX?
-  Plugins:
+  Plugins: 
     remark-smartypants (translates plain ASCII punctuation characters into "smart" typographic punctuation HTML entities): https://github.com/remarkjs/remark-smartypants
     remark-gfm (autolink literals, footnotes, strikethrough, tables, tasklists): https://github.com/remarkjs/remark-gfm
  */

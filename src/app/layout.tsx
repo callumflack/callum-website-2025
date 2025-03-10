@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(config.PUBLIC_URL),
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": `${config.PUBLIC_URL}/feed.xml`,
+    },
   },
   title: {
     default: "Callum Flack",
