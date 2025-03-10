@@ -1,12 +1,11 @@
-import type { Metadata, Viewport } from "next";
-
-import "../styles/globals.css";
-// import localFont from "next/font/local";
-import { sans, mono } from "@/lib/fonts";
-import { cx } from "cva";
 import config from "@/config";
-import { Providers } from "./providers";
+import { mono, sans } from "@/lib/fonts";
 import { generateClampSize } from "@/lib/generate-clamp-size";
+import { cx } from "cva";
+import type { Metadata, Viewport } from "next";
+import PlausibleProvider from "next-plausible";
+import "../styles/globals.css";
+import { Providers } from "./providers";
 
 // See
 // https://nextjs.org/docs/app/api-reference/file-conventions/metadata/app-icons
@@ -48,7 +47,11 @@ export default function RootLayout({
   // console.log(clampSizes);
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* https://github.com/4lejandrito/next-plausible */}
+        <PlausibleProvider domain={config.PUBLIC_DOMAIN} trackOutboundLinks />
+      </head>
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         className={cx(sans.variable, mono.variable)}
