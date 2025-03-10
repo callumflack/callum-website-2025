@@ -126,7 +126,7 @@ export const Video = ({
     <div className="relative">
       {/* DO NOT render conditionally. Event listeners and refs must attach! */}
       {/* autoPlay={!isMobileViewport} */}
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption -- video is controlled by the user */}
+      {}
       <video
         autoPlay
         className={className}
@@ -148,11 +148,13 @@ export const Video = ({
 
       {/* SOUND (Desktop) */}
       {allowSound && videoStatus !== "error" ? (
-        <div className="absolute right-4 bottom-4">
+        <div className="absolute right-4 bottom-4 z-100">
           <button
             aria-label={sound ? "Mute" : "Unmute"}
             className="bg-fill text-canvas p-2"
-            onClick={() => {
+            onClick={(e) => {
+              // Prevent click from bubbling up to parent elements, eg. Zoomable
+              e.stopPropagation();
               setSound(!sound);
             }}
             type="button"
