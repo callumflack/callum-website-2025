@@ -1,4 +1,4 @@
-import config from "@/components/config";
+import config from "@/config";
 
 export default function robots() {
   return {
