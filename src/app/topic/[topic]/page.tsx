@@ -1,4 +1,4 @@
-import { Text } from "@/components/atoms";
+import { Text, Link } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { IndexPageInner, PageWrapper } from "@/components/page";
 import { getPostsByTopic } from "@/lib/posts/actions";
@@ -21,7 +21,9 @@ export default async function TopicPage({
       <IndexPageInner>
         <TitleHeader>
           <Text as="h1" intent="title">
-            Topics / <span className="capitalize">{topic}</span>
+            <Link href="/topic">Topics</Link>{" "}
+            <span className="font-light">/</span>{" "}
+            <span className="capitalize">{topic}</span>
           </Text>
           {/* <Text dim balance intent="meta">
             The value of good design is only realised if you have an engineer

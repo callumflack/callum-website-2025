@@ -91,7 +91,7 @@ export function FullOrIndexPosts({
           {posts.map((post: Post) => (
             <Link
               key={post._id}
-              href={post.thumbnailLink ? post.thumbnailLink : post.slug}
+              href={post.thumbnailLink ? post.thumbnailLink : `/${post.slug}`}
               className="block"
             >
               <PostLine
