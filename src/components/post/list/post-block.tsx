@@ -94,8 +94,7 @@ export const PostBlock = ({
       {/* CAPTION */}
       <div className="translate-y-[-0.25em] transform space-y-1">
         <PostLinkHeadingWrapper>
-          {/* <Text as="h2" weight="medium"> */}
-          <Text as="h2" intent="body" weight="normal">
+          <Text as="h2" intent="body" weight="medium">
             {post.title}
           </Text>
           {post.thumbnailLink && !isExternal ? (

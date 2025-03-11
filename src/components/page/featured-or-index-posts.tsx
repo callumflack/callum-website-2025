@@ -33,13 +33,17 @@ const SORT_DISPLAY_MODES: Record<string, DisplayMode> = {
   writing: "grid",
 };
 
-interface PostsPageProps {
+interface FeaturedOrIndexPostsProps {
   posts: Record<PostCategory, Post[]>;
   kind: PostCategory;
   initialSort: string;
 }
 
-export function PostsPage({ posts, kind, initialSort }: PostsPageProps) {
+export function FeaturedOrIndexPosts({
+  posts,
+  kind,
+  initialSort,
+}: FeaturedOrIndexPostsProps) {
   const router = useRouter();
   const [currentSort, setCurrentSort] = useState<string>(initialSort);
 

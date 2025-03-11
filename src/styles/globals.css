@@ -134,6 +134,7 @@
   --color-canvas: var(--color-gray-base);
   --color-canvas-contrast: var(--color-canvas-contrast);
   --color-panel: var(--color-canvas-contrast);
+  --color-background: var(--color-gray-bg-hover);
   --color-background-hover: var(--color-gray-bg-active);
   --color-line: var(--color-gray-line);
   --color-border: var(--color-gray-border);
@@ -151,7 +152,7 @@
   --color-accent3bg: var(--color-accent3-solid-bg);
 
   /* Shadcn UI */
-  --color-background: var(--background);
+  /* --color-background: var(--background); */
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);

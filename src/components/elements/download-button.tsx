@@ -3,7 +3,7 @@
 import { Button } from "@/components/atoms";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-import { ClickConfirmation } from "./share-button";
+import { ClickConfirmation } from "./copy-button";
 import { Spinner } from "./spinner";
 
 export type DownloadButtonProps = {

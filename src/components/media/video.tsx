@@ -151,7 +151,7 @@ export const Video = ({
         <div className="absolute right-4 bottom-4 z-100">
           <button
             aria-label={sound ? "Mute" : "Unmute"}
-            className="bg-fill text-canvas p-2"
+            className="bg-fill text-canvas p-2 hover:cursor-pointer"
             onClick={(e) => {
               // Prevent click from bubbling up to parent elements, eg. Zoomable
               e.stopPropagation();

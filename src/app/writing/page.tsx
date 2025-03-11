@@ -1,13 +1,16 @@
 import { Text } from "@/components/atoms";
 import { LinkWithArrow, TitleHeader } from "@/components/elements";
-import { IndexPageInner, PageWrapper } from "@/components/page";
-import { PostsPage } from "@/components/page";
+import {
+  FeaturedOrIndexPosts,
+  IndexPageInner,
+  PageWrapper,
+} from "@/components/page";
 import config from "@/config";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { PostCategory } from "@/types/content";
 import type { SearchParams } from "@/types/search-params";
 
-export default async function WorkIndexPage({
+export default async function WritingPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -39,7 +42,11 @@ export default async function WorkIndexPage({
             .
           </Text>
         </TitleHeader>
-        <PostsPage initialSort={currentSort} kind={kind} posts={postsData} />
+        <FeaturedOrIndexPosts
+          initialSort={currentSort}
+          kind={kind}
+          posts={postsData}
+        />
       </IndexPageInner>
     </PageWrapper>
   );

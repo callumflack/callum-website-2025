@@ -1,15 +1,13 @@
-import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { cx } from "cva";
 import {
+  ArcticonsSubstackReader,
   IonSocialLinkedinOutline,
   MynauiBrandGithub,
-  SimpleIconsSubstack,
-  ArcticonsSubstackReader,
-  FluentRss20Regular,
 } from "@/components/icons";
 import config from "@/config";
+import { TwitterLogoIcon } from "@radix-ui/react-icons";
+import { cx } from "cva";
+import { EmailButton } from "../elements/email-button";
 import { ContactIcon } from "./contact-icon";
-import { EmailIcon } from "./email-icon";
 
 export const Contacts = ({
   showLabel,
@@ -29,7 +27,7 @@ export const Contacts = ({
         className
       )}
     >
-      <EmailIcon email={config.EMAIL} showLabel={showLabel} />
+      <EmailButton label={showLabel ? "Email" : undefined} />
       <ContactIcon
         className="translate-y-[-0.05em] transform"
         href={config.TWITTER_URL}

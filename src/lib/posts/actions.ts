@@ -37,3 +37,15 @@ export async function getAllPostsChronological(): Promise<Post[]> {
     )
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
+
+export async function getPostsByTopic(topic: string): Promise<Post[]> {
+  return allPosts
+    .filter(
+      (p) =>
+        !p.draft &&
+        p.category !== "about" &&
+        p.slug !== "the-work-and-team-im-after" &&
+        p.tags?.includes(topic)
+    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}

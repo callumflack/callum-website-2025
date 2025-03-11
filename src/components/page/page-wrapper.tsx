@@ -2,9 +2,45 @@ import { OutsetRule } from "@/components/elements";
 import { cx } from "cva";
 import { Intro } from "./intro";
 import { Nav } from "./nav";
+import { Category } from "@/types/content";
+
+export enum NavRoute {
+  LOG = "log",
+  WRITING = "writing",
+  WORK = "work",
+  GALLERY = "gallery",
+  // SHELF = "shelf",
+  // FRIENDS = "friends",
+  ABOUT = "about",
+}
+
+export enum NavLabel {
+  LOG = "Log",
+  WRITING = "Writing",
+  WORK = "Work",
+  GALLERY = "Gallery",
+  // SHELF = "Shelf",
+  // FRIENDS = "Friends",
+  ABOUT = "About",
+}
+
+export const getCategoryNavRoute = (category: string): NavRoute | undefined => {
+  switch (category) {
+    case Category.PROJECTS:
+      return NavRoute.WORK;
+    case Category.WRITING:
+      return NavRoute.WRITING;
+    case Category.NOTE:
+      return NavRoute.LOG;
+    case Category.ABOUT:
+      return NavRoute.ABOUT;
+    default:
+      return undefined;
+  }
+};
 
 type Props = {
-  activeNav?: string;
+  activeNav?: NavRoute | string;
   children: React.ReactNode;
   showIntro?: boolean;
   shareNode?: React.ReactNode;
@@ -22,13 +58,13 @@ export const PageWrapper = ({
         activeNav={activeNav}
         anchorName="Callum"
         navItems={[
-          { href: "/feed", label: "Feed" },
-          { href: "/writing", label: "Writing" },
-          { href: "/work", label: "Work" },
-          { href: "/gallery", label: "Gallery" },
-          // { href: "/shelf", label: "Shelf" },
-          // { href: "/friends", label: "Friends" },
-          { href: "/about", label: "About" },
+          { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
+          { href: `/${NavRoute.WRITING}`, label: NavLabel.WRITING },
+          { href: `/${NavRoute.WORK}`, label: NavLabel.WORK },
+          { href: `/${NavRoute.GALLERY}`, label: NavLabel.GALLERY },
+          // { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
+          // { href: `/${NavRoute.FRIENDS}`, label: NavLabel.FRIENDS },
+          { href: `/${NavRoute.ABOUT}`, label: NavLabel.ABOUT },
         ]}
       />
 
@@ -44,7 +80,7 @@ export const PageWrapper = ({
             "min-h-[calc(100dvh-var(--spacing-nav)-1px)]"
           )}
         >
-          {showIntro && <Intro />}
+          {showIntro && <Intro textIntent="body" />}
         </div>
       </footer>
     </>
@@ -52,11 +88,11 @@ export const PageWrapper = ({
 };
 
 export const PostPageInner = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pt-w12 space-y-w8">{children}</div>;
+  return <div className="pt-w12 space-y-w6">{children}</div>;
 };
 
 export const IndexPageInner = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pt-w12 space-y-w6">{children}</div>;
+  return <div className="pt-w12 space-y-2">{children}</div>;
 };
 
 export const FeedPageInner = ({ children }: { children: React.ReactNode }) => {

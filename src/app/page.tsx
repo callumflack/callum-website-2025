@@ -23,7 +23,7 @@ export default function Home() {
         {/* xl:px-[4vw] */}
         <main className="space-y-w6 container">
           <hr />
-          <Text>Here&apos;s five things you should know about me:</Text>
+          {/* <Text>Here&apos;s five things you should know about me:</Text> */}
           <div className="gap-w6 grid">
             {things.map((thing, index) => (
               <Card key={thing.heading} {...thing} index={index} />
@@ -58,7 +58,8 @@ type Thing = {
 
 const things: Thing[] = [
   {
-    heading: "I'm a designer who codes.",
+    // heading: "I'm a designer who codes.",
+    heading: "Taste + engineering.",
     text: "From vision to details and back again, my job is to build beautiful hypertext interfaces that work in the blink of an eye, creating the most valued currency—trust.",
     link: config.SUBSTACK_URL,
     linkLabel: "I write occasional newsletters. You should subscribe.",

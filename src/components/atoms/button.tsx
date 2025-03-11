@@ -23,10 +23,10 @@ export const buttonVariants = cva({
       // link: "text-fill underline-offset-4 hover:underline link",
       outline: [
         "!text-pill font-mono font-medium uppercase",
-        "border hover:border-solid-hover text-fill",
+        "border border-solid-light hover:border-solid-hover text-fill",
       ],
       ghost: squishStyle,
-      icon: [squishStyle, "[&_svg]:size-[1.125em]"],
+      icon: [squishStyle, "[&_svg]:size-[1em]"],
       pill: [
         // this doesn't set the compoun variants…
         // textVariants({ intent: "pill" }),
@@ -56,7 +56,7 @@ export const buttonVariants = cva({
   compoundVariants: [
     {
       variant: "icon",
-      class: "!size-[44px] !px-0",
+      class: "!size-[40px] !px-0",
     },
     {
       variant: "pill",

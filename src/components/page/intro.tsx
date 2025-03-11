@@ -17,16 +17,7 @@ export const Intro = ({
 }: Props) => {
   return (
     <div className="space-y-2.5">
-      <div className="shrink-0 pb-1">
-        <Image
-          src="/images/callum-flack.jpg"
-          alt="Callum Flack"
-          width={60}
-          height={60}
-          className="rounded-full"
-        />
-      </div>
-
+      <Avatar />
       <Text as="p" intent={textIntent}>
         {/* I&apos;m Callum Flack — a software engineer, writer, and founder. I
         currently work as the CEO of Buttondown, the best way to start and grow
@@ -98,6 +89,20 @@ export const Intro = ({
               <SiteTime />
             </Suspense>
           </Text> */}
+    </div>
+  );
+};
+
+export const Avatar = () => {
+  return (
+    <div className="shrink-0 pb-1">
+      <Image
+        src="/images/callum-flack.jpg"
+        alt="Callum Flack"
+        width={60}
+        height={60}
+        className="rounded-full"
+      />
     </div>
   );
 };

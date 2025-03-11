@@ -1,7 +1,7 @@
 import type { TextProps } from "@/components/atoms";
 import { Link, Text, textVariants } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
-import { Contacts, WhatIWantLink } from "@/components/page";
+import { Avatar, Contacts, Intro, WhatIWantLink } from "@/components/page";
 import { cx } from "cva";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
@@ -95,7 +95,7 @@ export const components = {
     <div className="py-1">
       <pre
         className={cx(
-          "Pre bg-background-hover rounded-button overflow-auto",
+          "Pre bg-background rounded-button overflow-auto",
           "[&_code]:block [&_code]:overflow-auto [&_code]:py-2.5 [&_code]:pl-3",
           "[&_code]:hide-scrollbar [&_code]:leading-[1.6]",
           // overwrite prose code styles
@@ -131,6 +131,8 @@ export const components = {
   ),
   Note: (props: DivProps) => <div className={cx(noteStyle)} {...props} />,
   Contact: () => <Contacts className="pt-0.5 !pl-0" />,
+  Intro: () => <Intro />,
+  Avatar: () => <Avatar />,
   WhatIWantLink: () => <WhatIWantLink />,
 };
 

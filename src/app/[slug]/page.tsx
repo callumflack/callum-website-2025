@@ -1,16 +1,23 @@
 import { buttonVariants } from "@/components/atoms";
-import { Link, Text } from "@/components/atoms";
+import { Link } from "@/components/atoms";
 import { OutsetRule } from "@/components/elements";
 import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
-import { PageWrapper, PostPage, PostPageInner } from "@/components/page";
+import {
+  PageWrapper,
+  PostPage,
+  PostPageInner,
+  getCategoryNavRoute,
+} from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { allPosts } from "content-collections";
 import { cx } from "cva";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Category } from "@/types/content";
 
 interface Params {
   slug: string;
@@ -26,11 +33,13 @@ export default async function SlugPage({ params }: { params: Params }) {
   }
 
   const renderActiveNav = () => {
-    if (post.category === "projects") return "work";
-    if (post.category === "writing") return "writing";
-    if (post.category === "note") return "feed";
-    if (post.category === "about") return "the-work-and-team-im-after";
-    return undefined;
+    if (
+      post.category === Category.ABOUT &&
+      post.slug === "the-work-and-team-im-after"
+    ) {
+      return post.slug;
+    }
+    return getCategoryNavRoute(post.category);
   };
 
   return (
@@ -50,38 +59,24 @@ export default async function SlugPage({ params }: { params: Params }) {
               filename={`${post.slug}.md`}
               label="Download"
             />
-            {/* Tags */}
-            {post.tags && post.tags.length > 0 && (
-              <>
-                <Text as="p" intent="pill" dim className="pl-2">
-                  Tags:
-                </Text>
-                <div className="flex items-center gap-1">
-                  {post.tags
-                    .filter((tag) => tag !== "featured")
-                    .map((tag) => (
-                      <Link
-                        key={tag}
-                        href={`/tags/${tag}`}
-                        className={cx(
-                          buttonVariants({
-                            variant: "pill",
-                          }),
-                          "group-hover:border-fill"
-                        )}
-                      >
-                        <span>{tag}</span>
-                      </Link>
-                    ))}
-                </div>
-              </>
+            {post.tweet && (
+              <Link
+                href={post.tweet}
+                target="_blank"
+                className={cx(
+                  buttonVariants({ variant: "outline", size: "sm" })
+                )}
+              >
+                <ChatBubbleIcon className="size-em" />
+                Tweet
+              </Link>
             )}
           </div>
         </div>
       }
     >
       <PostPageInner>
-        <PostPage post={post} />
+        <PostPage post={post} theme="post" />
       </PostPageInner>
     </PageWrapper>
   );
