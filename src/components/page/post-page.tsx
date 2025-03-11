@@ -26,19 +26,22 @@ export const PostPage = ({ post, theme }: Props) => {
           {theme === "post" && (
             <div className="flex items-center gap-3">
               <PostMeta post={post} theme={theme} />
-              <hr className="hr-vertical border-border-hover h-[13px]" />
-              <PostTags tags={post.tags} />
+              {/* <hr className="hr-vertical border-border-hover h-[13px]" /> */}
+              {/* <PostTags tags={post.tags} /> */}
             </div>
           )}
         </TitleHeader>
       )}
 
       <Mdx code={post.content}>
-        {/* {theme === "post" && (
-          <div className="X">
+        {theme === "post" && post.tags && (
+          <div className="pt-w4 flex items-center gap-1">
+            <Text intent="pill" dim>
+              {post.tags.length > 1 ? "Topics:" : "Topic:"}
+            </Text>
             <PostTags tags={post.tags} />
           </div>
-        )} */}
+        )}
         {theme === "feed" && <PostMeta post={post} theme={theme} />}
       </Mdx>
     </>

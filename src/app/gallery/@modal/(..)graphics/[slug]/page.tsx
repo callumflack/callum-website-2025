@@ -7,10 +7,10 @@ import { getProjectBySlug } from "@/app/gallery/(components)/actions";
 export default async function InterceptedProjectPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const resolvedParams = await params;
-  const project = await getProjectBySlug(resolvedParams.slug);
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();

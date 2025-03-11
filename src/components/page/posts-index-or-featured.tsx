@@ -148,17 +148,19 @@ export const ListHeader = ({
     <nav
       data-component="ListHeader"
       className={cx(
+        "relative",
         showContained ? "container border-x" : "",
-        "before:w-inset before:-left-inset before:absolute before:top-0 before:bottom-0 before:z-1 before:bg-inherit before:content-['']"
+        "before:bg-canvas before:absolute before:inset-y-0 before:z-0 before:content-['']",
+        showContained ? "before:-inset-x-0" : "before:-inset-x-inset"
       )}
     >
-      <div className="flex justify-between">
+      <div className="relative flex justify-between">
         <div className="flex items-center justify-start gap-2.5">
           {children}
         </div>
         {rhsNode}
       </div>
-      <hr className="-mt-px" />
+      <hr className="relative -mt-px" />
     </nav>
   </div>
 );

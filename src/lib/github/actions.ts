@@ -1,15 +1,9 @@
 "use server";
 
-import type { Post } from "content-collections";
-
 /**
  * Generates a raw GitHub URL for a post's markdown file
  */
-export async function getGithubRawUrl(
-  slug: string,
-  post?: Post
-): Promise<string> {
-  // GitHub repository details
+export async function getGithubRawUrl(slug: string): Promise<string> {
   const user = "callumflack"; // GitHub username
   const repo = "cw-next"; // Repository name
   const contentDir = "posts"; // Directory containing content

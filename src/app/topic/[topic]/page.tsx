@@ -4,15 +4,17 @@ import { IndexPageInner, PageWrapper } from "@/components/page";
 import { getPostsByTopic } from "@/lib/posts/actions";
 import { ViewMode } from "@/types/viewMode";
 import { FullOrIndexPosts } from "@/components/page";
+import { ListHeading } from "./list-heading";
+import { Metadata } from "next";
 
 export default async function TopicPage({
   params,
   searchParams,
 }: {
-  params: { topic: string };
-  searchParams: { show?: ViewMode };
+  params: Promise<{ topic: string }>;
+  searchParams: Promise<{ show?: ViewMode }>;
 }) {
-  const { topic } = params;
+  const { topic } = await params;
   const posts = await getPostsByTopic(topic);
   const resolvedSearchParams = await searchParams;
 
@@ -21,7 +23,7 @@ export default async function TopicPage({
       <IndexPageInner>
         <TitleHeader>
           <Text as="h1" intent="title">
-            <Link href="/topic">Topics</Link>{" "}
+            <Link href="/topic">Topic</Link>{" "}
             <span className="font-light">/</span>{" "}
             <span className="capitalize">{topic}</span>
           </Text>
@@ -40,19 +42,19 @@ export default async function TopicPage({
           topic={topic}
           initialShow={resolvedSearchParams.show}
           routePrefix="/topic"
+          listHeaderNode={<ListHeading title={topic} />}
         />
       </IndexPageInner>
     </PageWrapper>
   );
 }
 
-export const generateMetadata = async ({
+export async function generateMetadata({
   params,
 }: {
-  params: { topic: string };
-}) => {
-  const resolvedParams = await params;
-  const { topic } = resolvedParams;
+  params: Promise<{ topic: string }>;
+}): Promise<Metadata> {
+  const { topic } = await params;
 
   const title = `Posts with topic "${topic}" — Callum Flack Design & Development`;
   const description = `A collection of posts with topic "${topic}".`;
@@ -61,4 +63,4 @@ export const generateMetadata = async ({
     title,
     description,
   };
-};
+}

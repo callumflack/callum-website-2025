@@ -20,6 +20,7 @@ export const TitleHeader = ({
 }: TitleHeaderProps) => {
   return (
     <PolymorphicElement
+      data-component="TitleHeader"
       as={as || "header"}
       className={cx(
         isContained ? "" : "container",

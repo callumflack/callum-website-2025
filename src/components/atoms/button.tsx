@@ -8,7 +8,7 @@ export const buttonVariants = cva({
   base: [
     "inline-flex items-center justify-center gap-1.5 whitespace-nowrap",
     "transition-colors hover:cursor-pointer",
-    // no leading! helps alignment
+    // leading 1 helps alignment
     "leading-none",
     // reset form states
     // 'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',

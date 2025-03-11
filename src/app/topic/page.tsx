@@ -1,9 +1,10 @@
-import { PageWrapper } from "@/components/page";
+import { IndexPageInner, PageWrapper } from "@/components/page";
 import { Text } from "@/components/atoms";
 import { getAllPostsChronological } from "@/lib/posts/actions";
 import Link from "next/link";
 import { cx } from "class-variance-authority";
 import { buttonVariants } from "@/components/atoms/button";
+import { TitleHeader } from "@/components/elements";
 
 export default async function TopicIndexPage() {
   const posts = await getAllPostsChronological();
@@ -25,28 +26,30 @@ export default async function TopicIndexPage() {
 
   return (
     <PageWrapper activeNav="feed">
-      <div className="py-w8 container">
-        <Text as="h1" intent="title" balance>
-          Topics
-        </Text>
-        <div className="mt-w8 flex flex-wrap gap-2">
-          {sortedTopics.map((topic) => (
-            <Link
-              key={topic}
-              href={`/topic/${topic}`}
-              className={cx(
-                buttonVariants({
-                  variant: "pill",
-                }),
-                "text-solid border-transparent",
-                "hover:border-fill hover:text-fill"
-              )}
-            >
-              <span>{topic}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
+      <IndexPageInner>
+        <TitleHeader>
+          <Text as="h1" intent="title" balance>
+            Topics
+          </Text>
+          <div className="mt-w8 flex flex-wrap gap-2">
+            {sortedTopics.map((topic) => (
+              <Link
+                key={topic}
+                href={`/topic/${topic}`}
+                className={cx(
+                  buttonVariants({
+                    variant: "pill",
+                  }),
+                  "text-solid border-transparent",
+                  "hover:border-fill hover:text-fill"
+                )}
+              >
+                <span>{topic}</span>
+              </Link>
+            ))}
+          </div>
+        </TitleHeader>
+      </IndexPageInner>
     </PageWrapper>
   );
 }

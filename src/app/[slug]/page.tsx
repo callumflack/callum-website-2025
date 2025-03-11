@@ -23,7 +23,11 @@ interface Params {
   slug: string;
 }
 
-export default async function SlugPage({ params }: { params: Params }) {
+export default async function SlugPage({
+  params,
+}: {
+  params: Promise<Params>;
+}) {
   const { slug } = await params;
 
   const post = allPosts.find((p) => p.slug === slug);
@@ -55,7 +59,7 @@ export default async function SlugPage({ params }: { params: Params }) {
               theme="post"
             />
             <DownloadButtonWrapper
-              url={await getGithubRawUrl(post.slug, post)}
+              url={await getGithubRawUrl(post.slug)}
               filename={`${post.slug}.md`}
               label="Download"
             />
@@ -91,7 +95,7 @@ export function generateStaticParams(): Params[] {
 export async function generateMetadata({
   params,
 }: {
-  params: Params;
+  params: Promise<Params>;
 }): Promise<Metadata | undefined> {
   const { slug } = await params;
   const post = allPosts.find((p) => p.slug === slug);

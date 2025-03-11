@@ -9,7 +9,7 @@ import { ViewMode } from "@/types/viewMode";
 export default async function LogPage({
   searchParams,
 }: {
-  searchParams: { show?: string };
+  searchParams: Promise<{ show?: string }>;
 }) {
   const posts = await getAllPostsChronological();
   const resolvedSearchParams = await searchParams;

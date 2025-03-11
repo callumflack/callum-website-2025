@@ -88,7 +88,7 @@ export const PageWrapper = ({
 };
 
 export const PostPageInner = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pt-w12 space-y-w6">{children}</div>;
+  return <div className="pt-w12 space-y-w8">{children}</div>;
 };
 
 export const IndexPageInner = ({ children }: { children: React.ReactNode }) => {

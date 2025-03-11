@@ -7,7 +7,7 @@ import type { Post } from "content-collections";
 import type { GroupedPosts } from "@/types/content";
 import { PostLine } from "./post-line";
 import { sortButtonStyle } from "../sort";
-import { hideFeaturedDotStyle } from "../styles";
+import { hideFeaturedDotStyle } from "../post.styles";
 
 interface PostsListGroupedProps {
   groupedPosts: GroupedPosts;
@@ -74,9 +74,7 @@ export const PostsListGrouped = ({
               posts.map((post: Post) => (
                 <Link href={post.thumbnailLink ?? post.slug} key={post._id}>
                   <PostLine
-                    isComingSoon={false}
                     isFeatured={post.tags?.includes("featured")}
-                    isLibrary={post.category === "library"}
                     post={post}
                   />
                 </Link>

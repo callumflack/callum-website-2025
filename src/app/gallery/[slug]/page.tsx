@@ -11,9 +11,10 @@ import { getProjectBySlug } from "@/app/gallery/(components)/actions";
 export default async function InterceptedProjectPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const project = await getProjectBySlug(params.slug);
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -40,8 +41,13 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const project = projects.find((p) => slugify(p.title) === params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const project = projects.find((p) => slugify(p.title) === slug);
   if (!project) {
     return;
   }
@@ -57,7 +63,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
       description: graphicsDescription,
       type: "article",
       publishedTime,
-      url: `${config.PUBLIC_URL}/graphics/${params.slug}`,
+      url: `${config.PUBLIC_URL}/graphics/${slug}`,
       images: [
         {
           url: imageUrl,

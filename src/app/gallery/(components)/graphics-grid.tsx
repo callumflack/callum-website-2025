@@ -7,7 +7,7 @@ import { cx } from "cva";
 import { memo, useMemo } from "react";
 import { useMedia } from "react-use";
 import type { Project } from "./projects";
-import { CardImage } from "@/components/card";
+// import { CardImage } from "@/components/card";
 import Image from "next/image";
 
 export const GraphicsGrid = memo(

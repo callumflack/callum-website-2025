@@ -6,4 +6,4 @@
 export * from "./list";
 export * from "./sort";
 export * from "./hooks";
-export * from "./styles";
+export * from "./post.styles";

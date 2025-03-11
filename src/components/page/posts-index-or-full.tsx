@@ -7,13 +7,14 @@ import { EyeOpenIcon, ListBulletIcon } from "@radix-ui/react-icons";
 import { Post } from "content-collections";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { ViewMode } from "../../types/viewMode";
+import { ViewMode } from "@/types/viewMode";
 
 interface FullOrIndexPostsProps {
   posts: Post[];
   topic?: string; // Make optional since feed page doesn't need it
   initialShow?: ViewMode;
   routePrefix: string; // Add route prefix for navigation
+  listHeaderNode?: React.ReactNode; // only used in [topic] pages ATM
 }
 
 export function FullOrIndexPosts({
@@ -21,6 +22,7 @@ export function FullOrIndexPosts({
   topic,
   initialShow = "index",
   routePrefix,
+  listHeaderNode,
 }: FullOrIndexPostsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -40,7 +42,7 @@ export function FullOrIndexPosts({
       <ListHeader
         showContained
         rhsNode={
-          <div className="flex items-center gap-0 pb-1.5">
+          <div className="flex items-center gap-[2px]">
             <Button
               title="Full"
               variant="icon"
@@ -48,6 +50,7 @@ export function FullOrIndexPosts({
                 setShowInFull(true);
                 updateShowMode("full");
               }}
+              className={showInFull ? "bg-background-hover text-fill" : ""}
             >
               <EyeOpenIcon className="size-em" />
             </Button>
@@ -59,16 +62,19 @@ export function FullOrIndexPosts({
                 updateShowMode("index");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
+              className={!showInFull ? "bg-background-hover text-fill" : ""}
             >
               <ListBulletIcon className="size-em" />
             </Button>
           </div>
         }
       >
-        &nbsp;
-        {/* <Text intent="meta" dim>
-          {posts.length} posts with topic "{topic}"
-        </Text> */}
+        {listHeaderNode ? (
+          listHeaderNode
+        ) : (
+          /* retain consistent height! */
+          <div className="h-tab w-px">&nbsp;</div>
+        )}
       </ListHeader>
 
       {showInFull ? (

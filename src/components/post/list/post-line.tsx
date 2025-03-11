@@ -8,7 +8,6 @@ import { format, parseISO } from "date-fns";
 // import { PostCategoryIcon } from "../post-category-icon";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
-import { postIconStyle } from "../post.styles";
 
 export const lineHoverStyle = [
   "hover:relative hover:z-0",
@@ -48,9 +47,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
 
         {/* purposefully not using Text here so we can hoist type styles */}
         <h2 className="leading-[1.25]">{post.linkTitle || post.title}</h2>
-        {post.thumbnailLink ? (
-          <ArrowTopRightIcon className={cx(postIconStyle)} />
-        ) : null}
+        {post.thumbnailLink ? <ArrowTopRightIcon className="size-em" /> : null}
       </PostLinkHeadingWrapper>
 
       {/* DOTDOTDOT (utils) */}
