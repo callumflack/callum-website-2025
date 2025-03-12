@@ -109,7 +109,7 @@ export function ZoomableImage(props: MdxImageProps) {
           width={calculatedWidth}
           height={calculatedHeight}
           priority={priority}
-          sizes="(min-width: 660px) 620px, 100vw"
+          sizes="(min-width: 660px) 600px, 400px" // TODO: adjust based on isZoomed?
           draggable={false}
           className={cx(mediaWrapperVariants({ border, background, rounded }))}
           style={aspect ? { aspectRatio: aspect } : undefined}

@@ -32,7 +32,7 @@ export const VideoLoader = ({
         height={height}
         priority
         quality={10}
-        sizes="(min-width: 1000px) 960px, (min-width: 660px) 620px, 100vw"
+        sizes="(min-width: 660px) 600px, 400px"
         src={poster}
         style={{
           aspectRatio,

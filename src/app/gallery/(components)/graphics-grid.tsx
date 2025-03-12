@@ -10,6 +10,8 @@ import type { Project } from "./projects";
 // import { CardImage } from "@/components/card";
 import Image from "next/image";
 
+/* This requires using the data shape from ./projects! */
+
 export const GraphicsGrid = memo(
   ({ projects, cols }: { projects: Project[]; cols: number }) => {
     // Replace manual media query with useMedia hook

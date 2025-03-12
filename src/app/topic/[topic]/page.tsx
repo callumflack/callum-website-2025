@@ -1,11 +1,10 @@
-import { Text, Link } from "@/components/atoms";
+import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
-import { IndexPageInner, PageWrapper } from "@/components/page";
+import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
 import { getPostsByTopic } from "@/lib/posts/actions";
 import { ViewMode } from "@/types/viewMode";
-import { FullOrIndexPosts } from "@/components/page";
-import { ListHeading } from "./list-heading";
 import { Metadata } from "next";
+import { ListHeading } from "./list-heading";
 
 export default async function TopicPage({
   params,
@@ -20,7 +19,7 @@ export default async function TopicPage({
 
   return (
     <PageWrapper activeNav="feed">
-      <IndexPageInner>
+      <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">
             <Link href="/topic">Topic</Link>{" "}
@@ -44,7 +43,7 @@ export default async function TopicPage({
           routePrefix="/topic"
           listHeaderNode={<ListHeading title={topic} />}
         />
-      </IndexPageInner>
+      </PageInner>
     </PageWrapper>
   );
 }

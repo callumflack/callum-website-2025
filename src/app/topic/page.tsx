@@ -1,10 +1,11 @@
-import { IndexPageInner, PageWrapper } from "@/components/page";
 import { Text } from "@/components/atoms";
-import { getAllPostsChronological } from "@/lib/posts/actions";
-import Link from "next/link";
-import { cx } from "class-variance-authority";
 import { buttonVariants } from "@/components/atoms/button";
 import { TitleHeader } from "@/components/elements";
+import { PageInner, PageWrapper } from "@/components/page";
+import { getAllPostsChronological } from "@/lib/posts/actions";
+import { cx } from "class-variance-authority";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export default async function TopicIndexPage() {
   const posts = await getAllPostsChronological();
@@ -26,7 +27,7 @@ export default async function TopicIndexPage() {
 
   return (
     <PageWrapper activeNav="feed">
-      <IndexPageInner>
+      <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title" balance>
             Topics
@@ -49,17 +50,12 @@ export default async function TopicIndexPage() {
             ))}
           </div>
         </TitleHeader>
-      </IndexPageInner>
+      </PageInner>
     </PageWrapper>
   );
 }
 
-export const generateMetadata = () => {
-  const title = `Topics — Callum Flack Design & Development`;
-  const description = "Browse posts by topics.";
-
-  return {
-    title,
-    description,
-  };
+export const metadata: Metadata = {
+  title: "Topics",
+  description: "Browse posts by topics.",
 };

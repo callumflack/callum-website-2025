@@ -24,9 +24,9 @@ export const PostPage = ({ post, theme }: Props) => {
           </Text>
 
           {theme === "post" && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <PostMeta post={post} theme={theme} />
-              {/* <hr className="hr-vertical border-border-hover h-[13px]" /> */}
+              {/* <hr className="hr-vertical border-border-hover h-[12px]" /> */}
               {/* <PostTags tags={post.tags} /> */}
             </div>
           )}
@@ -58,7 +58,7 @@ const PostMeta = ({ post, theme }: Props) => {
     : null;
 
   return (
-    <Text as="div" intent="pill" dim className="flex items-center gap-3">
+    <Text as="div" intent="pill" dim className="flex items-center gap-2.5">
       <>
         {/* Date */}
         <span>
@@ -88,7 +88,7 @@ const PostMeta = ({ post, theme }: Props) => {
 
         {/* Reading time */}
         <>
-          <hr className="hr-vertical border-border-hover h-[13px]" />
+          <hr className="hr-vertical border-border-hover h-[12px]" />
           {Math.max(
             1,
             post.readingTime % 1 >= 0.7

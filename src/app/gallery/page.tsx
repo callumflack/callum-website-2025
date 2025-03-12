@@ -1,51 +1,73 @@
-import { Link, Text } from "@/components/atoms";
+import { buttonVariants, Link, Text } from "@/components/atoms";
+import { PageInner, PageWrapper } from "@/components/page";
+import { SearchParams } from "@/types/search-params";
+import { Cross1Icon } from "@radix-ui/react-icons";
+import { cx } from "cva";
+import { GraphicsGridSimple } from "./(components)/graphics-grid-simple";
+import { GalleryListHeader } from "./(components)/gallery-list-header";
+import projects from "./(components)/projects-test";
+import { Metadata } from "next";
 import { TitleHeader } from "@/components/elements";
-import { IndexPageInner, PageWrapper } from "@/components/page";
-import type { Metadata } from "next";
-import { getProjects } from "./(components)/actions";
-import { graphicsDescription } from "./(components)/copy";
-import { GraphicsGrid } from "./(components)/graphics-grid";
-// import type { PostsKind } from "@/components/post";
-// import type { SearchParams } from "@/types/search-params";
 
-// export type PostsKind = "projects" | "writing";
+/* TODO: add searchParam filters? */
+export default async function GraphicsIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { show } = await searchParams;
+  const currentShow = (show as string) || "";
+  const showInFull = currentShow === "full";
 
-export const metadata: Metadata = {
-  title: "Graphics and interactions",
-  description: graphicsDescription,
-};
-
-/*
-  TODO: add searchParam filters?
- */
-
-export default async function GraphicsIndexPage() {
-  const projects = await getProjects();
-
-  // add filters?
-  // searchParams: SearchParams;
-  // const kind: PostsKind = "projects";
-  // const currentSort = (searchParams.sort as string) || kind;
+  if (showInFull)
+    return (
+      <div className="bg-background-hover py-w24 relative grid min-h-dvh items-center">
+        <Link
+          href="/gallery?show=index"
+          className={cx(
+            "top-inset right-inset absolute",
+            buttonVariants({ variant: "icon" })
+          )}
+        >
+          <Cross1Icon />
+        </Link>
+        <GraphicsGridSimple projects={projects} showInFull={true} />
+      </div>
+    );
 
   return (
     <PageWrapper activeNav="/graphics">
-      <IndexPageInner>
+      <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">
             Graphics and interactions.
           </Text>
-          <Text dim intent="meta">
-            {graphicsDescription}{" "}
-            <Link className="link" href="/work">
-              View case studies
-            </Link>
-            .
-          </Text>
+          {/* <Text dim intent="meta">
+              {graphicsDescription}{" "}
+              <Link className="link" href="/work">
+                View case studies
+              </Link>
+              .
+            </Text> */}
         </TitleHeader>
-        <main className="pt-w6 pb-w12 container max-w-[1500px]">
-          <GraphicsGrid cols={4} projects={projects} />
+        <GalleryListHeader routePrefix="/gallery" />
+
+        {/* <main className="pt-w6 pb-w12 container max-w-[1500px]"> */}
+        {/* <GraphicsGrid cols={4} projects={projects} /> */}
+        <main className="pt-w6">
+          <GraphicsGridSimple projects={projects} showInFull={false} />
         </main>
-      </IndexPageInner>
+      </PageInner>
     </PageWrapper>
   );
 }
+
+// visual composition and aesthetic impact
+// Fast highlights from 20 years of visual composition, typographic play and aesthetic impact.
+// Fast highlights from 20 years of creating visual impact.
+// export const graphicsDescription = `Fast highlights from 20 years of delivering visual impact.`;
+
+export const metadata: Metadata = {
+  title: "Gallery",
+  description: `Visual gallery of highlights from design and code projects produced since 1998.`,
+};

@@ -83,9 +83,9 @@
   --container-hero-inset: calc(
     var(--container-hero) + (var(--spacing-inset) * 2)
   );
-  --inset-full: calc(100vw - (var(--spacing-inset) * 2));
-  --inset-text: calc(100vw - (var(--container-text) / 2));
-  --inset-hero: calc(100vw - (var(--container-hero) / 2));
+  --inset-full: calc((100vw - var(--spacing-inset)) * 2);
+  --inset-text: calc((100vw - var(--container-text)) / 2);
+  --inset-hero: calc((100vw - var(--container-hero)) / 2);
 
   /* radius */
   --radius-xs: 2px;

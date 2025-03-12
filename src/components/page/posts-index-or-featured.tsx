@@ -14,6 +14,7 @@ import type { Post } from "content-collections";
 import { cx } from "cva";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
+import { ListHeader } from "./list-header";
 
 // Explicitly defines which sort types should display as grouped
 const GROUPED_SORT_TYPES = new Set(["year", "topic"]);
@@ -86,7 +87,7 @@ export function FeaturedOrIndexPosts({
         rhsNode={
           kind === "projects" && (
             <LinkWithArrow
-              className={cx(sortButtonStyle, "text-solid pr-0")}
+              className={cx(sortButtonStyle, "text-solid pr-0 normal-case")}
               href="/gallery"
               iconClassName="!translate-y-[-0.2em]"
             >
@@ -132,35 +133,3 @@ export function FeaturedOrIndexPosts({
     </main>
   );
 }
-
-export const ListHeader = ({
-  children,
-  rhsNode,
-  showContained,
-}: {
-  children: React.ReactNode;
-  rhsNode?: React.ReactNode;
-  showContained?: boolean;
-}) => (
-  <div
-    className={cx("bg-canvas top-nav sticky z-10", "translate-y-px transform")}
-  >
-    <nav
-      data-component="ListHeader"
-      className={cx(
-        "relative",
-        showContained ? "container border-x" : "",
-        "before:bg-canvas before:absolute before:inset-y-0 before:z-0 before:content-['']",
-        showContained ? "before:-inset-x-0" : "before:-inset-x-inset"
-      )}
-    >
-      <div className="relative flex justify-between">
-        <div className="flex items-center justify-start gap-2.5">
-          {children}
-        </div>
-        {rhsNode}
-      </div>
-      <hr className="relative -mt-px" />
-    </nav>
-  </div>
-);

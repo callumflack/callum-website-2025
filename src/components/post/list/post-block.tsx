@@ -50,7 +50,7 @@ export const PostBlock = ({
                     : post.assets[0]?.src || "",
               }}
               priority={priority}
-              sizes="(min-width: 660px) 205px, 100vw"
+              sizes="(min-width: 660px) 150px, 400px"
               className={cx(
                 mediaWrapperVariants(),
                 "group-hover:border-fill",

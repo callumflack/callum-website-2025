@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef } from "react";
 import { Text } from "@/components/atoms";
 
 export type CaptionProps = ComponentPropsWithoutRef<"figcaption"> & {
-  children: React.ReactNode;
+  children: React.ReactNode | string;
   className?: string;
 };
 

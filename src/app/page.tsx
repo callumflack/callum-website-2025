@@ -1,8 +1,7 @@
 // import { allPosts, Post } from "content-collections";
 import { Text } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
-// import { MDXContent } from "@content-collections/mdx/react";
-import { IndexPageInner, Intro, PageWrapper } from "@/components/page";
+import { Intro, PageInner, PageWrapper } from "@/components/page";
 import config from "@/config";
 // import { OutsetRule } from "@/components/elements";
 // import { filterFeaturedBySlugs } from "@/lib/posts";
@@ -13,7 +12,7 @@ export default function Home() {
 
   return (
     <PageWrapper showIntro={false} shareNode={null}>
-      <IndexPageInner>
+      <PageInner variant="index">
         <header className="space-y-w6 container">
           <Intro showLabel={false} showLinks={false} textIntent="body" />
           {/* <Available /> */}
@@ -44,7 +43,7 @@ export default function Home() {
 
           {/* <GridLayout posts={featuredPosts} theme="default" /> */}
         </main>
-      </IndexPageInner>
+      </PageInner>
     </PageWrapper>
   );
 }

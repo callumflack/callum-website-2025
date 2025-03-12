@@ -43,7 +43,7 @@ export type Asset = {
   src: string;
   poster?: string;
   alt: string;
-  aspect: string;
+  aspect: string | number;
 };
 
 // Posts collection types

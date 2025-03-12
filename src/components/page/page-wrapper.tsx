@@ -1,5 +1,5 @@
 import { OutsetRule } from "@/components/elements";
-import { cx } from "cva";
+import { cx, cva, type VariantProps } from "cva";
 import { Intro } from "./intro";
 import { Nav } from "./nav";
 import { Category } from "@/types/content";
@@ -87,14 +87,28 @@ export const PageWrapper = ({
   );
 };
 
-export const PostPageInner = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pt-w12 space-y-w8">{children}</div>;
-};
+export const pageInnerVariants = cva({
+  base: "",
+  variants: {
+    variant: {
+      post: "pt-w12 space-y-w8",
+      index: "pt-w12 space-y-2.5",
+      log: "",
+    },
+  },
+  defaultVariants: {
+    variant: "post",
+  },
+});
 
-export const IndexPageInner = ({ children }: { children: React.ReactNode }) => {
-  return <div className="pt-w12 space-y-2">{children}</div>;
-};
+interface PageInnerProps
+  extends React.ComponentProps<"div">,
+    VariantProps<typeof pageInnerVariants> {}
 
-export const FeedPageInner = ({ children }: { children: React.ReactNode }) => {
-  return <div className="">{children}</div>;
+export const PageInner = ({ className, variant, ...props }: PageInnerProps) => {
+  return (
+    <div className={cx(pageInnerVariants({ variant, className }))} {...props}>
+      {props.children}
+    </div>
+  );
 };

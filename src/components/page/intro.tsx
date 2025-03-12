@@ -99,9 +99,9 @@ export const Avatar = () => {
       <Image
         src="/images/callum-flack.jpg"
         alt="Callum Flack"
-        width={60}
-        height={60}
-        className="rounded-full"
+        width={55}
+        height={55}
+        className="bg-background-hover rounded-full"
       />
     </div>
   );

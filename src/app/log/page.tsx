@@ -1,10 +1,7 @@
-import {
-  FeedPageInner,
-  FullOrIndexPosts,
-  PageWrapper,
-} from "@/components/page";
+import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
 import { getAllPostsChronological } from "@/lib/posts/actions";
 import { ViewMode } from "@/types/viewMode";
+import { Metadata } from "next";
 
 export default async function LogPage({
   searchParams,
@@ -25,24 +22,19 @@ export default async function LogPage({
       : ("full" as ViewMode);
 
   return (
-    <PageWrapper activeNav="feed">
-      <FeedPageInner>
+    <PageWrapper activeNav="log">
+      <PageInner variant="log">
         <FullOrIndexPosts
           posts={posts}
           initialShow={validatedShow}
           routePrefix="/log"
         />
-      </FeedPageInner>
+      </PageInner>
     </PageWrapper>
   );
 }
 
-const title = `Feed — Callum Flack Design & Development`;
-const description = "An archive of notes and thoughts.";
-
-export const generateMetadata = () => {
-  return {
-    title,
-    description,
-  };
+export const metadata: Metadata = {
+  title: "Log",
+  description: "An archive of notes and thoughts.",
 };

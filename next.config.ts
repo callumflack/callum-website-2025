@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.callumflack.design",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "cfd-media.b-cdn.net",
+        port: "",
+      },
     ],
   },
   redirects: async () => {

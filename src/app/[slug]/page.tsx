@@ -7,7 +7,7 @@ import { isVideoFile } from "@/components/media";
 import {
   PageWrapper,
   PostPage,
-  PostPageInner,
+  PageInner,
   getCategoryNavRoute,
 } from "@/components/page";
 import config from "@/config";
@@ -79,9 +79,9 @@ export default async function SlugPage({
         </div>
       }
     >
-      <PostPageInner>
+      <PageInner variant="post">
         <PostPage post={post} theme="post" />
-      </PostPageInner>
+      </PageInner>
     </PageWrapper>
   );
 }

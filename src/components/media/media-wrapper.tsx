@@ -4,7 +4,7 @@ import type { ComponentProps } from "react";
 export const mediaWrapperVariants = cva({
   base: [
     // do NOT add w-full! This breaks the outset styles
-    "MediaWrapper relative overflow-hidden",
+    "relative overflow-hidden",
     // This provides leeway if any aspect code is "off by one"
     "object-cover",
   ],
@@ -13,7 +13,7 @@ export const mediaWrapperVariants = cva({
       true: "border",
     },
     background: {
-      true: "bg-background-active",
+      true: "bg-background-hover",
     },
     rounded: {
       true: "sm:rounded-button",
@@ -47,6 +47,7 @@ export const MediaWrapper = ({
 }: MediaWrapperProps) => {
   return (
     <div
+      data-component="MediaWrapper"
       {...props}
       className={cx(
         mediaWrapperVariants({

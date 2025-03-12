@@ -4,7 +4,7 @@ import { Caption } from "./caption";
 
 export const mediaFigureVariants = cva({
   base: [
-    "MediaFigure relative overflow-hidden space-y-3",
+    "relative overflow-hidden space-y-3",
     // "[&_img]:max-h-[70vh] [&_video]:max-h-[70vh]",
   ],
   variants: {
