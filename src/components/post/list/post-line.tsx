@@ -8,12 +8,7 @@ import { format, parseISO } from "date-fns";
 // import { PostCategoryIcon } from "../post-category-icon";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
-
-export const lineHoverStyle = [
-  "hover:relative hover:z-0",
-  "hover:before:-inset-x-inset hover:before:bg-background-hover hover:before:absolute hover:before:inset-y-0 hover:before:-z-[1] hover:before:content-['']",
-  // "hover:before:rounded-squish"
-];
+import { lineHoverStyle } from "../post.styles";
 
 interface PostLineProps {
   post: Post;

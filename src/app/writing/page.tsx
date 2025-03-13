@@ -21,7 +21,7 @@ export default async function WritingPage({
   const postsData = await getAllPosts();
 
   return (
-    <PageWrapper activeNav="writing">
+    <PageWrapper activeNav="writing" theme="feed">
       <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">

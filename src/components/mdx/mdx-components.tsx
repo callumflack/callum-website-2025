@@ -1,7 +1,13 @@
 import type { TextProps } from "@/components/atoms";
 import { Link, Text, textVariants } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
-import { Avatar, Contacts, Intro, WhatIWantLink } from "@/components/page";
+import {
+  Avatar,
+  Contacts,
+  Intro,
+  Outro,
+  WhatIWantLink,
+} from "@/components/page";
 import { cx } from "cva";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
@@ -118,23 +124,30 @@ export const components = {
     </div>
   ),
   Callout: ({ children }: DivProps) => (
-    <div
-      className={cx(
-        "bg-accent3/10 md:pr-w12 rounded-button space-y-1.5 px-4 pt-3 pb-4",
-        "[&_code]:bg-black-a1 [&_ul]:text-[0.925em]",
-        "[&>*]:text-meta"
-      )}
-    >
+    <div className={cx(calloutStyle)}>
       {/* <CalloutIcon className="size-[1.25em]" /> */}
       {children}
     </div>
   ),
   Note: (props: DivProps) => <div className={cx(noteStyle)} {...props} />,
-  Contact: () => <Contacts className="pt-0.5 !pl-0" />,
-  Intro: () => <Intro />,
+  Intro: () => <Intro textIntent="body" />,
+  Outro: () => <Outro textIntent="body" />,
   Avatar: () => <Avatar />,
   WhatIWantLink: () => <WhatIWantLink />,
+  Contacts: (props: { showLabel?: boolean }) => (
+    // wrapped in div to allow max-w-(--container-text) rule to take effect without interfferring with the -ml-2 on Contacts
+    <div>
+      <Contacts className="pt-0.5 !pl-0" {...props} />
+    </div>
+  ),
 };
+
+export const calloutStyle = [
+  "bg-accent3/[0.15] md:pr-w12 rounded-button space-y-1.5 px-3 pt-2.5 pb-2.5",
+  "not-first:mt-w4",
+  "[&_code]:bg-black-a1 [&_ul]:text-[0.925em]",
+  "[&>*]:text-meta",
+];
 
 export const noteStyle = [
   "Note !mt-w8 space-y-2 text-meta text-solid link-block",

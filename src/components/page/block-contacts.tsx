@@ -9,15 +9,17 @@ import { cx } from "cva";
 import { EmailButton } from "../elements/email-button";
 import { ContactIcon } from "./contact-icon";
 
+export type ContactsProps = {
+  showLabel?: boolean;
+  theme?: "inline" | "list";
+  className?: string;
+};
+
 export const Contacts = ({
   showLabel,
   theme = "inline",
   className,
-}: {
-  showLabel?: boolean;
-  theme?: "inline" | "list";
-  className?: string;
-}) => {
+}: ContactsProps) => {
   return (
     <ul
       className={cx(
@@ -49,13 +51,6 @@ export const Contacts = ({
       >
         <MynauiBrandGithub />
       </ContactIcon>
-      {/* <ContactIcon
-        className="translate-y-[-1px] transform [&_svg]:!size-[1.25em]"
-        href={config.READCV_URL}
-        label={showLabel ? "Read CV" : undefined}
-      >
-        <ReadCv />
-      </ContactIcon> */}
       <ContactIcon
         label={showLabel ? "Substack" : undefined}
         href={config.SUBSTACK_URL}
@@ -64,6 +59,8 @@ export const Contacts = ({
         <ArcticonsSubstackReader />
         {/* <SimpleIconsSubstack /> */}
       </ContactIcon>
+
+      {/* RSS? */}
       {/* <ContactIcon
         label={showLabel ? "Substack" : undefined}
         href={config.SUBSTACK_URL}

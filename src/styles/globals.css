@@ -110,6 +110,7 @@
   --spacing-major: clamp(64px, 41.1429px + 4.5714vw, 96px);
 
   --spacing-w4: clamp(10.5px, 6.5714px + 0.7857vw, 16px);
+  --spacing-w5: clamp(12px, 8.5714px + 0.7857vw, 20px); /* TODO: WIP! */
   --spacing-w6: clamp(16px, 10.2857px + 1.1429vw, 24px);
   --spacing-w8: clamp(21px, 13.1429px + 1.5714vw, 32px);
   --spacing-w10: clamp(28px, 17.7143px + 2.2857vw, 40px);
@@ -218,7 +219,9 @@
       "liga" 1; */
 
     /* transition everywhere: do NOT use tailwind here as the variables are inherited on every child transition */
-    transition: color 50ms ease 0s;
+    transition:
+      color 500ms ease,
+      opacity 500ms ease;
 
     &::before,
     &::after {

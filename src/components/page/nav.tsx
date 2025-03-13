@@ -45,8 +45,9 @@ export const Nav = ({
   return (
     // Want id="top"? Move it to a parent element without sticky positioning
     <div
+      data-component="Nav"
       className={cx(
-        "Nav bg-canvas sticky top-0 z-50",
+        "bg-canvas sticky top-0 z-50",
         // "bg-canvas border-b"
         // "bg-canvas-[0.99] backdrop-blur-xl"
         className
@@ -65,7 +66,7 @@ export const Nav = ({
           href="/"
           label={anchorName}
         />
-        <span>/</span>
+        <span className="px-1">/</span>
         <div className="flex items-center gap-4">
           {navItems.map(({ href, label }) => (
             <NavLink

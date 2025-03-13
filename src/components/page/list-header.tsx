@@ -6,13 +6,19 @@ export const ListHeader = ({
   children,
   rhsNode,
   showContained,
+  className,
 }: {
   children: React.ReactNode;
   rhsNode?: React.ReactNode;
   showContained?: boolean;
+  className?: string;
 }) => (
   <div
-    className={cx("bg-canvas top-nav sticky z-10", "translate-y-px transform")}
+    className={cx(
+      "bg-canvas top-nav sticky z-10",
+      "translate-y-px transform",
+      className
+    )}
   >
     <nav
       data-component="ListHeader"

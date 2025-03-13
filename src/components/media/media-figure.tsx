@@ -58,12 +58,14 @@ export interface MediaFigureProps
   extends ComponentProps<"figure">,
     VariantProps<typeof mediaFigureVariants> {
   caption?: React.ReactNode | string;
+  captionClassName?: string;
   // captionIntent?: VariantProps<typeof mediaFigureVariants>["figureIntent"];
 }
 
 export const MediaFigure = ({
   caption,
   children,
+  captionClassName,
   ...props
 }: MediaFigureProps) => (
   <figure
@@ -73,11 +75,12 @@ export const MediaFigure = ({
     {children}
     {caption ? (
       <Caption
-      // className={cx(
-      //   mediaFigureVariants({
-      //     figureIntent: captionIntent,
-      //   })
-      // )}
+        className={cx(
+          // mediaFigureVariants({
+          //   figureIntent: captionIntent,
+          // })
+          captionClassName
+        )}
       >
         {caption}
       </Caption>

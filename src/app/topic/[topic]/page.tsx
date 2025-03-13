@@ -18,7 +18,7 @@ export default async function TopicPage({
   const resolvedSearchParams = await searchParams;
 
   return (
-    <PageWrapper activeNav="feed">
+    <PageWrapper activeNav="feed" theme="feed">
       <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">

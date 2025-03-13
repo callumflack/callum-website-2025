@@ -24,6 +24,7 @@
   /* backgrounds */
   --color-gray-base: white;
   --color-gray-base: var(--gray-1);
+  --color-gray-base: #fdfdfd;
   --color-gray-bg-subtle: var(--gray-2);
   --color-gray-bg: #fafafa; /* Apple */
   --color-gray-bg-hover: #f6f6f6;

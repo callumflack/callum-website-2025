@@ -14,3 +14,6 @@ export { ShareButton } from "./share-button";
 export { DownloadButton } from "./download-button";
 export { DownloadButtonWrapper } from "./download-button-wrapper";
 export type { DownloadButtonProps } from "./download-button";
+export { CVDownloadButton } from "./cv-download-button";
+export { CVDownloadButtonWrapper } from "./cv-download-button-wrapper";
+export type { CVDownloadButtonProps } from "./cv-download-button";

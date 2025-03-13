@@ -65,8 +65,25 @@ export function getDimensions(aspect?: AspectRatio): {
   // Default fallback
   if (!aspect) return { width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT };
 
+  // IMPORTANT CHANGE: Handle dash-separated dimensions directly
+  if (typeof aspect === "string" && aspect.includes("-")) {
+    const [width, height] = aspect.split("-").map(Number);
+    if (!isNaN(width) && !isNaN(height) && height > 0) {
+      // Return exact dimensions without any transformation
+      return { width, height };
+    }
+  }
+
   // Handle numeric aspect ratio (preferred)
   if (typeof aspect === "number") {
+    // Common exact fractions that should preserve original dimensions
+    if (Math.abs(aspect - 1840 / 2519) < 0.0001)
+      return { width: 1840, height: 2519 }; // Brisbane Arcade
+    if (Math.abs(aspect - 2480 / 3507) < 0.0001)
+      return { width: 2480, height: 3507 }; // Millennius
+    if (Math.abs(aspect - 1200 / 1697) < 0.0001)
+      return { width: 1200, height: 1697 }; // Sagatiba
+
     // Common ratios lookup for exact match
     const commonRatios: Record<number, { width: number; height: number }> = {
       [16 / 9]: { width: 1600, height: 900 },
@@ -91,13 +108,6 @@ export function getDimensions(aspect?: AspectRatio): {
 
   // Legacy string format support
   if (typeof aspect === "string") {
-    if (aspect.includes("-")) {
-      const [width, height] = aspect.split("-").map(Number);
-      if (!isNaN(width) && !isNaN(height) && height > 0) {
-        return { width, height };
-      }
-    }
-
     if (aspect.includes("/")) {
       const [width, height] = aspect.split("/").map(Number);
       if (!isNaN(width) && !isNaN(height) && height > 0) {

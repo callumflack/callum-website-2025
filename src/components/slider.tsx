@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Post } from "content-collections";
 import { cx } from "class-variance-authority";
 import { MediaFigure } from "@/components/media";
@@ -29,11 +28,12 @@ function isManualPost(project: Post | ManualPost): project is ManualPost {
 interface Props {
   projects: (Post | ManualPost)[];
   showInFull: boolean;
+  isZoomed: boolean;
 }
 
 /* Carousel duped from HomeSnapCarousel in callum-website v1 (w/o the lib) */
 
-export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
+export const Slider = ({ projects, showInFull, isZoomed }: Props) => {
   return (
     <div
       className={cx(
@@ -47,7 +47,7 @@ export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
         // grid
         "grid grid-flow-col grid-cols-[max-content] grid-rows-1",
         "px-inset gap-inset scroll-px-inset",
-        "lg:gap-[calc(var(--spacing-inset)*2)]",
+        // "lg:gap-[calc(var(--spacing-inset)*2)]",
         "min-[620px]:scroll-px-(--inset-text) min-[620px]:px-(--inset-text)",
         // hide scrollbar
         "hide-scrollbar"
@@ -88,16 +88,16 @@ export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
         const sizeClasses = {
           portrait: {
             full: "max-w-none lg:max-w-[calc(66vw*0.5)] 2xl:max-w-[calc(40vw*0.5)]",
-            default: "max-w-[280px] lg:max-w-[280px]",
+            default: "max-w-[280px] lg:max-w-[250px]",
           },
           square: {
             full: "max-w-none lg:max-w-[calc(66vw*0.75)] 2xl:max-w-[calc(40vw*0.75)]",
-            default: "max-w-[320px] lg:max-w-[450px]",
+            default: "max-w-[320px] lg:max-w-[350px]",
           },
           landscape: {
             // could we use clamp here?
             full: "max-w-none lg:max-w-[66vw] 2xl:max-w-[40vw]",
-            default: "max-w-[400px] lg:max-w-(--container-text)",
+            default: "max-w-[400px] lg:max-w-[480px]",
           },
         };
 
@@ -120,10 +120,10 @@ export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
         );
 
         return (
-          <Link
+          <div
             key={slug}
-            href={`/graphics/${slug}`}
-            scroll={false}
+            // href={`/graphics/${slug}`}
+            // scroll={false}
             className={cx(
               "snap-center",
               "!py-0 focus-visible:outline-none",
@@ -133,6 +133,7 @@ export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
           >
             <MediaFigure
               caption={title} // TODO: add date and project type?
+              captionClassName={cx(isZoomed && "hidden")}
               // mt-auto
               className="flex flex-col items-center justify-end [&_figcaption]:w-full"
               figureIntent="inGrid"
@@ -160,7 +161,11 @@ export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
                   priority={index < 7}
                   height={height}
                   width={width}
-                  sizes="(min-width: 660px) 600px, 400px"
+                  sizes={
+                    isZoomed
+                      ? "(min-width: 660px) 600px, 1200px"
+                      : "(min-width: 660px) 600px, 400px"
+                  }
                   style={{
                     aspectRatio: `${width}/${height}`,
                   }}
@@ -173,7 +178,7 @@ export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
                 />
               )}
             </MediaFigure>
-          </Link>
+          </div>
         );
       })}
     </div>

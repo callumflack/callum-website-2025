@@ -5,8 +5,7 @@ import { cx } from "cva";
 import { type Post } from "content-collections";
 import { CardImage } from "@/components/card";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
-import { postIconStyle } from "../post.styles";
-import { lineHoverStyle } from "./post-line";
+import { postIconStyle, lineHoverStyle } from "../post.styles";
 
 interface PostBlockProps {
   post: Post;

@@ -34,14 +34,17 @@ export function sortAlphabetically(posts: Post[]): Post[] {
   return [...posts].sort((a, b) => a.title.localeCompare(b.title));
 }
 
-// Filter posts by featured slugs and sort them according to the order in featuredSlugs
-export function filterFeaturedBySlugs(posts: Post[]): Post[] {
-  // Filter posts to only include those in featuredSlugs
-  const featured = posts.filter((post) => featuredSlugs.includes(post.slug));
+// Filter posts by featured slugs and sort them according to the order in specified slugs array
+export function filterFeaturedBySlugs(
+  posts: Post[],
+  slugsArray: string[] = featuredSlugs
+): Post[] {
+  // Filter posts to only include those in the specified slugs array
+  const featured = posts.filter((post) => slugsArray.includes(post.slug));
 
-  // Sort posts according to the order in featuredSlugs
+  // Sort posts according to the order in the slugs array
   return featured.sort((a, b) => {
-    return featuredSlugs.indexOf(a.slug) - featuredSlugs.indexOf(b.slug);
+    return slugsArray.indexOf(a.slug) - slugsArray.indexOf(b.slug);
   });
 }
 

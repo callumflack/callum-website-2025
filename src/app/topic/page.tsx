@@ -26,7 +26,7 @@ export default async function TopicIndexPage() {
   const sortedTopics = Array.from(allTopics).sort();
 
   return (
-    <PageWrapper activeNav="feed">
+    <PageWrapper activeNav="feed" theme="feed">
       <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title" balance>

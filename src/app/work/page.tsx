@@ -21,7 +21,7 @@ export default async function WorkPage({
   const postsData = await getAllPosts();
 
   return (
-    <PageWrapper activeNav="work">
+    <PageWrapper activeNav="work" theme="feed">
       <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">

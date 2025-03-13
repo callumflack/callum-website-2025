@@ -1,6 +1,6 @@
 import { OutsetRule } from "@/components/elements";
 import { cx, cva, type VariantProps } from "cva";
-import { Intro } from "./intro";
+import { Intro } from "./block-intro";
 import { Nav } from "./nav";
 import { Category } from "@/types/content";
 
@@ -44,6 +44,8 @@ type Props = {
   children: React.ReactNode;
   showIntro?: boolean;
   shareNode?: React.ReactNode;
+  footerNode?: React.ReactNode;
+  theme?: "post" | "feed";
 };
 
 export const PageWrapper = ({
@@ -51,6 +53,8 @@ export const PageWrapper = ({
   children,
   showIntro = true,
   shareNode,
+  footerNode,
+  theme = "post",
 }: Props) => {
   return (
     <>
@@ -70,22 +74,25 @@ export const PageWrapper = ({
 
       {children}
 
-      <footer className="pt-w12">
-        {shareNode}
-        <OutsetRule />
-        <div
-          className={cx(
-            "pt-w8 container",
-            "flex flex-col justify-between",
-            "min-h-[calc(100dvh-var(--spacing-nav)-1px)]"
-          )}
-        >
-          {showIntro && <Intro textIntent="body" />}
-        </div>
-      </footer>
+      {footerNode ? (
+        <footer className={cx(footerStyle, "pt-w8")}>{footerNode}</footer>
+      ) : (
+        <footer className={cx(theme === "post" ? "pt-w12" : "pt-w8")}>
+          {shareNode}
+          <OutsetRule />
+          <div className={cx(footerStyle, "pt-w8 container")}>
+            {showIntro && <Intro textIntent="body" />}
+          </div>
+        </footer>
+      )}
     </>
   );
 };
+
+const footerStyle = [
+  "flex flex-col justify-between",
+  "min-h-[calc(100dvh-var(--spacing-nav)-1px)]",
+];
 
 export const pageInnerVariants = cva({
   base: "",
@@ -94,6 +101,7 @@ export const pageInnerVariants = cva({
       post: "pt-w12 space-y-w8",
       index: "pt-w12 space-y-2.5",
       log: "",
+      home: "pt-w8 space-y-2.5",
     },
   },
   defaultVariants: {
@@ -107,7 +115,11 @@ interface PageInnerProps
 
 export const PageInner = ({ className, variant, ...props }: PageInnerProps) => {
   return (
-    <div className={cx(pageInnerVariants({ variant, className }))} {...props}>
+    <div
+      data-component="PageInner"
+      className={cx(pageInnerVariants({ variant, className }))}
+      {...props}
+    >
       {props.children}
     </div>
   );
