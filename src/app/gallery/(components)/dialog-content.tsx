@@ -15,7 +15,7 @@ import { cx } from "cva";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 // import { CardIcon } from "@/components/card";
-import type { Project } from "./projects";
+import type { Project } from "./projects-old";
 
 export interface DialogContentProps {
   project: Project;

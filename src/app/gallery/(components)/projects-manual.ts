@@ -1,6 +1,15 @@
-import { ManualPost } from "./graphics-grid-simple";
+import { Asset } from "@/types/content";
 
-// Define manual projects using the same format as content collections
+// ManualPost interface that matches content collection Post where relevant
+export interface ManualPost {
+  title: string;
+  date: string;
+  summary?: string;
+  slug?: string;
+  assets: Asset[];
+  noBorder?: boolean;
+}
+
 export const manualProjects: ManualPost[] = [
   {
     title: "Sagatiba for Saatchi & Saatchi, London",

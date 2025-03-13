@@ -6,13 +6,13 @@ import { slugify } from "@/lib/utils";
 import { cx } from "cva";
 import { memo, useMemo } from "react";
 import { useMedia } from "react-use";
-import type { Project } from "./projects";
+import type { Project } from "./projects-old";
 // import { CardImage } from "@/components/card";
 import Image from "next/image";
 
-/* This requires using the data shape from ./projects! */
+/* This requires using the data shape from ./projects-old! */
 
-export const GraphicsGrid = memo(
+export const GraphicsMasonry = memo(
   ({ projects, cols }: { projects: Project[]; cols: number }) => {
     // Replace manual media query with useMedia hook
     const isMobile = useMedia("(max-width: 640px)");
@@ -97,7 +97,7 @@ export const GraphicsGrid = memo(
   }
 );
 
-GraphicsGrid.displayName = "GraphicsGrid";
+GraphicsMasonry.displayName = "GraphicsMasonry";
 
 function pack(images: Project[], columns: number): Project[][] {
   const packed: Project[][] = Array.from({ length: columns }, () => []);

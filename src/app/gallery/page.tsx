@@ -1,46 +1,26 @@
-import { buttonVariants, Link, Text } from "@/components/atoms";
+import { Text } from "@/components/atoms";
+import { TitleHeader } from "@/components/elements";
 import { PageInner, PageWrapper } from "@/components/page";
 import { SearchParams } from "@/types/search-params";
-import { Cross1Icon } from "@radix-ui/react-icons";
-import { cx } from "cva";
-import { GraphicsGridSimple } from "./(components)/graphics-grid-simple";
-import { GalleryListHeader } from "./(components)/gallery-list-header";
-import projects from "./(components)/projects-test";
 import { Metadata } from "next";
-import { TitleHeader } from "@/components/elements";
+import { GalleryPosts, getGalleryProjects } from "./(components)";
 
-/* TODO: add searchParam filters? */
 export default async function GraphicsIndexPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { show } = await searchParams;
-  const currentShow = (show as string) || "";
-  const showInFull = currentShow === "full";
-
-  if (showInFull)
-    return (
-      <div className="bg-background-hover py-w24 relative grid min-h-dvh items-center">
-        <Link
-          href="/gallery?show=index"
-          className={cx(
-            "top-inset right-inset absolute",
-            buttonVariants({ variant: "icon" })
-          )}
-        >
-          <Cross1Icon />
-        </Link>
-        <GraphicsGridSimple projects={projects} showInFull={true} />
-      </div>
-    );
+  const kind = "all";
+  const { sort } = await searchParams;
+  const currentSort = (sort as string) || kind;
+  const projects = await getGalleryProjects();
 
   return (
     <PageWrapper activeNav="/graphics">
       <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">
-            Graphics and interactions.
+            A gallery of graphics and interactions.
           </Text>
           {/* <Text dim intent="meta">
               {graphicsDescription}{" "}
@@ -50,13 +30,8 @@ export default async function GraphicsIndexPage({
               .
             </Text> */}
         </TitleHeader>
-        <GalleryListHeader routePrefix="/gallery" />
 
-        {/* <main className="pt-w6 pb-w12 container max-w-[1500px]"> */}
-        {/* <GraphicsGrid cols={4} projects={projects} /> */}
-        <main className="pt-w6">
-          <GraphicsGridSimple projects={projects} showInFull={false} />
-        </main>
+        <GalleryPosts initialSort={currentSort} kind={kind} posts={projects} />
       </PageInner>
     </PageWrapper>
   );

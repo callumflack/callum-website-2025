@@ -1,25 +1,13 @@
 "use client";
 
+import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
+import { getDimensions, parseAspectRatio } from "@/components/media/utils";
+import { slugify } from "@/lib/utils";
+import { cx } from "class-variance-authority";
+import { Post } from "content-collections";
 import Image from "next/image";
 import Link from "next/link";
-import { Post } from "content-collections";
-import { cx } from "class-variance-authority";
-import { MediaFigure } from "@/components/media";
-import { mediaWrapperVariants } from "@/components/media";
-import { slugify } from "@/lib/utils";
-import { Video } from "@/components/media";
-import { Asset } from "@/types/content";
-import { getDimensions, parseAspectRatio } from "@/components/media/utils";
-
-// Define ManualPost interface that matches content collection Post where relevant
-export interface ManualPost {
-  title: string;
-  date: string;
-  summary?: string;
-  slug?: string;
-  assets: Asset[];
-  noBorder?: boolean;
-}
+import { ManualPost } from "./projects-manual";
 
 // Type guard to check if a project is a ManualPost
 function isManualPost(project: Post | ManualPost): project is ManualPost {
@@ -33,7 +21,7 @@ interface Props {
 
 /* Carousel duped from HomeSnapCarousel in callum-website v1 (w/o the lib) */
 
-export const GraphicsGridSimple = ({ projects, showInFull }: Props) => {
+export const GraphicsSlider = ({ projects, showInFull }: Props) => {
   return (
     <div
       className={cx(
