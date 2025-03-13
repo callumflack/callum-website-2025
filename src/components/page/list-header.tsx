@@ -13,7 +13,8 @@ export const ListHeader = ({
   showContained?: boolean;
   className?: string;
 }) => (
-  <div
+  <header
+    data-component="ListHeader"
     className={cx(
       "bg-canvas top-nav sticky z-10",
       "translate-y-px transform",
@@ -21,7 +22,6 @@ export const ListHeader = ({
     )}
   >
     <nav
-      data-component="ListHeader"
       className={cx(
         "relative",
         showContained ? "container border-x" : "",
@@ -39,5 +39,5 @@ export const ListHeader = ({
       </div>
       <hr className="relative -mt-px" />
     </nav>
-  </div>
+  </header>
 );

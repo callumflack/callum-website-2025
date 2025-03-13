@@ -5,14 +5,12 @@ import { usePathname } from "next/navigation";
 import { useWindowScroll } from "react-use";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-// import { textVariants } from "../atoms/text";
 import { Link } from "../atoms/next-link";
 import { OutsetRule } from "../elements/outset-rule";
 import { textVariants } from "../atoms/text";
 
 const linkStyle = [
   "h-tab flex items-center gap-0 relative hover:text-accent",
-  // "font-medium",
   "before:absolute before:left-[-2px] before:right-[-2px] before:bottom-[-1px] before:border-b",
   // "hover:before:border-accent",
 ];

@@ -9,6 +9,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ViewMode } from "@/types/viewMode";
 
+/* Used on log and topic pages */
+
 interface FullOrIndexPostsProps {
   posts: Post[];
   topic?: string; // Make optional since feed page doesn't need it

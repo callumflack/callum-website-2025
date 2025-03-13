@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import { ListHeader } from "./list-header";
 
+/* Used on writing and work index pages */
+
 // Explicitly defines which sort types should display as grouped
 const GROUPED_SORT_TYPES = new Set(["year", "topic"]);
 
@@ -87,7 +89,10 @@ export function FeaturedOrIndexPosts({
         rhsNode={
           kind === "projects" && (
             <LinkWithArrow
-              className={cx(sortButtonStyle, "text-solid pr-0 normal-case")}
+              className={cx(
+                sortButtonStyle,
+                "text-solid pr-0 normal-case opacity-0"
+              )}
               href="/gallery"
               iconClassName="!translate-y-[-0.2em]"
             >

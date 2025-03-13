@@ -30,7 +30,8 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
             className="link"
             href="/the-work-and-team-im-after"
           >
-            Read about what I do and who I work with
+            {/* Read about what I do and who I work with */}
+            Read about the work and team I&apos;m after
           </LinkWithArrow>
         </Text>
       </Text>
@@ -43,7 +44,7 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
 export const Outro = ({ showLabel = true, textIntent = "meta" }: Props) => {
   return (
     <div className="space-y-2.5">
-      <Text as="p" intent={textIntent}>
+      <Text as="p" intent={textIntent} balance>
         The best way to stay in touch is to write me an{" "}
         <Link href={`mailto:${config.EMAIL}`} className="link">
           email

@@ -50,7 +50,7 @@ export default async function SlugPage({
   return (
     <PageWrapper
       activeNav={renderActiveNav()}
-      showIntro={post.slug === "about" ? false : true}
+      showIntro={post.category === "about" ? false : true}
       shareNode={
         <div>
           <OutsetRule />
@@ -59,7 +59,7 @@ export default async function SlugPage({
               url={`${config.PUBLIC_URL}/${post.slug}`}
               theme="post"
             />
-            {post.slug === "about" ? (
+            {post.category === "about" ? (
               <CVDownloadButtonWrapper
                 filename="CallumFlackCV2024.pdf"
                 label="Download CV"
