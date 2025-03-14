@@ -10,9 +10,11 @@ import {
 } from "@/components/media/media-utils";
 import { ListHeader } from "@/components/page";
 import { StyledSortButton } from "@/components/post";
+import { formatYear } from "@/lib/utils";
 import type { Post } from "content-collections";
 import { cx } from "cva";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { ManualPost } from "./projects-manual";
@@ -141,14 +143,16 @@ export function GalleryPosts({
           "relative z-9",
           "pt-w12 px-inset",
           "grid justify-center",
-          "gap-y-inset gap-x-3",
+          "gap-y-w8 gap-x-3",
           "grid-cols-24"
         )}
       >
         {postsInRows.flat().map(({ post, expanded }, index) => {
           if (!post.assets || post.assets.length === 0) return null;
 
-          const { title, slug, assets } = post;
+          console.log(post);
+
+          const { title, slug, assets, date } = post;
           const asset = assets[0];
           const { width, height } = getImageDimensions(asset.aspect);
           const isVideo = isVideoFile(asset.src);
@@ -159,13 +163,31 @@ export function GalleryPosts({
           return (
             <div
               data-active={isActive}
-              key={`${slug}-${index}`}
+              key={`${title}-${index}`}
               onMouseEnter={() => setIsActive(true)}
               onMouseLeave={() => setIsActive(false)}
               className={cx(expanded ? "col-span-12" : "col-span-6")}
             >
               <MediaFigure
-                caption={title}
+                caption={
+                  slug ? (
+                    <Link
+                      href={`/${slug}`}
+                      className="link flex items-center gap-1.5 no-underline"
+                    >
+                      <Caption title={title} date={date} />
+                      {/* <hr className="hr-vertical h-[12px] border-transparent" />
+                      <span className="flex items-center gap-0.5">
+                        View
+                        <ArrowRightIcon className="size-em translate-y-[0.05em] transform" />
+                      </span> */}
+                    </Link>
+                  ) : (
+                    <div className="flex items-center gap-1.5">
+                      <Caption title={title} date={date} />
+                    </div>
+                  )
+                }
                 captionClassName=""
                 className={cx(
                   isImageSquare ? "isSquare" : "",
@@ -218,3 +240,14 @@ export function GalleryPosts({
     </>
   );
 }
+
+/* Duplicated from Slider.tsx */
+export const Caption = ({ title, date }: { title: string; date: string }) => {
+  return (
+    <>
+      <span>{title}</span>
+      <hr className="hr-vertical border-border-hover h-[12px]" />
+      <span>{formatYear(date)}</span>
+    </>
+  );
+};

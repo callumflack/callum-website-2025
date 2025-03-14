@@ -9,10 +9,11 @@ import {
   isSquare,
   isVideoFile,
 } from "@/components/media/media-utils";
-import { slugify } from "@/lib/utils";
+import { formatYear, slugify } from "@/lib/utils";
 import { cx } from "class-variance-authority";
 import { Post } from "content-collections";
 import Image from "next/image";
+import Link from "next/link";
 
 interface SliderProps {
   projects: (Post | ManualPost)[];
@@ -102,10 +103,26 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
             )}
           >
             <MediaFigure
-              caption={title} // TODO: add date and project type?
-              captionClassName={cx(isZoomed && "hidden")}
-              // mt-auto
-              className="flex flex-col items-center justify-end [&_figcaption]:w-full"
+              caption={
+                !isZoomed && (
+                  <SimpleCardCaption
+                    slug={slug}
+                    title={title}
+                    date={project.date}
+                    isZoomed={isZoomed}
+                  />
+                )
+              }
+              captionClassName={cx(
+                "transition duration-100 ease-out delay-75"
+                // Apply inverse scale when zoomed, origin from top
+                // isZoomed && "scale-[0.5] origin-top transform-gpu"
+              )}
+              className={cx(
+                "flex flex-col items-center justify-end [&_figcaption]:w-full"
+                // isZoomed &&
+                //   "pointer-events-none [&_figcaption]:pointer-events-auto"
+              )}
               figureIntent="inGrid"
               isPortrait={isImagePortrait}
             >
@@ -149,5 +166,37 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
         );
       })}
     </div>
+  );
+};
+
+type SimpleCardCaptionProps = {
+  slug: string;
+  title: string;
+  date: string;
+  isZoomed: boolean;
+};
+
+export const SimpleCardCaption = ({
+  slug,
+  title,
+  date,
+  isZoomed,
+}: SimpleCardCaptionProps) => {
+  return (
+    <Link
+      href={`/${slug}`}
+      className="link flex items-center gap-1.5 no-underline"
+      onClick={(e) => {
+        if (!isZoomed) {
+          e.stopPropagation();
+        } else {
+          e.preventDefault();
+        }
+      }}
+    >
+      <span>{title}</span>
+      <hr className="hr-vertical border-border-hover h-[12px]" />
+      <span>{formatYear(date)}</span>
+    </Link>
   );
 };

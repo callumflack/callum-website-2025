@@ -36,7 +36,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Outdoor campaign for Brisbane Arcade",
+    title: "Campaign for Brisbane Arcade",
     date: "2001-01-01",
     summary: "Outdoor advertising campaign",
     slug: "breaka",
@@ -49,7 +49,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Website design & illustrations for Jazz Tools",
+    title: "Website and graphics for Jazz Tools",
     date: "2024-09-01",
     summary: "Unused concepts for jazz education platform",
     assets: [
@@ -61,7 +61,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Logo for Oshan Jarrow's Musing Mind podcast",
+    title: "Logo for Musing Mind podcast",
     date: "2021-01-01",
     summary: "Podcast logo design",
     assets: [
@@ -73,7 +73,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Ocean Blue Living",
+    title: "Icons for Ocean Blue Living",
     date: "2017-01-01",
     summary: "Visual identity system",
     assets: [
@@ -97,7 +97,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "InnerSpace CD booklet for Votary Records",
+    title: "CD booklet for Votary Records",
     date: "2008-01-01",
     summary: "Music packaging design",
     assets: [
@@ -109,7 +109,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "CD cover for the Waxidermy Mixtape Swap",
+    title: "Waxidermy Mixtape Swap CD cover",
     date: "2010-01-01",
     summary: "Music packaging design for online community",
     assets: [
@@ -171,26 +171,26 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Another poster for Weird Gear",
+    title: "Poster for Weird Gear",
     date: "2011-01-01",
     summary: "Event poster design",
     assets: [
       {
         src: "/images/WeirdGearBrisbane_1101.jpg",
-        alt: "Another poster for Weird Gear",
+        alt: "Poster for Weird Gear",
         aspect: "1000-1414",
       },
     ],
   },
   {
-    title: "Youtube brand system for Deep Gospel Sound",
+    title: "Youtube brand for Deep Gospel Sound",
     date: "2015-01-01",
     summary: "Youtube channel branding",
-    slug: "deep-gospel-sound",
+    // slug: "deep-gospel-sound",
     assets: [
       {
         src: "/images/deep-soul-gospel.png",
-        alt: "Youtube brand system for Deep Gospel Sound",
+        alt: "Youtube brand for Deep Gospel Sound",
         aspect: "1600-900",
       },
     ],
@@ -208,7 +208,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Marinetti CD cover for Roundtable Records",
+    title: "CD cover for Roundtable Records",
     date: "2011-01-01",
     summary: "Music packaging design",
     assets: [
@@ -220,7 +220,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Dido & Aeneas poster for Vision Opera, London",
+    title: "Poster for Vision Opera, London",
     date: "2005-01-01",
     summary: "Poster design for opera company",
     assets: [
@@ -232,7 +232,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Solar Flares record cover for Votary Records",
+    title: "Record cover for Votary Records",
     date: "2009-01-01",
     summary: "Music packaging design",
     assets: [

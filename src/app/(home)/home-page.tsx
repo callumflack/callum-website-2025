@@ -113,6 +113,7 @@ export const HomePage = ({
               isZoomed={isZoomed}
               fullWidthWhenZoomed={true}
               onZoomChange={setIsZoomed}
+              // min-h avoids hydration jank
               className="z-2 min-h-[276px] sm:min-h-[331px]"
             >
               <Slider
