@@ -67,7 +67,7 @@ export const textVariants = cva({
   },
   compoundVariants: [
     {
-      intent: ["title", "super"],
+      intent: ["title"],
       balance: true,
     },
     // This is cool, but I can't use it in button.tsx because it's a compound variant.
