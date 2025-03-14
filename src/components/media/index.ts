@@ -17,4 +17,4 @@ export {
 export { Zoomable, type ZoomableProps } from "./zoomable";
 export { Video, type VideoProps } from "./video";
 export { Caption, type CaptionProps } from "./caption";
-export * from "./utils";
+export * from "./media-utils";

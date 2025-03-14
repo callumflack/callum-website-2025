@@ -3,7 +3,10 @@
 import { SpeakerLoudIcon, SpeakerOffIcon } from "@radix-ui/react-icons";
 import type { SVGProps, VideoHTMLAttributes } from "react";
 import { useEffect, useRef, useState } from "react";
-import { formatAspectForCSS } from "@/components/media/utils";
+import {
+  getAspectRatioCSS,
+  type AspectRatio,
+} from "@/components/media/media-utils";
 import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { VideoLoader } from "./video-loader";
 // import { useIsMobileViewport } from "@/hooks/use-breakpoint";
@@ -12,19 +15,17 @@ export interface VideoProps
   extends Omit<VideoHTMLAttributes<HTMLVideoElement>, "onError"> {
   src: string;
   poster: string;
-  aspect: number;
+  aspect: AspectRatio;
   className: string;
   allowSound?: boolean;
   onError?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   // sizes?: string;
 }
 
-// Helper to normalize aspect ratio for CSS
-function normalizeAspectRatio(aspect: number): string {
-  return formatAspectForCSS(aspect);
-}
-
 // Video component with lazy loading and autoplay
+// Note for future: Consider addressing mobile autoplay behavior
+// Current implementation might conflict with browser autoplay policies
+// especially on mobile devices where autoplay with sound is often blocked
 export const Video = ({
   src,
   poster,
@@ -111,22 +112,10 @@ export const Video = ({
     };
   }, [onError]);
 
-  // useEffect(() => {
-  //   console.log("Video status:", videoStatus);
-  // }, [videoStatus]);
-
-  // Note for future: Consider addressing mobile autoplay behavior
-  // Current implementation might conflict with browser autoplay policies
-  // especially on mobile devices where autoplay with sound is often blocked
-
-  // Normalize aspect ratio for consistent handling
-  const normalizedAspect = normalizeAspectRatio(aspect);
-
   return (
     <div className="relative">
       {/* DO NOT render conditionally. Event listeners and refs must attach! */}
       {/* autoPlay={!isMobileViewport} */}
-      {}
       <video
         autoPlay
         className={className}
@@ -139,7 +128,9 @@ export const Video = ({
             videoStatus === "loading" || videoStatus === "error"
               ? "none"
               : "block",
-          aspectRatio: normalizedAspect,
+          // We do NOT pass height or width to the video element b/c unlike images we can't use sizes to re-adjust the rendered dimensions.
+          // Use aspect ratio instead, relying on the parent container to set the width.
+          aspectRatio: getAspectRatioCSS(aspect),
         }}
         {...rest}
       >
@@ -163,15 +154,6 @@ export const Video = ({
           </button>
         </div>
       ) : null}
-
-      {/* PLAY (Mobile) */}
-      {/* {isMobileViewport && videoStatus !== "playing" && poster && (
-        <MobilePlayButton
-          onClick={() => videoRef.current?.play()}
-          poster={poster}
-          aspect={aspect}
-        />
-      )} */}
 
       {/* LOADING OR ERROR - both show the poster */}
       {(videoStatus === "loading" || videoStatus === "error") && poster ? (

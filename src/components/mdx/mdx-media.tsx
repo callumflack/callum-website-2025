@@ -8,7 +8,12 @@ import {
   type VideoProps,
   type ZoomableProps,
 } from "@/components/media";
-import { calculateMissingDimension } from "@/components/media/utils";
+import {
+  getAspectRatioCSS,
+  getImageDimensions,
+  isPortrait,
+  type AspectRatio,
+} from "@/components/media/media-utils";
 import { cx } from "cva";
 import NextImage, { type ImageProps } from "next/image";
 import React from "react";
@@ -18,7 +23,7 @@ export type MdxImageProps = Partial<ZoomableProps> &
   Partial<MediaWrapperProps> &
   ImageProps & {
     caption?: React.ReactNode;
-    aspect?: number;
+    aspect: AspectRatio;
   };
 
 export type ZoomableVideoProps = Omit<VideoProps, "className"> &
@@ -28,44 +33,25 @@ export type ZoomableVideoProps = Omit<VideoProps, "className"> &
   };
 
 /**
- * Shared function to process media properties like dimensions and captions
+ * Extract caption from alt text if it contains a caption tag
  */
-function processMediaProps(
-  alt: string = "",
-  width: string | number | undefined,
-  height: string | number | undefined,
-  aspect: number | undefined,
-  caption: React.ReactNode | undefined
-) {
-  // Process caption
-  let extractedCaption = caption;
-  let cleanAlt = alt;
-
-  const captionMatch = alt.match(/\[caption:\s*(.*?)\]/);
-  if (captionMatch) {
-    extractedCaption = captionMatch[1];
-    cleanAlt = alt.replace(captionMatch[0], "").trim();
+function extractCaption(alt: string = "", explicitCaption?: React.ReactNode) {
+  // Return explicit caption if provided
+  if (explicitCaption !== undefined) {
+    return { caption: explicitCaption, cleanAlt: alt };
   }
 
-  // Convert string dimensions to numbers if needed
-  const numericWidth = width ? Number(width) : undefined;
-  const numericHeight = height ? Number(height) : undefined;
+  // Check for caption in alt text
+  const captionMatch = alt.match(/\[caption:\s*(.*?)\]/);
+  if (captionMatch) {
+    return {
+      caption: captionMatch[1],
+      cleanAlt: alt.replace(captionMatch[0], "").trim(),
+    };
+  }
 
-  // Calculate dimensions based on aspect ratio
-  const { width: calculatedWidth, height: calculatedHeight } =
-    calculateMissingDimension(numericWidth, numericHeight, aspect);
-
-  const isPortrait = Boolean(
-    calculatedHeight && calculatedWidth && calculatedHeight > calculatedWidth
-  );
-
-  return {
-    cleanAlt,
-    extractedCaption,
-    width: calculatedWidth,
-    height: calculatedHeight,
-    isPortrait,
-  };
+  // No caption found
+  return { caption: undefined, cleanAlt: alt };
 }
 
 const mediaSpacing = "py-w6 first:pt-0";
@@ -74,8 +60,6 @@ export function ZoomableImage(props: MdxImageProps) {
   const {
     src,
     alt = "",
-    width,
-    height,
     aspect,
     priority = false,
     caption,
@@ -84,35 +68,26 @@ export function ZoomableImage(props: MdxImageProps) {
     rounded,
   } = props;
 
-  // Make sure we're only passing numeric aspect ratios
-  const standardizedAspect = typeof aspect === "number" ? aspect : undefined;
+  // console.log("ZoomableImage props:", props);
 
-  const {
-    cleanAlt,
-    extractedCaption,
-    width: calculatedWidth,
-    height: calculatedHeight,
-    isPortrait,
-  } = processMediaProps(alt, width, height, standardizedAspect, caption);
-
-  // Ensure we have dimensions for NextImage
-  if (!calculatedHeight && !calculatedWidth) {
-    console.warn("Image missing dimensions, using defaults");
-  }
+  const { caption: extractedCaption, cleanAlt } = extractCaption(alt, caption);
+  const { width, height } = getImageDimensions(aspect);
 
   return (
     <Zoomable className={mediaSpacing}>
-      <MediaFigure caption={extractedCaption} isPortrait={isPortrait}>
+      <MediaFigure caption={extractedCaption} isPortrait={isPortrait(aspect)}>
         <NextImage
           src={src}
           alt={cleanAlt}
-          width={calculatedWidth}
-          height={calculatedHeight}
+          width={width}
+          height={height}
           priority={priority}
-          sizes="(min-width: 660px) 600px, 400px" // TODO: adjust based on isZoomed?
+          sizes="(min-width: 660px) 600px, 400px"
           draggable={false}
           className={cx(mediaWrapperVariants({ border, background, rounded }))}
-          style={aspect ? { aspectRatio: aspect } : undefined}
+          style={
+            aspect ? { aspectRatio: getAspectRatioCSS(aspect) } : undefined
+          }
         />
       </MediaFigure>
     </Zoomable>
@@ -123,8 +98,6 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
   const {
     src,
     poster,
-    width,
-    height,
     caption,
     aspect,
     border,
@@ -134,26 +107,15 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
     ...rest
   } = props;
 
-  // Make sure we're only passing numeric aspect ratios
-  const standardizedAspect = typeof aspect === "number" ? aspect : undefined;
+  // console.log("ZoomableVideo props:", props);
 
-  const altText = "";
-  const { extractedCaption, isPortrait } = processMediaProps(
-    altText,
-    width,
-    height,
-    standardizedAspect,
-    caption
-  );
-
-  // Video component already handles proper aspect ratio formatting internally
   return (
     <Zoomable className={mediaSpacing}>
-      <MediaFigure caption={extractedCaption} isPortrait={isPortrait}>
+      <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
         <Video
           src={typeof src === "string" ? src : ""}
           poster={poster || ""}
-          aspect={typeof aspect === "number" ? aspect : 16 / 9}
+          aspect={aspect}
           allowSound={allowSound}
           className={cx(mediaWrapperVariants({ border, background, rounded }))}
           {...rest}

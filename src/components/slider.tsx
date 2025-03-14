@@ -1,39 +1,32 @@
 "use client";
 
-import Image from "next/image";
-import { Post } from "content-collections";
-import { cx } from "class-variance-authority";
-import { MediaFigure } from "@/components/media";
-import { mediaWrapperVariants } from "@/components/media";
+import { ManualPost } from "@/app/gallery/(components)/projects-manual";
+import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
+import {
+  getAspectRatioCSS,
+  getImageDimensions,
+  isPortrait,
+  isSquare,
+  isVideoFile,
+} from "@/components/media/media-utils";
 import { slugify } from "@/lib/utils";
-import { Video } from "@/components/media";
-import { Asset } from "@/types/content";
-import { getDimensions, parseAspectRatio } from "@/components/media/utils";
+import { cx } from "class-variance-authority";
+import { Post } from "content-collections";
+import Image from "next/image";
 
-// Define ManualPost interface that matches content collection Post where relevant
-export interface ManualPost {
-  title: string;
-  date: string;
-  summary?: string;
-  slug?: string;
-  assets: Asset[];
-  noBorder?: boolean;
-}
-
-// Type guard to check if a project is a ManualPost
-function isManualPost(project: Post | ManualPost): project is ManualPost {
-  return !("category" in project);
-}
-
-interface Props {
+interface SliderProps {
   projects: (Post | ManualPost)[];
   showInFull: boolean;
   isZoomed: boolean;
 }
 
-/* Carousel duped from HomeSnapCarousel in callum-website v1 (w/o the lib) */
+/* Slider must work for both ManualPost and Post types */
+function isManualPost(project: Post | ManualPost): project is ManualPost {
+  return !("category" in project);
+}
 
-export const Slider = ({ projects, showInFull, isZoomed }: Props) => {
+/* Carousel duped from HomeSnapCarousel in callum-website v1 (w/o the lib) */
+export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
   return (
     <div
       className={cx(
@@ -54,36 +47,20 @@ export const Slider = ({ projects, showInFull, isZoomed }: Props) => {
       )}
     >
       {projects.map((project, index) => {
-        // Skip if the project doesn't have assets
         if (!project.assets || project.assets.length === 0) return null;
 
-        const asset = project.assets[0];
-        const isVideo = asset.src.endsWith(".mp4");
-        const slug = project.slug || slugify(project.title);
         const { title } = project;
+        const slug = project.slug || slugify(title);
 
-        // Get dimensions directly from aspect if it's a string with dash
-        let width: number;
-        let height: number;
-        let aspectRatio: number;
-
-        if (typeof asset.aspect === "string" && asset.aspect.includes("-")) {
-          [width, height] = asset.aspect.split("-").map(Number);
-          aspectRatio = width / height;
-        } else {
-          // Fallback to the utility functions for other formats
-          aspectRatio = parseAspectRatio(asset.aspect);
-          const dimensions = getDimensions(aspectRatio);
-          width = dimensions.width;
-          height = dimensions.height;
-        }
+        const asset = project.assets[0];
+        const { width, height } = getImageDimensions(asset.aspect);
+        const isImageSquare = isSquare(asset.aspect);
+        const isVideo = isVideoFile(asset.src);
+        const isImagePortrait = isPortrait(asset.aspect);
 
         const noBorder = isManualPost(project)
           ? project.noBorder || false
           : false;
-
-        const isSquare = height / width >= 0.825 && height / width <= 1;
-        const isPortrait = height > width;
 
         const sizeClasses = {
           portrait: {
@@ -101,23 +78,13 @@ export const Slider = ({ projects, showInFull, isZoomed }: Props) => {
           },
         };
 
-        const shape = isPortrait
+        const shape = isImagePortrait
           ? "portrait"
-          : isSquare
+          : isImageSquare
             ? "square"
             : "landscape";
         const size = showInFull ? "full" : "default";
         const classes = sizeClasses[shape][size];
-
-        // Log the asset name and dimensions for debugging
-        console.log(
-          `Project: ${project.title}`,
-          `Asset: ${asset.src.split("/").pop()}`,
-          `Original aspect: ${typeof asset.aspect === "number" ? asset.aspect.toFixed(4) : asset.aspect}`,
-          `Calculated dimensions: ${width}x${height}`,
-          isPortrait ? "Portrait" : isSquare ? "Square" : "Landscape",
-          `Raw aspect: ${1840 / 2519}`
-        );
 
         return (
           <div
@@ -137,15 +104,12 @@ export const Slider = ({ projects, showInFull, isZoomed }: Props) => {
               // mt-auto
               className="flex flex-col items-center justify-end [&_figcaption]:w-full"
               figureIntent="inGrid"
-              isPortrait={isPortrait}
-              style={{
-                aspectRatio: `${width}/${height}`,
-              }}
+              isPortrait={isImagePortrait}
             >
               {isVideo ? (
                 <Video
                   key={asset.src}
-                  aspect={aspectRatio}
+                  aspect={asset.aspect}
                   className={cx(
                     mediaWrapperVariants({
                       border: !noBorder,
@@ -167,7 +131,7 @@ export const Slider = ({ projects, showInFull, isZoomed }: Props) => {
                       : "(min-width: 660px) 600px, 400px"
                   }
                   style={{
-                    aspectRatio: `${width}/${height}`,
+                    aspectRatio: getAspectRatioCSS(asset.aspect),
                   }}
                   className={cx(
                     mediaWrapperVariants({

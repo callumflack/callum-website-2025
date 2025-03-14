@@ -19,7 +19,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/saatchi-sagatiba-1200.png",
         alt: "Sagatiba for Saatchi & Saatchi",
-        aspect: 1200 / 1697,
+        aspect: "1200-1697",
       },
     ],
   },
@@ -31,7 +31,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/_millennius-1211A.jpg",
         alt: "Poster for Millennius Fashion",
-        aspect: 2480 / 3507,
+        aspect: "2480-3507",
       },
     ],
   },
@@ -44,7 +44,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/brisbane-arcade-love-me.jpg",
         alt: "Outdoor campaign for Brisbane Arcade",
-        aspect: 1840 / 2519,
+        aspect: "1840-2519",
       },
     ],
   },
@@ -56,7 +56,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/jazz-home-hero-01-02.png",
         alt: "Website design & illustrations for Jazz Tools",
-        aspect: 2532 / 2240,
+        aspect: "2532-2240",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/musing-mind-podcast.jpg",
         alt: "Logo for Musing Mind podcast",
-        aspect: 1,
+        aspect: "900-900",
       },
     ],
   },
@@ -80,7 +80,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/oceanblueliving-visual-system.png",
         alt: "Ocean Blue Living visual system",
-        aspect: 1440 / 1200,
+        aspect: "1440-1200",
       },
     ],
   },
@@ -92,7 +92,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/MSW-2022.png",
         alt: "Logo for Melbourne Soul Weekender",
-        aspect: 1,
+        aspect: "1440-1200",
       },
     ],
   },
@@ -104,7 +104,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/votary-innerspacedvd.jpg",
         alt: "InnerSpace CD booklet",
-        aspect: 960 / 680,
+        aspect: "960-680",
       },
     ],
   },
@@ -116,7 +116,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/colouring-in-2010.png",
         alt: "CD cover for Waxidermy Mixtape Swap",
-        aspect: 1,
+        aspect: "1440-1200",
       },
     ],
     noBorder: true,
@@ -129,7 +129,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/dualplanet-donharper-cover.jpg",
         alt: "Record cover for Dual Planet",
-        aspect: 3685 / 3712,
+        aspect: "3685-3712",
       },
     ],
     noBorder: true,
@@ -142,7 +142,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/roundtable-label-birds-2.jpg",
         alt: "Logo for Roundtable Records",
-        aspect: 1200 / 800,
+        aspect: "1200-800",
       },
     ],
   },
@@ -154,7 +154,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/WYS11_GenericFlyer_01.jpg",
         alt: "Poster for Watch Your Step",
-        aspect: 842 / 1191,
+        aspect: "842-1191",
       },
     ],
   },
@@ -166,7 +166,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/WeirdGearBrisbane_1011.jpg",
         alt: "Poster for Weird Gear",
-        aspect: 1000 / 1414,
+        aspect: "1000-1414",
       },
     ],
   },
@@ -178,7 +178,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/WeirdGearBrisbane_1101.jpg",
         alt: "Another poster for Weird Gear",
-        aspect: 1000 / 1414,
+        aspect: "1000-1414",
       },
     ],
   },
@@ -191,7 +191,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/deep-soul-gospel.png",
         alt: "Youtube brand system for Deep Gospel Sound",
-        aspect: 16 / 9,
+        aspect: "1600-900",
       },
     ],
   },
@@ -203,7 +203,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/the-substation.png",
         alt: "The Substation website",
-        aspect: 3000 / 2160,
+        aspect: "3000-2160",
       },
     ],
   },
@@ -215,7 +215,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/roundtable-marinetti-back.jpg",
         alt: "Marinetti CD cover",
-        aspect: 960 / 680,
+        aspect: "960-680",
       },
     ],
   },
@@ -227,7 +227,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/visionopera-dido-aenaes-lg.jpg",
         alt: "Dido & Aeneas poster",
-        aspect: 3508 / 4961,
+        aspect: "3508-4961",
       },
     ],
   },
@@ -239,7 +239,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/votary-solarflares-coverback.jpg",
         alt: "Solar Flares record cover",
-        aspect: 1200 / 800,
+        aspect: "1200-800",
       },
     ],
   },

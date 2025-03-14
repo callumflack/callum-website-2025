@@ -17,6 +17,7 @@ const getFeaturedWriting = (): Post[] => {
 export default function Home() {
   const filteredPosts = allPosts.filter(
     (post) =>
+      // or post.category === about
       post.slug !== "the-work-and-team-im-after" && post.slug !== "about"
   );
 

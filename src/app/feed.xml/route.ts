@@ -1,7 +1,7 @@
 import { Feed } from "feed";
 import config from "@/config";
 import { allPosts } from "content-collections";
-import { isVideoFile } from "@/components/media/utils";
+import { isVideoFile } from "@/components/media/media-utils";
 
 /* 
   https://github.com/jpmonette/feed

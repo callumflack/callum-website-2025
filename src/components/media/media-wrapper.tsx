@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
+import { getAspectRatioCSS, type AspectRatio } from "./media-utils";
 
 export const mediaWrapperVariants = cva({
   base: [
@@ -32,7 +33,7 @@ export const mediaWrapperVariants = cva({
 export interface MediaWrapperProps
   extends ComponentProps<"div">,
     VariantProps<typeof mediaWrapperVariants> {
-  aspect: string; // always <width>-<height>
+  aspect: AspectRatio;
 }
 
 export const MediaWrapper = ({
@@ -59,7 +60,7 @@ export const MediaWrapper = ({
         })
       )}
       style={{
-        aspectRatio: aspect.replace("-", " / "),
+        aspectRatio: getAspectRatioCSS(aspect),
       }}
     >
       {children}

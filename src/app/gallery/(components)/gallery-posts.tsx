@@ -1,12 +1,12 @@
 "use client";
 
+import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
 import {
-  getDimensions,
-  MediaFigure,
-  mediaWrapperVariants,
-  parseAspectRatio,
-  Video,
-} from "@/components/media";
+  getAspectRatioCSS,
+  getImageDimensions,
+  isPortrait,
+  isVideoFile,
+} from "@/components/media/media-utils";
 import { ListHeader } from "@/components/page";
 import { StyledSortButton } from "@/components/post";
 import type { Post } from "content-collections";
@@ -51,6 +51,8 @@ export function GalleryPosts({
     return sort.replace(/-/g, " ");
   };
 
+  // console.log(posts);
+
   return (
     <main>
       <div className="container">
@@ -73,56 +75,39 @@ export function GalleryPosts({
 
       <div
         className={cx(
-          "pt-w12 px-inset relative z-2",
+          // place above container pseudo-borders
+          "relative z-2",
+          "pt-w12 px-inset",
           "gap-x-inset gap-y-w12 grid grid-cols-2 min-[1800px]:!grid-cols-5 lg:grid-cols-3 xl:grid-cols-4"
         )}
       >
         {posts.map((post, index) => {
-          // Skip if the post doesn't have assets
           if (!post.assets || post.assets.length === 0) return null;
 
           const { title, slug, assets } = post;
 
           const asset = assets[0];
-          const isVideo = asset.src.endsWith(".mp4");
-
-          let width: number;
-          let height: number;
-          let aspectRatio: number;
-
-          if (typeof asset.aspect === "string" && asset.aspect.includes("-")) {
-            [width, height] = asset.aspect.split("-").map(Number);
-            aspectRatio = width / height;
-          } else {
-            // Fallback to the utility functions for other formats
-            aspectRatio = parseAspectRatio(asset.aspect);
-            const dimensions = getDimensions(aspectRatio);
-            width = dimensions.width;
-            height = dimensions.height;
-          }
-
+          const { width, height } = getImageDimensions(asset.aspect);
+          const isVideo = isVideoFile(asset.src);
+          const isImagePortrait = isPortrait(asset.aspect);
           const noBorder = isManualPost(post) ? post.noBorder || false : false;
-
-          const isSquare = height / width >= 0.825 && height / width <= 1;
-          const isPortrait = height > width;
 
           return (
             <MediaFigure
               key={slug}
               caption={title} // TODO: add date and project type?
               captionClassName=""
-              // mt-auto
               className="flex flex-col items-center justify-end [&_figcaption]:w-full"
               figureIntent="inGrid"
-              isPortrait={isPortrait}
+              isPortrait={isImagePortrait}
               style={{
-                aspectRatio: `${width}/${height}`,
+                aspectRatio: getAspectRatioCSS(asset.aspect),
               }}
             >
               {isVideo ? (
                 <Video
                   key={asset.src}
-                  aspect={aspectRatio}
+                  aspect={asset.aspect}
                   className={cx(
                     mediaWrapperVariants({
                       border: !noBorder,
@@ -140,7 +125,7 @@ export function GalleryPosts({
                   width={width}
                   sizes={"(min-width: 660px) 600px, 400px"}
                   style={{
-                    aspectRatio: `${width}/${height}`,
+                    aspectRatio: getAspectRatioCSS(asset.aspect),
                   }}
                   className={cx(
                     mediaWrapperVariants({

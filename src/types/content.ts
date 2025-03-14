@@ -39,11 +39,17 @@ export enum LibraryType {
 export type LibraryTypeValue = `${LibraryType}`;
 
 // Asset type
+// OR NonNullable<Post["assets"]>[number]; for single source of truth?
 export type Asset = {
   src: string;
   poster?: string;
   alt: string;
-  aspect: string | number;
+  aspect: string;
+  dimensions?: {
+    width: number;
+    height: number;
+    aspectRatio: number;
+  };
 };
 
 // Posts collection types

@@ -47,7 +47,7 @@ export const GraphicsMasonry = memo(
                 {project.video ? (
                   <Video
                     key={project.video}
-                    aspect={project.aspect || 16 / 9}
+                    aspect={project.aspect}
                     className=""
                     poster={project.image}
                     src={project.video}

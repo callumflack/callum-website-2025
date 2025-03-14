@@ -5,7 +5,7 @@ import { Category, LibraryType } from "./src/types/content";
 import { exec as execCallback } from "child_process";
 import util from "util";
 import readingTime from "reading-time";
-import { parseAspectRatio } from "./src/components/media/utils";
+import { getImageDimensions } from "./src/components/media/media-utils";
 
 const exec = util.promisify(execCallback);
 
@@ -63,7 +63,7 @@ export const posts = defineCollection({
           src: z.string(),
           poster: z.string().optional(),
           alt: z.string(),
-          aspect: z.union([z.string(), z.number()]),
+          aspect: z.string(),
         })
       )
       .optional(),
@@ -80,12 +80,21 @@ export const posts = defineCollection({
       }
     );
 
-    // Process assets to convert string aspect ratios to numbers
+    // Process assets to enrich with dimensions and normalized aspect ratios
     if (post.assets) {
-      post.assets = post.assets.map((asset) => ({
-        ...asset,
-        aspect: parseAspectRatio(asset.aspect),
-      }));
+      post.assets = post.assets.map((asset) => {
+        const { width, height, aspectRatioNumber } = getImageDimensions(
+          asset.aspect
+        );
+
+        return {
+          ...asset,
+          // Keep the original aspect value for reference
+          aspect: asset.aspect,
+          // Add calculated properties as a dimensions object
+          dimensions: { width, height, aspectRatioNumber },
+        };
+      });
     }
 
     const content = await compileMDX(ctx, post, {

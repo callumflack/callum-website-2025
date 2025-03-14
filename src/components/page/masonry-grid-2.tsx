@@ -3,7 +3,7 @@ import { cx } from "cva";
 import NextLink from "next/link";
 import { Post } from "content-collections";
 import { CardImage } from "@/components/card";
-import { parseAspectRatio } from "@/components/media/utils";
+import { parseAspectRatio } from "@/components/media/media-utils";
 import { PostLinkHeadingWrapper } from "../post/post-link-heading-wrapper";
 import { Text } from "@/components/atoms";
 

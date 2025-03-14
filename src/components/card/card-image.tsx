@@ -3,13 +3,14 @@ import {
   DEFAULT_ASPECT,
   getDimensions,
   isVideoFile,
+  getAspectRatioCSS,
 } from "@/components/media";
 import NextImage from "next/image";
 import { cx } from "cva";
 import { Post } from "content-collections";
 
 export interface CardImageProps {
-  asset: NonNullable<Post["assets"]>[number];
+  asset: NonNullable<Post["assets"]>[number]; // or content.ts Asset type?
   sizes?: string;
   priority?: boolean;
   className: string;
@@ -23,14 +24,14 @@ export const CardImage = ({
 }: CardImageProps) => {
   const isVideo = isVideoFile(asset.src);
 
-  // NB! CardImage aspects must always be 16:10
+  // NB! CardImage aspects must always be "1600-1000"
   const aspect = DEFAULT_ASPECT;
   const { width, height } = getDimensions(aspect);
 
   return (
     <>
       {isVideo ? (
-        // videos use aspect ratio directly
+        // videos use aspect ratio only
         <Video
           key={asset.src}
           aspect={aspect}
@@ -50,7 +51,7 @@ export const CardImage = ({
           height={height}
           width={width}
           style={{
-            aspectRatio: `${width}/${height}`,
+            aspectRatio: getAspectRatioCSS(aspect),
           }}
         />
       )}
