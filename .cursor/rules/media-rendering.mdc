@@ -1,0 +1,108 @@
+---
+description: Media Rendering Guidelines for images and videos
+globs: *.tsx, *.mdx
+alwaysApply: false
+---
+# Media Rendering Guidelines
+
+## Single Source of Truth
+
+All media assets in our application follow the `Asset` type defined in `src/types/content.ts`:
+
+```typescript
+export type Asset = {
+  src: string;
+  poster?: string;  // For videos
+  alt: string;
+  aspect: string;   // Format: "16-9" (width-height)
+  dimensions?: {
+    width: number;
+    height: number;
+    aspectRatio: number;
+  };
+};
+```
+
+This is our canonical format. **Do not create alternate versions or conversions of this type.**
+
+## Components for Rendering Media
+
+### For MDX Content
+
+Use the components in `src/components/mdx/mdx-media.tsx`:
+
+- `ZoomableImage`: For image content that can be zoomed
+- `ZoomableVideo`: For video content that can be zoomed
+
+Both components automatically handle calculation of dimensions, portrait detection, and caption extraction.
+
+### For UI Components
+
+When referencing assets from a Post, prefer using type deduction:
+
+```typescript
+interface MyComponentProps {
+  asset: NonNullable<Post["assets"]>[number]; // Directly references Asset type
+}
+```
+
+This approach ensures your component automatically stays in sync with any changes to the content model.
+
+## Key Files
+
+- `src/types/content.ts` - Contains the `Asset` type definition
+- `src/components/mdx/mdx-media.tsx` - MDX-specific media components
+- `src/components/media/utils.ts` - Utility functions for aspect ratios and dimensions
+- `src/components/media/video.tsx` - Base Video component
+- `content-collections.ts` - Processes and validates content
+
+## Best Practices
+
+1. Always use string formats for aspect ratios (e.g., "16-9")
+2. Let utility functions handle dimension calculations
+3. Use the Asset type directly or through type deduction
+4. Avoid unnecessary type conversions
+
+## Core Media Components
+
+### MediaFigure (`src/components/media/media-figure.tsx`)
+
+The semantic container for media content, providing:
+
+- Proper `<figure>` semantics with optional caption
+- Layout variants for different contexts:
+  - `inGrid`: For grid-based layouts
+  - `inMdx`: For markdown content
+  - `inDialogTrigger`: For zoomable content
+  - `outset` & `superOutset`: For breakout content
+- Special handling for portrait orientation
+- Caption rendering and positioning
+
+Usage:
+```tsx
+<MediaFigure caption="Example image" isPortrait={true} figureIntent="inMdx">
+  {/* Your image or video here */}
+</MediaFigure>
+```
+
+### MediaWrapper (`src/components/media/media-wrapper.tsx`)
+
+Provides consistent styling and aspect ratio control:
+
+- Sets aspect ratio based on the `aspect` prop
+- Consistent styling options (border, background, rounded corners)
+- Overflow handling for media content
+
+Usage:
+```tsx
+<MediaWrapper 
+  aspect="16-9" 
+  border={true} 
+  rounded={true}
+>
+  {/* Your image or video element */}
+</MediaWrapper>
+```
+
+These components are typically used together, with MediaFigure as the outer container and MediaWrapper (or direct media elements) inside.
+```
