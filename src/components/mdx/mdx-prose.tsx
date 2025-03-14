@@ -11,7 +11,7 @@ import { cx, cva } from "cva";
 export const proseVariants = cva({
   base: [
     // Base styles
-    "Prose space-y-2.5 group",
+    "Prose px-inset space-y-2.5 group",
 
     // Restyle HTML elements we use to format MDX
     "[&_strong]:font-medium",

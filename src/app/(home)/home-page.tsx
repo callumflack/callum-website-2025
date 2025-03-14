@@ -113,7 +113,7 @@ export const HomePage = ({
               isZoomed={isZoomed}
               fullWidthWhenZoomed={true}
               onZoomChange={setIsZoomed}
-              className="z-2 min-h-[331px]"
+              className="z-2 min-h-[276px] sm:min-h-[331px]"
             >
               <Slider
                 projects={projects}
@@ -140,7 +140,7 @@ export const HomePage = ({
           <div className="gap-w6 pt-w6 container flex flex-col">
             {writing.map((post) => (
               <Link key={post.slug} href={`/${post.slug}`}>
-                <PostBlock post={post} priority={false} theme="index" />
+                <PostBlock post={post} priority={false} />
               </Link>
             ))}
           </div>

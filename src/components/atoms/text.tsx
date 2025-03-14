@@ -15,7 +15,6 @@ export const textVariants = cva({
       body: "text-body",
       heading: "text-heading",
       title: "text-title",
-      super: "text-super",
     },
     color: {
       canvas: "text-canvas",

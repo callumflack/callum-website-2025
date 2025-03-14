@@ -65,21 +65,17 @@
   Slightly different dark base.
  */
 .dark {
-  --color-gray-base: var(--sky-1) !important;
-  --color-gray-bg-subtle: var(--sky-2);
-  --color-gray-bg: var(--sky-3);
-  --color-gray-bg-hover: var(--sky-4);
-  /* only used on home page! */
-  /* --color-gray-bg-active: #0d141f; */
-  --color-gray-bg-active: var(--sky-1);
-  /* I don't really want to do this, but solid is otherwise not legible… */
+  --color-gray-base: var(--gray-1);
+  --color-gray-bg-subtle: var(--gray-2);
+  --color-gray-bg: var(--gray-3);
+  --color-gray-bg-hover: var(--gray-4);
+  --color-gray-bg-active: var(--gray-2);
   --color-gray-solid: var(--gray-10);
-  /* …and I hate burning my eyes in dark mode */
-  --color-gray-fill-contrast: var(--gray-11);
+  --color-gray-fill-contrast: var(--gray-12);
 
-  --color-accent1-bg: var(--amber-3);
+  /* --color-accent1-bg: var(--amber-3);
   --color-accent1-solid: var(--amber-9);
-  --color-accent1-solid-hover: var(--amber-10);
+  --color-accent1-solid-hover: var(--amber-10); */
 }
 
 :root {

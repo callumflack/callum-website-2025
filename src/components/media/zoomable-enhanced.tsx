@@ -36,6 +36,8 @@ export type EnhancedZoomableProps = {
   isControlled?: boolean;
   isZoomed?: boolean;
   verticalOffset?: number; // Percentage of viewport height to offset (negative = up)
+  disableOnMobile?: boolean; // Whether to disable zooming on mobile devices
+  mobileBreakpoint?: number; // Width below which device is considered mobile
 };
 
 export function EnhancedZoomable({
@@ -48,6 +50,8 @@ export function EnhancedZoomable({
   isControlled = false,
   isZoomed: externalIsZoomed = false,
   verticalOffset = -10, // Default to move it up 10% of the viewport height
+  disableOnMobile = true, // Default to disable on mobile
+  mobileBreakpoint = 768, // Default tablet/mobile breakpoint
 }: EnhancedZoomableProps) {
   // Internal state is only used when not controlled
   const [internalIsZoomed, setInternalIsZoomed] = useState(false);
@@ -61,6 +65,11 @@ export function EnhancedZoomable({
   const { width: viewportWidth, height: viewportHeight } = useWindowSize();
   const [contentHeight, setContentHeight] = useState<number>(0);
   const [isVisible, setIsVisible] = useState(false);
+
+  // Determine if on mobile
+  const isMobile = viewportWidth < mobileBreakpoint;
+  // Enable zoom only if not on mobile or mobile zooming is not disabled
+  const zoomEnabled = !(isMobile && disableOnMobile);
 
   // Setup visibility detection
   useEffect(() => {
@@ -165,6 +174,8 @@ export function EnhancedZoomable({
 
   // Memoize the zoom handler to prevent recreation on each render
   const handleZoom = useCallback(() => {
+    if (!zoomEnabled) return;
+
     if (!isControlled) {
       // Only update internal state if not controlled
       setInternalIsZoomed((prev) => !prev);
@@ -173,7 +184,7 @@ export function EnhancedZoomable({
     if (onZoomChange) {
       onZoomChange(!isZoomedState);
     }
-  }, [isControlled, isZoomedState, onZoomChange]);
+  }, [isControlled, isZoomedState, onZoomChange, zoomEnabled]);
 
   return (
     <div
@@ -202,7 +213,11 @@ export function EnhancedZoomable({
           style={{
             width: "100%",
             transition: `transform ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
-            cursor: isZoomedState ? "zoom-out" : "zoom-in",
+            cursor: zoomEnabled
+              ? isZoomedState
+                ? "zoom-out"
+                : "zoom-in"
+              : "default",
             transform: isZoomedState ? `scale(${scaleAmount})` : "scale(1)",
             transformOrigin: "center top", // Keep original transform origin
             position: "absolute",

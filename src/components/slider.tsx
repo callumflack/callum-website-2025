@@ -71,10 +71,13 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
             full: "max-w-none lg:max-w-[calc(66vw*0.75)] 2xl:max-w-[calc(40vw*0.75)]",
             default: "max-w-[320px] lg:max-w-[350px]",
           },
+          /* NB! currently we only use landscape.default =================== */
           landscape: {
             // could we use clamp here?
             full: "max-w-none lg:max-w-[66vw] 2xl:max-w-[40vw]",
-            default: "max-w-[400px] lg:max-w-[480px]",
+            default:
+              // pruposely NOT 100vw
+              "max-w-[calc(85vw-(var(--spacing-inset)*2))] lg:max-w-[480px]",
           },
         };
 

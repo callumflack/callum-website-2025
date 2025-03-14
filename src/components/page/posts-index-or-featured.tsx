@@ -121,7 +121,7 @@ export function FeaturedOrIndexPosts({
           kind={kind as PostCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
-          wrapperClassName={cx("flex flex-col gap-w6 pt-w8")}
+          wrapperClassName={cx("flex flex-col gap-w8 sm:gap-w6 pt-w8")}
         />
       ) : GROUPED_SORT_TYPES.has(currentSort) && ENABLE_GROUPED_VIEWS ? (
         <PostsListGrouped

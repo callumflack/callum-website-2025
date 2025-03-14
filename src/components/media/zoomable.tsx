@@ -31,6 +31,8 @@ export type ZoomableProps = {
   transitionDuration?: number;
   className?: string;
   verticalOffset?: number; // Percentage of viewport height to offset (negative = up)
+  disableOnMobile?: boolean; // Whether to disable zooming on mobile devices
+  mobileBreakpoint?: number; // Width below which device is considered mobile
 };
 
 export function Zoomable({
@@ -39,12 +41,19 @@ export function Zoomable({
   scaleAmount = 2,
   transitionDuration = 0.3,
   className,
-  verticalOffset = -10, // Default to move it up 10% of the viewport height
+  verticalOffset = -10,
+  disableOnMobile = true,
+  mobileBreakpoint = 768,
 }: ZoomableProps) {
   const [isZoomed, setIsZoomed] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { width: viewportWidth, height: viewportHeight } = useWindowSize();
   const [originalWidth, setOriginalWidth] = useState(maxWidth);
+
+  // Determine if on mobile
+  const isMobile = viewportWidth < mobileBreakpoint;
+  // Enable zoom only if not on mobile or mobile zooming is not disabled
+  const zoomEnabled = !(isMobile && disableOnMobile);
 
   useEffect(() => {
     if (ref.current) {
@@ -85,7 +94,9 @@ export function Zoomable({
   }, [isZoomed, verticalOffset, viewportHeight]);
 
   const handleZoom = () => {
-    setIsZoomed(!isZoomed);
+    if (zoomEnabled) {
+      setIsZoomed(!isZoomed);
+    }
   };
 
   const zoomedWidth = Math.min(maxWidth * scaleAmount, viewportWidth * 0.95);
@@ -96,7 +107,7 @@ export function Zoomable({
       data-component="Zoomable"
       className={className}
       style={{
-        width: maxWidth,
+        width: isMobile ? "100%" : maxWidth,
         position: "relative",
         overflow: "visible",
       }}
@@ -105,9 +116,9 @@ export function Zoomable({
         ref={ref}
         onClick={handleZoom}
         style={{
-          width: isZoomed ? zoomedWidth : originalWidth,
+          width: isZoomed ? zoomedWidth : isMobile ? "100%" : originalWidth,
           transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          cursor: isZoomed ? "zoom-out" : "zoom-in",
+          cursor: zoomEnabled ? (isZoomed ? "zoom-out" : "zoom-in") : "default",
           transform: `translateX(${offset}px)`,
           transformOrigin: "center",
           position: "relative",

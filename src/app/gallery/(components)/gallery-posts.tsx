@@ -170,7 +170,7 @@ export function GalleryPosts({
                 className={cx(
                   isImageSquare ? "isSquare" : "",
                   "[&_figcaption]:w-full",
-                  "grayscale hover:grayscale-0",
+                  "hover:grayscale-0 sm:grayscale",
                   "flex flex-col items-center justify-start"
                 )}
                 figureIntent="inGrid"

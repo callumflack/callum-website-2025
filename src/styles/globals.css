@@ -33,7 +33,10 @@
   /* text */
   --text-*: initial;
 
-  /* THIS? clamp(2.2rem, 4cqw + 0.5rem, 2.8rem); */
+  /* 
+    THIS? clamp(2.2rem, 4cqw + 0.5rem, 2.8rem); 
+    cqw (Container Query Width) is a container query unit that represents 1% of a container's width. Still experimental.
+  */
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-ui: clamp(11px, 9.5714px + 0.2857vw, 13px);
 
@@ -61,8 +64,6 @@
   --text-title: clamp(21px, 16px + 1vw, 28px);
   --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
   --text-title: clamp(22px, 16.2857px + 1.1429vw, 30px);
-
-  --text-super: 100px;
 
   --default-line-height: calc(24 / 17);
   --text-pill--line-height: 1;
@@ -104,9 +105,9 @@
   /* spacing */
   --spacing: 4px;
 
-  --spacing-inset: 15px;
-  --spacing-nav: 80px;
-  --spacing-tab: 54px;
+  --spacing-inset: clamp(15px, 12.93px + 0.41vw, 24px);
+  --spacing-nav: clamp(68px, 64.57px + 0.69vw, 80px);
+  --spacing-tab: clamp(44px, 42.57px + 0.69vw, 54px);
   --spacing-em: 1em;
   --spacing-bullet: 1.35em;
 
@@ -198,11 +199,13 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   @theme inline {
     --spacing-inset: 24px;
+    --spacing-nav: 80px;
+    --spacing-tab: 54px;
   }
-}
+} */
 
 @layer base {
   * {
@@ -232,7 +235,6 @@
 
     &::before,
     &::after {
-      content: "";
       position: fixed;
       top: 0;
       bottom: 0;
@@ -240,13 +242,17 @@
       background-color: var(--color-border);
       z-index: 1;
     }
-
     &::before {
       left: calc(50% - var(--container-text-inset) / 2);
     }
-
     &::after {
       right: calc(50% - var(--container-text-inset) / 2);
+    }
+    @media (min-width: 768px) {
+      &::before,
+      &::after {
+        content: "";
+      }
     }
   }
 }

@@ -1,60 +1,49 @@
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Text } from "@/components/atoms";
-import { mediaWrapperVariants, isVideoFile } from "@/components/media";
-import { cx } from "cva";
-import { type Post } from "content-collections";
 import { CardImage } from "@/components/card";
+import { mediaWrapperVariants } from "@/components/media";
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+import { type Post } from "content-collections";
+import { cx } from "cva";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
-import { postIconStyle, lineHoverStyle } from "../post.styles";
+import { lineHoverStyle, postIconStyle } from "../post.styles";
 
 interface PostBlockProps {
   post: Post;
   isExternal?: boolean;
-  theme?: "home" | "index";
   priority?: boolean;
 }
 
 export const PostBlock = ({
   post,
   isExternal,
-  theme = "index",
   priority = false,
 }: PostBlockProps) => {
   return (
     <div
       data-component="PostBlock"
       className={cx(
-        "group flex flex-col",
+        "group gap-w4 grid grid-cols-20",
         lineHoverStyle,
-        "hover:before:inset-y-[-12px]",
-        theme === "index" ? "gap-w4 sm:flex-row" : "gap-3"
+        "hover:before:inset-y-[-12px]"
       )}
     >
       {/* IMAGE */}
-      <div
-        className={cx(
-          "relative w-full",
-          theme === "index" ? "sm:w-1/4 sm:shrink-0" : ""
-        )}
-      >
+      <div className={cx("relative col-span-6 sm:col-span-5")}>
         <div className="relative">
           {post.assets && post.assets.length > 0 ? (
             <CardImage
               asset={{
                 ...post.assets[0],
                 // Only show videos for home theme, otherwise use static images
-                src:
-                  isVideoFile(post.assets[0]?.src) && theme !== "home"
-                    ? post.assets[0]?.poster || post.assets[0]?.src || ""
-                    : post.assets[0]?.src || "",
+                // src:
+                //   isVideoFile(post.assets[0]?.src) && theme !== "home"
+                //     ? post.assets[0]?.poster || post.assets[0]?.src || ""
+                //     : post.assets[0]?.src || "",
+                src: post.assets[0]?.src || "",
               }}
               priority={priority}
               sizes="(min-width: 660px) 150px, 400px"
-              className={cx(
-                mediaWrapperVariants(),
-                "group-hover:border-fill",
-                theme === "home" && "!aspect-[2/1]"
-              )}
+              className={cx(mediaWrapperVariants(), "group-hover:border-fill")}
             />
           ) : null}
 
@@ -65,9 +54,7 @@ export const PostBlock = ({
                 "sm:rounded-button absolute inset-0 flex overflow-hidden",
                 "border-fill group-hover:border-accent border",
                 // "transition-colors duration-100 ease-linear",
-                theme === "index"
-                  ? "items-start justify-end"
-                  : "items-end justify-start"
+                "items-start justify-end"
               )}
             >
               <Text
@@ -78,9 +65,7 @@ export const PostBlock = ({
                   "bg-fill group-hover:bg-accent",
                   "flex h-[20px] items-center px-3",
                   // "transition-colors duration-100 ease-linear",
-                  theme === "index"
-                    ? "sm:rounded-bl-button"
-                    : "sm:rounded-tr-button"
+                  "sm:rounded-bl-button"
                 )}
               >
                 <span className="translate-y-[-0.1em] transform">New</span>
@@ -91,7 +76,12 @@ export const PostBlock = ({
       </div>
 
       {/* CAPTION */}
-      <div className="translate-y-[-0.25em] transform space-y-1">
+      <div
+        className={cx(
+          "col-span-14 sm:col-span-15",
+          "translate-y-[-0.25em] transform space-y-1"
+        )}
+      >
         <PostLinkHeadingWrapper>
           <Text as="h2" intent="body" weight="medium">
             {post.title}
