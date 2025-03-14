@@ -116,7 +116,7 @@ export const manualProjects: ManualPost[] = [
       {
         src: "/images/colouring-in-2010.png",
         alt: "CD cover for Waxidermy Mixtape Swap",
-        aspect: "1440-1200",
+        aspect: "2000-2000",
       },
     ],
     noBorder: true,

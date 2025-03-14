@@ -8,16 +8,30 @@ const getFeaturedProjects = (): Post[] => {
   return sortSelectedPosts(projectPosts, "projects");
 };
 
-// Combine featured posts + manual projects
-// Ensure no duplicates by checking titles
-const projects: (Post | ManualPost)[] = [
-  ...getFeaturedProjects().filter(
+// Fisher-Yates shuffle algorithm to randomize array order
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+// Combine featured posts + manual projects with filtering logic
+const getCombinedProjects = (): (Post | ManualPost)[] => {
+  const featuredWithAssets = getFeaturedProjects().filter(
     (post) => post.assets && post.assets.length > 0
-  ),
-  ...manualProjects.filter(
+  );
+
+  const nonDuplicateManuals = manualProjects.filter(
     (manual) =>
       !getFeaturedProjects().some((featured) => featured.title === manual.title)
-  ),
-];
+  );
+
+  return shuffleArray([...featuredWithAssets, ...nonDuplicateManuals]);
+};
+
+const projects = getCombinedProjects();
 
 export default projects;

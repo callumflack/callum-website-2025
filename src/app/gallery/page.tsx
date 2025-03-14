@@ -1,9 +1,8 @@
-import { Text } from "@/components/atoms";
-import { TitleHeader } from "@/components/elements";
-import { PageInner, PageWrapper } from "@/components/page";
 import { SearchParams } from "@/types/search-params";
+import { Post } from "content-collections";
 import { Metadata } from "next";
-import { GalleryPosts, getGalleryProjects } from "./(components)";
+import { getGalleryProjects } from "./(components)";
+import { GalleryPage } from "./(components)/gallery-page";
 
 export default async function GraphicsIndexPage({
   searchParams,
@@ -16,24 +15,11 @@ export default async function GraphicsIndexPage({
   const projects = await getGalleryProjects();
 
   return (
-    <PageWrapper activeNav="/graphics">
-      <PageInner variant="index">
-        <TitleHeader>
-          <Text as="h1" intent="title">
-            A gallery of graphics and interactions.
-          </Text>
-          {/* <Text dim intent="meta">
-              {graphicsDescription}{" "}
-              <Link className="link" href="/work">
-                View case studies
-              </Link>
-              .
-            </Text> */}
-        </TitleHeader>
-
-        <GalleryPosts initialSort={currentSort} kind={kind} posts={projects} />
-      </PageInner>
-    </PageWrapper>
+    <GalleryPage
+      currentSort={currentSort}
+      kind={kind}
+      projects={projects as Post[]}
+    />
   );
 }
 

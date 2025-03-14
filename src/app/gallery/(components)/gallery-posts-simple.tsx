@@ -84,41 +84,6 @@ export function GalleryPosts({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Process posts into rows before rendering
-  const postsInRows = useMemo(() => {
-    if (!filteredPosts.length) return [];
-
-    // Group posts into rows of 3
-    const rows = [];
-    for (let i = 0; i < filteredPosts.length; i += 3) {
-      const row = filteredPosts.slice(i, i + 3);
-      rows.push(row);
-    }
-
-    // For each row, determine if any item should be expanded
-    return rows.map((row) => {
-      // Only consider expansion for complete rows of 3
-      const isCompleteRow = row.length === 3;
-
-      // Find first non-portrait item if it exists
-      const expandableIndex = isCompleteRow
-        ? row.findIndex(
-            (post) =>
-              post.assets &&
-              post.assets.length > 0 &&
-              !isPortrait(post.assets[0].aspect) &&
-              !isSquare(post.assets[0].aspect)
-          )
-        : -1;
-
-      // Mark the item to be expanded
-      return row.map((post, idx) => ({
-        post,
-        expanded: expandableIndex === idx,
-      }));
-    });
-  }, [filteredPosts]);
-
   return (
     <>
       <ListHeader showContained>
@@ -138,17 +103,30 @@ export function GalleryPosts({
 
       <div
         className={cx(
+          // place above container pseudo-borders
           "relative z-9",
           "pt-w12 px-inset",
           "grid justify-center",
+          // "auto-cols-max grid-flow-row",
+          // "gap-x-inset gap-y-w12",
           "gap-y-inset gap-x-3",
           "grid-cols-24"
+          // min-[1800px]:!grid-cols-5
+          // "grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+          // "grid-cols-[minmax(500px,_3fr)]"
         )}
+        style={
+          {
+            // https://css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit/
+            // gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+          }
+        }
       >
-        {postsInRows.flat().map(({ post, expanded }, index) => {
+        {filteredPosts.map((post, index) => {
           if (!post.assets || post.assets.length === 0) return null;
 
           const { title, slug, assets } = post;
+
           const asset = assets[0];
           const { width, height } = getImageDimensions(asset.aspect);
           const isVideo = isVideoFile(asset.src);
@@ -156,22 +134,36 @@ export function GalleryPosts({
           const isImagePortrait = !isImageSquare && isPortrait(asset.aspect);
           const noBorder = isManualPost(post) ? post.noBorder || false : false;
 
+          // First, group items into chunks of 3
+          const itemsInGroups = [];
+          for (let i = 0; i < posts.length; i += 3) {
+            itemsInGroups.push(posts.slice(i, i + 3));
+          }
+
           return (
             <div
               data-active={isActive}
               key={`${slug}-${index}`}
               onMouseEnter={() => setIsActive(true)}
               onMouseLeave={() => setIsActive(false)}
-              className={cx(expanded ? "col-span-12" : "col-span-6")}
+              className={cx("col-span-6")}
             >
               <MediaFigure
-                caption={title}
+                key={`${slug}-${index}`}
+                caption={title} // TODO: add date and project type?
                 captionClassName=""
                 className={cx(
                   isImageSquare ? "isSquare" : "",
                   "[&_figcaption]:w-full",
                   "grayscale hover:grayscale-0",
-                  "flex flex-col items-center justify-start"
+                  "flex flex-col items-center justify-start",
+                  // "justify-self-center"
+                  "col-span-6"
+                  // isImagePortrait ? "col-span-5" : "col-span-8"
+                  // isImagePortrait ? "!px-w20" : "",
+                  // isImageSquare ? "isSquare !px-w12" : ""
+                  // isImagePortrait ? "!w-[50%]" : "",
+                  // isImageSquare ? "!w-[60%]" : ""
                 )}
                 figureIntent="inGrid"
                 isPortrait={isImagePortrait}

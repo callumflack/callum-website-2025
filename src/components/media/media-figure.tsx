@@ -4,7 +4,7 @@ import { Caption } from "./caption";
 
 export const mediaFigureVariants = cva({
   base: [
-    "relative overflow-hidden space-y-3",
+    "relative overflow-hidden space-y-2.5",
     // "[&_img]:max-h-[70vh] [&_video]:max-h-[70vh]",
   ],
   variants: {
@@ -25,9 +25,9 @@ export const mediaFigureVariants = cva({
       // these styles allow control when images are within dialogs
       true: [
         "isPortrait flex flex-col justify-center",
+        "[&_img]:mx-auto [&_video]:mx-auto",
         "[&_img]:max-h-[70vh] [&_video]:max-h-[70vh]",
         "[&_img]:h-[-webkit-fill-available] [&_video]:h-[-webkit-fill-available]",
-        "[&_img]:mx-auto [&_video]:mx-auto",
       ],
     },
   },
@@ -74,16 +74,7 @@ export const MediaFigure = ({
   >
     {children}
     {caption ? (
-      <Caption
-        className={cx(
-          // mediaFigureVariants({
-          //   figureIntent: captionIntent,
-          // })
-          captionClassName
-        )}
-      >
-        {caption}
-      </Caption>
+      <Caption className={cx(captionClassName)}>{caption}</Caption>
     ) : null}
   </figure>
 );
