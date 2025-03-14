@@ -3,7 +3,7 @@ import { TitleHeader } from "@/components/elements";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { Mdx } from "@/components/mdx";
 import config from "@/config";
-import { formatPostDate, getYear } from "@/lib/utils";
+import { formatPostDate, formatYear } from "@/lib/utils";
 import type { Post } from "content-collections";
 import { cx } from "cva";
 
@@ -51,8 +51,8 @@ export const PostPage = ({ post, theme }: Props) => {
 const PostMeta = ({ post, theme }: Props) => {
   const categoryLink = post.category === "projects" ? `/work` : `/writing`;
   const date = formatPostDate(post.date);
-  const year = getYear(post.date);
-  const endYear = post.endDate ? getYear(post.endDate) : null;
+  const year = formatYear(post.date);
+  const endYear = post.endDate ? formatYear(post.endDate) : null;
   const lastEditedDate = post.lastEditedDate
     ? formatPostDate(post.lastEditedDate)
     : null;

@@ -5,7 +5,7 @@ import {
 } from "@radix-ui/react-icons";
 import { cx } from "cva";
 import { Text } from "@/components/atoms";
-import { getYear } from "@/lib/utils";
+import { formatYear } from "@/lib/utils";
 import { type Post } from "content-collections";
 import { iconStyle, transformStyle } from "./card-styles";
 
@@ -20,7 +20,7 @@ export const CardTitleMeta = ({
   className,
   thumbnailLink,
 }: CardTitleMetaProps) => {
-  const endYear = post.endDate ? getYear(post.endDate) : null;
+  const endYear = post.endDate ? formatYear(post.endDate) : null;
 
   return (
     <Text
@@ -30,7 +30,7 @@ export const CardTitleMeta = ({
     >
       <CardIcon category={post.category as "writing" | "projects"} />
       <span>
-        <span>{getYear(post.date)}</span>
+        <span>{formatYear(post.date)}</span>
         {endYear ? (
           <>
             &ndash;<span>{endYear}</span>

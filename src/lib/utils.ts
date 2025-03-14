@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getYear = (dateString: string) =>
+export const formatYear = (dateString: string) =>
   format(parseISO(dateString), "yyyy");
 
 export const formatPostDate = (dateString: string): string => {

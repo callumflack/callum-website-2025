@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { Fragment } from "react";
 import { Link } from "@/components/atoms";
 import { noteStyle } from "@/components/mdx/mdx-components";
-import { getYear } from "@/lib/utils";
+import { formatYear } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { type Post } from "content-collections";
 
@@ -29,8 +29,8 @@ export const PostMeta = ({ post }: { post: Post }) => {
   const categoryLink = post.category === "projects" ? `/work` : `/writing`;
   const tagsWithoutFeatured = post.tags?.filter((tag) => tag !== "featured");
 
-  const year = getYear(post.date);
-  const endYear = post.endDate ? getYear(post.endDate) : null;
+  const year = formatYear(post.date);
+  const endYear = post.endDate ? formatYear(post.endDate) : null;
 
   return (
     <div className={cx(noteStyle, "link-block-alt link-block-large")}>
