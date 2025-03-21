@@ -1,7 +1,7 @@
 ---
-description: Project tech stack + coding style guide
-globs: *.tsx, *.ts, *.mjs, *.css, *.mdx
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # NextJS 15 Project Guide
 

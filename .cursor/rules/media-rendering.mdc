@@ -1,6 +1,6 @@
 ---
 description: Media Rendering Guidelines for images and videos
-globs: *.tsx, *.mdx
+globs: *.tsx,**/*.mdx
 alwaysApply: false
 ---
 # Media Rendering Guidelines
