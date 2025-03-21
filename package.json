@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-post": "npx tsx ./create-post.ts"
   },
   "dependencies": {
     "@radix-ui/colors": "^3.0.0",
