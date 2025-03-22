@@ -1,0 +1,94 @@
+---
+date: 2025-03-22
+title: Notes on coding with LLMs
+draft: false
+summary: A set of strategies and tactics I've been using for riding the recent step change in LLM-assisted coding. How to offload writing code while maintaining control of it by dividing approaches into high-level thinking methods and specific implementation techniques using specific tools.
+category: note
+tags:
+  - engineering
+  - AI
+  - featured
+---
+
+I've been using Cursor for about a year. I’d used SourceGraph plus a defunct startup plugin in a VSCode for 15 months before that. Using LLMs across these apps were already useful but one misstep could lead to three hours down a rabbit-hole where hard-won solutions led to the same initial 2nd order effect that instigated the chase.
+
+New models in late 2024 started to one-shot these rabbit-holes. Then, less than a month ago, Cursor's Agent Mode jumped a step change in its efficacy. Dependent on the tempo or phase within the project, I can now defer 50-70% of written work to an LLM, leaving me to act as reviewer and giving me more time to think about my intentions.
+
+This is drastically changing my approach to coding. Paying attention to the phase and tempo was always important, and now I must determine when and why to hand-off to an LLM.
+
+Here are some strategies and tactics, which I’ll then elaborate on:
+
+Strategies:
+
+- Clarify your thinking with LLM criticism
+- Choose between speed vs. thoroughness
+- Use reasoning models for architecture
+- Use workhorse models for general code
+- Manage your context window
+- Recognise that you are the bottleneck
+- Track your original questions
+- Don't anthropomorphise the LLM
+- Make the time to keep up with the scene
+
+Tactics:
+
+- Always speak to the computer in applicable contexts
+- Use specific tools (Cursor/Windsurf)
+- Use Warp as a terminal with LLM integration
+- Follow the "be terse" rule for context management
+- Write product overviews at project start
+- Add feature summaries to project rules
+- Maintain a changelog
+- Supply the right docs
+- They find JavaScript easy but CSS hard
+- Take breaks to maintain perspective
+
+## Strategies
+
+Write down what you’re trying to make. Then ask an LLM to criticise it. Use it to clarify your thinking.
+
+Do I need to be right or fast? Be explicit about your next question in terms of speed vs. thoroughness. This is the essential determinant for every request. Pay attention to the tempo and the phase you are currently within.
+
+Use a reasoning model to think about architecture. This kind of thinking always benefits from immersion and time and sometimes it's hard to even stop. Reasoning models can give you a leg up in a matter of minutes. o1 for really big things through to Sonnet 3.7 for simple code features.
+
+Use a workhorse to write general code. That is, anything from small bugs through to a small feature. Sonnet 3.5 is great. Allowing Cursor to auto-select from your request is also fine most of the time.
+
+The context window is important. If you have a long chat, you’ll have a large context window. The effectiveness of your discussion will decrease. This indicates you haven't done the work to think about what you're doing.
+
+You are the bottleneck. As context windows continuously increase, you are the bottleneck. If you haven't retained an understanding of the current situation, then you are Mickey Mouse at Bald Mountain, heralding forth an army of broomsticks to flood your codebase.
+
+Keep a record of your original question. No matter what, sometimes you're going to lose track of what's happening and what you're trying to do. That's part of being human. Nothing wrong with it. Feel free to delete and start again.
+
+Don’t anthropomorphise the LLM. You're not being judged, and no one's watching you, so feel free to ask dumb questions. If you get frustrated with the LLM, pay attention to that and take responsibility. Take a break and start again.
+
+Keep up with what’s happening! Take note of what other people are doing and make space to test it out yourself. Sure, there's a huge amount of noise but small experiments are surprisingly easy and sometimes they pay off (see the feature rules idea below). If you get stuck, follow [Eric](https://x.com/pvncher) and [Simon](https://x.com/simonw).
+
+## Tactics
+
+Always speak to the computer. At first, because it's a new thing, it's hard to bother trying. Then it's slightly difficult to figure out which app is best. But once passed those two steps, you'll find you suddenly you want to speak to it in every app, everywhere.
+
+Just use Cursor or Windsurf. It doesn't matter. The important thing is to start and practice. For example, it took me ages to get past some subtle UI things that Cursor did not retain from VSCode. But that was just old habit I had to get around. It's worth it.
+
+Use Warp. Most don’t, but I prefer the cognitive switch between applications from Code to Terminal. Warp is my terminal choice with the added benefits of inline LLMs where I can have it solve package (eg. Nix on Mac!) and Git issues. I no longer have to remember how to grep.
+
+Use this cursor rule. Your mileage may vary but because I'm just building web apps this works. “Be terse” is most important because, most of all, you have to manage your context window.
+
+Write a product overview. Write up a bare bones project overview at the start. Describe the app and its purpose and list your tech stack. Then don't worry about it. If you find recurrent problems with your LLM code, update it.
+
+Add feature summaries as Cursor project rules. Once you've completed a feature, write a summary and note what files used and add that to your project rules.
+
+Use a Changelog. As you start to compile features and your application grows, it's useful to have a change log that you can give to the LLM and yourself to help keep on track and not solve problems twice.
+
+Supply the right docs. Yes, you can supply URLs for crawling but sometimes you have to do more than that. Whether that's for libraries or surrounding code, you may need to provide better, more specific documentation for an LLM. use [Repomix](https://repomix.com/) as a cursor plugin or [RepoPrompt](https://repoprompt.com/)’s code map feature. Keep it under 32k tokens!
+
+LLMs find JavaScript easy, but CSS hard. I find that if I have issues with Grid or something like that, an LLM will fail abysmally and repeatedly. Maybe it's because I really struggle to articulate those visual layouts in words and I'm mostly sticking with chat, not prototyping tools like Bolt, but I find CSS much easier to write myself.
+
+Take a breath. Know where you're at in the process. If you ask an LLM for text, it goes brrrrrrr. You don't want that, and you sure don’t want Mickey’s broomsticks; you want understanding and solutions. You are the bottleneck to that.
+
+## Summary
+
+Most of what I've addressed here is specific to a developer who already knows a stack quite intimately (for example, my stack is web apps). I didn't discuss anything related to prototyping UI with v0 or Bolt, nor about working with brownfield projects (I’ve recently done this, post coming), both of which have their own specific subset of methods.
+
+Undergirding all of the ways in which we can code with LLMs is a general humility. In order to use these large language models effectively, one has to let go of one’s identity. Brian Eno always called himself a “non-musician” and that allowed him to think freely about generative systems for creativity. The same applies here.
+
+I think the general metaphor for AI is to think of it as a mirror: it reflects back whatever you want. If you're a hacker who treats their codebase like a toy train set, you may dismiss LLMs instinctively. Likewise, if you're a designer who knows CSS, you may hit walls with LLMs quickly. In both situations, it pays to understand AI as the mirror on the wall showing your reality faster than you anticipated. How will you respond?
