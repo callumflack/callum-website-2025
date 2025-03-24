@@ -22,7 +22,9 @@ export default async function TopicPage({
       <PageInner variant="index">
         <TitleHeader>
           <Text as="h1" intent="title">
-            <Link href="/topic">Topic</Link>{" "}
+            <Link href="/topic" className="hover:text-accent">
+              Topic
+            </Link>{" "}
             <span className="font-light">/</span>{" "}
             <span className="capitalize">{topic}</span>
           </Text>

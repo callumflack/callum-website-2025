@@ -10,6 +10,7 @@ import {
   PostPage,
   PageInner,
   getCategoryNavRoute,
+  NavRoute,
 } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
@@ -38,11 +39,8 @@ export default async function SlugPage({
   }
 
   const renderActiveNav = () => {
-    if (
-      post.category === Category.ABOUT &&
-      post.slug === "the-work-and-team-im-after"
-    ) {
-      return post.slug;
+    if (post.slug === Category.ABOUT) {
+      return NavRoute.ABOUT;
     }
     return getCategoryNavRoute(post.category);
   };
@@ -50,7 +48,8 @@ export default async function SlugPage({
   return (
     <PageWrapper
       activeNav={renderActiveNav()}
-      showIntro={post.category === "about" ? false : true}
+      showIntro={post.slug === Category.ABOUT ? false : true}
+      showWhatIWant={post.slug === "the-work-and-team-im-after" ? false : true}
       shareNode={
         <div>
           <OutsetRule />
@@ -59,7 +58,8 @@ export default async function SlugPage({
               url={`${config.PUBLIC_URL}/${post.slug}`}
               theme="post"
             />
-            {post.category === "about" ? (
+            {post.category === Category.ABOUT ||
+            post.slug === "the-work-and-team-im-after" ? (
               <CVDownloadButtonWrapper
                 filename="CallumFlackCV2024.pdf"
                 label="Download CV"

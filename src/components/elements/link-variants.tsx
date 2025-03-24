@@ -32,14 +32,14 @@ export const LinkWithArrow = ({
       <span className="flex-grow">{children}</span>
       <span
         className={cx(
-          isExternal && theme !== "feature" && "relative flex w-[0.25em]"
+          isExternal && theme !== "feature" && "relative flex w-[0.2em]"
         )}
       >
         {isExternal && theme !== "feature" ? (
           <ChevronRightIcon
             className={cx(
-              "absolute top-[-0.6em] right-[-0.2em] size-[0.7em]",
-              "size-[0.7em] -rotate-45 transform",
+              "absolute top-[-0.65em] right-[-0.1em]",
+              "size-[0.6em] -rotate-45 transform",
               "!no-underline",
               iconClassName
             )}

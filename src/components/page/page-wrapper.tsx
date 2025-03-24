@@ -1,8 +1,9 @@
-import { OutsetRule } from "@/components/elements";
+import { OutsetRule, TitleHeader } from "@/components/elements";
 import { cx, cva, type VariantProps } from "cva";
-import { Intro } from "./block-intro";
+import { Intro, Outro } from "./block-intro";
 import { Nav } from "./nav";
 import { Category } from "@/types/content";
+import { Text } from "@/components/atoms";
 
 export enum NavRoute {
   LOG = "log",
@@ -43,6 +44,7 @@ type Props = {
   activeNav?: NavRoute | string;
   children: React.ReactNode;
   showIntro?: boolean;
+  showWhatIWant?: boolean;
   shareNode?: React.ReactNode;
   footerNode?: React.ReactNode;
   theme?: "post" | "feed";
@@ -52,6 +54,7 @@ export const PageWrapper = ({
   activeNav,
   children,
   showIntro = true,
+  showWhatIWant = true,
   shareNode,
   footerNode,
   theme = "post",
@@ -81,7 +84,21 @@ export const PageWrapper = ({
           {shareNode}
           <OutsetRule />
           <div className={cx(footerStyle, "pt-w8 container")}>
-            {showIntro && <Intro textIntent="body" />}
+            {showIntro ? (
+              <Intro textIntent="body" showWhatIWant={showWhatIWant} />
+            ) : (
+              <div>
+                {/* duplicated Outro section from HomePage */}
+                <TitleHeader as="div" isContained>
+                  <Text as="h3" intent="title">
+                    Stay in touch
+                  </Text>
+                </TitleHeader>
+                <div className="pt-w6">
+                  <Outro showLabel={true} textIntent="body" />
+                </div>
+              </div>
+            )}
           </div>
         </footer>
       )}

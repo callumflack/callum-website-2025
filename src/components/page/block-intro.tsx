@@ -6,10 +6,15 @@ import Image from "next/image";
 
 type Props = {
   showLabel?: boolean;
+  showWhatIWant?: boolean;
   textIntent?: TextProps["intent"];
 };
 
-export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
+export const Intro = ({
+  showLabel = true,
+  showWhatIWant = true,
+  textIntent = "meta",
+}: Props) => {
   return (
     <div className="space-y-2.5">
       <Avatar />
@@ -24,16 +29,18 @@ export const Intro = ({ showLabel = true, textIntent = "meta" }: Props) => {
         I&apos;m Callum Flack—a design engineer and product leader with over 20
         years of experience. I design and build beautiful hypertext products
         that work in the blink of an eye.{" "}
-        <Text as="span" dim>
-          <LinkWithArrow
-            theme="default"
-            className="link"
-            href="/the-work-and-team-im-after"
-          >
-            {/* Read about what I do and who I work with */}
-            Read about the work and team I&apos;m after
-          </LinkWithArrow>
-        </Text>
+        {showWhatIWant && (
+          <Text as="span" dim>
+            <LinkWithArrow
+              theme="default"
+              className="link"
+              href="/the-work-and-team-im-after"
+            >
+              {/* Read about what I do and who I work with */}
+              Read about the work and team I&apos;m after
+            </LinkWithArrow>
+          </Text>
+        )}
       </Text>
 
       <Contacts showLabel={showLabel} className="pt-0.5" />
