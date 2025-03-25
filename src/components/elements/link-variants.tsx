@@ -23,7 +23,7 @@ export const LinkWithArrow = ({
   return (
     <Link
       className={cx(
-        "inline-flex items-center gap-[2px]",
+        "relative inline-flex items-center gap-[2px]",
         shouldReverse && "flex-row-reverse !gap-1.5",
         className
       )}
