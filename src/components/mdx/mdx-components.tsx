@@ -98,7 +98,7 @@ export const components = {
   h3: (props: HeadingProps) => <HeadingWithId as="h3" {...props} />,
   h4: (props: TextProps) => <Text as="h4" weight="bold" {...props} />,
   pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
-    <div className="py-1">
+    <div data-component="pre" className="py-1">
       <pre
         className={cx(
           "Pre bg-background rounded-button overflow-auto",
@@ -150,7 +150,7 @@ export const calloutStyle = [
 ];
 
 export const noteStyle = [
-  "Note !mt-w8 space-y-2 text-meta text-solid link-block",
+  "Note !mt-w12 space-y-2 text-meta text-solid link-block",
   "[&_p]:text-meta [&_p]:text-solid",
 ];
 

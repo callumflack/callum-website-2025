@@ -42,32 +42,48 @@ export const proseVariants = cva({
 
     // Code styles that can't be set in mdx-components due highlight() function
     // or when <code> is used without being wrapped by <pre>
-    "[&_code]:text-[0.825em] [&_code]:bg-background-active [&_code]:font-mono",
-    "[&_code]:px-[2px] [&_code]:rounded-soft",
+    "[&_code]:text-[0.925em] [&_code]:tracking-[-0.025em] [&_code]:font-mono",
+    "[&_code]:bg-background-active [&_code]:px-[2px] [&_code]:rounded-soft",
+    // Align inline code elements
+    "[&_code>span]:relative [&_code>span]:top-[-0.02em]",
+    // Reset when wrapped in pre element
+    "[&_[data-component=pre]_code>span]:static [&_[data-component=pre]_code]:text-[0.825em] [&_[data-component=pre]_code]:tracking-[0]",
 
-    // ============================================== FOOTNOTES!
+    // ==============================================
+    // FOOTNOTES
+    // ==============================================
     // Hide the footnotes h2
     "[&_#footnotes]:hidden",
+
     // / Apply `noteStyle` styles to footnotes
     "[&_.footnotes]:text-solid [&_.footnotes]:link-block",
     "[&_.footnotes_p]:text-meta [&_.footnotes_::marker]:text-meta",
     "[&_.footnotes_::marker]:w-4",
     "[&_.footnotes]:scroll-mt-[calc(theme(spacing.nav)+theme(spacing.inset))]",
-    "[&_[id*='user-content-fnref']]:scroll-mt-[calc(theme(spacing.nav)+theme(spacing.inset))]",
+
+    // scrollmargins for both the sup and the footnote
+    // sup: user-content-fnref-3 + footnote: user-content-fn-3
+    "[&_[id*='user-content-fn']]:scroll-mt-[calc(theme(spacing.nav)+theme(spacing.inset))]",
+
     // Note spacings
     "[&_.footnotes]:!mt-w12",
     "[&_.Note+.Note]:!mt-2",
+    "[&_.Note+.footnotes]:!mt-2",
+
     // "[&_.footnotes+.Note]:!mt-2",
     "[&_.footnotes_ol]:pl-3.5",
+
     // Hide the text content of the footnotes backref link
     "[&_.footnotes_.data-footnote-backref]:indent-[-9999px]",
     "[&_.footnotes_.data-footnote-backref]:inline-flex",
     "[&_.footnotes_.data-footnote-backref]:text-solid",
+
     // Position new footnotes backref SVG icon using :after
     "[&_.footnotes_.data-footnote-backref]:after:absolute",
     "[&_.footnotes_.data-footnote-backref]:after:top-[0.2em]",
     "[&_.footnotes_.data-footnote-backref]:after:left-[0.3em]",
     "[&_.footnotes_.data-footnote-backref]:after:size-em",
+
     "[&_.footnotes_.data-footnote-backref]:after:bg-solid",
     // Add new footnotes backref SVG icon via mask so we can colour it
     "[&_.footnotes_.data-footnote-backref]:after:[mask-size:contain]",

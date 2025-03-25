@@ -80,3 +80,10 @@
   @apply text-solid-light text-right !font-normal;
   @apply mr-4 inline-block w-4;
 } */
+
+/* .Prose .sh__line {
+  @apply mt-[-1.5em];
+}
+.Prose pre .sh__line {
+  @apply mt-0;
+} */

@@ -82,7 +82,7 @@ const config = {
 
 Have you ever struggled to remember the correct letter-spacing for your small text? What if you could set it once and forget about it?
 
-We can set leading (line-height) and tracking (letter-spacing) as parameters for each font size tuple directly in `tailwind.config`. This means we don't need to set leading or tracking when we use a font-size class. No need to remember (or fail to look up) what the letter-spacing of small text is.
+We can set leading (line-height) and tracking (letter-spacing) as parameters for each font-size tuple directly in `tailwind.config`. This means we don't need to set leading or tracking every time we use a font-size class. Set it once here, then forget it.
 
 ```ts
 fontSize: {
@@ -204,7 +204,7 @@ Note again the use of semantic naming makes it easy to remember and use.
 
 We have now configured typography, colour and spacing tokens in a manner that is easy to understand and maintain in a single, centralised place. And we don't need to wrire as many classes to implement the system. Winning. And there's further steps we can take to reduce this implementation overhead.
 
-### Clamp() your classes
+### Clamp your classes
 
 What if I told you there's a way to completely avoid writing `text-lg lg:text-xl xl:text-2xl p-2 md:p-4 lg:p-8` everywhere?
 
@@ -260,7 +260,11 @@ This allows us to write `py-d24` instead of `py-16 md:py-20 lg:py-24`. This alle
 
 ## Summary
 
-Well-crafted UI is your last defense against the coming slopwave of careless AI apps. Here's how customizing Tailwind can save you time and headaches so you can focus on the irrational amount of care it takes to build UI that works in the blink of an eye:
+Well-crafted UI is your last defense against the coming slopwave of careless AI apps. Don't spread you design system into classes all across your app. Configure it.
+
+Yes, there's an upfront time cost. But it pays off in spades: less code, fewer errors, greater design consistency, and a team that actually understands the system.
+
+Here's how customizing Tailwind can save you time and headaches so you can focus on the irrational amount of care it takes to build UI that works in the blink of an eye:
 
 - Use `tailwind.config` to its full potential. Take the time to centralise and group your design tokens and avoid the "implement classes everywhere" trap.
 - Use `clamp()` for fluid typography and spacing.
@@ -268,13 +272,10 @@ Well-crafted UI is your last defense against the coming slopwave of careless AI 
 - Name colors and spacing semantically: `background` beats `gray-100` any day.
 - Relate icons to text size with `size-em`.
 
-Yes, there's an upfront time cost. But it pays off in spades: less code, fewer errors, greater design consistency, and a team that actually understands the system.
-
-Don't spread you design system into classes all across your app. Configure it.
-
 <Note>
+
 Next up: We'll explore how to use [Class Variance Authority](https://cva.style/docs) to create a bulletproof styling API with semantic props drawn from Tailwind. Stay tuned.
 
-[^1]: This is also why I dislike using [tailwind-merge](https://github.com/dcastil/tailwind-merge) to remove duplicate Tailwind classes in JSX. More often than not, I find it removing a `text-color` in favour of a `text-fontSize` when both are needed. I'm surprised more developers don't raise this issue.
-
 </Note>
+
+[^1]: This is also why I dislike using [tailwind-merge](https://github.com/dcastil/tailwind-merge) to remove duplicate Tailwind classes in JSX. More often than not, I find it removing a `text-color` in favour of a `text-fontSize` when both are needed. I'm surprised more developers don't raise this issue.

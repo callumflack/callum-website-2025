@@ -1,11 +1,12 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
-import smartypants from "remark-smartypants";
-import { Category, LibraryType } from "./src/types/content";
 import { exec as execCallback } from "child_process";
-import util from "util";
 import readingTime from "reading-time";
+import remarkGfm from "remark-gfm";
+import smartypants from "remark-smartypants";
+import util from "util";
 import { getImageDimensions } from "./src/components/media/media-utils";
+import { Category, LibraryType } from "./src/types/content";
 
 const exec = util.promisify(execCallback);
 
@@ -98,7 +99,7 @@ export const posts = defineCollection({
     }
 
     const content = await compileMDX(ctx, post, {
-      remarkPlugins: [smartypants],
+      remarkPlugins: [smartypants, remarkGfm],
     });
 
     const readingStats = readingTime(content);
