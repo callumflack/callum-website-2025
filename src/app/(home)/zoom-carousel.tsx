@@ -59,6 +59,7 @@ const CarouselItem = ({
         width: isExpanded ? `${expandedWidth}px` : `${normalWidth}px`,
         // Optional subtle scale effect
         // scale: isExpanded ? 1.02 : 1,
+        cursor: isExpanded ? "zoom-out" : "zoom-in",
       }}
       style={{
         willChange: "width, height",
@@ -104,58 +105,6 @@ const CarouselItem = ({
       </MediaFigure>
     </motion.div>
   );
-};
-
-// Simple caption component from Slider
-const SimpleCardCaption = ({
-  slug,
-  title,
-  date,
-  isZoomed,
-}: {
-  slug: string;
-  title: string;
-  date: string;
-  isZoomed: boolean;
-}) => {
-  return (
-    <Link
-      href={`/${slug}`}
-      className="link flex items-center gap-1.5 no-underline"
-      onClick={(e) => {
-        if (!isZoomed) {
-          e.stopPropagation();
-        } else {
-          e.preventDefault();
-        }
-      }}
-    >
-      <span>{title}</span>
-      <hr className="hr-vertical border-border-hover h-[12px]" />
-      <span>{formatYear(date)}</span>
-    </Link>
-  );
-};
-
-// Find the center item in a carousel
-const findCenterItem = (items: Element[], containerRect: DOMRect): number => {
-  const containerCenterX = containerRect.left + containerRect.width / 2;
-
-  let centerIndex = 0;
-  let minDistance = Infinity;
-
-  items.forEach((item, index) => {
-    const itemRect = item.getBoundingClientRect();
-    const itemCenterX = itemRect.left + itemRect.width / 2;
-    const distance = Math.abs(itemCenterX - containerCenterX);
-
-    if (distance < minDistance) {
-      minDistance = distance;
-      centerIndex = index;
-    }
-  });
-
-  return centerIndex;
 };
 
 // Main ZoomCarousel component
@@ -254,3 +203,55 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
     </div>
   );
 }
+
+// Simple caption component from Slider
+const SimpleCardCaption = ({
+  slug,
+  title,
+  date,
+  isZoomed,
+}: {
+  slug: string;
+  title: string;
+  date: string;
+  isZoomed: boolean;
+}) => {
+  return (
+    <Link
+      href={`/${slug}`}
+      className="link flex items-center gap-1.5 no-underline"
+      onClick={(e) => {
+        if (!isZoomed) {
+          e.stopPropagation();
+        } else {
+          e.preventDefault();
+        }
+      }}
+    >
+      <span>{title}</span>
+      <hr className="hr-vertical border-border-hover h-[12px]" />
+      <span>{formatYear(date)}</span>
+    </Link>
+  );
+};
+
+// Find the center item in a carousel
+const findCenterItem = (items: Element[], containerRect: DOMRect): number => {
+  const containerCenterX = containerRect.left + containerRect.width / 2;
+
+  let centerIndex = 0;
+  let minDistance = Infinity;
+
+  items.forEach((item, index) => {
+    const itemRect = item.getBoundingClientRect();
+    const itemCenterX = itemRect.left + itemRect.width / 2;
+    const distance = Math.abs(itemCenterX - containerCenterX);
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      centerIndex = index;
+    }
+  });
+
+  return centerIndex;
+};
