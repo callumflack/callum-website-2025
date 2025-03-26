@@ -111,7 +111,7 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
   // console.log("ZoomableVideo props:", props);
 
   return (
-    <Zoomable2 className={mediaSpacing}>
+    <Zoomable02 className={mediaSpacing}>
       <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
         <Video
           src={typeof src === "string" ? src : ""}
@@ -122,6 +122,6 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
           {...rest}
         />
       </MediaFigure>
-    </Zoomable2>
+    </Zoomable02>
   );
 }
