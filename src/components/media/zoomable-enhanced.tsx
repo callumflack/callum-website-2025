@@ -35,7 +35,6 @@ export type EnhancedZoomableProps = {
   fullWidthWhenZoomed?: boolean;
   isControlled?: boolean;
   isZoomed?: boolean;
-  verticalOffset?: number; // Percentage of viewport height to offset (negative = up)
   disableOnMobile?: boolean; // Whether to disable zooming on mobile devices
   mobileBreakpoint?: number; // Width below which device is considered mobile
 };
@@ -49,7 +48,6 @@ export function EnhancedZoomable({
   onZoomChange,
   isControlled = false,
   isZoomed: externalIsZoomed = false,
-  verticalOffset = -10, // Default to move it up 10% of the viewport height
   disableOnMobile = true, // Default to disable on mobile
   mobileBreakpoint = 768, // Default tablet/mobile breakpoint
 }: EnhancedZoomableProps) {
@@ -59,9 +57,12 @@ export function EnhancedZoomable({
   // Use either the external or internal state based on isControlled
   const isZoomedState = isControlled ? externalIsZoomed : internalIsZoomed;
 
+  // Refs
   const contentRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
+
+  // "Keeping track of" state
   const { width: viewportWidth, height: viewportHeight } = useWindowSize();
   const [contentHeight, setContentHeight] = useState<number>(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -71,113 +72,136 @@ export function EnhancedZoomable({
   // Enable zoom only if not on mobile or mobile zooming is not disabled
   const zoomEnabled = !(isMobile && disableOnMobile);
 
-  // Setup visibility detection
+  // IntersectionObserver to detect whether content is visible
   useEffect(() => {
     if (!contentRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
+        // If content is at least 10% visible
         setIsVisible(entries[0]?.isIntersecting ?? false);
       },
       { threshold: 0.1 } // 10% visibility is enough
     );
 
     observer.observe(contentRef.current);
-
     return () => observer.disconnect();
   }, []);
 
-  // Measure the height of the content using ResizeObserver for better reliability
+  // Measure the content height in a single place using requestAnimationFrame
   useEffect(() => {
     if (!contentRef.current) return;
 
+    let frameId: number | null = null;
+
     const measureHeight = () => {
-      if (contentRef.current) {
-        setContentHeight(contentRef.current.offsetHeight);
-      }
+      frameId = requestAnimationFrame(() => {
+        if (contentRef.current) {
+          setContentHeight(contentRef.current.offsetHeight);
+        }
+      });
     };
 
-    // Initial measurement
+    // Measure once on mount
     measureHeight();
 
-    // Setup resize observer
+    // Setup resize observer that calls measureHeight again on resize
     resizeObserverRef.current = new ResizeObserver(measureHeight);
     resizeObserverRef.current.observe(contentRef.current);
 
     // Cleanup
     return () => {
+      if (frameId) cancelAnimationFrame(frameId);
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
       }
     };
   }, []);
 
-  // Re-measure when component becomes visible or when window size changes
+  // Re-measure if viewport changes or element becomes visible again
   useEffect(() => {
     if (!contentRef.current || !isVisible) return;
 
-    const measureHeight = () => {
-      if (contentRef.current) {
-        setContentHeight(contentRef.current.offsetHeight);
-      }
-    };
-
-    // Immediate measurement
-    measureHeight();
-
-    // Additional measurement after a short delay to catch any late-loading content
-    const delayedMeasurement = setTimeout(measureHeight, 300);
-
-    return () => clearTimeout(delayedMeasurement);
+    // Single call that triggers requestAnimationFrame in measureHeight
+    // Disconnect first to re-attach
+    resizeObserverRef.current?.disconnect();
+    resizeObserverRef.current?.observe(contentRef.current);
   }, [isVisible, viewportWidth, viewportHeight]);
 
   // Update wrapper height when zoom changes
   useEffect(() => {
+    // If we have a wrapper and a known contentHeight
     if (wrapperRef.current && contentHeight > 0) {
+      // If zoomed, multiply by scale; else normal
       wrapperRef.current.style.height = isZoomedState
         ? `${contentHeight * scaleAmount}px`
         : `${contentHeight}px`;
     }
   }, [isZoomedState, contentHeight, scaleAmount]);
 
-  // Handle zoom change and ensure component is vertically centered when zoomed
+  // Center the element in the viewport when zoomed
   useEffect(() => {
     if (!isZoomedState || !contentRef.current) return;
 
-    // Wait a tick to ensure DOM measurements are accurate after state changes
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       if (!contentRef.current) return;
 
+      // Get current size (pre-transform or mid-transform)
       const rect = contentRef.current.getBoundingClientRect();
+      // Pre-calculate the final size when transform completes
+      const finalHeight = contentHeight * scaleAmount;
+      // Calculate where it should be positioned
+      const idealTop = (window.innerHeight - finalHeight) / 2;
+      // Calculate where it will be positioned
+      const projectedTop = rect.top;
+      // Calculate how far to scroll
+      const scrollBy = projectedTop - idealTop;
 
-      // Calculate where the center of the element should be
-      const elementHeight = rect.height;
-      const viewportHeight = window.innerHeight;
+      window.scrollBy({ top: scrollBy, behavior: "smooth" });
+    });
+  }, [isZoomedState, contentHeight, scaleAmount]);
 
-      // Calculate the ideal scroll position to center the element
-      const elementCurrentTop = rect.top + window.scrollY;
-      const elementCurrentCenter = elementCurrentTop + elementHeight / 2;
+  // MEASUREMENT TESTS
+  // useEffect(() => {
+  //   if (!isZoomedState || !contentRef.current) return;
 
-      // Apply vertical offset as percentage of viewport height
-      const offsetPixels = (verticalOffset / 100) * viewportHeight;
-      const viewportCenter = viewportHeight / 2 + offsetPixels;
+  //   // First get pre-transform measurements
+  //   const preRect = contentRef.current.getBoundingClientRect();
+  //   console.log("PRE-SCROLL MEASUREMENTS:");
+  //   console.log({
+  //     elementTop: preRect.top,
+  //     elementBottom: preRect.bottom,
+  //     elementHeight: preRect.height,
+  //     visualCenter: preRect.top + preRect.height / 2,
+  //     viewportHeight: window.innerHeight,
+  //     viewportCenter: window.innerHeight / 2,
+  //     windowScrollY: window.scrollY,
+  //   });
 
-      const targetScrollY = elementCurrentCenter - viewportCenter;
+  //   // Wait for transform to settle, then check again
+  //   setTimeout(
+  //     () => {
+  //       if (!contentRef.current) return;
+  //       const postRect = contentRef.current.getBoundingClientRect();
+  //       console.log("POST-TRANSFORM MEASUREMENTS:");
+  //       console.log({
+  //         elementTop: postRect.top,
+  //         elementBottom: postRect.bottom,
+  //         elementHeight: postRect.height,
+  //         visualCenter: postRect.top + postRect.height / 2,
+  //         viewportHeight: window.innerHeight,
+  //         viewportCenter: window.innerHeight / 2,
+  //       });
+  //     },
+  //     transitionDuration * 1000 + 50
+  //   );
+  // }, [isZoomedState, transitionDuration]);
 
-      // Smooth scroll to center the element vertically (with offset)
-      window.scrollTo({
-        top: targetScrollY,
-        behavior: "smooth",
-      });
-    }, 10); // Small delay to ensure measurements are correct
-  }, [isZoomedState, verticalOffset]);
-
-  // Memoize the zoom handler to prevent recreation on each render
+  // Memoize the zoom handler
   const handleZoom = useCallback(() => {
     if (!zoomEnabled) return;
 
     if (!isControlled) {
-      // Only update internal state if not controlled
       setInternalIsZoomed((prev) => !prev);
     }
 
@@ -204,7 +228,8 @@ export function EnhancedZoomable({
           height: contentHeight ? `${contentHeight}px` : "auto",
           position: "relative",
           transition: `height ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          overflow: "hidden", // Prevent breaking page layout
+          // Prevent breaking page layout
+          overflow: "hidden",
         }}
       >
         <div
@@ -212,6 +237,7 @@ export function EnhancedZoomable({
           onClick={handleZoom}
           style={{
             width: "100%",
+            // transition from normal state to the zoomed scaleAmount
             transition: `transform ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
             cursor: zoomEnabled
               ? isZoomedState
@@ -219,11 +245,13 @@ export function EnhancedZoomable({
                 : "zoom-in"
               : "default",
             transform: isZoomedState ? `scale(${scaleAmount})` : "scale(1)",
-            transformOrigin: "center top", // Keep original transform origin
+            // keep the element centered in the viewport on zoom
+            transformOrigin: "center top",
             position: "absolute",
             top: 0,
             left: 0,
             zIndex: isZoomedState ? 49 : 1,
+            willChange: "transform",
           }}
         >
           {children}
