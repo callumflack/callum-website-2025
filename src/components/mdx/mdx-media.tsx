@@ -2,12 +2,13 @@ import {
   MediaFigure,
   mediaWrapperVariants,
   Video,
-  Zoomable,
+  // Zoomable,
   type MediaFigureProps,
   type MediaWrapperProps,
   type VideoProps,
   type ZoomableProps,
 } from "@/components/media";
+import { Zoomable as Zoomable02 } from "@/components/media/zoomable-02";
 import {
   getAspectRatioCSS,
   getImageDimensions,
@@ -74,7 +75,7 @@ export function ZoomableImage(props: MdxImageProps) {
   const { width, height } = getImageDimensions(aspect);
 
   return (
-    <Zoomable className={mediaSpacing}>
+    <Zoomable02 className={mediaSpacing}>
       <MediaFigure caption={extractedCaption} isPortrait={isPortrait(aspect)}>
         <NextImage
           src={src}
@@ -90,7 +91,7 @@ export function ZoomableImage(props: MdxImageProps) {
           }
         />
       </MediaFigure>
-    </Zoomable>
+    </Zoomable02>
   );
 }
 
@@ -110,7 +111,7 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
   // console.log("ZoomableVideo props:", props);
 
   return (
-    <Zoomable className={mediaSpacing}>
+    <Zoomable2 className={mediaSpacing}>
       <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
         <Video
           src={typeof src === "string" ? src : ""}
@@ -121,6 +122,6 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
           {...rest}
         />
       </MediaFigure>
-    </Zoomable>
+    </Zoomable2>
   );
 }
