@@ -26,15 +26,19 @@ export const HomePage = ({
     <BodyClassProvider
       condition={isZoomed}
       className={cx(
-        "overflow-hidden", // prevent scrolling
-        "bg-background-hover",
-        "[&_[data-component=PageInner]:not(.Folio)]:opacity-[0.0]",
-        "[&_[data-component=Nav]_a]:opacity-[0.0]",
-        "[&_[data-component=Nav]_span]:opacity-[0.0]",
-        "[&_[data-component=Nav]]:bg-background-hover"
+        "bg-canvas"
+        // UNDECIDED! I kinda like it just plain today…
+        // "overflow-hidden",
+        // "bg-background-hover",
+        // "[&_[data-component=Nav]]:bg-background-hover",
+        // "[&_[data-component=Nav]_a]:opacity-[0.0]",
+        // "[&_[data-component=Nav]_span]:opacity-[0.0]",
+        // "[&_[data-component=PageInner]:not(.Folio)]:opacity-[0.0]",
+        // "[&_[data-component=TitleHeader]]:opacity-[0.0]",
+        // "[&_[data-component=RuleWithinInner]]:opacity-[0.0]"
       )}
     >
-      {/* Close overlay for the zoomed work slider */}
+      {/* Close overlay for the EnhancedZoomable */}
       {isZoomed && (
         <div
           className="absolute inset-0 z-99 cursor-zoom-out"
@@ -123,10 +127,7 @@ export const HomePage = ({
               />
             </EnhancedZoomable>
           </div>
-          {!isZoomed && (
-            // <div className="absolute inset-0 z-99 cursor-zoom-out"></div>
-            <RuleWithinInner />
-          )}
+          <RuleWithinInner />
         </PageInner>
 
         {/* WRITING */}
@@ -173,7 +174,7 @@ export const HomePage = ({
 
 const RuleWithinInner = () => {
   return (
-    <div className="pt-w5">
+    <div data-component="RuleWithinInner" className="pt-w5">
       <hr />
     </div>
   );
