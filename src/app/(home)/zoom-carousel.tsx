@@ -209,23 +209,17 @@ const SimpleCardCaption = ({
   slug,
   title,
   date,
-  isZoomed,
 }: {
   slug: string;
   title: string;
   date: string;
-  isZoomed: boolean;
 }) => {
   return (
     <Link
       href={`/${slug}`}
       className="link flex items-center gap-1.5 no-underline"
       onClick={(e) => {
-        if (!isZoomed) {
-          e.stopPropagation();
-        } else {
-          e.preventDefault();
-        }
+        e.stopPropagation();
       }}
     >
       <span>{title}</span>
