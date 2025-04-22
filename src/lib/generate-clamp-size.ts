@@ -46,6 +46,13 @@ export const clampSizes = {
   30: generateClampSize(500, 1200, 22, 30),
   32: generateClampSize(500, 1200, 22, 32),
 
+  fine: generateClampSize(500, 1200, 9, 11),
+  pill: generateClampSize(500, 1200, 10, 11.5),
+  meta: generateClampSize(500, 1200, 11, 13.5),
+  body: generateClampSize(500, 1200, 14, 16),
+  heading: generateClampSize(500, 1200, 17, 22),
+  title: generateClampSize(500, 1200, 22, 30),
+
   // spacers
   // lower value is 2/3 of upper value
   // w4: generateClampSize(500, 1200, 10.5, 16),

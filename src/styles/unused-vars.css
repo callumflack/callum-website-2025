@@ -1,0 +1,30 @@
+/* Many of these are not properly calculated */
+
+@theme inline {
+  --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
+  --text-ui: clamp(11px, 9.5714px + 0.2857vw, 13px);
+
+  --text-pill: clamp(9px, 7.5714px + 0.2857vw, 11px);
+  --text-pill: clamp(10px, 8.5714px + 0.2857vw, 11.5px);
+
+  --text-meta: clamp(10px, 8.5714px + 0.2857vw, 12px);
+  --text-meta: clamp(11.5px, 9.7143px + 0.3571vw, 14px);
+  --text-meta: clamp(11px, 9.5714px + 0.2857vw, 13.5px);
+
+  --text-body: clamp(12px, 9.8571px + 0.4286vw, 15px);
+  --text-body: clamp(15px, 13.5714px + 0.2857vw, 17px);
+  --text-body: clamp(14px, 12.5714px + 0.2857vw, 16px);
+
+  --text-heading: clamp(16px, 14.5714px + 0.2857vw, 18px);
+  --text-heading: clamp(16px, 13.8571px + 0.4286vw, 19px);
+  --text-heading: clamp(17px, 14.8571px + 0.4286vw, 20px);
+  --text-heading: clamp(17px, 14.1429px + 0.5714vw, 21px);
+  --text-heading: clamp(17px, 14.1429px + 0.5714vw, 22px);
+
+  --text-title: clamp(17px, 14.1429px + 0.5714vw, 21px);
+  --text-title: clamp(20px, 17.1429px + 0.5714vw, 24px);
+  --text-title: clamp(21px, 16.7143px + 0.8571vw, 27px);
+  --text-title: clamp(21px, 16px + 1vw, 28px);
+  --text-title: clamp(22px, 14.8571px + 1.4286vw, 32px);
+  --text-title: clamp(22px, 16.2857px + 1.1429vw, 30px);
+}
