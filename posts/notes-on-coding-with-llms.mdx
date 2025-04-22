@@ -10,13 +10,11 @@ tags:
   - featured
 ---
 
-Last week I built the first draft of an app that I got an LLM to write most of the code for. The app looks pretty good so far and was a huge amount of fun to make, and it was exciting to formalise a set of methods for coding with LLMs that I’ve been working on to smoothly execute a new app from the ground up. 
+Last week I built the first draft of an app. I used LLMs to write all the grind parts of it. This was the result of a formalisation of methods for coding with LLMs over the past few years brought to bear to smoothly execute a new app from the ground up.
 
-In the past few years, using LLMs to code has already been useful but one misstep could lead to three hours down a rabbit-hole where hard-won solutions led to the same second order effect that instigated the chase. New models in late 2024 started to one-shot these rabbit-holes. Less than a month ago, Cursor's Agent Mode seemed to suddenly jumped a step change in its efficacy and trustworthiness.
+Dependent on the tempo or phase within a project, I feel like I can now defer over 50% of written code to an LLM, leaving me to act as reviewer and giving me more time to think about my intentions and potential iterations.
 
-Dependent on the tempo or phase within a project, I feel like I can now defer over 50% of written code to an LLM, leaving me to act as reviewer and giving me more time to think about my intentions and potential iterations. 
-
-This is incredible. And it requires revising my approach to coding. Paying attention to the phase and tempo was always important, but now that code can be written almost instantly, holding the shape of intention and possibility in mind is the thing.
+This is incredible. And it requires revising my approach to coding. Paying attention to the phase and tempo was always important, but now that I can offload most of the coding work, holding the shape of intention and possibility in mind is the thing.
 
 Here are some strategies and tactics for doing this, which I’ll then elaborate on:
 
@@ -55,39 +53,37 @@ Note that most of what I'll address here is hopefully general for LLM coding but
 
 **Use a reasoning model to think about architecture.** This kind of thinking always benefits from immersion and time and sometimes it's hard to even stop. Reasoning models can give you a leg up in a matter of minutes. o1, Grok 3, etc.
 
-**Use a workhorse to write general code.** That is, anything from small bugs through to a small feature. Sonnet 3.5 is great. Allowing Cursor to auto-select from your request is also fine most of the time.
+**Use a workhorse to write general code.** That is, anything from small bugs through to a small feature. Sonnet 3.5 is great. Sonnet 3.7 is currently [too conscientious!](https://x.com/callumflack/status/1905075681085784457)
 
 **The context window is important.** If you have a long chat, you’ll have a large context window. The effectiveness of your discussion will decrease. It's that simple. This indicates you haven't done the work to think about what you're doing.
 
-**You are the bottleneck.** As context windows continuously increase, you are the bottleneck. And you always will be. If you haven't retained an understanding of the current situation, then you are Mickey Mouse at Bald Mountain, heralding forth an army of broomsticks to flood your codebase and your comprehension.
+**You are the bottleneck.** As context windows continuously increase, you are the bottleneck. And you always will be. If you haven't retained an understanding of the current situation, then you are Mickey Mouse on Bald Mountain, heralding forth an [army of broomsticks](https://x.com/callumflack/status/1905075681085784457) to flood your codebase and your comprehension.
 
-**Keep a record of your original question.** No matter what, sometimes you're going to lose track of what's happening and what you're trying to do. That's part of being human. Nothing wrong with it. Feel free to delete and start again. There are no sunk costs with LLM-generated code.
+**Record your original question.** No matter what, sometimes you're going to lose track of what's happening and what you're trying to do. That's part of being human. Nothing wrong with it. Feel free to delete the code (you kept your Git clean, right?) and start again.
 
-**Don’t anthropomorphise the LLM.** It's awesome auto-complete, not a person. You're not being judged, and no one's watching you, so feel free to ask dumb questions. If you get frustrated with the LLM, pay attention to that and chill out. Take a break and start again.
+**Don’t anthropomorphise the LLM.** It's awesome auto-complete, not a person. You're not being judged, and no one's watching you, so feel free to ask dumb questions. If you get frustrated with the LLM, pay attention to that, take a break and start again.
 
-**Keep up with what’s happening!** Take note of what other people in your scene are doing and make space to test it out yourself. Sure, there's a huge amount of noise but small experiments are surprisingly easy and sometimes they pay off (see the feature rules idea below). If you get stuck, follow [Eric](https://x.com/pvncher) and [Simon](https://x.com/simonw).
+**Keep up with what’s happening.** Take note of what other people in [your](https://x.com/pvncher) [scene](https://x.com/simonw) are doing and make space to test it out yourself. Sure, there's a huge amount of noise but small experiments are easy and sometimes they pay off.
 
 ## Tactics
 
-**Always speak to the computer.** At first, because it's a new thing, it's hard to bother trying. Then it's slightly difficult to figure out which app is best. But once passed those two steps, you'll find you suddenly you want to speak to it in every app, everywhere.
+**Speak to the computer. Typing is too slow.** Because this was new for me, I found it hard to bother trying. Then it became a game-changer. I use [this app](https://wisprflow.ai/). You'll find you want to speak to it in every app, everywhere.
 
-**Just use Cursor or Windsurf.** It doesn't matter. The important thing is to start and practice. For example, it took me ages to get past some subtle UI things that Cursor did not retain from VSCode. But that was just old habit I had to get around. It's worth it.
+**Use an LLM-enabled IDE.** Cursor, Windsurf, Cody, whatever. It doesn't matter so long as you find an IDE with built-in LLM support that you like and stick to it long enough to build habits. Personally, I use Cursor with Warp as my LLM terminal so I don't have to remember grep.
 
-**Use Warp.** Most don’t, but I prefer the cognitive switch between applications from Code to Terminal. Warp is my terminal choice with the added benefits of inline LLMs where I can have it solve package (eg. Nix on Mac!) and Git issues. I no longer have to remember how to grep.
+**Write your global rule.** [This one is good for web apps](https://github.com/callumflack/callums-prompts/blob/main/cursor-global-cursorteam-250102.md). “Be terse” is most important because, most of all, you have to manage the context window in your own head.
 
-**Use [this cursor rule](https://github.com/callumflack/callums-prompts/blob/main/cursor-global-cursorteam-250102.md).** Your mileage may vary but because I'm just building web apps this works. “Be terse” is most important because, most of all, you have to manage the context window in your own head.
+**Write a product overview.** Write a bare bones project overview at the start. Describe the app and its purpose and list your tech stack. Then don't worry about it. If you find recurrent problems with your LLM code, update it.
 
-**Write a product overview.** Write up a bare bones project overview at the start. Describe the app and its purpose and list your tech stack. Then don't worry about it. If you find recurrent problems with your LLM code, update it.
+**Add feature summaries as project rules.** Once you've completed a feature, write a summary (or ask your LLM to). Note the flow, the gotchas, what files used and add that to your project rules.
 
-**Add feature summaries as project rules.** Once you've completed a feature, write a summary and note what files used and add that to your project rules.
+**Use a changelog.** As you start to compile features and your application grows, it's useful to have a change log that you can give to the LLM and yourself to help keep on track and not solve problems twice.
 
-**Use a Changelog.** As you start to compile features and your application grows, it's useful to have a change log that you can give to the LLM and yourself to help keep on track and not solve problems twice.
+**Supply the right docs.** Yes, you can supply URLs for crawling but sometimes you have to do more than that. Whether that's for libraries or surrounding code, you may need to provide specific documentation for an LLM. I use [Repomix](https://repomix.com/) as an IDE plugin or [RepoPrompt](https://repoprompt.com/)’s code map feature. Keep it under 32k tokens!
 
-**Supply the right docs.** Yes, you can supply URLs for crawling but sometimes you have to do more than that. Whether that's for libraries or surrounding code, you may need to provide better, more specific documentation for an LLM. use [Repomix](https://repomix.com/) as a cursor plugin or [RepoPrompt](https://repoprompt.com/)’s code map feature. Keep it under 32k tokens!
+**LLMs find JS easy but CSS hard.** I find that if I have issues with `grid` or something like that, an LLM will fail abysmally and repeatedly. Maybe it's because I really struggle to articulate those visual layouts in words and I'm mostly sticking with chat, not prototyping tools like Bolt, but I find CSS much easier to write myself.
 
-**LLMs find JavaScript easy, but CSS hard.** I find that if I have issues with Grid or something like that, an LLM will fail abysmally and repeatedly. Maybe it's because I really struggle to articulate those visual layouts in words and I'm mostly sticking with chat, not prototyping tools like Bolt, but I find CSS much easier to write myself.
-
-**Take a breath.** Know where you're at in the process. If you ask an LLM for text, it goes brrrrrrr. You don't want that, and you sure don’t want Mickey’s broomsticks swamping the basement of your mind; you want understanding and solutions. You are the bottleneck to that.
+**Take a breath.** Checking where you are in the process is how you prevent yourself from getting emotional with the AI. If you ask an LLM for text, it goes brrrrrrr. If you're lazy and unintentional with those asks, you'll get Mickey’s broomsticks swamping the basement of your mind in no time. You don't want brrrrrrr, you want understanding and solutions. You are the bottleneck to that.
 
 ## Summary
 
