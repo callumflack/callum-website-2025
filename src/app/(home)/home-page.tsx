@@ -38,12 +38,12 @@ export const HomePage = ({
       )}
     >
       {/* Close overlay for the EnhancedZoomable */}
-      {isZoomed && (
+      {/* {isZoomed && (
         <div
           className="absolute inset-0 z-99 cursor-zoom-out"
           onClick={() => setIsZoomed(false)}
         ></div>
-      )}
+      )} */}
 
       <PageWrapper
         showIntro={false}

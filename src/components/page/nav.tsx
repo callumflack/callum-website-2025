@@ -45,7 +45,7 @@ export const Nav = ({
     <div
       data-component="Nav"
       className={cx(
-        "bg-canvas sticky top-0 z-50",
+        "bg-canvas sticky top-0 z-200",
         // "bg-canvas border-b"
         // "bg-canvas-[0.99] backdrop-blur-xl"
         className
