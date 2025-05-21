@@ -29,23 +29,27 @@ export function Zoomable({
   disableOnMobile = true,
   mobileBreakpoint = 768,
 }: ZoomableProps) {
-  const [isZoomed, setIsZoomed] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
   const { width: viewportWidth } = useWindowSize();
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
   const [originalWidth, setOriginalWidth] = useState(maxWidth);
   const [contentHeight, setContentHeight] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(1);
+
+  // Determine if on mobile
+  const isMobile = viewportWidth < mobileBreakpoint;
 
   // Measure content dimensions on mount
   useEffect(() => {
     if (contentRef.current) {
       const width = contentRef.current.offsetWidth;
       const height = contentRef.current.offsetHeight;
-      setOriginalWidth(width);
+      // Set originalWidth based on actual rendered width on mobile if it's smaller than maxWidth
+      setOriginalWidth(isMobile ? Math.min(width, viewportWidth) : width);
       setContentHeight(height);
       setAspectRatio(width / height);
     }
-  }, []);
+  }, [isMobile, viewportWidth]);
 
   // Center element in viewport when zoomed
   useEffect(() => {
@@ -82,25 +86,44 @@ export function Zoomable({
     viewportWidth,
   ]);
 
+  // If on mobile and zooming is disabled, render children directly
+  // We might want to pass down className for layout consistency
+  if (isMobile && disableOnMobile) {
+    // If a className is provided, wrap children in a simple div with that className. This helps maintain any layout/spacing applied via className (e.g., mediaSpacing)
+    if (className) {
+      return (
+        <div data-component="zoomable-mobile" className={className}>
+          {children}
+        </div>
+      );
+    }
+    // Otherwise, render children directly
+    return <>{children}</>;
+  }
+
   const handleZoom = () => {
-    if (!(viewportWidth < mobileBreakpoint && disableOnMobile)) {
+    if (!(isMobile && disableOnMobile)) {
       setIsZoomed(!isZoomed);
     }
   };
 
   // Calculate dimensions
+  const calculatedOriginalWidth = isMobile
+    ? Math.min(originalWidth, viewportWidth)
+    : originalWidth;
+
   const zoomedWidth = Math.min(
-    originalWidth * scaleAmount,
+    calculatedOriginalWidth * scaleAmount,
     viewportWidth * 0.95
   );
-  const offset = isZoomed ? (originalWidth - zoomedWidth) / 2 : 0;
+  const offset = isZoomed ? (calculatedOriginalWidth - zoomedWidth) / 2 : 0;
 
   return (
     <div
-      data-component="Zoomable"
+      data-component="zoomable"
       className={className}
       style={{
-        width: maxWidth,
+        width: isMobile ? "100%" : maxWidth, // Adjust width for mobile
         position: "relative",
         margin: "0 auto",
         overflow: "visible", // Allow content to overflow
@@ -110,9 +133,9 @@ export function Zoomable({
         ref={contentRef}
         onClick={handleZoom}
         style={{
-          width: isZoomed ? zoomedWidth : "100%",
+          width: isZoomed ? zoomedWidth : "100%", // Inner content takes 100% of parent
           transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          cursor: !(viewportWidth < mobileBreakpoint && disableOnMobile)
+          cursor: !(isMobile && disableOnMobile)
             ? isZoomed
               ? "zoom-out"
               : "zoom-in"
