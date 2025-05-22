@@ -6,11 +6,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.callumflack.design",
-        port: "",
-      },
-      {
-        protocol: "https",
         hostname: "cfd-media.b-cdn.net",
         port: "",
       },
