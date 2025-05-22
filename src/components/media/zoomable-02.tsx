@@ -92,7 +92,7 @@ export function Zoomable({
     // If a className is provided, wrap children in a simple div with that className. This helps maintain any layout/spacing applied via className (e.g., mediaSpacing)
     if (className) {
       return (
-        <div data-component="zoomable-mobile" className={className}>
+        <div data-component="Zoomable-mobile" className={className}>
           {children}
         </div>
       );
@@ -120,7 +120,8 @@ export function Zoomable({
 
   return (
     <div
-      data-component="zoomable"
+      // NB! We rely on an exact sentence case for CSS styling in mdx-prose
+      data-component="Zoomable"
       className={className}
       style={{
         width: isMobile ? "100%" : maxWidth, // Adjust width for mobile
