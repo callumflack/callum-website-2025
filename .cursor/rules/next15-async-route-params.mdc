@@ -1,0 +1,83 @@
+---
+description: Next.js 15 Async Route Parameters Guide
+globs: 
+alwaysApply: false
+---
+# Next.js 15 Async Route Parameters Guide
+
+## The Problem
+
+In Next.js 15, route parameters are now async by default. This causes TypeScript errors that look like:
+
+```typescript
+Type '{ __tag__: "POST"; __param_position__: "second"; __param_type__: { params: { threadId: string; }; }; }' 
+does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ threadId: string; }' is missing the following properties from type 'Promise<any>': 
+    then, catch, finally, [Symbol.toStringTag]
+```
+
+## When You'll See This
+
+- In `/app/api/**/route.ts` files
+- When using dynamic route segments (`[param]`)
+- During TypeScript type checking
+- Often not visible in editor but shows in build/type check
+
+## How to Fix
+
+### Before (Wrong)
+```typescript
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { threadId: string } }
+) {
+  const { threadId } = params
+  // ... rest of code
+}
+```
+
+### After (Correct)
+```typescript
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ threadId: string }> }
+) {
+  const resolvedParams = await params
+  const { threadId } = resolvedParams
+  // ... rest of code
+}
+```
+
+## Key Points
+
+1. **Type Definition**
+   - Wrap param type in `Promise<>`
+   - Example: `Promise<{ threadId: string }>`
+
+2. **Usage**
+   - Always `await` params before using
+   - Store in intermediate variable for clarity
+
+3. **Common Patterns**
+   ```typescript
+   // Single param
+   const { paramName } = await params
+
+   // Multiple params
+   const resolvedParams = await params
+   const { param1, param2 } = resolvedParams
+   ```
+
+## Why This Changed
+
+- Part of Next.js 15's performance improvements
+- Makes route handlers more consistent
+- Enables better streaming and async operations
+
+## Quick Checklist
+
+- [ ] Update param type to include `Promise<>`
+- [ ] Add `await` when accessing params
+- [ ] Update all route handlers in the project
+- [ ] Run type check to verify fixes
