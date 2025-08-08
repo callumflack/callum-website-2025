@@ -10,6 +10,7 @@ import {
 } from "@/components/media/media-utils";
 import { ListHeader } from "@/components/page";
 import { StyledSortButton } from "@/components/post";
+import { MediaErrorBoundary } from "@/components/utils";
 import type { Post } from "content-collections";
 import { cx } from "cva";
 import Image from "next/image";
@@ -171,37 +172,39 @@ export function GalleryPosts({
                   aspectRatio: getAspectRatioCSS(asset.aspect),
                 }}
               >
-                {isVideo ? (
-                  <Video
-                    key={asset.src}
-                    aspect={asset.aspect}
-                    className={cx(
-                      mediaWrapperVariants({
-                        border: !noBorder,
-                      })
-                    )}
-                    poster={asset.poster || asset.src}
-                    src={asset.src}
-                  />
-                ) : (
-                  <Image
-                    alt={asset.alt || title}
-                    src={asset.src}
-                    priority={index < 7}
-                    height={height}
-                    width={width}
-                    sizes={"(min-width: 660px) 600px, 400px"}
-                    style={{
-                      aspectRatio: getAspectRatioCSS(asset.aspect),
-                    }}
-                    className={cx(
-                      mediaWrapperVariants({
-                        border: !noBorder,
-                      }),
-                      "focus-visible:outline-none"
-                    )}
-                  />
-                )}
+                <MediaErrorBoundary>
+                  {isVideo ? (
+                    <Video
+                      key={asset.src}
+                      aspect={asset.aspect}
+                      className={cx(
+                        mediaWrapperVariants({
+                          border: !noBorder,
+                        })
+                      )}
+                      poster={asset.poster || asset.src}
+                      src={asset.src}
+                    />
+                  ) : (
+                    <Image
+                      alt={asset.alt || title}
+                      src={asset.src}
+                      priority={index < 7}
+                      height={height}
+                      width={width}
+                      sizes={"(min-width: 660px) 600px, 400px"}
+                      style={{
+                        aspectRatio: getAspectRatioCSS(asset.aspect),
+                      }}
+                      className={cx(
+                        mediaWrapperVariants({
+                          border: !noBorder,
+                        }),
+                        "focus-visible:outline-none"
+                      )}
+                    />
+                  )}
+                </MediaErrorBoundary>
               </MediaFigure>
             </div>
           );

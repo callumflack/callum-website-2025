@@ -24,7 +24,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Poster for Millennius Fashion",
+    title: "Millennius Fashion",
     date: "1998-01-01",
     summary: "Vintage poster design for fashion label",
     assets: [
@@ -36,7 +36,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Campaign for Brisbane Arcade",
+    title: "Brisbane Arcade",
     date: "2001-01-01",
     summary: "Outdoor advertising campaign",
     slug: "breaka",
@@ -49,7 +49,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Website and graphics for Jazz Tools",
+    title: "Jazz Tools",
     date: "2024-09-01",
     summary: "Unused concepts for jazz education platform",
     assets: [
@@ -61,7 +61,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Logo for Musing Mind podcast",
+    title: "Musing Mind podcast",
     date: "2021-01-01",
     summary: "Podcast logo design",
     assets: [
@@ -73,7 +73,7 @@ export const manualProjects: ManualPost[] = [
     ],
   },
   {
-    title: "Icons for Ocean Blue Living",
+    title: "Ocean Blue Living",
     date: "2017-01-01",
     summary: "Visual identity system",
     assets: [

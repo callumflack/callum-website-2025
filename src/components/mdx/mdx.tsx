@@ -1,4 +1,5 @@
 import { useMDXComponent } from "@content-collections/mdx/react";
+import { MDXErrorBoundary } from "@/components/utils";
 import { components } from "./mdx-components";
 import { MdxProse } from "./mdx-prose";
 
@@ -12,7 +13,9 @@ export function Mdx({ code, children }: MdxProps) {
 
   return (
     <MdxProse>
-      <Component components={components} />
+      <MDXErrorBoundary>
+        <Component components={components} />
+      </MDXErrorBoundary>
 
       {/* allow children to be passed in to make it easy to compose eg. MetaTags, ContactIcons or Available components */}
       {children}
