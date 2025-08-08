@@ -47,6 +47,7 @@ type Props = {
   showWhatIWant?: boolean;
   shareNode?: React.ReactNode;
   footerNode?: React.ReactNode;
+  hideFooter?: boolean;
   theme?: "post" | "feed";
 };
 
@@ -57,6 +58,7 @@ export const PageWrapper = ({
   showWhatIWant = true,
   shareNode,
   footerNode,
+  hideFooter = false,
   theme = "post",
 }: Props) => {
   return (
@@ -77,31 +79,32 @@ export const PageWrapper = ({
 
       {children}
 
-      {footerNode ? (
-        <footer className={cx(footerStyle, "pt-w8")}>{footerNode}</footer>
-      ) : (
-        <footer className={cx(theme === "post" ? "pt-w12" : "pt-w8")}>
-          {shareNode}
-          <OutsetRule />
-          <div className={cx(footerStyle, "pt-w8 container")}>
-            {showIntro ? (
-              <Intro textIntent="body" showWhatIWant={showWhatIWant} />
-            ) : (
-              <div>
-                {/* duplicated Outro section from HomePage */}
-                <TitleHeader as="div" isContained>
-                  <Text as="h3" intent="title">
-                    Stay in touch
-                  </Text>
-                </TitleHeader>
-                <div className="pt-w6">
-                  <Outro showLabel={true} textIntent="body" />
+      {!hideFooter &&
+        (footerNode ? (
+          <footer className={cx(footerStyle, "pt-w8")}>{footerNode}</footer>
+        ) : (
+          <footer className={cx(theme === "post" ? "pt-w12" : "pt-w8")}>
+            {shareNode}
+            <OutsetRule />
+            <div className={cx(footerStyle, "pt-w8 container")}>
+              {showIntro ? (
+                <Intro textIntent="body" showWhatIWant={showWhatIWant} />
+              ) : (
+                <div>
+                  {/* duplicated Outro section from HomePage */}
+                  <TitleHeader as="div" isContained>
+                    <Text as="h3" intent="title">
+                      Stay in touch
+                    </Text>
+                  </TitleHeader>
+                  <div className="pt-w6">
+                    <Outro showLabel={true} textIntent="body" />
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        </footer>
-      )}
+              )}
+            </div>
+          </footer>
+        ))}
     </>
   );
 };

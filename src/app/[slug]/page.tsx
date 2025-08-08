@@ -39,7 +39,7 @@ export default async function SlugPage({
   }
 
   const renderActiveNav = () => {
-    if (post.slug === Category.ABOUT) {
+    if (post.category === Category.ABOUT) {
       return NavRoute.ABOUT;
     }
     return getCategoryNavRoute(post.category);
@@ -50,41 +50,45 @@ export default async function SlugPage({
       activeNav={renderActiveNav()}
       showIntro={post.slug === Category.ABOUT ? false : true}
       showWhatIWant={post.slug === "the-work-and-team-im-after" ? false : true}
+      /* Remove the entire footer (no wrapper spacing) for content pages like letters */
+      hideFooter={post.category === Category.CONTENT}
       shareNode={
-        <div>
-          <OutsetRule />
-          <div className="py-w8 gap-w4 container flex items-center">
-            <ShareButtonWrapper
-              url={`${config.PUBLIC_URL}/${post.slug}`}
-              theme="post"
-            />
-            {post.category === Category.ABOUT ||
-            post.slug === "the-work-and-team-im-after" ? (
-              <CVDownloadButtonWrapper
-                filename="CallumFlackCV2024.pdf"
-                label="Download CV"
+        post.category === Category.CONTENT ? null : (
+          <div>
+            <OutsetRule />
+            <div className="py-w8 gap-w4 container flex items-center">
+              <ShareButtonWrapper
+                url={`${config.PUBLIC_URL}/${post.slug}`}
+                theme="post"
               />
-            ) : (
-              <DownloadButtonWrapper
-                url={await getGithubRawUrl(post.slug)}
-                filename={`${post.slug}.md`}
-                label="Download"
-              />
-            )}
-            {post.tweet && (
-              <Link
-                href={post.tweet}
-                target="_blank"
-                className={cx(
-                  buttonVariants({ variant: "outline", size: "sm" })
-                )}
-              >
-                <ChatBubbleIcon className="size-em" />
-                Tweet
-              </Link>
-            )}
+              {post.category === Category.ABOUT ||
+              post.slug === "the-work-and-team-im-after" ? (
+                <CVDownloadButtonWrapper
+                  filename="CallumFlackCV2024.pdf"
+                  label="Download CV"
+                />
+              ) : (
+                <DownloadButtonWrapper
+                  url={await getGithubRawUrl(post.slug)}
+                  filename={`${post.slug}.md`}
+                  label="Download"
+                />
+              )}
+              {post.tweet && (
+                <Link
+                  href={post.tweet}
+                  target="_blank"
+                  className={cx(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
+                >
+                  <ChatBubbleIcon className="size-em" />
+                  Tweet
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+        )
       }
     >
       <PageInner variant="post">

@@ -17,7 +17,7 @@ export const PostPage = ({ post, theme }: Props) => {
 
   return (
     <>
-      {post.slug !== "about" && (
+      {post.slug !== "about" && post.category !== "content" && (
         <TitleHeader isContained={theme === "feed"}>
           <Text as="h1" intent="title" balance>
             <Link href={`/${post.slug}`}>{post.title}</Link>
