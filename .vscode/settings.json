@@ -1,0 +1,67 @@
+{
+  // Formatting settings
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Language-specific formatters
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Prettier configuration
+  "prettier.requireConfig": true,
+  "prettier.useEditorConfig": false,
+
+  // TypeScript settings
+  "typescript.validate.enable": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // MDX file handling - prevents false TypeScript errors on custom components like <Image>
+  // MDX files are compiled by content-collections, not TypeScript directly
+  "files.associations": {
+    "*.mdx": "mdx"
+  },
+  "[mdx]": {
+    "editor.quickSuggestions": {
+      "comments": false,
+      "strings": false,
+      "other": false
+    }
+  },
+
+  // Disable project-wide diagnostics to reduce false positives on MDX files
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false
+}
