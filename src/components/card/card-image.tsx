@@ -5,6 +5,7 @@ import {
   isVideoFile,
   getAspectRatioCSS,
 } from "@/components/media";
+import { MediaErrorBoundary } from "@/components/utils";
 import NextImage from "next/image";
 import { cx } from "cva";
 import { Post } from "content-collections";
@@ -29,7 +30,7 @@ export const CardImage = ({
   const { width, height } = getDimensions(aspect);
 
   return (
-    <>
+    <MediaErrorBoundary>
       {isVideo ? (
         // videos use aspect ratio only
         <Video
@@ -55,6 +56,6 @@ export const CardImage = ({
           }}
         />
       )}
-    </>
+    </MediaErrorBoundary>
   );
 };

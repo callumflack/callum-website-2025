@@ -10,14 +10,15 @@ import {
 } from "@/components/media/media-utils";
 import { ListHeader } from "@/components/page";
 import { StyledSortButton } from "@/components/post";
+import { MediaErrorBoundary } from "@/components/utils";
 import { formatYear } from "@/lib/utils";
 import type { Post } from "content-collections";
-import { cx } from "cva";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import { ManualPost } from "./projects-manual";
+import { cn } from "@/lib/classes";
 
 /* A relative of FeaturedOrIndexPosts and FullOrIndexPosts */
 
@@ -25,6 +26,10 @@ import { ManualPost } from "./projects-manual";
 function isManualPost(project: Post | ManualPost): project is ManualPost {
   return !("category" in project);
 }
+
+// Define sort options as const tuple for type safety
+const SORT_BY = ["all", "interactions", "graphics"] as const;
+type SortOption = (typeof SORT_BY)[number];
 
 interface GalleryPostsProps {
   posts: (Post | ManualPost)[];
@@ -43,45 +48,37 @@ export function GalleryPosts({
 }: GalleryPostsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [currentSort, setCurrentSort] = useState<string>(initialSort);
-  const [filteredPosts, setFilteredPosts] =
-    useState<(Post | ManualPost)[]>(posts);
 
-  const SORT_BY = useMemo(() => ["all", "interactions", "graphics"], []);
+  // Derive current sort from URL params, with validation and fallback
+  const currentSort = useMemo(() => {
+    const sortParam = searchParams.get("sort");
+    if (sortParam && SORT_BY.includes(sortParam as SortOption)) {
+      return sortParam as SortOption;
+    }
+    return (initialSort as SortOption) || "all";
+  }, [searchParams, initialSort]);
 
-  useEffect(() => {
-    // Filter posts based on the current sort
+  // Derive filtered posts based on current sort
+  const filteredPosts = useMemo(() => {
     if (currentSort === "all") {
-      setFilteredPosts(posts);
+      return posts;
     } else if (currentSort === "interactions") {
       // Filter for posts with video assets
-      setFilteredPosts(
-        posts.filter((post) => {
-          if (!post.assets || post.assets.length === 0) return false;
-          return isVideoFile(post.assets[0].src);
-        })
-      );
+      return posts.filter((post) => {
+        if (!post.assets || post.assets.length === 0) return false;
+        return isVideoFile(post.assets[0].src);
+      });
     } else if (currentSort === "graphics") {
       // Filter for posts without video assets
-      setFilteredPosts(
-        posts.filter((post) => {
-          if (!post.assets || post.assets.length === 0) return false;
-          return !isVideoFile(post.assets[0].src);
-        })
-      );
+      return posts.filter((post) => {
+        if (!post.assets || post.assets.length === 0) return false;
+        return !isVideoFile(post.assets[0].src);
+      });
     }
+    return posts;
   }, [currentSort, posts]);
 
-  // Sync with URL params on mount
-  useEffect(() => {
-    const sortParam = searchParams.get("sort");
-    if (sortParam && SORT_BY.includes(sortParam)) {
-      setCurrentSort(sortParam);
-    }
-  }, [searchParams, SORT_BY]);
-
   const handleSortButtonClick = (sortKind: string) => {
-    setCurrentSort(sortKind);
     router.push(`?sort=${sortKind}`, { scroll: false });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -139,12 +136,14 @@ export function GalleryPosts({
       </ListHeader>
 
       <div
-        className={cx(
+        data-slot="GalleryPosts"
+        className={cn(
           "relative z-9",
           "pt-w12 px-inset",
           "grid justify-center",
           "gap-y-w8 gap-x-3",
-          "grid-cols-24"
+          "grid-cols-36",
+          "group/gallery" // Unused hover effect - see globals.css
         )}
       >
         {postsInRows.flat().map(({ post, expanded }, index) => {
@@ -166,7 +165,11 @@ export function GalleryPosts({
               key={`${title}-${index}`}
               onMouseEnter={() => setIsActive(true)}
               onMouseLeave={() => setIsActive(false)}
-              className={cx(expanded ? "col-span-12" : "col-span-6")}
+              className={cn(
+                expanded
+                  ? "col-span-24 lg:col-span-18 2xl:col-span-12"
+                  : "col-span-12 lg:col-span-9 2xl:col-span-6"
+              )}
             >
               <MediaFigure
                 caption={
@@ -188,50 +191,53 @@ export function GalleryPosts({
                     </div>
                   )
                 }
-                captionClassName=""
-                className={cx(
+                className={cn(
                   isImageSquare ? "isSquare" : "",
                   "[&_figcaption]:w-full",
-                  "hover:grayscale-0 sm:grayscale",
                   "flex flex-col items-center justify-start"
+                  // Required for hover effect - see globals.css
+                  // "gallery-item transition-[filter] duration-300"
                 )}
+                captionClassName=""
                 figureIntent="inGrid"
                 isPortrait={isImagePortrait}
                 style={{
                   aspectRatio: getAspectRatioCSS(asset.aspect),
                 }}
               >
-                {isVideo ? (
-                  <Video
-                    key={asset.src}
-                    aspect={asset.aspect}
-                    className={cx(
-                      mediaWrapperVariants({
-                        border: !noBorder,
-                      })
-                    )}
-                    poster={asset.poster || asset.src}
-                    src={asset.src}
-                  />
-                ) : (
-                  <Image
-                    alt={asset.alt || title}
-                    src={asset.src}
-                    priority={index < 7}
-                    height={height}
-                    width={width}
-                    sizes={"(min-width: 660px) 600px, 400px"}
-                    style={{
-                      aspectRatio: getAspectRatioCSS(asset.aspect),
-                    }}
-                    className={cx(
-                      mediaWrapperVariants({
-                        border: !noBorder,
-                      }),
-                      "focus-visible:outline-none"
-                    )}
-                  />
-                )}
+                <MediaErrorBoundary>
+                  {isVideo ? (
+                    <Video
+                      key={asset.src}
+                      aspect={asset.aspect}
+                      className={cn(
+                        mediaWrapperVariants({
+                          border: !noBorder,
+                        })
+                      )}
+                      poster={asset.poster || asset.src}
+                      src={asset.src}
+                    />
+                  ) : (
+                    <Image
+                      alt={asset.alt || title}
+                      src={asset.src}
+                      priority={index < 7}
+                      height={height}
+                      width={width}
+                      sizes={"(min-width: 660px) 600px, 400px"}
+                      style={{
+                        aspectRatio: getAspectRatioCSS(asset.aspect),
+                      }}
+                      className={cn(
+                        mediaWrapperVariants({
+                          border: !noBorder,
+                        }),
+                        "focus-visible:outline-none"
+                      )}
+                    />
+                  )}
+                </MediaErrorBoundary>
               </MediaFigure>
             </div>
           );

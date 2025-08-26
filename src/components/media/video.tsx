@@ -8,6 +8,7 @@ import {
   type AspectRatio,
 } from "@/components/media/media-utils";
 import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
+import { MediaErrorBoundary } from "@/components/utils";
 import { VideoLoader } from "./video-loader";
 // import { useIsMobileViewport } from "@/hooks/use-breakpoint";
 
@@ -113,62 +114,64 @@ export const Video = ({
   }, [onError]);
 
   return (
-    <div className="relative">
-      {/* DO NOT render conditionally. Event listeners and refs must attach! */}
-      {/* autoPlay={!isMobileViewport} */}
-      <video
-        autoPlay
-        className={className}
-        loop
-        muted={!isMobileViewport && !sound}
-        playsInline
-        ref={videoRef}
-        style={{
-          display:
-            videoStatus === "loading" || videoStatus === "error"
-              ? "none"
-              : "block",
-          // We do NOT pass height or width to the video element b/c unlike images we can't use sizes to re-adjust the rendered dimensions.
-          // Use aspect ratio instead, relying on the parent container to set the width.
-          aspectRatio: getAspectRatioCSS(aspect),
-        }}
-        {...rest}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+    <MediaErrorBoundary>
+      <div className="relative">
+        {/* DO NOT render conditionally. Event listeners and refs must attach! */}
+        {/* autoPlay={!isMobileViewport} */}
+        <video
+          autoPlay
+          className={className}
+          loop
+          muted={!isMobileViewport && !sound}
+          playsInline
+          ref={videoRef}
+          style={{
+            display:
+              videoStatus === "loading" || videoStatus === "error"
+                ? "none"
+                : "block",
+            // We do NOT pass height or width to the video element b/c unlike images we can't use sizes to re-adjust the rendered dimensions.
+            // Use aspect ratio instead, relying on the parent container to set the width.
+            aspectRatio: getAspectRatioCSS(aspect),
+          }}
+          {...rest}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
 
-      {/* SOUND (Desktop) */}
-      {allowSound && videoStatus !== "error" ? (
-        <div className="absolute right-4 bottom-4 z-100">
-          <button
-            aria-label={sound ? "Mute" : "Unmute"}
-            className="bg-fill text-canvas p-2 hover:cursor-pointer"
-            onClick={(e) => {
-              // Prevent click from bubbling up to parent elements, eg. Zoomable
-              e.stopPropagation();
-              setSound(!sound);
-            }}
-            type="button"
-          >
-            {sound ? <SpeakerLoudIcon /> : <SpeakerOffIcon />}
-          </button>
-        </div>
-      ) : null}
+        {/* SOUND (Desktop) */}
+        {allowSound && videoStatus !== "error" ? (
+          <div className="absolute right-4 bottom-4 z-100">
+            <button
+              aria-label={sound ? "Mute" : "Unmute"}
+              className="bg-fill text-canvas p-2 hover:cursor-pointer"
+              onClick={(e) => {
+                // Prevent click from bubbling up to parent elements, eg. Zoomable
+                e.stopPropagation();
+                setSound(!sound);
+              }}
+              type="button"
+            >
+              {sound ? <SpeakerLoudIcon /> : <SpeakerOffIcon />}
+            </button>
+          </div>
+        ) : null}
 
-      {/* LOADING OR ERROR - both show the poster */}
-      {(videoStatus === "loading" || videoStatus === "error") && poster ? (
-        <div className="relative">
-          <VideoLoader aspect={aspect} className={className} poster={poster} />
-          {videoStatus === "error" && (
-            <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-black">
-              <div className="max-w-[80%] rounded bg-white p-2 text-center dark:bg-gray-800">
-                <p className="text-sm">Video could not be loaded</p>
+        {/* LOADING OR ERROR - both show the poster */}
+        {(videoStatus === "loading" || videoStatus === "error") && poster ? (
+          <div className="relative">
+            <VideoLoader aspect={aspect} className={className} poster={poster} />
+            {videoStatus === "error" && (
+              <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-black">
+                <div className="max-w-[80%] rounded bg-white p-2 text-center dark:bg-gray-800">
+                  <p className="text-sm">Video could not be loaded</p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      ) : null}
-    </div>
+            )}
+          </div>
+        ) : null}
+      </div>
+    </MediaErrorBoundary>
   );
 };
 

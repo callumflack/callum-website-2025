@@ -1,4 +1,5 @@
-import { cva, cx, type VariantProps } from "cva";
+import { cn } from "@/lib/classes";
+import { cva, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
 import { getAspectRatioCSS, type AspectRatio } from "./media-utils";
 
@@ -11,7 +12,7 @@ export const mediaWrapperVariants = cva({
   ],
   variants: {
     border: {
-      true: "border",
+      true: "border border-ring",
     },
     background: {
       true: "bg-background-hover",
@@ -50,7 +51,7 @@ export const MediaWrapper = ({
     <div
       data-component="MediaWrapper"
       {...props}
-      className={cx(
+      className={cn(
         mediaWrapperVariants({
           border,
           background,

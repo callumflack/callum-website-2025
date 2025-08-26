@@ -6,3 +6,4 @@
 export * from "./link-or-div";
 export * from "./body-wrapper";
 export * from "./body-class-provider";
+export * from "./error-boundary";

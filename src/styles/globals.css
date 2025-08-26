@@ -123,8 +123,9 @@
   --color-panel: var(--color-canvas-contrast);
   --color-background: var(--color-gray-bg-hover);
   --color-background-hover: var(--color-gray-bg-active);
-  --color-line: var(--color-gray-line);
   --color-border: var(--color-gray-border);
+  --color-line: var(--color-gray-line);
+  --color-ring: var(--color-gray-ring);
   --color-border-hover: var(--color-gray-border-hover);
   --color-solid-light: var(--color-gray-solid-light);
   --color-solid: var(--color-gray-solid);
@@ -157,7 +158,7 @@
   --color-destructive-foreground: var(--destructive-foreground);
   /* --color-border: var(--border); */
   --color-input: var(--input);
-  --color-ring: var(--ring);
+  /* --color-ring: var(--ring); */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -241,4 +242,17 @@
   https://tailwindcss.com/docs/adding-custom-styles
  */
 
-/* @layer components {} */
+@layer components {
+  /* 
+   * Gallery hover effect - USED IN gallery-posts.tsx
+   * When hovering any .gallery-item inside .group/gallery container:
+   * - The hovered item stays in color
+   * - All other items' img/video elements turn grayscale
+   * Requires: parent grid to have "group/gallery" class, items to have "gallery-item" class
+   */
+  .group\/gallery:has(.gallery-item:hover) .gallery-item:not(:hover) img,
+  .group\/gallery:has(.gallery-item:hover) .gallery-item:not(:hover) video {
+    filter: grayscale(100%);
+    @apply opacity-10;
+  }
+}

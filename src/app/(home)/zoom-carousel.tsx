@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion, animate } from "framer-motion";
 import { cx } from "class-variance-authority";
 import { Asset } from "@/types/content";
-import { MediaFigure, mediaWrapperVariants } from "@/components/media";
+import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
 import {
   getAspectRatioCSS,
   isPortrait,
@@ -13,6 +13,7 @@ import Link from "next/link";
 import { formatYear } from "@/lib/utils";
 import { Post } from "content-collections";
 import Image from "next/image";
+import { MediaErrorBoundary } from "@/components/utils";
 
 const logPrefix = "[ZoomCarousel]";
 
@@ -24,6 +25,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+
   // State to store the parsed grid gap value
   const [gridGap, setGridGap] = useState<number | undefined>(undefined);
   // State to store the parsed padding-left value
@@ -247,69 +249,71 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   };
 
   return (
-    <div className="w-full overflow-x-auto" onClick={handleContainerClick}>
-      <motion.div
-        ref={carouselRef}
-        // Ensure initial classes include snap/smooth
-        className={cx(
-          "relative z-2",
-          // w-fit WTF?
-          "w-full",
-          // scroll
-          "overflow-x-scroll will-change-scroll",
-          // scroll-snap (start with these)
-          "snap-x snap-mandatory scroll-smooth",
-          // grid
-          "grid grid-flow-col grid-cols-[max-content] grid-rows-1",
-          "px-inset gap-inset scroll-px-inset",
-          // "lg:gap-[calc(var(--spacing-inset)*2)]",
-          "min-[620px]:scroll-px-(--inset-text) min-[620px]:px-(--inset-text)",
-          // hide scrollbar
-          "hide-scrollbar"
-        )}
-        initial={false}
-        animate={{
-          height:
-            isWideEnoughForZoom && isExpanded ? expandedHeight : baseHeight,
-        }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          willChange: "height",
-          cursor: isWideEnoughForZoom
-            ? isExpanded
-              ? "zoom-out"
-              : "auto"
-            : "auto",
-        }}
-        onAnimationComplete={handleAnimationComplete}
-      >
-        {projects
-          .filter(
-            (
-              project
-            ): project is Post & { assets: NonNullable<Post["assets"]> } =>
-              !!project.assets && project.assets.length > 0
-          )
-          .map((project, index) => {
-            const asset = project.assets[0];
-            return (
-              <CarouselItem
-                key={project.slug}
-                asset={asset}
-                index={index}
-                isZoomEnabled={isWideEnoughForZoom}
-                isExpanded={isExpanded}
-                baseHeight={baseHeight}
-                expandedHeight={expandedHeight}
-                title={project.title}
-                date={project.date}
-                slug={project.slug}
-                showCaption={true}
-              />
-            );
-          })}
-      </motion.div>
-    </div>
+    <MediaErrorBoundary>
+      <div className="w-full overflow-x-auto" onClick={handleContainerClick}>
+        <motion.div
+          ref={carouselRef}
+          // Ensure initial classes include snap/smooth
+          className={cx(
+            "relative z-2",
+            // w-fit WTF?
+            "w-full",
+            // scroll
+            "overflow-x-scroll will-change-scroll",
+            // scroll-snap (start with these)
+            "snap-x snap-mandatory scroll-smooth",
+            // grid
+            "grid grid-flow-col grid-cols-[max-content] grid-rows-1",
+            "px-inset gap-inset scroll-px-inset",
+            // "lg:gap-[calc(var(--spacing-inset)*2)]",
+            "min-[620px]:scroll-px-(--inset-text) min-[620px]:px-(--inset-text)",
+            // hide scrollbar
+            "hide-scrollbar"
+          )}
+          initial={false}
+          animate={{
+            height:
+              isWideEnoughForZoom && isExpanded ? expandedHeight : baseHeight,
+          }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            willChange: "height",
+            cursor: isWideEnoughForZoom
+              ? isExpanded
+                ? "zoom-out"
+                : "auto"
+              : "auto",
+          }}
+          onAnimationComplete={handleAnimationComplete}
+        >
+          {projects
+            .filter(
+              (
+                project
+              ): project is Post & { assets: NonNullable<Post["assets"]> } =>
+                !!project.assets && project.assets.length > 0
+            )
+            .map((project, index) => {
+              const asset = project.assets[0];
+              return (
+                <CarouselItem
+                  key={project.slug}
+                  asset={asset}
+                  index={index}
+                  isZoomEnabled={isWideEnoughForZoom}
+                  isExpanded={isExpanded}
+                  baseHeight={baseHeight}
+                  expandedHeight={expandedHeight}
+                  title={project.title}
+                  date={project.date}
+                  slug={project.slug}
+                  showCaption={true}
+                />
+              );
+            })}
+        </motion.div>
+      </div>
+    </MediaErrorBoundary>
   );
 }
 
@@ -381,25 +385,42 @@ const CarouselItem = ({
         isPortrait={isImagePortrait}
         className="flex h-full flex-col items-center justify-end [&_figcaption]:w-full"
       >
-        <Image
-          src={isVideo ? asset.poster || "" : asset.src}
-          alt={asset.alt || ""}
-          height={height}
-          width={width}
-          priority={index < 7}
-          // set this at the max image size so Next.js doesn't recompute sizes and flash the UI…
-          // sizes={isExpanded ? "50vw" : "33vw"}
-          sizes="(min-width: 660px) 600px, 1200px"
-          className={cx(
-            "h-full w-full object-cover",
-            mediaWrapperVariants({
-              border: true,
-            })
-          )}
-          style={{
-            aspectRatio: getAspectRatioCSS(aspect),
-          }}
-        />
+        {isVideo ? (
+          <Video
+            src={asset.src}
+            poster={asset.poster || ""}
+            aspect={aspect}
+            className={cx(
+              "h-full w-full object-cover",
+              mediaWrapperVariants({
+                border: true,
+              })
+            )}
+            onError={() => {
+              // No-op: MediaErrorBoundary will handle display; keep callback to satisfy props if needed
+            }}
+          />
+        ) : (
+          <Image
+            src={asset.src}
+            alt={asset.alt || ""}
+            height={height}
+            width={width}
+            priority={index < 7}
+            // set this at the max image size so Next.js doesn't recompute sizes and flash the UI…
+            // sizes={isExpanded ? "50vw" : "33vw"}
+            sizes="(min-width: 660px) 600px, 1200px"
+            className={cx(
+              "h-full w-full object-cover",
+              mediaWrapperVariants({
+                border: true,
+              })
+            )}
+            style={{
+              aspectRatio: getAspectRatioCSS(aspect),
+            }}
+          />
+        )}
       </MediaFigure>
     </motion.div>
   );
