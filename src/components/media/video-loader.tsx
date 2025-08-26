@@ -23,7 +23,7 @@ export const VideoLoader = ({
   const aspectRatioCSS = getAspectRatioCSS(aspect);
 
   return (
-    <div className="relative">
+    <div data-slot="VideoLoader" className="relative">
       {/* NB! using w-full here means it does NOT fill the parent's max-w-* */}
       <NextImage
         alt="video poster"
@@ -40,7 +40,7 @@ export const VideoLoader = ({
       />
       <div
         className={cx(
-          "VideoLoader bg-black-a5 text-canvas !absolute inset-0 flex items-center justify-center",
+          "bg-black-a6 text-canvas !absolute inset-0 flex items-center justify-center",
           mediaWrapperVariants({
             border: false,
             rounded: true,

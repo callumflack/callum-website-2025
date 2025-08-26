@@ -1,6 +1,7 @@
-import { cva, cx, type VariantProps } from "cva";
+import { cva, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
 import { Caption } from "./caption";
+import { cn } from "@/lib/classes";
 
 export const mediaFigureVariants = cva({
   base: [
@@ -70,11 +71,11 @@ export const MediaFigure = ({
 }: MediaFigureProps) => (
   <figure
     data-component="MediaFigure"
-    className={cx(mediaFigureVariants(props))}
+    className={cn(mediaFigureVariants(props))}
   >
     {children}
     {caption ? (
-      <Caption className={cx(captionClassName)}>{caption}</Caption>
+      <Caption className={cn(captionClassName)}>{caption}</Caption>
     ) : null}
   </figure>
 );
