@@ -1,10 +1,7 @@
-import { clsx, type ClassValue } from "clsx";
 import { format, parseISO } from "date-fns";
-import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+// cn with custom tailwind merge recipe
+export { cn } from "./classes";
 
 export const formatYear = (dateString: string) =>
   format(parseISO(dateString), "yyyy");
