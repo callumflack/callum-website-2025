@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion, animate } from "framer-motion";
 import { cx } from "class-variance-authority";
 import { Asset } from "@/types/content";
-import { MediaFigure, mediaWrapperVariants } from "@/components/media";
+import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
 import {
   getAspectRatioCSS,
   isPortrait,
@@ -385,25 +385,42 @@ const CarouselItem = ({
         isPortrait={isImagePortrait}
         className="flex h-full flex-col items-center justify-end [&_figcaption]:w-full"
       >
-        <Image
-          src={isVideo ? asset.poster || "" : asset.src}
-          alt={asset.alt || ""}
-          height={height}
-          width={width}
-          priority={index < 7}
-          // set this at the max image size so Next.js doesn't recompute sizes and flash the UI…
-          // sizes={isExpanded ? "50vw" : "33vw"}
-          sizes="(min-width: 660px) 600px, 1200px"
-          className={cx(
-            "h-full w-full object-cover",
-            mediaWrapperVariants({
-              border: true,
-            })
-          )}
-          style={{
-            aspectRatio: getAspectRatioCSS(aspect),
-          }}
-        />
+        {isVideo ? (
+          <Video
+            src={asset.src}
+            poster={asset.poster || ""}
+            aspect={aspect}
+            className={cx(
+              "h-full w-full object-cover",
+              mediaWrapperVariants({
+                border: true,
+              })
+            )}
+            onError={() => {
+              // No-op: MediaErrorBoundary will handle display; keep callback to satisfy props if needed
+            }}
+          />
+        ) : (
+          <Image
+            src={asset.src}
+            alt={asset.alt || ""}
+            height={height}
+            width={width}
+            priority={index < 7}
+            // set this at the max image size so Next.js doesn't recompute sizes and flash the UI…
+            // sizes={isExpanded ? "50vw" : "33vw"}
+            sizes="(min-width: 660px) 600px, 1200px"
+            className={cx(
+              "h-full w-full object-cover",
+              mediaWrapperVariants({
+                border: true,
+              })
+            )}
+            style={{
+              aspectRatio: getAspectRatioCSS(aspect),
+            }}
+          />
+        )}
       </MediaFigure>
     </motion.div>
   );
