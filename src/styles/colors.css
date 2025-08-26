@@ -31,8 +31,9 @@
   --color-gray-bg-active: #f2f2f0; /* Apple */
 
   /* borders, lines & focus rings */
-  --color-gray-line: var(--gray-4);
   --color-gray-border: var(--gray-3); /* 7 is too dark */
+  --color-gray-line: var(--gray-4);
+  --color-gray-ring: var(--gray-5);
   --color-gray-border-hover: var(--gray-7);
 
   /* solids */
