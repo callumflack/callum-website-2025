@@ -24,6 +24,7 @@ export const GalleryPage = ({
     <BodyClassProvider
       condition={false}
       className={cx(
+        // Style the list-header so that it has a background color
         // "bg-background-hover [&_[data-component=Nav]]:bg-background-hover",
         "[&_[data-component=ListHeader]>nav]:before:bg-background-hover"
       )}

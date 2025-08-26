@@ -142,7 +142,8 @@ export function GalleryPosts({
           "pt-w12 px-inset",
           "grid justify-center",
           "gap-y-w8 gap-x-3",
-          "grid-cols-24"
+          "grid-cols-36",
+          "group/gallery" // Unused hover effect - see globals.css
         )}
       >
         {postsInRows.flat().map(({ post, expanded }, index) => {
@@ -164,11 +165,10 @@ export function GalleryPosts({
               key={`${title}-${index}`}
               onMouseEnter={() => setIsActive(true)}
               onMouseLeave={() => setIsActive(false)}
-              // 2xl:col-span-8 : 2xl:col-span-4
               className={cn(
                 expanded
-                  ? "col-span-16 lg:col-span-12"
-                  : "col-span-8 lg:col-span-6"
+                  ? "col-span-24 lg:col-span-18 2xl:col-span-12"
+                  : "col-span-12 lg:col-span-9 2xl:col-span-6"
               )}
             >
               <MediaFigure
@@ -191,13 +191,14 @@ export function GalleryPosts({
                     </div>
                   )
                 }
-                captionClassName=""
                 className={cn(
                   isImageSquare ? "isSquare" : "",
                   "[&_figcaption]:w-full",
-                  "hover:grayscale-0 sm:grayscale",
                   "flex flex-col items-center justify-start"
+                  // Required for hover effect - see globals.css
+                  // "gallery-item transition-[filter] duration-300"
                 )}
+                captionClassName=""
                 figureIntent="inGrid"
                 isPortrait={isImagePortrait}
                 style={{
