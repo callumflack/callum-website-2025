@@ -242,4 +242,17 @@
   https://tailwindcss.com/docs/adding-custom-styles
  */
 
-/* @layer components {} */
+@layer components {
+  /* 
+   * Gallery hover effect - USED IN gallery-posts.tsx
+   * When hovering any .gallery-item inside .group/gallery container:
+   * - The hovered item stays in color
+   * - All other items' img/video elements turn grayscale
+   * Requires: parent grid to have "group/gallery" class, items to have "gallery-item" class
+   */
+  .group\/gallery:has(.gallery-item:hover) .gallery-item:not(:hover) img,
+  .group\/gallery:has(.gallery-item:hover) .gallery-item:not(:hover) video {
+    filter: grayscale(100%);
+    @apply opacity-10;
+  }
+}
