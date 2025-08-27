@@ -64,13 +64,14 @@ export const PageWrapper = ({
   return (
     <>
       <Nav
+        componentName="PageWrapper-Nav"
         activeNav={activeNav}
         anchorName="Callum"
         navItems={[
-          { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
-          { href: `/${NavRoute.WRITING}`, label: NavLabel.WRITING },
           { href: `/${NavRoute.WORK}`, label: NavLabel.WORK },
+          { href: `/${NavRoute.WRITING}`, label: NavLabel.WRITING },
           { href: `/${NavRoute.GALLERY}`, label: NavLabel.GALLERY },
+          { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
           // { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
           // { href: `/${NavRoute.FRIENDS}`, label: NavLabel.FRIENDS },
           { href: `/${NavRoute.ABOUT}`, label: NavLabel.ABOUT },
@@ -81,9 +82,20 @@ export const PageWrapper = ({
 
       {!hideFooter &&
         (footerNode ? (
-          <footer className={cx(footerStyle, "pt-w8")}>{footerNode}</footer>
+          <footer
+            data-component="PageWrapper-Footer"
+            className={cx(footerStyle, "pt-w8")}
+          >
+            {footerNode}
+            <div className="container">
+              <FooterNote />
+            </div>
+          </footer>
         ) : (
-          <footer className={cx(theme === "post" ? "pt-w12" : "pt-w8")}>
+          <footer
+            data-component="PageWrapper-Footer"
+            className={cx(theme === "post" ? "pt-w12" : "pt-w8")}
+          >
             {shareNode}
             <OutsetRule />
             <div className={cx(footerStyle, "pt-w8 container")}>
@@ -94,7 +106,7 @@ export const PageWrapper = ({
                   {/* duplicated Outro section from HomePage */}
                   <TitleHeader as="div" isContained>
                     <Text as="h3" intent="title">
-                      Stay in touch
+                      Connect
                     </Text>
                   </TitleHeader>
                   <div className="pt-w6">
@@ -102,10 +114,21 @@ export const PageWrapper = ({
                   </div>
                 </div>
               )}
+              <FooterNote />
             </div>
           </footer>
         ))}
     </>
+  );
+};
+
+const FooterNote = () => {
+  return (
+    <div data-component="FooterNote" className="pb-w8">
+      <Text as="p" intent="fine" dim>
+        Thank you for visiting this personal website.
+      </Text>
+    </div>
   );
 };
 
