@@ -142,7 +142,7 @@ export function GalleryPosts({
           "pt-w12 px-inset",
           "grid justify-center",
           "gap-y-w8 gap-x-3",
-          "grid-cols-36",
+          "grid-cols-24 lg:grid-cols-36",
           "group/gallery" // Unused hover effect - see globals.css
         )}
       >
@@ -167,8 +167,8 @@ export function GalleryPosts({
               onMouseLeave={() => setIsActive(false)}
               className={cn(
                 expanded
-                  ? "col-span-24 lg:col-span-18 2xl:col-span-12"
-                  : "col-span-12 lg:col-span-9 2xl:col-span-6"
+                  ? "col-span-16 lg:col-span-18 2xl:col-span-12"
+                  : "col-span-8 lg:col-span-9 2xl:col-span-6"
               )}
             >
               <MediaFigure
