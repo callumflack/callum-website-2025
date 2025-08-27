@@ -22,6 +22,7 @@ interface NavProps {
   showRootActive?: boolean;
   className?: string;
   ruleClassName?: string;
+  componentName?: string;
 }
 
 export const Nav = ({
@@ -31,6 +32,7 @@ export const Nav = ({
   showRootActive = false,
   className,
   ruleClassName,
+  componentName = "Nav",
 }: NavProps) => {
   const pathname = usePathname();
   const { y } = useWindowScroll();
@@ -43,7 +45,7 @@ export const Nav = ({
   return (
     // Want id="top"? Move it to a parent element without sticky positioning
     <div
-      data-component="Nav"
+      data-component={componentName}
       className={cx(
         "bg-canvas sticky top-0 z-200",
         // "bg-canvas border-b"

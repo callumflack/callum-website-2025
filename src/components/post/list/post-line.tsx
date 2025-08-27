@@ -3,12 +3,12 @@
 import { buttonVariants, Text } from "@/components/atoms";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { type Post } from "content-collections";
-import { cx } from "cva";
 import { format, parseISO } from "date-fns";
 // import { PostCategoryIcon } from "../post-category-icon";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 import { lineHoverStyle } from "../post.styles";
+import { cn } from "@/lib/classes";
 
 interface PostLineProps {
   post: Post;
@@ -27,9 +27,10 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
   return (
     <div
       data-component="PostLine"
-      className={cx(
+      className={cn(
         // h-[40px]
-        "group flex items-end justify-between gap-2 pt-3.5 pb-3 leading-none",
+        "group flex items-end justify-between gap-2 leading-none",
+        isFeed ? "pt-2.5 pb-2.5" : "pt-3.5 pb-3",
         lineHoverStyle
       )}
     >
@@ -47,7 +48,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
 
       {/* DOTDOTDOT (utils) */}
       <div
-        className={cx(
+        className={cn(
           "dotdotdot h-[1px] flex-1 translate-y-[-0.2em] opacity-40",
           "group-hover:text-fill group-hover:opacity-100"
           // "ease transition-colors duration-300"
@@ -60,7 +61,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
         inline
         intent="pill"
         dim
-        className={cx(
+        className={cn(
           "group-hover:!text-fill relative",
           "flex items-center gap-3.5",
           // "ease transition-colors duration-300",
@@ -78,7 +79,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
         {/* END META */}
         {/* <PostCategoryIcon category={post.category} />
         <hr
-          className={cx(
+          className={cn(
             "hr-vertical h-[12px] translate-y-[-0.1em]",
             "group-hover:border-fill"
             // "ease transition-colors duration-300"
@@ -87,7 +88,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
 
         {isFeed && (
           <div
-            className={cx(
+            className={cn(
               buttonVariants({
                 variant: "pill",
               }),
@@ -100,7 +101,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
           </div>
         )}
 
-        <div className={cx(isFeed ? "md:min-w-[91px]" : "")}>
+        <div className={cn(isFeed ? "md:min-w-[91px]" : "")}>
           {isFeed
             ? format(parseISO(post.date), "MMM dd, yyyy")
             : format(parseISO(post.date), "yyyy")}

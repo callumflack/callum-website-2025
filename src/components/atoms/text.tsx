@@ -1,5 +1,7 @@
+import { cn } from "@/lib/classes";
 import type { VariantProps } from "cva";
-import { cx, cva } from "cva";
+import { cva } from "cva";
+import { listStyle } from "../mdx/mdx-styles";
 
 export const textVariants = cva({
   base: "",
@@ -42,10 +44,10 @@ export const textVariants = cva({
       large: "link-large",
     },
     ui: {
-      true: "!font-mono !uppercase",
+      true: "font-mono uppercase",
     },
     dim: {
-      true: "!text-solid",
+      true: "text-solid",
     },
     caps: {
       true: "uppercase",
@@ -115,7 +117,7 @@ export const Text = ({
   return (
     <Component
       data-component="text"
-      className={cx(
+      className={cn(
         textVariants({
           intent,
           color,
@@ -128,7 +130,7 @@ export const Text = ({
           dim,
           className,
         }),
-        Component === "ul" ? "pl-bullet" : ""
+        Component === "ul" ? listStyle : ""
       )}
       {...props}
     >
@@ -145,4 +147,26 @@ function formatText(text: string): string {
     .replace(/'/g, "\u2018") // Right single quote (&rsquo; or '\u2018')
     .replace(/"/g, "\u201C") // Left double quote (&ldquo; or '\u201C')
     .replace(/"/g, "\u201D"); // Right double quote (&rdquo; or '\u201D')
+}
+
+// Function to get CSS class name from intent
+export function getIntentClassName(intent?: TextProps["intent"]): string {
+  switch (intent) {
+    case "pill":
+      return "text-pill font-mono font-medium uppercase";
+    case "pillMeta":
+      return "text-pillMeta font-mono uppercase";
+    case "fine":
+      return "text-fine subpixel-antialiased";
+    case "meta":
+      return "text-meta";
+    case "body":
+      return "text-body";
+    case "heading":
+      return "text-heading";
+    case "title":
+      return "text-title";
+    default:
+      return "";
+  }
 }

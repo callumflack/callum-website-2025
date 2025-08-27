@@ -1,6 +1,7 @@
-import type { HTMLAttributes } from "react";
+import { cn } from "@/lib/classes";
 import type { VariantProps } from "cva";
-import { cx, cva } from "cva";
+import { cva } from "cva";
+import type { HTMLAttributes } from "react";
 
 /*
   Prose applies parent styles to Markdown blocks.
@@ -98,5 +99,5 @@ export interface ProseProps
     VariantProps<typeof proseVariants> {}
 
 export const MdxProse = ({ className, ...props }: ProseProps) => {
-  return <main className={cx(proseVariants({ className }))} {...props} />;
+  return <main className={cn(proseVariants({ className }))} {...props} />;
 };
