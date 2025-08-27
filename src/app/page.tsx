@@ -26,12 +26,12 @@ export default function Home() {
   const sortedPosts = [...filteredPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-  const latestPost = sortedPosts[0];
+  const latestPosts = sortedPosts.slice(0, 3);
 
   const projects = getFeaturedProjects();
   const writing = getFeaturedWriting();
 
   return (
-    <HomePage latestPost={latestPost} projects={projects} writing={writing} />
+    <HomePage latestPosts={latestPosts} projects={projects} writing={writing} />
   );
 }

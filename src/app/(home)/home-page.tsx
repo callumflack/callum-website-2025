@@ -11,11 +11,11 @@ import { useState } from "react";
 import { ZoomCarousel } from "./zoom-carousel";
 
 export const HomePage = ({
-  latestPost,
+  latestPosts,
   projects,
   writing,
 }: {
-  latestPost: Post;
+  latestPosts: Post[];
   projects: Post[];
   writing: Post[];
 }) => {
@@ -52,7 +52,7 @@ export const HomePage = ({
           <div>
             <TitleHeader as="div">
               <Text as="h3" intent="title" className="flex">
-                Stay in touch
+                Connect
               </Text>
             </TitleHeader>
             <div className="pt-w6 container">
@@ -78,10 +78,12 @@ export const HomePage = ({
               </Link>
             </Text>
           </TitleHeader>
-          <div className="pt- container">
-            <Link href={`/${latestPost.slug}`}>
-              <PostLine post={latestPost} isFeatured={false} isFeed />
-            </Link>
+          <div className="container">
+            {latestPosts.map((post) => (
+              <Link key={post.slug} href={`/${post.slug}`}>
+                <PostLine post={post} isFeatured={false} isFeed />
+              </Link>
+            ))}
           </div>
           <RuleWithinInner />
         </PageInner>
