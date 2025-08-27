@@ -14,12 +14,12 @@ export default async function LogPage({
   // Validate the show parameter is a valid ViewMode
   const show = resolvedSearchParams.show as string;
 
-  // Default to "full" for log page if no parameter is provided
+  // Default to "index" for log page if no parameter is provided
   const validatedShow = !show
-    ? ("full" as ViewMode)
+    ? ("index" as ViewMode)
     : show === "full" || show === "index"
       ? (show as ViewMode)
-      : ("full" as ViewMode);
+      : ("index" as ViewMode);
 
   return (
     <PageWrapper activeNav="log">
