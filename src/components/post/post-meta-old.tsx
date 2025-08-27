@@ -2,7 +2,7 @@ import { cx } from "cva";
 import NextLink from "next/link";
 import { Fragment } from "react";
 import { Link } from "@/components/atoms";
-import { noteStyle } from "@/components/mdx/mdx-components";
+import { noteStyle } from "@/components/mdx/mdx-styles";
 import { formatYear } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { type Post } from "content-collections";
