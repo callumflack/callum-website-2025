@@ -28,8 +28,7 @@ export const metadata: Metadata = {
 
 // https://nextjs.org/docs/app/api-reference/functions/generate-viewport
 export const viewport: Viewport = {
-  // Indicating multiple color schemes indicates that the first scheme is preferred by the document,
-  // but that the second specified scheme is acceptable if the user prefers it.
+  // Indicating multiple color schemes indicates that the first scheme is preferred by the document, but that the second specified scheme is acceptable if the user prefers it.
   // See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name
   colorScheme: "light dark",
   // Customize the surrounding browser chrome UI
