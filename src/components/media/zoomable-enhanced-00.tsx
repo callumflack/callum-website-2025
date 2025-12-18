@@ -1,3 +1,23 @@
+/* eslint-disable */
+// @ts-nocheck
+
+/**
+ * ============================================================================
+ * ⚠️  LEGACY FILE - DO NOT MAINTAIN ⚠️
+ * ============================================================================
+ *
+ * This file is kept as a DESIGN REFERENCE ONLY.
+ * It is NOT imported anywhere and is NOT part of the build.
+ *
+ * The active implementation is: zoomable-02.tsx
+ *
+ * If you need zoom functionality, use zoomable-02.tsx instead.
+ * Do NOT spend time fixing, updating, or refactoring this file.
+ *
+ * See: docs/251218-zoom-gallery-refactor.md
+ * ============================================================================
+ */
+
 "use client";
 
 import { useState, ReactNode, useRef, useEffect } from "react";
