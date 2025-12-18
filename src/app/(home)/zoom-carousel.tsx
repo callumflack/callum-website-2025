@@ -374,6 +374,10 @@ const CarouselItem = ({
       }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
     >
+      {/*
+        FLEX-COL IMAGE FIX: `h-full` + caption = overflow clipped from top.
+        Fix: `flex-1 min-h-0` lets image fill remaining space and shrink below intrinsic size.
+      */}
       <MediaFigure
         caption={
           showCaption &&
@@ -384,7 +388,7 @@ const CarouselItem = ({
         }
         figureIntent="inGrid"
         isPortrait={isImagePortrait}
-        className="flex h-full flex-col items-center justify-end [&_figcaption]:w-full"
+        className="flex h-full flex-col [&_figcaption]:w-full"
       >
         {isVideo ? (
           <Video
@@ -392,7 +396,8 @@ const CarouselItem = ({
             poster={asset.poster || ""}
             aspect={aspect}
             className={cx(
-              "h-full w-full object-cover",
+              // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
+              "min-h-0 flex-1 w-full object-cover",
               mediaWrapperVariants({
                 border: true,
               })
@@ -412,14 +417,12 @@ const CarouselItem = ({
             // sizes={isExpanded ? "50vw" : "33vw"}
             sizes="(min-width: 660px) 600px, 1200px"
             className={cx(
-              "h-full w-full object-cover",
+              // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
+              "min-h-0 flex-1 w-full object-cover",
               mediaWrapperVariants({
                 border: true,
               })
             )}
-            style={{
-              aspectRatio: getAspectRatioCSS(aspect),
-            }}
           />
         )}
       </MediaFigure>
