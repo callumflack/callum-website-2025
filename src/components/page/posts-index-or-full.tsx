@@ -6,7 +6,6 @@ import { PostLine } from "@/components/post/list/post-line";
 import { EyeOpenIcon, ListBulletIcon } from "@radix-ui/react-icons";
 import { Post } from "content-collections";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { ViewMode } from "@/types/viewMode";
 
 /* Used on log and topic pages */
@@ -28,13 +27,14 @@ export function FullOrIndexPosts({
 }: FullOrIndexPostsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const showParam = (searchParams.get("show") as ViewMode) || initialShow;
-  const [showInFull, setShowInFull] = useState(showParam === "full");
+
+  // Derive view mode from URL (source of truth), fallback to initialShow
+  const showParam = searchParams.get("show") as ViewMode | null;
+  const showInFull = showParam ? showParam === "full" : initialShow === "full";
 
   const updateShowMode = (show: ViewMode) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("show", show);
-    // Use the provided routePrefix for navigation
     const path = topic ? `${routePrefix}/${topic}` : routePrefix;
     router.push(`${path}?${params.toString()}`);
   };
@@ -48,10 +48,7 @@ export function FullOrIndexPosts({
             <Button
               title="Full"
               variant="icon"
-              onClick={() => {
-                setShowInFull(true);
-                updateShowMode("full");
-              }}
+              onClick={() => updateShowMode("full")}
               className={showInFull ? "bg-background-hover text-fill" : ""}
             >
               <EyeOpenIcon className="size-em" />
@@ -60,7 +57,6 @@ export function FullOrIndexPosts({
               title="Index"
               variant="icon"
               onClick={() => {
-                setShowInFull(false);
                 updateShowMode("index");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
