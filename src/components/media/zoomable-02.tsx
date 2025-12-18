@@ -37,6 +37,7 @@ export function Zoomable({
 
   // Determine if on mobile
   const isMobile = viewportWidth < mobileBreakpoint;
+  const desktopMaxWidthVw = 0.9;
 
   // Center element in viewport when zoomed
   useEffect(() => {
@@ -57,11 +58,7 @@ export function Zoomable({
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
     };
-  }, [
-    isZoomed,
-    scaleAmount,
-    viewportWidth,
-  ]);
+  }, [isZoomed, scaleAmount, viewportWidth]);
 
   // Re-center while zoomed if the content size changes (e.g. image/video load)
   useEffect(() => {
@@ -115,10 +112,9 @@ export function Zoomable({
   // Calculate dimensions
   const measuredWidth =
     contentRef.current?.getBoundingClientRect().width ?? undefined;
-  const baseWidth =
-    isMobile
-      ? baseWidthRef.current ?? measuredWidth ?? viewportWidth
-      : maxWidth;
+  const baseWidth = isMobile
+    ? (baseWidthRef.current ?? measuredWidth ?? viewportWidth)
+    : Math.min(maxWidth, viewportWidth * desktopMaxWidthVw);
   const calculatedOriginalWidth = isMobile
     ? Math.min(baseWidth, viewportWidth)
     : baseWidth;
@@ -135,7 +131,9 @@ export function Zoomable({
       data-component="Zoomable"
       className={className}
       style={{
-        width: isMobile ? "100%" : maxWidth, // Adjust width for mobile
+        width: isMobile
+          ? "100%"
+          : (`min(${maxWidth}px, ${desktopMaxWidthVw * 100}vw)` as const), // cap by px, but scale down with viewport
         position: "relative",
         margin: "0 auto",
         overflow: "visible", // Allow content to overflow
