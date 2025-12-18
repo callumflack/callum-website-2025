@@ -4,7 +4,6 @@ import { cx } from "cva";
 import { usePathname } from "next/navigation";
 import { useWindowScroll } from "react-use";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
 import { Link } from "../atoms/next-link";
 import { OutsetRule } from "../elements/outset-rule";
 import { textVariants } from "../atoms/text";
@@ -36,11 +35,7 @@ export const Nav = ({
 }: NavProps) => {
   const pathname = usePathname();
   const { y } = useWindowScroll();
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    setIsScrolled(y > 150);
-  }, [y]);
+  const isScrolled = y > 150;
 
   return (
     // Want id="top"? Move it to a parent element without sticky positioning
