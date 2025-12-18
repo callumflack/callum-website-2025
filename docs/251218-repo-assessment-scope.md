@@ -234,7 +234,34 @@ This is a suggestion for how to scope the work into “safe increments”.
 
 ---
 
-## Success criteria (how we’ll know it worked)
+## Progress
+
+Branch: `refactor/maintenance-tax-reduction`
+
+### Stage 0 ✅
+
+- `be45b9f` docs: correct Cursor rules section and add Asset.dimensions mismatch note
+
+### Stage 1 ✅
+
+- `15a8f23` refactor: remove accidental "use client" from pure render components
+- `ecc5542` refactor(nav): derive isScrolled inline instead of effect
+- `c931acf` refactor: derive view mode from URL instead of mirroring into state
+- `a79e99b` fix(site-time): compute fresh zoned date on each tick
+- `99e0272` fix(types): align Asset.dimensions.aspectRatioNumber with computed field
+
+### Stage 2 ❌
+
+- Not started (zoom/gallery refactor)
+
+### Stage 3 ✅
+
+- MDX system redesigned (separate work)
+- `628e7f7` fix(content): validate asset aspect format at build time
+
+---
+
+## Success criteria (how we'll know it worked)
 
 - Fewer client components (and smaller client bundles) without losing behavior.
 - Less effect-driven logic; more derived state and explicit data flow.
