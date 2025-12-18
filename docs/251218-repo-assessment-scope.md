@@ -99,7 +99,7 @@ This doc is intentionally practical: problems → why they matter → concrete e
 
 - `getImageDimensions()` in `src/components/media/media-utils.ts` returns `{ width, height, aspectRatioNumber }`
 - `content-collections.ts` stores `dimensions: { width, height, aspectRatioNumber }`
-- but `src/types/content.ts` defines `dimensions.aspectRatio` (not `aspectRatioNumber`)
+- but `src/types/content.ts` previously defined `dimensions.aspectRatio` (not `aspectRatioNumber`) — now fixed to `aspectRatioNumber`
 
 This mismatch makes the types lie and quietly increases maintenance tax.
 
