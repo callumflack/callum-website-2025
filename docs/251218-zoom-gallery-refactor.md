@@ -85,9 +85,46 @@ Questions that don't have documented answers:
 - What exactly should the zoom scale be?
 - Should zoomed content be centered vertically, or offset?
 - What happens on mobile? (Currently disabled, but is that the right call?)
-- Should Escape key close zoom?
-- What about reduced-motion preferences?
-- Should focus be trapped when zoomed?
+
+**Note (scope)**: For the minimal-scope refactor, we are **not** taking on keyboard/focus/ARIA work (no Escape-to-close, no focus trapping). This is intentional to keep the maintenance-tax reduction work small and low-risk.
+
+---
+
+## Corrections (doc hygiene)
+
+- `src/components/media/zoomable.tsx` is **not** exported from `src/components/media/index.ts`.
+  - `index.ts` explicitly treats `./zoomable` as legacy and notes `zoomable-02.tsx` is the active implementation.
+
+---
+
+## Known correctness issues worth fixing even if we don't refactor (receipts)
+
+These are small, isolated fixes with good ROI:
+
+- Gallery expansion (`src/app/gallery/(components)/gallery-posts-append.tsx`)
+  - A `setTimeout(center, 180)` is scheduled inside an rAF callback, but the `clearTimeout` cleanup is not wired to the React effect cleanup, so it can fire after unmount / rapid state changes.
+- Home carousel (`src/app/(home)/zoom-carousel.tsx`)
+  - `framer-motion` `animate(...)` controls are not captured/cancelled, so quick expand/collapse can overlap animations.
+- MDX zoom (`src/components/media/zoomable-02.tsx`)
+  - Measurement state is coupled to viewport resize; it doesn't reliably re-measure when media loads or content size changes without a resize.
+
+---
+
+## Center-in-viewport strategy (decision we should lock)
+
+**Goal**: one shared centering primitive used by MDX zoom + gallery expansion + carousel, so all timing/measurement bugs converge to one place.
+
+**Contract**: `centerInViewport(element)` computes target scroll based on the element's `getBoundingClientRect()`:
+
+- Target: element’s vertical center aligned to viewport’s vertical center.
+- Clamp: don’t scroll past document bounds.
+- Threshold: if the delta is tiny (e.g. < 1px), do nothing.
+- Timing: call after the UI state toggles (zoom/expand). If layout is animating, call on animation completion. If content size can change (image/video load), re-center via a `ResizeObserver` on the active element (throttled by rAF).
+
+**Non-goals (minimal scope)**:
+
+- No keyboard/focus behavior.
+- No “perfect across every browser edge case” behavior beyond what we already need for the site.
 
 ---
 
@@ -137,3 +174,34 @@ Options:
 3. **Remove** — link to full-size image instead, no zoom at all
 
 The answer affects how much effort to invest here.
+
+---
+
+## Addendum: Why a pure function, not a hook
+
+The refactor extracted `centerInViewport(element, options)` as a **pure function**, not a `useCenterInViewport()` hook. This was intentional.
+
+### The timing problem
+
+Each consumer has different timing needs:
+
+| Consumer                             | When to call `centerInViewport`                                                 |
+| ------------------------------------ | ------------------------------------------------------------------------------- |
+| MDX zoom (`zoomable-02.tsx`)         | Double-rAF after `isZoomed` state change                                        |
+| Gallery (`gallery-posts-append.tsx`) | rAF chain + setTimeout fallback (Framer layout animations settle unpredictably) |
+| Home carousel (`zoom-carousel.tsx`)  | Framer's `onAnimationComplete` callback                                         |
+
+A hook that tried to manage timing internally would have to either:
+
+1. **Be too opinionated** — force all consumers into one timing strategy (breaks gallery/carousel)
+2. **Be too leaky** — expose timing config that recreates the complexity we're trying to hide
+
+### The right boundary
+
+By keeping `centerInViewport` as a pure function that only does scroll math:
+
+- Consumers call it at the right moment for their use case
+- Cleanup logic (cancelling rAFs, stopping animations) stays with the consumer who owns that lifecycle
+- The scroll math converges to one place; timing stays distributed where it belongs
+
+**Principle**: Extract the _what_ (scroll math), not the _when_ (timing). Let each consumer own their own effect choreography.

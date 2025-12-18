@@ -9,6 +9,7 @@
 import { useState, ReactNode, useRef, useEffect } from "react";
 import { CONTAINER_TEXT_WIDTH } from "@/lib/constants";
 import { useWindowSize } from "react-use";
+import { centerInViewport } from "@/lib/center-in-viewport";
 
 export type ZoomableProps = {
   children: ReactNode;
@@ -55,28 +56,21 @@ export function Zoomable({
   useEffect(() => {
     if (!isZoomed || !contentRef.current) return;
 
-    requestAnimationFrame(() => {
-      if (!contentRef.current) return;
+    let raf1 = 0;
+    let raf2 = 0;
 
-      // Calculate final dimensions after zoom
-      const zoomedWidth = Math.min(
-        originalWidth * scaleAmount,
-        viewportWidth * 0.95
-      );
-      // Maintain aspect ratio
-      const finalHeight = zoomedWidth / aspectRatio;
-
-      // Current position
-      const rect = contentRef.current.getBoundingClientRect();
-
-      // Ideal position (centered)
-      const idealTop = (window.innerHeight - finalHeight) / 2;
-
-      // How far to scroll to center it
-      const scrollBy = rect.top - idealTop;
-
-      window.scrollBy({ top: scrollBy, behavior: "smooth" });
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const el = contentRef.current;
+        if (!el) return;
+        centerInViewport(el, { behavior: "smooth", thresholdPx: 1 });
+      });
     });
+
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
   }, [
     isZoomed,
     originalWidth,
@@ -85,6 +79,29 @@ export function Zoomable({
     scaleAmount,
     viewportWidth,
   ]);
+
+  // Re-center while zoomed if the content size changes (e.g. image/video load)
+  useEffect(() => {
+    if (!isZoomed) return;
+    const el = contentRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+
+    let rafId = 0;
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const current = contentRef.current;
+        if (!current) return;
+        centerInViewport(current, { behavior: "smooth", thresholdPx: 1 });
+      });
+    });
+
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(rafId);
+    };
+  }, [isZoomed]);
 
   // If on mobile and zooming is disabled, render children directly
   // We might want to pass down className for layout consistency

@@ -14,6 +14,7 @@ import { formatYear } from "@/lib/utils";
 import { Post } from "content-collections";
 import Image from "next/image";
 import { MediaErrorBoundary } from "@/components/utils";
+import { centerInViewport } from "@/lib/center-in-viewport";
 
 const logPrefix = "[ZoomCarousel]";
 
@@ -80,14 +81,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   const handleAnimationComplete = () => {
     if (!isExpanded || !carouselRef.current || !isWideEnoughForZoom) return;
 
-    // Vertical centering logic remains here
-    const rect = carouselRef.current.getBoundingClientRect();
-    const idealTop = Math.max(0, (window.innerHeight - expandedHeight) / 2);
-    const scrollByY = rect.top - idealTop;
-    window.scrollBy({
-      top: scrollByY,
-      behavior: "smooth",
-    });
+    centerInViewport(carouselRef.current, { behavior: "smooth", thresholdPx: 1 });
   };
 
   // Effect to handle horizontal scrolling animation
@@ -172,7 +166,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
       container.style.willChange = "scroll-left"; // Add will-change here
       container.classList.remove(...snapClasses);
 
-      animate(container.scrollLeft, targetScrollLeft, {
+      const controls = animate(container.scrollLeft, targetScrollLeft, {
         duration: 0.5,
         ease: [0.16, 1, 0.3, 1],
         onUpdate: (latest) => {
@@ -189,6 +183,13 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
           // NOTE: Intentionally NOT re-adding snap classes (`snap-x`, `snap-mandatory`, `scroll-smooth`)  when expanded to prevent layout jank after the smooth scroll animation finishes. Snap classes are added back only when collapsing (in the `else if (!isExpanded)` block).
         },
       });
+
+      // Cleanup function to stop any in-flight animation if state flips quickly.
+      return () => {
+        controls.stop();
+        container.style.overflowAnchor = originalOverflowAnchor;
+        container.style.willChange = originalWillChange;
+      };
     } else if (!isExpanded) {
       // Ensure classes, default anchor, and default will-change are present when collapsed
       if (!container.classList.contains("snap-x")) {
