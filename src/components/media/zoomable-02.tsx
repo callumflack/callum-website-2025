@@ -33,24 +33,10 @@ export function Zoomable({
   const { width: viewportWidth } = useWindowSize();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isZoomed, setIsZoomed] = useState(false);
-  const [originalWidth, setOriginalWidth] = useState(maxWidth);
-  const [contentHeight, setContentHeight] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(1);
+  const baseWidthRef = useRef<number | null>(null);
 
   // Determine if on mobile
   const isMobile = viewportWidth < mobileBreakpoint;
-
-  // Measure content dimensions on mount
-  useEffect(() => {
-    if (contentRef.current) {
-      const width = contentRef.current.offsetWidth;
-      const height = contentRef.current.offsetHeight;
-      // Set originalWidth based on actual rendered width on mobile if it's smaller than maxWidth
-      setOriginalWidth(isMobile ? Math.min(width, viewportWidth) : width);
-      setContentHeight(height);
-      setAspectRatio(width / height);
-    }
-  }, [isMobile, viewportWidth]);
 
   // Center element in viewport when zoomed
   useEffect(() => {
@@ -73,9 +59,6 @@ export function Zoomable({
     };
   }, [
     isZoomed,
-    originalWidth,
-    contentHeight,
-    aspectRatio,
     scaleAmount,
     viewportWidth,
   ]);
@@ -120,14 +103,25 @@ export function Zoomable({
 
   const handleZoom = () => {
     if (!(isMobile && disableOnMobile)) {
+      // Capture the current base width at the moment we zoom in (useful when width is responsive).
+      if (!isZoomed) {
+        const el = contentRef.current;
+        if (el) baseWidthRef.current = el.getBoundingClientRect().width;
+      }
       setIsZoomed(!isZoomed);
     }
   };
 
   // Calculate dimensions
+  const measuredWidth =
+    contentRef.current?.getBoundingClientRect().width ?? undefined;
+  const baseWidth =
+    isMobile
+      ? baseWidthRef.current ?? measuredWidth ?? viewportWidth
+      : maxWidth;
   const calculatedOriginalWidth = isMobile
-    ? Math.min(originalWidth, viewportWidth)
-    : originalWidth;
+    ? Math.min(baseWidth, viewportWidth)
+    : baseWidth;
 
   const zoomedWidth = Math.min(
     calculatedOriginalWidth * scaleAmount,

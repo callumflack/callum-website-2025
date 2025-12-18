@@ -205,3 +205,9 @@ By keeping `centerInViewport` as a pure function that only does scroll math:
 - The scroll math converges to one place; timing stays distributed where it belongs
 
 **Principle**: Extract the _what_ (scroll math), not the _when_ (timing). Let each consumer own their own effect choreography.
+
+---
+
+## Progress log
+
+- `ff0f2fb` — unify viewport centering via `centerInViewport()` + fix gallery timeout cleanup + stop overlapping carousel scroll animations + add zoomable re-center on resize.
