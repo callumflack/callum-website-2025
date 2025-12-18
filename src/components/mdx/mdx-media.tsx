@@ -2,13 +2,14 @@ import {
   MediaFigure,
   mediaWrapperVariants,
   Video,
-  // Zoomable,
   type MediaFigureProps,
   type MediaWrapperProps,
   type VideoProps,
-  type ZoomableProps,
 } from "@/components/media";
-import { Zoomable as Zoomable02 } from "@/components/media/zoomable-02";
+import {
+  Zoomable as Zoomable02,
+  type ZoomableProps,
+} from "@/components/media/zoomable-02";
 import {
   getAspectRatioCSS,
   getImageDimensions,
