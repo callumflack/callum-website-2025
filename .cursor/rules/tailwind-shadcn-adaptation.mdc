@@ -1,12 +1,12 @@
 # ShadCN Component Adaptation
 
-When importing a ShadCN component into `packages/ui/src/components/`, apply these transformations to align with the design system.
+When importing a ShadCN component into `src/components/ui/`, apply these transformations to align with the design system.
 
 ## Source of Truth
 
-- **Token recognition**: `@packages/ui/src/lib/classes.ts` — the `customTwMerge` config defines what tailwind-merge recognizes
-- **Token definitions**: `@packages/ui/src/styles/globals.css` — the actual CSS custom properties with values, line-heights, letter-spacing
-- **Sorting rule**: `@.cursor/rules/tailwind-sort.mdc` — apply to any element with >5 classes
+- **Token recognition**: `src/lib/classes.ts` — the `customTwMerge` config defines what tailwind-merge recognizes
+- **Token definitions**: `src/styles/globals.css` — the actual CSS custom properties with values, line-heights, letter-spacing
+- **Sorting rule**: `.cursor/rules/tailwind-sort.mdc` — apply to any element with >5 classes
 
 ## Why This Matters
 
