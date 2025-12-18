@@ -30,7 +30,8 @@ export function centerInViewport(
 
   const rect = element.getBoundingClientRect();
   const viewportHeight = window.innerHeight;
-  const idealTop = (viewportHeight - rect.height) / 2 + offsetY;
+  // Clamp to 0 so tall elements top-align instead of centering above viewport
+  const idealTop = Math.max(0, (viewportHeight - rect.height) / 2 + offsetY);
   const delta = rect.top - idealTop;
 
   if (Math.abs(delta) < thresholdPx) return;
