@@ -4,7 +4,6 @@ import { cx } from "class-variance-authority";
 import { Asset } from "@/types/content";
 import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
 import {
-  getAspectRatioCSS,
   isPortrait,
   isVideoFile,
   getDimensions,
@@ -81,7 +80,10 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   const handleAnimationComplete = () => {
     if (!isExpanded || !carouselRef.current || !isWideEnoughForZoom) return;
 
-    centerInViewport(carouselRef.current, { behavior: "smooth", thresholdPx: 1 });
+    centerInViewport(carouselRef.current, {
+      behavior: "smooth",
+      thresholdPx: 1,
+    });
   };
 
   // Effect to handle horizontal scrolling animation
@@ -397,7 +399,7 @@ const CarouselItem = ({
             aspect={aspect}
             className={cx(
               // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
-              "min-h-0 flex-1 w-full object-cover",
+              "min-h-0 w-full flex-1 object-cover",
               mediaWrapperVariants({
                 border: true,
               })
@@ -418,7 +420,7 @@ const CarouselItem = ({
             sizes="(min-width: 660px) 600px, 1200px"
             className={cx(
               // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
-              "min-h-0 flex-1 w-full object-cover",
+              "min-h-0 w-full flex-1 object-cover",
               mediaWrapperVariants({
                 border: true,
               })
