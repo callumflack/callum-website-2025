@@ -211,3 +211,4 @@ By keeping `centerInViewport` as a pure function that only does scroll math:
 ## Progress log
 
 - `ff0f2fb` — unify viewport centering via `centerInViewport()` + fix gallery timeout cleanup + stop overlapping carousel scroll animations + add zoomable re-center on resize.
+- `8498e6c` — refactor `zoomable-02.tsx` to remove derived measurement state (`originalWidth`, `contentHeight`, `aspectRatio`), keeping only `isZoomed` state + a `baseWidthRef` for responsive widths.
