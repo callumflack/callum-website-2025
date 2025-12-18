@@ -1,3 +1,7 @@
+---
+description: Use when merging Tailwind with custom CSS variables.
+alwaysApply: false
+---
 # Custom Tailwind Merge Recipe for Custom CSS Variables
 
 This guide shows how to extend `tailwind-merge` to properly handle custom CSS variables and theme extensions in Tailwind CSS.
