@@ -75,7 +75,7 @@ export function ZoomableImage(props: MdxImageProps) {
   const { width, height } = getImageDimensions(aspect);
 
   return (
-    <Zoomable02 className={mediaSpacing}>
+    <Zoomable02 className={mediaSpacing} aspect={aspect}>
       <MediaFigure caption={extractedCaption} isPortrait={isPortrait(aspect)}>
         <NextImage
           src={src}
@@ -111,7 +111,7 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
   // console.log("ZoomableVideo props:", props);
 
   return (
-    <Zoomable02 className={mediaSpacing}>
+    <Zoomable02 className={mediaSpacing} aspect={aspect}>
       <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
         <Video
           src={typeof src === "string" ? src : ""}

@@ -19,6 +19,8 @@ export type ZoomableProps = {
   className?: string;
   disableOnMobile?: boolean;
   mobileBreakpoint?: number;
+  /** Aspect ratio in "width-height" format (e.g. "16-9", "3-4"). Portrait/square images don't zoom. */
+  aspect?: string;
 };
 
 export function Zoomable({
@@ -29,6 +31,7 @@ export function Zoomable({
   className,
   disableOnMobile = true,
   mobileBreakpoint = 768,
+  aspect,
 }: ZoomableProps) {
   const { width: viewportWidth } = useWindowSize();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -37,7 +40,18 @@ export function Zoomable({
 
   // Determine if on mobile
   const isMobile = viewportWidth < mobileBreakpoint;
-  const desktopMaxWidthVw = 0.9;
+
+  // Controls the ZOOMED (open) state max width as fraction of viewport (0.7 = 70vw)
+  const zoomedMaxVw = 0.7;
+
+  // Parse aspect ratio to detect portrait/square (no zoom for these)
+  const aspectRatio = aspect
+    ? (() => {
+        const [w, h] = aspect.split("-").map(Number);
+        return w && h ? w / h : 1;
+      })()
+    : null; // null if no aspect provided, assume landscape
+  const isPortraitOrSquare = aspectRatio !== null && aspectRatio <= 1;
 
   // Center element in viewport when zoomed
   useEffect(() => {
@@ -86,7 +100,6 @@ export function Zoomable({
   // If on mobile and zooming is disabled, render children directly
   // We might want to pass down className for layout consistency
   if (isMobile && disableOnMobile) {
-    // If a className is provided, wrap children in a simple div with that className. This helps maintain any layout/spacing applied via className (e.g., mediaSpacing)
     if (className) {
       return (
         <div data-component="Zoomable-mobile" className={className}>
@@ -94,7 +107,18 @@ export function Zoomable({
         </div>
       );
     }
-    // Otherwise, render children directly
+    return <>{children}</>;
+  }
+
+  // Portrait/square images don't zoom — just render without zoom behavior
+  if (isPortraitOrSquare) {
+    if (className) {
+      return (
+        <div data-component="Zoomable-portrait" className={className}>
+          {children}
+        </div>
+      );
+    }
     return <>{children}</>;
   }
 
@@ -109,20 +133,20 @@ export function Zoomable({
     }
   };
 
-  // Calculate dimensions
-  const measuredWidth =
-    contentRef.current?.getBoundingClientRect().width ?? undefined;
+  // Calculate dimensions (baseline = zoomed-out width)
   const baseWidth = isMobile
-    ? (baseWidthRef.current ?? measuredWidth ?? viewportWidth)
-    : Math.min(maxWidth, viewportWidth * desktopMaxWidthVw);
+    ? (baseWidthRef.current ?? viewportWidth)
+    : maxWidth;
   const calculatedOriginalWidth = isMobile
     ? Math.min(baseWidth, viewportWidth)
     : baseWidth;
 
+  // Calculate zoomed width (landscape only — portrait/square already returned above)
   const zoomedWidth = Math.min(
     calculatedOriginalWidth * scaleAmount,
-    viewportWidth * 0.95
+    viewportWidth * zoomedMaxVw
   );
+
   const offset = isZoomed ? (calculatedOriginalWidth - zoomedWidth) / 2 : 0;
 
   return (
@@ -131,9 +155,7 @@ export function Zoomable({
       data-component="Zoomable"
       className={className}
       style={{
-        width: isMobile
-          ? "100%"
-          : (`min(${maxWidth}px, ${desktopMaxWidthVw * 100}vw)` as const), // cap by px, but scale down with viewport
+        width: isMobile ? "100%" : maxWidth,
         position: "relative",
         margin: "0 auto",
         overflow: "visible", // Allow content to overflow
@@ -142,8 +164,9 @@ export function Zoomable({
       <div
         ref={contentRef}
         onClick={handleZoom}
+        data-zoomed={isZoomed || undefined}
         style={{
-          width: isZoomed ? zoomedWidth : "100%", // Inner content takes 100% of parent
+          width: isZoomed ? zoomedWidth : "100%",
           transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
           cursor: !(isMobile && disableOnMobile)
             ? isZoomed
