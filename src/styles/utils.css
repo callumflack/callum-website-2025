@@ -69,6 +69,18 @@
   @apply dark:!border-transparent;
 }
 
+/* list bullets (dash style) */
+@utility list-bullets {
+  @apply pl-bullet space-y-0.5;
+  & > li {
+    @apply relative;
+  }
+  & > li::before {
+    content: "";
+    @apply absolute top-[0.75em] -left-[1.3em] inline-block h-px w-[14px] bg-current;
+  }
+}
+
 /* bullets reset */
 @utility no-bullets {
   @apply list-none pl-0;

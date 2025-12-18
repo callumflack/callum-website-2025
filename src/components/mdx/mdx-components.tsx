@@ -1,5 +1,5 @@
 import type { TextProps } from "@/components/atoms";
-import { Link, Text, textVariants } from "@/components/atoms";
+import { Link, Text } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
 import {
   Avatar,
@@ -8,7 +8,6 @@ import {
   Outro,
   WhatIWantLink,
 } from "@/components/page";
-import { cx } from "cva";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
 import {
@@ -17,8 +16,21 @@ import {
   ZoomableVideo,
   ZoomableVideoProps,
 } from "./mdx-media";
-import { cn } from "@/lib/classes";
-import { calloutStyle, noteStyle, listStyle } from "./mdx-styles";
+
+/*
+  mdx-components: Element Definition (Zero Styling)
+
+  Responsibility: What each MDX tag renders as. JSX mapping and logic only.
+  
+  ALL styling lives in mdx-prose.tsx. This file only provides:
+  - Tag → JSX mapping
+  - Conditional logic (Link vs LinkWithArrow, p unwrapping media)
+  - Class anchors for Prose to target (.Callout, .Note, .Pre, .Contacts)
+  
+  Exception: HeadingWithId retains its styling (Text component integration).
+
+  Mental model: docs/251218-mdx-styling-system.md
+*/
 
 // Basic component types
 type AnchorProps = ComponentPropsWithoutRef<"a">;
@@ -40,17 +52,9 @@ export const components = {
   a: ({ href, ...props }: AnchorProps) => {
     const isExternal = href && /^(?:https?:)?\/\//.test(href);
     return isExternal ? (
-      <LinkWithArrow
-        className={cx(textVariants({ link: "default" }))}
-        href={href}
-        {...props}
-      />
+      <LinkWithArrow href={href} {...props} />
     ) : (
-      <Link
-        className={cx(textVariants({ link: "default" }))}
-        href={href || "#"}
-        {...props}
-      />
+      <Link href={href || "#"} {...props} />
     );
   },
   p: ({ children, ...props }: ParagraphProps) => {
@@ -66,45 +70,21 @@ export const components = {
     return <p {...props}>{children}</p>;
   },
   ul: ({ children, ...props }: ListProps) => (
-    <ul className={cn(listStyle)} {...(props as TextProps)}>
-      {children}
-    </ul>
+    <ul {...(props as TextProps)}>{children}</ul>
   ),
   ol: ({ children, ...props }: ListProps) => (
-    <ol className="list-decimal space-y-0.5 pl-5" {...(props as TextProps)}>
-      {children}
-    </ol>
+    <ol {...(props as TextProps)}>{children}</ol>
   ),
   li: ({ children, ...props }: ListItemProps) => <li {...props}>{children}</li>,
   blockquote: ({ children, ...props }: BlockquoteProps) => (
-    <Text
-      as="blockquote"
-      {...(props as TextProps)}
-      className={cx(
-        "group py-1.5",
-        "[&_p]:text-fill-light",
-        "[&_p]:border-border-hover [&_p]:border-l [&_p]:pb-0 [&_p]:pl-2.5 md:[&_p]:pl-4",
-        "[&_strong]:text-meta [&_strong]:table [&_strong]:pt-[calc(6/16*1em)] [&_strong]:!font-normal"
-      )}
-    >
-      {children}
-    </Text>
+    <blockquote {...props}>{children}</blockquote>
   ),
   h2: (props: HeadingProps) => <HeadingWithId as="h2" {...props} />,
   h3: (props: HeadingProps) => <HeadingWithId as="h3" {...props} />,
-  h4: (props: TextProps) => <Text as="h4" weight="bold" {...props} />,
+  h4: ({ children, ...props }: HeadingProps) => <h4 {...props}>{children}</h4>,
   pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
-    <div data-component="pre" className="py-1">
-      <pre
-        className={cx(
-          "Pre bg-background rounded-button overflow-auto",
-          "[&_code]:block [&_code]:overflow-auto [&_code]:py-2.5 [&_code]:pl-3",
-          "[&_code]:hide-scrollbar [&_code]:leading-[1.6]",
-          // overwrite prose code styles
-          "[&_code]:bg-transparent"
-        )}
-        {...props}
-      >
+    <div data-component="pre">
+      <pre className="Pre" {...props}>
         {children}
       </pre>
     </div>
@@ -115,25 +95,26 @@ export const components = {
     return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
   },
   hr: () => (
-    <div className={cx(noteStyle)}>
+    <div className="Note">
       <hr />
     </div>
   ),
   Callout: ({ children }: DivProps) => (
-    <div className={cx(calloutStyle)}>
-      {/* <CalloutIcon className="size-[1.25em]" /> */}
+    <div className="Callout">{children}</div>
+  ),
+  Note: ({ children, ...props }: DivProps) => (
+    <div className="Note" {...props}>
       {children}
     </div>
   ),
-  Note: (props: DivProps) => <div className={cx(noteStyle)} {...props} />,
   Intro: () => <Intro textIntent="body" />,
   Outro: () => <Outro textIntent="body" />,
   Avatar: () => <Avatar />,
   WhatIWantLink: () => <WhatIWantLink />,
   Contacts: (props: { showLabel?: boolean }) => (
-    // wrapped in div to allow max-w-(--container-text) rule to take effect without interfferring with the -ml-2 on Contacts
-    <div>
-      <Contacts className="pt-0.5 !pl-0" {...props} />
+    // wrapped in div to allow max-w-(--container-text) rule to take effect & to enable us to target it in mdx-prose.tsx
+    <div data-component="contacts">
+      <Contacts {...props} />
     </div>
   ),
 };
@@ -144,6 +125,7 @@ type HeadingWithIdProps = HeadingProps &
     children?: React.ReactNode;
   };
 
+// Exception: HeadingWithId retains styling (Text component integration)
 function HeadingWithId({ as, children }: HeadingWithIdProps) {
   const id = children?.toString().toLowerCase().replace(/\s+/g, "-");
   return (

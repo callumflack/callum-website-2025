@@ -6,6 +6,7 @@
 @import "./colors";
 @import "./utils";
 @import "./code";
+@import "../components/mdx/mdx.css";
 
 /*
   Learn Tailwind 4
@@ -35,6 +36,9 @@
   /* 
     THIS? clamp(2.2rem, 4cqw + 0.5rem, 2.8rem); 
     cqw (Container Query Width) is a container query unit that represents 1% of a container's width. Still experimental.
+
+    Or ONLY set clamp on the body tag, every ancestor uses rem?
+    See: https://surgehq.ai
   */
   --text-fine: clamp(9px, 7.5714px + 0.2857vw, 11px);
   --text-pill: clamp(10px, 8.9286px + 0.2143vw, 11.5px);
@@ -123,6 +127,7 @@
   --color-panel: var(--color-canvas-contrast);
   --color-background: var(--color-gray-bg-hover);
   --color-background-hover: var(--color-gray-bg-active);
+  --color-background-active: var(--color-gray-bg-active);
   --color-border: var(--color-gray-border);
   --color-line: var(--color-gray-line);
   --color-ring: var(--color-gray-ring);

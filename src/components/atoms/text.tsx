@@ -1,7 +1,6 @@
 import { cn } from "@/lib/classes";
 import type { VariantProps } from "cva";
 import { cva } from "cva";
-import { listStyle } from "../mdx/mdx-styles";
 
 export const textVariants = cva({
   base: "",
@@ -130,7 +129,7 @@ export const Text = ({
           dim,
           className,
         }),
-        Component === "ul" ? listStyle : ""
+        Component === "ul" ? "list-bullets" : ""
       )}
       {...props}
     >
