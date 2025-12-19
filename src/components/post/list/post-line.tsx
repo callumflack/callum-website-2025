@@ -1,5 +1,3 @@
-"use client";
-
 import { buttonVariants, Text } from "@/components/atoms";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { type Post } from "content-collections";

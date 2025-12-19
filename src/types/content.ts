@@ -48,7 +48,7 @@ export type Asset = {
   dimensions?: {
     width: number;
     height: number;
-    aspectRatio: number;
+    aspectRatioNumber: number;
   };
 };
 

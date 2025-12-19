@@ -189,6 +189,9 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    /* Flexbox defensive resets: allow flex items to shrink below intrinsic content size */
+    min-width: 0; /* Prevents horizontal overflow in flex-row layouts */
+    min-height: 0; /* Prevents vertical overflow in flex-col layouts */
   }
   ::selection {
     @apply bg-fill text-canvas;

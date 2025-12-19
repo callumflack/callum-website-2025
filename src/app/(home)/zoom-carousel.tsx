@@ -4,7 +4,6 @@ import { cx } from "class-variance-authority";
 import { Asset } from "@/types/content";
 import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
 import {
-  getAspectRatioCSS,
   isPortrait,
   isVideoFile,
   getDimensions,
@@ -14,6 +13,7 @@ import { formatYear } from "@/lib/utils";
 import { Post } from "content-collections";
 import Image from "next/image";
 import { MediaErrorBoundary } from "@/components/utils";
+import { centerInViewport } from "@/lib/center-in-viewport";
 
 const logPrefix = "[ZoomCarousel]";
 
@@ -80,13 +80,9 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   const handleAnimationComplete = () => {
     if (!isExpanded || !carouselRef.current || !isWideEnoughForZoom) return;
 
-    // Vertical centering logic remains here
-    const rect = carouselRef.current.getBoundingClientRect();
-    const idealTop = Math.max(0, (window.innerHeight - expandedHeight) / 2);
-    const scrollByY = rect.top - idealTop;
-    window.scrollBy({
-      top: scrollByY,
+    centerInViewport(carouselRef.current, {
       behavior: "smooth",
+      thresholdPx: 1,
     });
   };
 
@@ -172,7 +168,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
       container.style.willChange = "scroll-left"; // Add will-change here
       container.classList.remove(...snapClasses);
 
-      animate(container.scrollLeft, targetScrollLeft, {
+      const controls = animate(container.scrollLeft, targetScrollLeft, {
         duration: 0.5,
         ease: [0.16, 1, 0.3, 1],
         onUpdate: (latest) => {
@@ -189,6 +185,13 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
           // NOTE: Intentionally NOT re-adding snap classes (`snap-x`, `snap-mandatory`, `scroll-smooth`)  when expanded to prevent layout jank after the smooth scroll animation finishes. Snap classes are added back only when collapsing (in the `else if (!isExpanded)` block).
         },
       });
+
+      // Cleanup function to stop any in-flight animation if state flips quickly.
+      return () => {
+        controls.stop();
+        container.style.overflowAnchor = originalOverflowAnchor;
+        container.style.willChange = originalWillChange;
+      };
     } else if (!isExpanded) {
       // Ensure classes, default anchor, and default will-change are present when collapsed
       if (!container.classList.contains("snap-x")) {
@@ -373,6 +376,10 @@ const CarouselItem = ({
       }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
     >
+      {/*
+        FLEX-COL IMAGE FIX: `h-full` + caption = overflow clipped from top.
+        Fix: `flex-1 min-h-0` lets image fill remaining space and shrink below intrinsic size.
+      */}
       <MediaFigure
         caption={
           showCaption &&
@@ -383,7 +390,7 @@ const CarouselItem = ({
         }
         figureIntent="inGrid"
         isPortrait={isImagePortrait}
-        className="flex h-full flex-col items-center justify-end [&_figcaption]:w-full"
+        className="flex h-full flex-col [&_figcaption]:w-full"
       >
         {isVideo ? (
           <Video
@@ -391,7 +398,8 @@ const CarouselItem = ({
             poster={asset.poster || ""}
             aspect={aspect}
             className={cx(
-              "h-full w-full object-cover",
+              // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
+              "min-h-0 w-full flex-1 object-cover",
               mediaWrapperVariants({
                 border: true,
               })
@@ -411,14 +419,12 @@ const CarouselItem = ({
             // sizes={isExpanded ? "50vw" : "33vw"}
             sizes="(min-width: 660px) 600px, 1200px"
             className={cx(
-              "h-full w-full object-cover",
+              // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
+              "min-h-0 w-full flex-1 object-cover",
               mediaWrapperVariants({
                 border: true,
               })
             )}
-            style={{
-              aspectRatio: getAspectRatioCSS(aspect),
-            }}
           />
         )}
       </MediaFigure>

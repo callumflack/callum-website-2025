@@ -64,7 +64,9 @@ export const posts = defineCollection({
           src: z.string(),
           poster: z.string().optional(),
           alt: z.string(),
-          aspect: z.string(),
+          aspect: z.string().regex(/^\d+-\d+$/, {
+            message: 'aspect must be "width-height" format, e.g. "1728-1080"',
+          }),
         })
       )
       .optional(),

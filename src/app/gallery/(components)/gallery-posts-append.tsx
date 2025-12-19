@@ -27,6 +27,7 @@ import {
 import { ManualPost } from "./projects-manual";
 import { cn } from "@/lib/classes";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { centerInViewport } from "@/lib/center-in-viewport";
 
 /* A relative of FeaturedOrIndexPosts and FullOrIndexPosts */
 
@@ -62,12 +63,7 @@ export function GalleryPostsAppend({
   const centerExpanded = useCallback(() => {
     const el = expandedRef.current;
     if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const idealTop = (window.innerHeight - rect.height) / 2;
-    const delta = rect.top - idealTop;
-    if (Math.abs(delta) > 1) {
-      window.scrollBy({ top: delta, behavior: "smooth" });
-    }
+    centerInViewport(el, { behavior: "smooth", thresholdPx: 1 });
   }, []);
 
   // Derive current sort from URL params, with validation and fallback
@@ -111,14 +107,22 @@ export function GalleryPostsAppend({
     const el = expandedRef.current;
     if (!el) return;
     const center = () => centerExpanded();
+    let raf1 = 0;
+    let raf2 = 0;
+    let timeoutId: number | null = null;
+
     // Let layout + Framer's layout pass settle
-    const raf1 = requestAnimationFrame(() => {
-      requestAnimationFrame(center);
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(center);
       // Fallback in case rAF fires before final layout
-      const timeout = setTimeout(center, 180);
-      return () => clearTimeout(timeout);
+      timeoutId = window.setTimeout(center, 180);
     });
-    return () => cancelAnimationFrame(raf1);
+
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    };
   }, [activeKey, centerExpanded]);
 
   // Observe size changes of the expanded row (e.g., image loads) and re-center

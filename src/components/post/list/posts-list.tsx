@@ -1,5 +1,3 @@
-"use client";
-
 import { Link } from "@/components/atoms";
 import type { PostCategory } from "@/types/content";
 import type { SortedPostsMap } from "@/types/content";

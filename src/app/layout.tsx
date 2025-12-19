@@ -1,5 +1,4 @@
 import config from "@/config";
-// import { clampSizes } from "@/lib/generate-clamp-size";
 import { mono, sans } from "@/lib/fonts";
 import { cx } from "cva";
 import type { Metadata, Viewport } from "next";
@@ -46,8 +45,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // console.log(clampSizes);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
