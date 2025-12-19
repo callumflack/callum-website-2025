@@ -79,6 +79,9 @@
   --color-accent1-solid-hover: var(--amber-10); */
 }
 
+/*
+  Shadcn UI colors
+ */
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);

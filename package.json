@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-post": "npx tsx ./create-post.ts"
+    "create-post": "npx tsx ./create-post.ts",
+    "sync": "git fetch origin && git merge origin/main && bun run fix-lock",
+    "fix-lock": "rm -f bun.lockb && bun install && git add bun.lockb"
   },
   "dependencies": {
     "@radix-ui/colors": "^3.0.0",
