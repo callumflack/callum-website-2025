@@ -16,16 +16,16 @@ Tailwind's built-in `text-sm`, `text-lg`, `text-xl` have **hardcoded line-height
 
 ### Typography
 
-| ShadCN | Design System |
-|--------|---------------|
-| `text-xs` | `text-fine` |
-| `text-sm` | `text-small` |
+| ShadCN      | Design System                                |
+| ----------- | -------------------------------------------- |
+| `text-xs`   | `text-fine`                                  |
+| `text-sm`   | `text-small`                                 |
 | `text-base` | `text-body` or `text-button` (app-dependent) |
-| `text-lg` | `text-large` |
-| `text-xl` | `text-xlarge` |
-| `text-2xl` | `text-heading` |
-| `text-3xl` | `text-subtitle` |
-| `text-4xl` | `text-title` |
+| `text-lg`   | `text-large`                                 |
+| `text-xl`   | `text-xlarge`                                |
+| `text-2xl`  | `text-heading`                               |
+| `text-3xl`  | `text-subtitle`                              |
+| `text-4xl`  | `text-title`                                 |
 
 See `globals.css` for actual values and associated line-heights/letter-spacing.
 
@@ -33,21 +33,21 @@ See `globals.css` for actual values and associated line-heights/letter-spacing.
 
 Replace Tailwind's `-4` spacing with `-inset` for consistent internal component spacing.
 
-| ShadCN Pattern | Design System |
-|----------------|---------------|
+| ShadCN Pattern                                        | Design System                                                                     |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------- |
 | `p-4`, `px-4`, `py-4`, `pt-4`, `pb-4`, `pl-4`, `pr-4` | `p-inset`, `px-inset`, `py-inset`, `pt-inset`, `pb-inset`, `pl-inset`, `pr-inset` |
 | `m-4`, `mx-4`, `my-4`, `mt-4`, `mb-4`, `ml-4`, `mr-4` | `m-inset`, `mx-inset`, `my-inset`, `mt-inset`, `mb-inset`, `ml-inset`, `mr-inset` |
-| `gap-4` | `gap-inset` |
-| `space-x-4`, `space-y-4` | `space-x-inset`, `space-y-inset` |
+| `gap-4`                                               | `gap-inset`                                                                       |
+| `space-x-4`, `space-y-4`                              | `space-x-inset`, `space-y-inset`                                                  |
 
 Other spacing tokens: `inset2`, `inset3`, `inset4`, `inset5`. See `globals.css` for values.
 
 ### Border Radius
 
-| ShadCN | Design System |
-|--------|---------------|
+| ShadCN       | Design System    |
+| ------------ | ---------------- |
 | `rounded-sm` | `rounded-button` |
-| `rounded-md` | `rounded-card` |
+| `rounded-md` | `rounded-card`   |
 | `rounded-lg` | `rounded-squish` |
 | `rounded-xl` | `rounded-dialog` |
 
