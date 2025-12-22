@@ -2,7 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import { motion, animate } from "framer-motion";
 import { cx } from "class-variance-authority";
 import { Asset } from "@/types/content";
-import { MediaFigure, mediaWrapperVariants, Video } from "@/components/media";
+import {
+  Caption,
+  MediaFigure,
+  mediaWrapperVariants,
+  Video,
+} from "@/components/media";
 import {
   isPortrait,
   isVideoFile,
@@ -33,9 +38,14 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   // State to track if viewport is wide enough for zoom
   const [isWideEnoughForZoom, setIsWideEnoughForZoom] = useState(false);
 
-  // Base and expanded heights
-  const baseHeight = 240;
-  const expandedHeight = 480;
+  // Image heights (for aspect ratio calculations)
+  const imageBaseHeight = 240;
+  const imageExpandedHeight = 480;
+  // Buffer for caption + gap (caption sits outside image container)
+  const captionBuffer = 40;
+  // Container heights (image + caption space)
+  const containerBaseHeight = imageBaseHeight + captionBuffer;
+  const containerExpandedHeight = imageExpandedHeight + captionBuffer;
 
   // Effect to read grid gap and padding on mount
   useEffect(() => {
@@ -110,7 +120,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
             parseInt(aspectParts[0]) / parseInt(aspectParts[1]);
           // Ensure aspect ratio is valid to avoid NaN
           if (!isNaN(aspectRatio) && aspectRatio > 0) {
-            totalPrecedingWidth += expandedHeight * aspectRatio;
+            totalPrecedingWidth += imageExpandedHeight * aspectRatio;
           } else {
             console.warn(
               `Invalid aspect ratio for preceding item index ${i}: ${asset.aspect}`
@@ -139,7 +149,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
         const aspectParts = clickedAsset.aspect.split("-");
         const aspectRatio = parseInt(aspectParts[0]) / parseInt(aspectParts[1]);
         if (!isNaN(aspectRatio) && aspectRatio > 0) {
-          clickedItemExpandedWidth = expandedHeight * aspectRatio;
+          clickedItemExpandedWidth = imageExpandedHeight * aspectRatio;
         } else {
           console.warn(
             `Invalid aspect ratio for clicked item index ${clickedIndex}: ${clickedAsset.aspect}`
@@ -213,7 +223,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
     isExpanded,
     clickedIndex,
     projects,
-    expandedHeight,
+    imageExpandedHeight,
     gridGap,
     paddingLeft,
   ]);
@@ -276,7 +286,9 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
           initial={false}
           animate={{
             height:
-              isWideEnoughForZoom && isExpanded ? expandedHeight : baseHeight,
+              isWideEnoughForZoom && isExpanded
+                ? containerExpandedHeight
+                : containerBaseHeight,
           }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           style={{
@@ -305,8 +317,8 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
                   index={index}
                   isZoomEnabled={isWideEnoughForZoom}
                   isExpanded={isExpanded}
-                  baseHeight={baseHeight}
-                  expandedHeight={expandedHeight}
+                  imageBaseHeight={imageBaseHeight}
+                  imageExpandedHeight={imageExpandedHeight}
                   title={project.title}
                   date={project.date}
                   slug={project.slug}
@@ -326,8 +338,8 @@ const CarouselItem = ({
   index,
   isExpanded,
   isZoomEnabled,
-  baseHeight,
-  expandedHeight,
+  imageBaseHeight,
+  imageExpandedHeight,
   slug,
   title,
   date,
@@ -337,8 +349,8 @@ const CarouselItem = ({
   index: number;
   isExpanded: boolean;
   isZoomEnabled: boolean;
-  baseHeight: number;
-  expandedHeight: number;
+  imageBaseHeight: number;
+  imageExpandedHeight: number;
   slug?: string;
   title?: string;
   date?: string;
@@ -354,15 +366,19 @@ const CarouselItem = ({
   const aspectParts = aspect.split("-");
   const aspectRatio = parseInt(aspectParts[0]) / parseInt(aspectParts[1]);
 
-  // Calculate the width for both states
-  const normalWidth = baseHeight * aspectRatio;
-  const expandedWidth = expandedHeight * aspectRatio;
+  // Calculate the width for both states (based on IMAGE height, not container)
+  const normalWidth = imageBaseHeight * aspectRatio;
+  const expandedWidth = imageExpandedHeight * aspectRatio;
+
+  // Current image height for this state
+  const currentImageHeight =
+    isZoomEnabled && isExpanded ? imageExpandedHeight : imageBaseHeight;
 
   return (
     <motion.div
       key={index}
       data-index={index}
-      className="relative h-full flex-shrink-0 snap-center overflow-hidden"
+      className="relative flex shrink-0 snap-center flex-col gap-2.5 overflow-hidden"
       initial={false}
       animate={{
         width:
@@ -371,26 +387,21 @@ const CarouselItem = ({
             : `${normalWidth}px`,
       }}
       style={{
-        willChange: "width, height",
+        willChange: "width",
         cursor: isZoomEnabled ? (isExpanded ? "zoom-out" : "zoom-in") : "auto",
       }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
     >
       {/*
-        FLEX-COL IMAGE FIX: `h-full` + caption = overflow clipped from top.
-        Fix: `flex-1 min-h-0` lets image fill remaining space and shrink below intrinsic size.
+        CAPTION OUTSIDE FIX: Caption is now a sibling to MediaFigure, not inside it.
+        This ensures the image height calculation (for width) matches actual image height.
+        MediaFigure gets explicit height, caption sits below with gap-2.5.
       */}
       <MediaFigure
-        caption={
-          showCaption &&
-          title &&
-          date && (
-            <SimpleCardCaption slug={slug || ""} title={title} date={date} />
-          )
-        }
         figureIntent="inGrid"
         isPortrait={isImagePortrait}
-        className="flex h-full flex-col [&_figcaption]:w-full"
+        className="transition-[height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        style={{ height: currentImageHeight }}
       >
         {isVideo ? (
           <Video
@@ -398,8 +409,7 @@ const CarouselItem = ({
             poster={asset.poster || ""}
             aspect={aspect}
             className={cx(
-              // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
-              "min-h-0 w-full flex-1 object-cover",
+              "h-full w-full object-cover",
               mediaWrapperVariants({
                 border: true,
               })
@@ -419,8 +429,7 @@ const CarouselItem = ({
             // sizes={isExpanded ? "50vw" : "33vw"}
             sizes="(min-width: 660px) 600px, 1200px"
             className={cx(
-              // See comment above: flex-1 + min-h-0 fixes the flex-col image clipping bug
-              "min-h-0 w-full flex-1 object-cover",
+              "h-full w-full object-cover",
               mediaWrapperVariants({
                 border: true,
               })
@@ -428,6 +437,11 @@ const CarouselItem = ({
           />
         )}
       </MediaFigure>
+      {showCaption && title && date && (
+        <Caption className="w-full">
+          <SimpleCardCaption slug={slug || ""} title={title} date={date} />
+        </Caption>
+      )}
     </motion.div>
   );
 };
