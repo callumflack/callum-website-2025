@@ -5,7 +5,6 @@ import { Mdx } from "@/components/mdx";
 import config from "@/config";
 import { formatPostDate, formatYear } from "@/lib/utils";
 import type { Post } from "content-collections";
-import { cx } from "cva";
 
 type Props = {
   post: Post;
@@ -135,13 +134,9 @@ export const PostTags = ({ tags }: { tags: string[] | undefined }) => {
           <Link
             key={tag}
             href={`/topic/${tag}`}
-            className={cx(
-              buttonVariants({
-                variant: "pill",
-              }),
-              "text-solid border-transparent",
-              "hover:border-fill hover:text-fill"
-            )}
+            className={buttonVariants({
+              variant: "pillLink",
+            })}
           >
             <span>{tag}</span>
           </Link>

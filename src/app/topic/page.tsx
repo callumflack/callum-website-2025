@@ -3,7 +3,6 @@ import { buttonVariants } from "@/components/atoms/button";
 import { TitleHeader } from "@/components/elements";
 import { PageInner, PageWrapper } from "@/components/page";
 import { getAllPostsChronological } from "@/lib/posts/actions";
-import { cx } from "class-variance-authority";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -37,13 +36,9 @@ export default async function TopicIndexPage() {
               <Link
                 key={topic}
                 href={`/topic/${topic}`}
-                className={cx(
-                  buttonVariants({
-                    variant: "pill",
-                  }),
-                  "text-solid border-transparent",
-                  "hover:border-fill hover:text-fill"
-                )}
+                className={buttonVariants({
+                  variant: "pillLink",
+                })}
               >
                 <span>{topic}</span>
               </Link>
