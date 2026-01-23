@@ -1,12 +1,12 @@
 "use client";
 
 import { Link } from "@/components/atoms";
-import type { PostCategory, SortedPostsMap } from "@/types/content";
+import type { ListCategory, SortedPostsMap } from "@/types/content";
 import type { Post } from "content-collections";
 import { PostBlock } from "./post-block";
 
 interface PostsListBlockProps {
-  kind: PostCategory;
+  kind: ListCategory;
   sortBy: string;
   sortedPostsMap: SortedPostsMap;
   wrapperClassName?: string;

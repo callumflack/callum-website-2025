@@ -6,7 +6,7 @@ import {
   PageWrapper,
 } from "@/components/page";
 import { getAllPosts } from "@/lib/posts/actions";
-import type { PostCategory } from "@/types/content";
+import type { ListCategory } from "@/types/content";
 import type { SearchParams } from "@/types/search-params";
 import { Metadata } from "next";
 
@@ -15,7 +15,7 @@ export default async function WritingPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const kind = "writing" as PostCategory;
+  const kind = "writing" as ListCategory;
   const { sort } = await searchParams;
   const currentSort = (sort as string) || kind;
   const postsData = await getAllPosts();

@@ -4,17 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-### Development
-
 - `bun dev` - Start development server with Turbopack
 - `bun build` - Build for production
 - `bun start` - Start production server
 - `bun lint` - Run Next.js linting
-- `bun create-post` - Create a new blog post with interactive prompts
-
-### Package Management
-
-This project uses Bun as the package manager. Use `bun add` for dependencies and `bun install` to install packages.
+- `bun create-post` - Create a new blog post with interactive prompts (reads template from `.cursor/skills/create-post/`)
+- `bun organize-posts` - Move root posts into category folders
+- `bun check-posts` - Fail if posts are out of place
 
 ## Architecture
 
@@ -98,13 +94,15 @@ export default async function Page({
 - Use semantic HTML with proper ARIA attributes
 - Implement error boundaries for robust error handling
 
-## Content Management
+## Content Taxonomy
 
-- Posts are stored in `/posts` directory as MDX files
-- Use `bun create-post` to scaffold new posts with proper frontmatter
-- Assets should include width/height dimensions for proper rendering
-- Categories: "writing", "projects", "library", "notes"
-- Projects can have status: "active", "inactive", "archived"
+- Posts live in `/posts` as MDX.
+- Category (domain): `writing`, `projects`, `notes`, `page`
+- Type (format): `post`, `page`, `link`, `index`
+- Log is a view (writing + projects + notes), not a category.
+- About + Letters are pages (`category: page`, `type: page`).
+- `link` is for outward‑pointing posts with minimal body.
+- Post files must live under `/posts/{writing,projects,notes,pages}`.
 
 ## Environment & Deployment
 

@@ -1,21 +1,21 @@
 "use server";
 
 import { allPosts, Post } from "content-collections";
-import { Category, PostCategory, PostsData } from "@/types/content";
+import { Category, ListCategory, ListPostsData } from "@/types/content";
 
 // Map from string literals to enum values
-const categoryMap: Record<PostCategory, Category> = {
+const categoryMap: Record<ListCategory, Category> = {
   projects: Category.PROJECTS,
   writing: Category.WRITING,
 };
 
-export async function getPosts(category: PostCategory): Promise<Post[]> {
+export async function getPosts(category: ListCategory): Promise<Post[]> {
   return allPosts.filter(
     (p) => !p.draft && p.category === categoryMap[category]
   );
 }
 
-export async function getAllPosts(): Promise<PostsData> {
+export async function getAllPosts(): Promise<ListPostsData> {
   return {
     projects: allPosts.filter(
       (p) => !p.draft && p.category === categoryMap.projects
@@ -32,8 +32,7 @@ export async function getAllPostsChronological(): Promise<Post[]> {
     .filter(
       (p) =>
         !p.draft &&
-        p.category !== Category.ABOUT &&
-        p.category !== Category.CONTENT &&
+        p.type !== "page" &&
         p.slug !== "the-work-and-team-im-after"
     )
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -44,8 +43,7 @@ export async function getPostsByTopic(topic: string): Promise<Post[]> {
     .filter(
       (p) =>
         !p.draft &&
-        p.category !== Category.ABOUT &&
-        p.category !== Category.CONTENT &&
+        p.type !== "page" &&
         p.slug !== "the-work-and-team-im-after" &&
         p.tags?.includes(topic)
     )

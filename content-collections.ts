@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 import smartypants from "remark-smartypants";
 import util from "util";
 import { getImageDimensions } from "./src/components/media/media-utils";
-import { Category, LibraryType } from "./src/types/content";
+import { Category, PostType } from "./src/types/content";
 
 const exec = util.promisify(execCallback);
 
@@ -23,7 +23,7 @@ export const posts = defineCollection({
   name: "posts",
   directory: "posts",
   include: "**/*.mdx",
-  exclude: ["_*.mdx", "_*/**"], // excludes _TEMPLATE and _leftovers dir
+  exclude: ["_*.mdx", "_*/**"], // excludes underscore files/folders (drafts, archive)
   schema: (z) => ({
     draft: z.boolean().optional(),
     date: z.string(),
@@ -34,25 +34,16 @@ export const posts = defineCollection({
     title: z.string(),
     linkTitle: z.string().optional(), // optional link title, to shorten post titles in UI
     summary: z.string(),
-    libraryType: z
-      .enum([
-        LibraryType.SUPERSET,
-        LibraryType.TOPIC,
-        LibraryType.YEAR,
-        LibraryType.POST,
-        LibraryType.HIDE,
-      ])
-      .optional()
-      .default(LibraryType.POST),
     category: z.enum([
       Category.WRITING,
       Category.PROJECTS,
-      Category.LIBRARY,
-      Category.HOME,
-      Category.ABOUT,
-      Category.CONTENT,
-      Category.NOTE,
+      Category.NOTES,
+      Category.PAGE,
     ]),
+    type: z
+      .enum([PostType.POST, PostType.PAGE, PostType.LINK, PostType.INDEX])
+      .optional()
+      .default(PostType.POST),
     tags: z.array(z.string()).optional(),
     nextPostLink: z.string().optional(),
     thumbnailLink: z.string().optional(), // External link used on thumbnails. If present, the UI does not link to the Post page
@@ -104,13 +95,13 @@ export const posts = defineCollection({
       remarkPlugins: [smartypants, remarkGfm],
     });
 
-    const readingStats = readingTime(content);
+    const readingStats = readingTime(post.content ?? "");
 
     return {
       ...post,
       _id: post._meta.filePath,
       // slug: post.title.toLowerCase().replace(/ /g, "-"),
-      slug: post._meta.path,
+      slug: post._meta.path.split("/").pop() ?? post._meta.path,
       readingTime: readingStats.minutes,
       lastModified,
       content,

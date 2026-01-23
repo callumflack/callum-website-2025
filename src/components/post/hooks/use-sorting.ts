@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import type { Post } from "content-collections";
-import type { PostCategory, SortMethod, SortedPostsMap } from "@/types/content";
+import type { ListCategory, SortMethod, SortedPostsMap } from "@/types/content";
 import {
   groupByYear,
   groupByTopic,
@@ -11,8 +11,8 @@ import {
 } from "@/lib/posts/sorting";
 
 export function useSortedPosts(
-  posts: Record<PostCategory, Post[]>,
-  kind: PostCategory,
+  posts: Record<ListCategory, Post[]>,
+  kind: ListCategory,
   sortMethod: SortMethod,
   enableGroupedViews: boolean = true
 ): SortedPostsMap {

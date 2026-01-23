@@ -6,7 +6,7 @@ import {
   PageWrapper,
 } from "@/components/page";
 import { getAllPosts } from "@/lib/posts/actions";
-import type { PostCategory } from "@/types/content";
+import type { ListCategory } from "@/types/content";
 import type { SearchParams } from "@/types/search-params";
 import type { Metadata } from "next";
 
@@ -15,7 +15,7 @@ export default async function WorkPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const kind = "projects" as PostCategory;
+  const kind = "projects" as ListCategory;
   const { sort } = await searchParams;
   const currentSort = (sort as string) || kind;
   const postsData = await getAllPosts();

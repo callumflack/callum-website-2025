@@ -37,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
     },
     ...allPosts.map((post) => ({
-      url: `${config.PUBLIC_URL}/${post._meta.path}`,
+      url: `${config.PUBLIC_URL}/${post.slug}`,
       lastModified: new Date(),
     })),
     {

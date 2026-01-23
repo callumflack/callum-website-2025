@@ -1,25 +1,16 @@
 "use server";
 
 /**
- * Generates a raw GitHub URL for a post's markdown file
+ * Generates a GitHub new issue URL with file path in body
  */
-export async function getGithubRawUrl(slug: string): Promise<string> {
+export async function getGithubIssueUrl(slug: string): Promise<string> {
   const user = "callumflack"; // GitHub username
   const repo = "cw-next"; // Repository name
-  const contentDir = "posts"; // Directory containing content
+  const filePath = `posts/${slug}.mdx`;
+  const title = encodeURIComponent(`Comment on ${slug}`);
+  const body = encodeURIComponent(`File: ${filePath}\n\nThoughts: `);
 
-  // Might need to do this in future… leaving here as a trail…
-  // Construct path based on post category if available
-  // let contentPath = contentDir;
+  const issueUrl = `https://github.com/${user}/${repo}/issues/new?title=${title}&body=${body}`;
 
-  // if (post?.category) {
-  //   // Map category to directory name
-  //   const categoryDir = post.category.toString().toLowerCase();
-  //   contentPath = `${contentPath}/${categoryDir}`;
-  // }
-
-  // https://raw.githubusercontent.com/callumflack/cw-next/refs/heads/main/posts/kalaurie-outdoor-campaign.mdx
-  const rawUrl = `https://raw.githubusercontent.com/${user}/${repo}/refs/heads/main/${contentDir}/${slug}.mdx`;
-
-  return rawUrl;
+  return issueUrl;
 }
