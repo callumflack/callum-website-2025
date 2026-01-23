@@ -45,6 +45,10 @@
 }
 
 /* HEADING SPACING */
+.Prose > h2,
+.Prose > h3 {
+  @apply !mt-w8;
+}
 .Prose > h2 + h3 {
   @apply !mt-w4;
 }
