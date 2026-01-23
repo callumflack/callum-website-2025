@@ -1,11 +1,11 @@
 import { Link } from "@/components/atoms";
-import type { PostCategory } from "@/types/content";
+import type { ListCategory } from "@/types/content";
 import type { SortedPostsMap } from "@/types/content";
 import type { Post } from "content-collections";
 import { PostLine } from "./post-line";
 
 interface PostsListProps {
-  kind: PostCategory;
+  kind: ListCategory;
   sortBy: string;
   sortedPostsMap: SortedPostsMap;
   wrapperClassName?: string;

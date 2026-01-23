@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "create-post": "npx tsx ./create-post.ts",
+    "organize-posts": "node scripts/organize-posts.mjs",
+    "check-posts": "node scripts/check-post-structure.mjs",
     "sync": "git fetch origin && git merge origin/main && bun run fix-lock",
     "fix-lock": "rm -f bun.lockb && bun install && git add bun.lockb"
   },

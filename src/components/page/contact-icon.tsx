@@ -23,7 +23,7 @@ export const ContactIcon = ({
     <Link
       className={cx(
         buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
-        "text-solid hover:text-fill",
+        "text-solid hover:text-solid",
         label && "!px-3",
         className
       )}

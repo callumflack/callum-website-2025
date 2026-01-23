@@ -1,7 +1,6 @@
 import { buttonVariants } from "@/components/atoms";
 import { Link } from "@/components/atoms";
 import { OutsetRule } from "@/components/elements";
-import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
@@ -13,13 +12,12 @@ import {
   NavRoute,
 } from "@/components/page";
 import config from "@/config";
-import { getGithubRawUrl } from "@/lib/github/actions";
+import { getGithubIssueUrl } from "@/lib/github/actions";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { allPosts } from "content-collections";
 import { cx } from "cva";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Category } from "@/types/content";
 
 interface Params {
   slug: string;
@@ -38,8 +36,13 @@ export default async function SlugPage({
     notFound();
   }
 
+  const isAboutPage = post.slug === "about";
+  const isWorkPage = post.slug === "the-work-and-team-im-after";
+  const isLettersPage = post.slug === "letters";
+  const isPage = post.type === "page";
+
   const renderActiveNav = () => {
-    if (post.category === Category.ABOUT) {
+    if (isAboutPage || isWorkPage) {
       return NavRoute.ABOUT;
     }
     return getCategoryNavRoute(post.category);
@@ -48,12 +51,12 @@ export default async function SlugPage({
   return (
     <PageWrapper
       activeNav={renderActiveNav()}
-      showIntro={post.slug === Category.ABOUT ? false : true}
-      showWhatIWant={post.slug === "the-work-and-team-im-after" ? false : true}
+      showIntro={!isPage}
+      showWhatIWant={!isWorkPage}
       /* Remove the entire footer (no wrapper spacing) for content pages like letters */
-      hideFooter={post.category === Category.CONTENT}
+      hideFooter={isLettersPage}
       shareNode={
-        post.category === Category.CONTENT ? null : (
+        isLettersPage ? null : (
           <div>
             <OutsetRule />
             <div className="py-w8 gap-w4 container flex items-center">
@@ -61,19 +64,23 @@ export default async function SlugPage({
                 url={`${config.PUBLIC_URL}/${post.slug}`}
                 theme="post"
               />
-              {post.category === Category.ABOUT ||
-              post.slug === "the-work-and-team-im-after" ? (
+              {!isPage && (
+                <Link
+                  href={await getGithubIssueUrl(post.slug)}
+                  target="_blank"
+                  className={cx(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
+                >
+                  Comment on GitHub
+                </Link>
+              )}
+              {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
                   filename="CallumFlackCV2024.pdf"
                   label="Download CV"
                 />
-              ) : (
-                <DownloadButtonWrapper
-                  url={await getGithubRawUrl(post.slug)}
-                  filename={`${post.slug}.md`}
-                  label="Download"
-                />
-              )}
+              ) : null}
               {post.tweet && (
                 <Link
                   href={post.tweet}
@@ -100,7 +107,7 @@ export default async function SlugPage({
 
 export function generateStaticParams(): Params[] {
   return allPosts.map((post) => ({
-    slug: post._meta.path,
+    slug: post.slug,
   }));
 }
 

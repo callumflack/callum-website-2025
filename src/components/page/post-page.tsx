@@ -5,7 +5,6 @@ import { Mdx } from "@/components/mdx";
 import config from "@/config";
 import { formatPostDate, formatYear } from "@/lib/utils";
 import type { Post } from "content-collections";
-import { cx } from "cva";
 
 type Props = {
   post: Post;
@@ -14,10 +13,11 @@ type Props = {
 
 export const PostPage = ({ post, theme }: Props) => {
   // console.log(post);
+  const isPage = post.type === "page";
 
   return (
     <>
-      {post.slug !== "about" && post.category !== "content" && (
+      {!isPage && post.slug !== "about" && (
         <TitleHeader isContained={theme === "feed"}>
           <Text as="h1" intent="title" balance>
             <Link href={`/${post.slug}`}>{post.title}</Link>
@@ -49,7 +49,12 @@ export const PostPage = ({ post, theme }: Props) => {
 };
 
 const PostMeta = ({ post, theme }: Props) => {
-  const categoryLink = post.category === "projects" ? `/work` : `/writing`;
+  const categoryLink =
+    post.category === "projects"
+      ? "/work"
+      : post.category === "notes"
+        ? "/log"
+        : "/writing";
   const date = formatPostDate(post.date);
   const year = formatYear(post.date);
   const endYear = post.endDate ? formatYear(post.endDate) : null;
@@ -66,7 +71,7 @@ const PostMeta = ({ post, theme }: Props) => {
           {post.projectIsOngoing && <span>Since&nbsp;</span>}
 
           <Link href={`${categoryLink}?sort=year#${year}`}>
-            {post.category === "writing" || post.category === "note"
+            {post.category === "writing" || post.category === "notes"
               ? date
               : post.lastEditedDate
                 ? `Last edited ${lastEditedDate}`
@@ -129,13 +134,9 @@ export const PostTags = ({ tags }: { tags: string[] | undefined }) => {
           <Link
             key={tag}
             href={`/topic/${tag}`}
-            className={cx(
-              buttonVariants({
-                variant: "pill",
-              }),
-              "text-solid border-transparent",
-              "hover:border-fill hover:text-fill"
-            )}
+            className={buttonVariants({
+              variant: "pillLink",
+            })}
           >
             <span>{tag}</span>
           </Link>

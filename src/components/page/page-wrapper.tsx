@@ -31,10 +31,8 @@ export const getCategoryNavRoute = (category: string): NavRoute | undefined => {
       return NavRoute.WORK;
     case Category.WRITING:
       return NavRoute.WRITING;
-    case Category.NOTE:
+    case Category.NOTES:
       return NavRoute.LOG;
-    case Category.ABOUT:
-      return NavRoute.ABOUT;
     default:
       return undefined;
   }

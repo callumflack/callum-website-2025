@@ -9,7 +9,14 @@ const rl = readline.createInterface({
 
 async function createPost() {
   try {
-    const templatePath = path.join(process.cwd(), "posts", "_TEMPLATE.mdx");
+    const templatePath = path.join(
+      process.cwd(),
+      ".cursor",
+      "skills",
+      "create-post",
+      "assets",
+      "template.mdx"
+    );
     const template = await fs.readFile(templatePath, "utf8");
 
     rl.question("Enter the title for the new post: ", async (title: string) => {

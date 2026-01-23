@@ -35,6 +35,12 @@ export const buttonVariants = cva({
         "text-pill font-mono font-medium uppercase",
         "flex rounded-[3px] border px-1 py-[3px]",
       ],
+      pillLink: [
+        "text-pill font-mono font-medium uppercase",
+        "flex rounded-[3px] border px-1 py-[3px]",
+        // explicit styles for post-tag buttons
+        "!no-underline border-transparent text-solid hover:text-accent",
+      ],
     },
     size: {
       default: "h-[44px] px-w6 text-body",
@@ -72,8 +78,7 @@ export const buttonVariants = cva({
 });
 
 export interface ButtonProps
-  extends React.ComponentProps<"button">,
-    VariantProps<typeof buttonVariants> {
+  extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   PrefixIcon?: React.ReactNode;
   SuffixIcon?: React.ReactNode;

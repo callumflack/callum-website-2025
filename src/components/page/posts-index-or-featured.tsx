@@ -9,7 +9,7 @@ import {
   useSortedPosts,
 } from "@/components/post";
 import { PostsListGrouped } from "@/components/post/list/posts-list-grouped";
-import type { GroupedPosts, PostCategory, SortMethod } from "@/types/content";
+import type { GroupedPosts, ListCategory, SortMethod } from "@/types/content";
 import type { Post } from "content-collections";
 import { cx } from "cva";
 import { useRouter } from "next/navigation";
@@ -37,8 +37,8 @@ const SORT_DISPLAY_MODES: Record<string, DisplayMode> = {
 };
 
 interface FeaturedOrIndexPostsProps {
-  posts: Record<PostCategory, Post[]>;
-  kind: PostCategory;
+  posts: Record<ListCategory, Post[]>;
+  kind: ListCategory;
   initialSort: string;
 }
 
@@ -57,7 +57,7 @@ export function FeaturedOrIndexPosts({
 
   const sortedPostsMap = useSortedPosts(
     posts,
-    kind as PostCategory,
+    kind as ListCategory,
     currentSort as SortMethod,
     ENABLE_GROUPED_VIEWS
   );
@@ -118,7 +118,7 @@ export function FeaturedOrIndexPosts({
 
       {showGrid ? (
         <PostsListBlock
-          kind={kind as PostCategory}
+          kind={kind as ListCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
           wrapperClassName={cx("flex flex-col gap-w8 sm:gap-w6 pt-w8")}
@@ -129,7 +129,7 @@ export function FeaturedOrIndexPosts({
         />
       ) : (
         <PostsList
-          kind={kind as PostCategory}
+          kind={kind as ListCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
           wrapperClassName="pt-3 space-y-0"

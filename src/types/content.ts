@@ -7,16 +7,13 @@ import type { Post } from "content-collections";
 export enum Category {
   WRITING = "writing",
   PROJECTS = "projects",
-  LIBRARY = "library",
-  HOME = "home",
-  ABOUT = "about",
-  CONTENT = "content",
-  NOTE = "note",
+  NOTES = "notes",
+  PAGE = "page",
 }
 
 // Client-safe types derived from Category enum
 export type CategoryType = `${Category}`;
-export type PostCategory = "projects" | "writing";
+export type ListCategory = "projects" | "writing";
 
 // Sorting methods specific to the UI
 export type SortMethod =
@@ -28,15 +25,14 @@ export type SortMethod =
   | "writing";
 
 // Library type definitions
-export enum LibraryType {
-  SUPERSET = "superset",
-  TOPIC = "topic",
-  YEAR = "year",
+export enum PostType {
   POST = "post",
-  HIDE = "hide",
+  PAGE = "page",
+  LINK = "link",
+  INDEX = "index",
 }
 
-export type LibraryTypeValue = `${LibraryType}`;
+export type PostTypeValue = `${PostType}`;
 
 // Asset type
 // OR NonNullable<Post["assets"]>[number]; for single source of truth?
@@ -59,7 +55,7 @@ export interface SortedPostsMap {
   [key: string]: Post[] | GroupedPosts;
 }
 
-export interface PostsData {
+export interface ListPostsData {
   projects: Post[];
   writing: Post[];
 }

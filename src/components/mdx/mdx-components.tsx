@@ -8,6 +8,7 @@ import {
   Outro,
   WhatIWantLink,
 } from "@/components/page";
+import config from "@/config";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
 import {
@@ -57,6 +58,11 @@ export const components = {
       <Link href={href || "#"} {...props} />
     );
   },
+  EmailLink: ({ children, ...props }: Omit<AnchorProps, "href">) => (
+    <Link href={`mailto:${config.EMAIL}`} {...props}>
+      {children ?? config.EMAIL}
+    </Link>
+  ),
   p: ({ children, ...props }: ParagraphProps) => {
     // Check if children is a single element and is an image
     if (
