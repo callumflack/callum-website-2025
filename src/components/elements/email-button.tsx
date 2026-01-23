@@ -12,23 +12,25 @@ interface EmailButtonProps {
 
 export const EmailButton = ({ label }: EmailButtonProps) => {
   return (
-    <CopyButton
-      valueToCopy={config.EMAIL}
-      confirmationMessage="Email copied!"
-      // onSuccessCopy={() => setEmailCopied(true)}
-      successDuration={2500}
-      onClick={(e) => {
-        if (e.currentTarget instanceof HTMLAnchorElement) {
-          e.currentTarget.setAttribute(
-            "aria-label",
-            "Email copied to clipboard"
-          );
-        }
-      }}
-    >
-      <ContactIcon href={`mailto:${config.EMAIL}`} label={label}>
-        <EnvelopeClosedIcon />
-      </ContactIcon>
-    </CopyButton>
+    <li>
+      <CopyButton
+        valueToCopy={config.EMAIL}
+        confirmationMessage="Email copied!"
+        // onSuccessCopy={() => setEmailCopied(true)}
+        successDuration={2500}
+        onClick={(e) => {
+          if (e.currentTarget instanceof HTMLAnchorElement) {
+            e.currentTarget.setAttribute(
+              "aria-label",
+              "Email copied to clipboard"
+            );
+          }
+        }}
+      >
+        <ContactIcon href={`mailto:${config.EMAIL}`} label={label} withListItem={false}>
+          <EnvelopeClosedIcon />
+        </ContactIcon>
+      </CopyButton>
+    </li>
   );
 };

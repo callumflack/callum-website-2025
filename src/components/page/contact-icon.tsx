@@ -8,6 +8,7 @@ interface ContactIconProps {
   label?: string;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  withListItem?: boolean;
 }
 
 export const ContactIcon = ({
@@ -16,8 +17,9 @@ export const ContactIcon = ({
   label,
   className,
   onClick,
-}: ContactIconProps) => (
-  <li>
+  withListItem = true,
+}: ContactIconProps) => {
+  const link = (
     <Link
       className={cx(
         buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
@@ -33,5 +35,7 @@ export const ContactIcon = ({
         <span className="text-meta font-normal max-sm:hidden">{label}</span>
       ) : null}
     </Link>
-  </li>
-);
+  );
+
+  return withListItem ? <li>{link}</li> : link;
+};
