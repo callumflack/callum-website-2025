@@ -56,7 +56,7 @@ export const Intro = ({
         )}
       </Text>
       <Text as="p" intent="meta" balance dim>
-        Previously: Vana (viral AI), Cleared (first commit → sale), Saatchi &
+        Current: Vana / Previously: Cleared (first commit → sale), Saatchi &
         Saatchi (brand)
       </Text>
 

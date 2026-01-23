@@ -1,0 +1,7 @@
+## Skill sets and stacks
+
+As a frontend engineer, I'm fluid with React and Typescript. Not afraid to read/write backend code. I'm particularly interested in the server-client sync, design systems and coding with LLMs.
+
+As a designer, I use high-res tools such as Figma to derive design systems and assets, or low-res tools such as TLDraw or whiteboards to hold conversations about product flows. I love typography, graphic design and UI that elegantly solves hard user problems.
+
+I can work singularly as either designer or programmer. Or both together—what people call "design engineering". You'll get the most value from me by allowing my competencies to "bleed across" domains. I can speak with marketers, designers, founders and engineers, cycling their intents back into the workflow.
