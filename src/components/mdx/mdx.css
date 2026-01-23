@@ -35,25 +35,26 @@
   @apply link;
 }
 
+/* HEADING SPACING & WEIGHTS */
+.Prose > h2,
+.Prose > h3 {
+  @apply mt-w8;
+}
+.Prose > h2 + h3 {
+  @apply mt-w4;
+}
+.Prose h4 {
+  @apply font-bold;
+}
+
 /* ZOOMABLE ORCHESTRATION - Sibling spacing for media */
+/* More specific selectors + later source order = wins without !important */
 .Prose > [data-component="Zoomable"] + [data-component="Zoomable"] {
   @apply pt-0;
 }
 .Prose > [data-component="Zoomable"] + h2,
 .Prose > [data-component="Zoomable"] + h3 {
-  @apply mt-w4;
-}
-
-/* HEADING SPACING */
-.Prose > h2,
-.Prose > h3 {
-  @apply !mt-w8;
-}
-.Prose > h2 + h3 {
-  @apply !mt-w4;
-}
-.Prose h4 {
-  @apply font-bold;
+  @apply mt-2;
 }
 
 /* MEDIA OVERRIDES */
