@@ -23,7 +23,7 @@ export const posts = defineCollection({
   name: "posts",
   directory: "posts",
   include: "**/*.mdx",
-  exclude: ["_*.mdx", "_*/**"], // excludes underscore files/folders (drafts, archive)
+  exclude: ["**/_*.mdx", "**/_*/**"], // excludes underscore files/folders (drafts, archive)
   schema: (z) => ({
     draft: z.boolean().optional(),
     date: z.string(),
