@@ -15,6 +15,7 @@ export const featuredWorkSlugs = [
 
 export const featuredWritingSlugs = [
   // "organising-design-system-styles",
+  "ways-to-think-about-generative-ai",
   "the-instantaneous-language-of-beauty",
   "the-matter-of-taste",
   "creativity-starts-with-love-and-theft",
@@ -22,6 +23,7 @@ export const featuredWritingSlugs = [
 
 export const featuredSlugs = [
   ...featuredWorkSlugs,
+  "ways-to-think-about-generative-ai",
   "the-instantaneous-language-of-beauty",
   "the-matter-of-taste",
 ];
