@@ -1,7 +1,7 @@
 import { buttonVariants } from "@/components/atoms";
 import { Link } from "@/components/atoms";
 import { OutsetRule } from "@/components/elements";
-import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
+// import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
 import {
@@ -75,12 +75,12 @@ export default async function SlugPage({
                   Comment on GitHub
                 </Link>
               )}
-              {isAboutPage || isWorkPage ? (
+              {/* {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
                   filename="CallumFlackCV2024.pdf"
                   label="Download CV"
                 />
-              ) : null}
+              ) : null} */}
               {post.tweet && (
                 <Link
                   href={post.tweet}
