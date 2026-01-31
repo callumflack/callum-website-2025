@@ -43,10 +43,9 @@ export const Intro = ({
         execution. I design beautiful things and I can build them. This helps teams not only ship faster but enhance quality.
         don&apos;t just write clean code—I ensure it works in the blink of an
         eye, creating the most valued currency—trust.{" "} */}
-        I&apos;m Callum Flack—a designer, developer and product leader with over
-        20 years experience. From brand to backend, I design and build beautiful
-        hypertext products that work in the blink of an eye, creating the most
-        valued currency—trust.{" "}
+        Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I
+        create beautiful hypertext products that work in the blink of an eye,
+        creating the most valued currency—trust.{" "}
         {showWhatIWant && (
           <Text as="span">
             <LinkWithArrow theme="default" className="link" href="/about">
@@ -56,8 +55,9 @@ export const Intro = ({
         )}
       </Text>
       <Text as="p" intent="meta" balance dim>
-        Current: Vana / Previously: Cleared (first commit → sale), Saatchi &
-        Saatchi (brand)
+        Current: Vana
+        <span className="mx-1.5 font-light">|</span>
+        Previously: Cleared (first commit → sale), Saatchi & Saatchi (brand)
       </Text>
 
       <Contacts showLabel={showLabel} className="pt-0.5" />
