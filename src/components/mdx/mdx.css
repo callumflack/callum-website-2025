@@ -65,6 +65,11 @@
   @apply !mt-0;
 }
 
+/* AUDIO */
+.Prose audio {
+  @apply mt-w4 block w-full;
+}
+
 /* CODE - highlight() output and inline code */
 /* Code syntax highlighting (sugar-high) vars: see code.css */
 .Prose code {
