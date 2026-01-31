@@ -33,7 +33,7 @@ export const Contacts = ({
       <ContactIcon
         className="translate-y-[-0.05em] transform"
         href={config.TWITTER_URL}
-        label={showLabel ? "Twitter" : undefined}
+        label={showLabel ? "Xwitter" : undefined}
       >
         <TwitterLogoIcon />
       </ContactIcon>

@@ -6,7 +6,7 @@ const config = {
   EMAIL: "callumflack@gmail.com",
   GITHUB_URL: "https://github.com/callumflack",
   CALENDLY_URL: "https://calendly.com/callumflack/30min",
-  TWITTER_URL: "https://twitter.com/callumflack",
+  TWITTER_URL: "https://x.com/callumflack",
   LINKEDIN_URL: "https://www.linkedin.com/in/callumflack/",
   SUBSTACK_URL: "https://thelittoralline.substack.com/",
   READCV_URL: "https://read.cv/callum",
