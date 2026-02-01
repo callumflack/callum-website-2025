@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useRef } from "react";
 import { motion, animate } from "framer-motion";
 import { cx } from "class-variance-authority";

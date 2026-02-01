@@ -1,5 +1,5 @@
 import { OutsetRule, TitleHeader } from "@/components/elements";
-import { cx, cva, type VariantProps } from "cva";
+import { cn } from "@/lib/utils";
 import { Intro, Outro } from "./block-intro";
 import { Nav } from "./nav";
 import { Category } from "@/types/content";
@@ -82,7 +82,7 @@ export const PageWrapper = ({
         (footerNode ? (
           <footer
             data-component="PageWrapper-Footer"
-            className={cx(footerStyle, "pt-w8")}
+            className={cn(footerStyle, "pt-w8")}
           >
             {footerNode}
             <div className="container">
@@ -92,11 +92,11 @@ export const PageWrapper = ({
         ) : (
           <footer
             data-component="PageWrapper-Footer"
-            className={cx(theme === "post" ? "pt-w12" : "pt-w8")}
+            className={cn(theme === "post" ? "pt-w12" : "pt-w8")}
           >
             {shareNode}
             <OutsetRule />
-            <div className={cx(footerStyle, "pt-w8 container")}>
+            <div className={cn(footerStyle, "pt-w8 container")}>
               {showIntro ? (
                 <Intro textIntent="body" showWhatIWant={showWhatIWant} />
               ) : (
@@ -134,34 +134,3 @@ const footerStyle = [
   "flex flex-col justify-between",
   "min-h-[calc(100dvh-var(--spacing-nav)-1px)]",
 ];
-
-export const pageInnerVariants = cva({
-  base: "",
-  variants: {
-    variant: {
-      post: "pt-w12 space-y-w8",
-      index: "pt-w12 space-y-2.5",
-      log: "",
-      home: "pt-w8 space-y-2.5",
-    },
-  },
-  defaultVariants: {
-    variant: "post",
-  },
-});
-
-interface PageInnerProps
-  extends React.ComponentProps<"div">,
-    VariantProps<typeof pageInnerVariants> {}
-
-export const PageInner = ({ className, variant, ...props }: PageInnerProps) => {
-  return (
-    <div
-      data-component="PageInner"
-      className={cx(pageInnerVariants({ variant, className }))}
-      {...props}
-    >
-      {props.children}
-    </div>
-  );
-};

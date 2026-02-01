@@ -149,8 +149,6 @@ export function GalleryPosts({
         {postsInRows.flat().map(({ post, expanded }, index) => {
           if (!post.assets || post.assets.length === 0) return null;
 
-          console.log(post);
-
           const { title, slug, assets, date } = post;
           const asset = assets[0];
           const { width, height } = getImageDimensions(asset.aspect);
