@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, animate } from "framer-motion";
-import { cx } from "class-variance-authority";
 import { Asset } from "@/types/content";
 import {
   Caption,
@@ -16,7 +15,7 @@ import {
   getDimensions,
 } from "@/components/media/media-utils";
 import Link from "next/link";
-import { formatYear } from "@/lib/utils";
+import { cn, formatYear } from "@/lib/utils";
 import { Post } from "content-collections";
 import Image from "next/image";
 import { MediaErrorBoundary } from "@/components/utils";
@@ -269,7 +268,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
         <motion.div
           ref={carouselRef}
           // Ensure initial classes include snap/smooth
-          className={cx(
+          className={cn(
             "relative z-2",
             // w-fit WTF?
             "w-full",
@@ -410,7 +409,7 @@ const CarouselItem = ({
             src={asset.src}
             poster={asset.poster || ""}
             aspect={aspect}
-            className={cx(
+            className={cn(
               "h-full w-full object-cover",
               mediaWrapperVariants({
                 border: true,
@@ -430,7 +429,7 @@ const CarouselItem = ({
             // set this at the max image size so Next.js doesn't recompute sizes and flash the UI…
             // sizes={isExpanded ? "50vw" : "33vw"}
             sizes="(min-width: 660px) 600px, 1200px"
-            className={cx(
+            className={cn(
               "h-full w-full object-cover",
               mediaWrapperVariants({
                 border: true,

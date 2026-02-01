@@ -21,7 +21,7 @@ export function GalleryPostsClient({
 
   return (
     <BodyClassProvider
-      condition={false}
+      condition={isActive}
       className={cn(
         // Style the list-header so that it has a background color
         // "bg-background-hover [&_[data-component=Nav]]:bg-background-hover",

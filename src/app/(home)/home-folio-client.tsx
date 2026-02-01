@@ -41,7 +41,7 @@ export function HomeFolioClient({ children }: HomeFolioClientProps) {
           "relative",
           isZoomed ? "Folio z-100 cursor-zoom-out" : ""
         )}
-        onClick={() => setIsZoomed(!isZoomed)}
+        onClick={() => setIsZoomed((prev) => !prev)}
       >
         {children}
       </PageInner>
