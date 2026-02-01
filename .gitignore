@@ -42,3 +42,6 @@ next-env.d.ts
 
 # content-collections
 .content-collections
+
+# cursor skills (symlinks from .agents/skills)
+.cursor/skills

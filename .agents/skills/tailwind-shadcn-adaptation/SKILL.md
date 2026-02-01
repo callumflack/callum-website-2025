@@ -1,16 +1,30 @@
+---
+name: tailwind-shadcn-adaptation
+description:
+  Adapt ShadCN components to the design system tokens. Use when importing ShadCN
+  components into packages/ui.
+---
+
 # ShadCN Component Adaptation
 
-When importing a ShadCN component into `src/components/ui/`, apply these transformations to align with the design system.
+When importing a ShadCN component into `packages/ui/src/components/`, apply
+these transformations to align with the design system.
 
 ## Source of Truth
 
-- **Token recognition**: `src/lib/classes.ts` — the `customTwMerge` config defines what tailwind-merge recognizes
-- **Token definitions**: `src/styles/globals.css` — the actual CSS custom properties with values, line-heights, letter-spacing
-- **Sorting rule**: `.cursor/rules/tailwind-sort.mdc` — apply to any element with >5 classes
+- **Token recognition**: `@packages/ui/src/lib/classes.ts` — the `customTwMerge`
+  config defines what tailwind-merge recognizes
+- **Token definitions**: `@packages/ui/src/styles/globals.css` — the actual CSS
+  custom properties with values, line-heights, letter-spacing
+- **Sorting rule**: `@.cursor/rules/tailwind-sort.mdc` — apply to any element
+  with >5 classes
 
 ## Why This Matters
 
-Tailwind's built-in `text-sm`, `text-lg`, `text-xl` have **hardcoded line-heights** that don't match our design system. Our semantic tokens (`text-small`, `text-large`, `text-xlarge`) include proper `--line-height` and `--letter-spacing` definitions in globals.css.
+Tailwind's built-in `text-sm`, `text-lg`, `text-xl` have **hardcoded
+line-heights** that don't match our design system. Our semantic tokens
+(`text-small`, `text-large`, `text-xlarge`) include proper `--line-height` and
+`--letter-spacing` definitions in globals.css.
 
 ## Token Mapping (ShadCN → Design System)
 
@@ -31,7 +45,8 @@ See `globals.css` for actual values and associated line-heights/letter-spacing.
 
 ### Spacing (the -4 rule)
 
-Replace Tailwind's `-4` spacing with `-inset` for consistent internal component spacing.
+Replace Tailwind's `-4` spacing with `-inset` for consistent internal component
+spacing.
 
 | ShadCN Pattern                                        | Design System                                                                     |
 | ----------------------------------------------------- | --------------------------------------------------------------------------------- |
@@ -40,7 +55,8 @@ Replace Tailwind's `-4` spacing with `-inset` for consistent internal component 
 | `gap-4`                                               | `gap-inset`                                                                       |
 | `space-x-4`, `space-y-4`                              | `space-x-inset`, `space-y-inset`                                                  |
 
-Other spacing tokens: `inset2`, `inset3`, `inset4`, `inset5`. See `globals.css` for values.
+Other spacing tokens: `inset2`, `inset3`, `inset4`, `inset5`. See `globals.css`
+for values.
 
 ### Border Radius
 
@@ -59,7 +75,8 @@ Also available: `rounded-soft`. See `globals.css` for values.
 2. **Apply typography mappings** — never use `text-sm`, `text-lg`, `text-xl`
 3. **Apply spacing mappings** — replace `-4` with `-inset`
 4. **Apply radius mappings** — use semantic radius tokens
-5. **Verify tokens exist** in `classes.ts` — if you need a new token, add it there first
+5. **Verify tokens exist** in `classes.ts` — if you need a new token, add it
+   there first
 
 ## Example Transformation
 
@@ -92,7 +109,8 @@ Also available: `rounded-soft`. See `globals.css` for values.
 
 Before committing a ShadCN component adaptation:
 
-- [ ] No `text-sm`, `text-lg`, `text-xl` — use `text-small`, `text-large`, `text-xlarge`
+- [ ] No `text-sm`, `text-lg`, `text-xl` — use `text-small`, `text-large`,
+      `text-xlarge`
 - [ ] No `-4` spacing — use `-inset` variants
 - [ ] No `rounded-sm`, `rounded-md`, `rounded-lg` — use semantic radius tokens
 - [ ] Classes sorted and commented (if >5 classes)
