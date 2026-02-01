@@ -184,7 +184,7 @@ export function EnhancedZoomable({
   // MEASUREMENT TESTS
   // useEffect(() => {
   //   if (!isZoomedState || !contentRef.current) return;
-
+  //
   //   // First get pre-transform measurements
   //   const preRect = contentRef.current.getBoundingClientRect();
   //   console.log("PRE-SCROLL MEASUREMENTS:");
@@ -197,7 +197,7 @@ export function EnhancedZoomable({
   //     viewportCenter: window.innerHeight / 2,
   //     windowScrollY: window.scrollY,
   //   });
-
+  //
   //   // Wait for transform to settle, then check again
   //   setTimeout(
   //     () => {

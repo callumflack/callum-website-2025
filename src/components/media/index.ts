@@ -14,8 +14,8 @@ export {
   mediaFigureVariants,
   type MediaFigureProps,
 } from "./media-figure";
-// NOTE: Zoomable from ./zoomable is LEGACY - do not export
-// Active implementation: zoomable-02.tsx (imported directly where needed)
+// NOTE: Legacy zoomable variants are archived in ./legacy
+// Only supported implementation: zoomable-02.tsx (imported directly where needed)
 export { Video, type VideoProps } from "./video";
 export { Caption, type CaptionProps } from "./caption";
 export * from "./media-utils";
