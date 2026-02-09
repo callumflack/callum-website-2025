@@ -17,7 +17,7 @@ const getFeaturedWriting = (): Post[] => {
 };
 
 export default function Home() {
-  const pinnedLatestSlugs = ["ways-to-think-about-generative-ai"];
+  const pinnedLatestSlugs = ["ways-of-seeing-generative-ai"];
   const filteredPosts = allPosts.filter(
     (post) =>
       !post.draft &&

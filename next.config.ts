@@ -48,6 +48,11 @@ const nextConfig: NextConfig = {
         destination: "/the-work-and-team-im-after",
         permanent: true,
       },
+      {
+        source: "/ways-to-think-about-generative-ai",
+        destination: "/ways-of-seeing-generative-ai",
+        permanent: true,
+      },
     ];
   },
 };
