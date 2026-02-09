@@ -10,7 +10,6 @@ export const featuredWorkSlugs = [
   "vana",
   "replier",
   "studio-round",
-  "anchor-ceramics",
 ];
 
 export const featuredWritingSlugs = [
