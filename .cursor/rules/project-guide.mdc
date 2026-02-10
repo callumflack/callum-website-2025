@@ -1,13 +1,13 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+alwaysApply: false
 ---
+
 # NextJS 15 Project Guide
 
 Tooling and code repo for a multi-featured blog and portfolio website.
 
 ## Tech Stack
+
 - NextJS 15
 - Bun (package manager and runtime)
 - Content Collections for type-safe MDX rendering
@@ -15,6 +15,7 @@ Tooling and code repo for a multi-featured blog and portfolio website.
 - Shadcn (Radix) UI components
 
 ## Project Structure
+
 ```
 /app            - NextJS app router pages and layouts
 /components     - Reusable UI components (atomic design)
@@ -29,6 +30,7 @@ Tooling and code repo for a multi-featured blog and portfolio website.
 ```
 
 ## Content Collections
+
 Content is managed through MDX files with a schema defined in `content-collections.ts`:
 
 ```typescript
@@ -52,10 +54,13 @@ export const posts = defineCollection({
 Always defer to the collection types in the zod schema in `content-collections.ts`. Do not create one-offs in any util file.
 
 ## Adding Content
+
 Place MDX files in the `/posts` directory with proper frontmatter.
 
 ## Rendering Content
+
 Posts are accessed via slug in dynamic routes:
+
 ```typescript
 // app/[slug]/page.tsx
 const post = allPosts.find((p) => p.slug === slug);
@@ -63,7 +68,9 @@ return <Mdx code={post.content} />
 ```
 
 ## Components
+
 Uses atomic design pattern with:
+
 - Atoms: `Text`, `Button`, `Link`
 - Cards: `PostCard`, `SnapCard`
 - Elements: Composite components

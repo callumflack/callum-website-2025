@@ -1,7 +1,5 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 
 From: https://raw.githubusercontent.com/sadmann7/diceui/refs/heads/main/.cursor/rules/react-guidelines.mdc
@@ -58,5 +56,4 @@ You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, 
   - Avoid for data fetching or state management.
 - Follow Next.js docs for Data Fetching, Rendering, and Routing.
 
-Make sure not to start the dev server or run type of lint checking on agent mode. 
-
+Make sure not to start the dev server or run type of lint checking on agent mode.
