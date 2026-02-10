@@ -20,8 +20,13 @@ export const featuredWritingSlugs = [
   "creativity-starts-with-love-and-theft",
 ];
 
+export const featuredNotesSlugs = [
+  // Add notes slugs here when needed for homepage grid mode.
+];
+
 export const featuredSlugs = [
   ...featuredWorkSlugs,
+  ...featuredNotesSlugs,
   "ways-of-seeing-generative-ai",
   "the-instantaneous-language-of-beauty",
   "the-matter-of-taste",
