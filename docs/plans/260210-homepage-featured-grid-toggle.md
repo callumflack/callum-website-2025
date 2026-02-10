@@ -40,6 +40,7 @@ Use URL search params instead of local client state:
 
 - `/?layout=default` (or no param) -> existing layout
 - `/?layout=grid` -> featured grid layout
+- Any other `layout` value -> fallback to default layout
 
 Why:
 - no client state required for first iteration
@@ -53,11 +54,13 @@ In `src/app/page.tsx`:
 1. Add featured notes source:
    - create `featuredNotesSlugs` in `src/lib/posts/featured-posts.ts`
    - add `getFeaturedNotes()` in `src/app/page.tsx`
+   - keep featured selection deterministic via slug arrays (not tag-derived for homepage V1)
 2. Build a single ordered list for grid cards:
    - intro card (virtual card, not from post collection)
    - featured projects
    - featured writing
    - featured notes
+   - de-duplicate by `slug` with first occurrence winning
 3. Pass to `HomePage`:
    - existing props (`latestPosts`, `projects`, `writing`)
    - new props for grid data and selected layout mode from search params
@@ -66,7 +69,7 @@ In `src/app/page.tsx`:
 
 In `src/app/(home)/home-page.tsx`:
 
-1. Add a small layout switch button near the intro area.
+1. Add a layout switch control styled like a nav link, fixed at the top-right of the viewport (outside main page content) for V1 testing.
 2. Render branch:
    - default mode: unchanged existing homepage sections
    - grid mode: new grid container that renders:
@@ -88,6 +91,7 @@ Note: keep these scoped to homepage to avoid premature design-system abstraction
 
 Use `PostBlock` for post cards in grid mode for V1 to avoid inventing a new card pattern.
 If needed, add a lightweight wrapper for grid-specific spacing only.
+If a post has no image asset, keep the media area with a fixed aspect-ratio block and render the post title in that block as fallback content.
 
 ### File touch list (planned)
 
@@ -109,17 +113,22 @@ If needed, add a lightweight wrapper for grid-specific spacing only.
 - Intro card in grid needs to remain readable at small widths:
   - enforce single-column at narrow breakpoints, then multi-column.
 - Duplicate posts across featured lists:
-  - de-duplicate by `slug` when building unified grid list.
+  - de-duplicate by `slug` when building unified grid list (first occurrence wins).
+- Grid column behavior:
+  - mobile uses one column.
+  - at `min-width: 1500px`, grid expands to seven columns and uses full browser width.
 
 ## Validation checklist
 
 - [ ] `bun run check:all`
 - [ ] Manual: default homepage still renders exactly as before
 - [ ] Manual: toggle to grid mode works and URL reflects mode
+- [ ] Manual: toggle label is `Show grid` in default mode and `Show default` in grid mode
 - [ ] Manual: intro card is first in grid
 - [ ] Manual: grid contains featured project/writing/note cards only
 - [ ] Manual: invalid query param falls back to default
-- [ ] Manual: responsive layout is usable at mobile + desktop widths
+- [ ] Manual: grid is single-column on mobile and becomes 7 columns at `>=1500px`
+- [ ] Manual: posts without images show title fallback inside the image aspect area
 
 ## Out of scope
 
@@ -128,8 +137,8 @@ If needed, add a lightweight wrapper for grid-specific spacing only.
 - Persisting layout preference beyond URL (cookies/local storage).
 - Reworking non-home pages (`/work`, `/writing`, `/log`).
 
-## Open questions to resolve before implementation
+## Resolved decisions
 
-1. Should grid mode include section labels ("Projects/Writing/Notes"), or a single mixed grid?
-2. Should the intro card include contacts row in full, or a shorter intro variant for density?
-3. Should we cap grid card count for initial launch (for example: 1 intro + 9 featured)?
+1. Grid mode uses a single mixed grid with no section labels in V1.
+2. Intro card uses the full current intro content in V1 (including links/contacts as currently rendered).
+3. No hard cap for V1; render all items produced by intro + featured slug lists.
