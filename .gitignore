@@ -45,3 +45,6 @@ next-env.d.ts
 
 # cursor skills (symlinks from .agents/skills)
 .cursor/skills
+
+# local generated artifacts
+tmp/
