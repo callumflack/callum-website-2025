@@ -23,7 +23,7 @@ export const ListHeading = ({ title }: { title: string }) => {
       className={cx(
         sortButtonStyle,
         // "!gap-0",
-        "hover:text-solid hover:!cursor-default",
+        "hover:text-solid hover:cursor-default!",
         isScrolled ? "text-solid" : "!text-transparent"
       )}
     >
