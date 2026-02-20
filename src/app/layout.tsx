@@ -51,10 +51,7 @@ export default function RootLayout({
         {/* https://github.com/4lejandrito/next-plausible */}
         <PlausibleProvider domain={config.PUBLIC_DOMAIN} trackOutboundLinks />
       </head>
-      <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        className={cx(sans.variable, mono.variable)}
-      >
+      <body className={cx(sans.variable, mono.variable)}>
         <Providers>{children}</Providers>
       </body>
     </html>
