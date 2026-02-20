@@ -140,12 +140,12 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
       className="group/heading not-first:mt-w8 scroll-mt-[calc(var(--spacing-nav)+var(--spacing-inset))]"
       id={id}
       intent={as === "h2" ? "heading" : "body"}
-      weight={as === "h2" ? "normal" : "medium"}
+      weight={as === "h2" ? "medium" : "medium"}
     >
       {children ? (
         <Link
           aria-hidden="true"
-          className="relative block !no-underline"
+          className="relative block no-underline!"
           href={`#${id}`}
         >
           <span className="absolute top-1/2 -left-[0.8em] -translate-y-1/2 opacity-0 transition-opacity group-hover/heading:opacity-100">
