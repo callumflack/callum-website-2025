@@ -11,7 +11,7 @@
   @apply relative;
   @apply underline underline-offset-[0.25em];
   @apply decoration-current decoration-[0.025em];
-  @apply hover:!text-accent hover:decoration-accent hover:decoration-[0.05em];
+  @apply hover:text-accent! hover:decoration-accent hover:decoration-[0.05em];
   /* @apply transition-colors duration-300 ease-linear; */
 }
 
@@ -35,12 +35,12 @@
 }
 
 @utility link-accent {
-  @apply link !decoration-transparent;
+  @apply link decoration-transparent!;
 }
 
 @utility link-block-accent {
   & a:not(.Button) {
-    @apply link !decoration-transparent;
+    @apply link decoration-transparent!;
   }
 }
 
@@ -66,7 +66,7 @@
 }
 
 @utility border-dark-transparent {
-  @apply dark:!border-transparent;
+  @apply dark:border-transparent!;
 }
 
 /* list bullets (dash style) */

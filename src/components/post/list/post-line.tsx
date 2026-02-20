@@ -32,7 +32,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
         lineHoverStyle
       )}
     >
-      <PostLinkHeadingWrapper className="group-hover:!text-fill">
+      <PostLinkHeadingWrapper className="group-hover:text-fill!">
         {isFeatured && isFeed ? (
           <div className="absolute top-1/2 left-[-0.6em] -translate-y-1/2 sm:left-[-1.25em]">
             <StarFilledIcon className="text-accent group-hover:text-fill size-[0.6em]" />
@@ -60,7 +60,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
         intent="pill"
         dim
         className={cn(
-          "group-hover:!text-fill relative",
+          "group-hover:text-fill! relative",
           "flex items-center gap-3.5",
           // "ease transition-colors duration-300",
           // shift everything down a bit
