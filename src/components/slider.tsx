@@ -42,7 +42,7 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
         "grid grid-flow-col grid-cols-[max-content] grid-rows-1",
         "px-inset gap-inset scroll-px-inset",
         // "lg:gap-[calc(var(--spacing-inset)*2)]",
-        "min-[620px]:scroll-px-(--inset-text) min-[620px]:px-(--inset-text)",
+        "min-[620px]:scroll-px-inset-text min-[620px]:px-inset-text",
         // hide scrollbar
         "hide-scrollbar"
       )}

@@ -1,19 +1,28 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
-
-@import "./colors";
+/*
+ * Keep token imports ordered.
+ * Theme tokens live in:
+  - tokens-primitive.css — raw source values (--spacing, --color-black/white)
+  - tokens-colors.css    — custom palette (Radix-derived color objects)
+  - tokens-semantic.css  — Tailwind-facing API (--text-*, --spacing-*, --color-* aliases, fluid math)
+ * Then `tailwind-aliases.css` remaps Tailwind's default names onto those semantic tokens, and later files consume that public token surface.
+*/
+@import "./tokens-primitive.css";
+@import "./tokens-colors.css";
+@import "./tokens-semantic.css";
+@import "./tailwind-aliases.css";
 @import "./utils";
 @import "./code";
 @import "../components/mdx/mdx.css";
 
+@custom-variant dark (&:is(.dark *));
+
 /*
   Learn Tailwind 4
-  https://tailwindcss.com/docs/adding-custom-styles
-  https://tailwindcss.com/docs/functions-and-directives
+  https://tailwindcss.com/docs/adding-custom-styles  
   https://tailwindcss.com/docs/theme
-  https://tailwindcss.com/docs/theme#default-theme-variable-reference
 
   Default breakpoints:
   sm	40rem (640px)
@@ -21,191 +30,27 @@
   lg	64rem (1024px)
   xl	80rem (1280px)
   2xl	96rem (1536px)
-
-  NB! Use "inline" when defining theme variables that reference other variables:
-  https://tailwindcss.com/docs/theme#using-your-theme-variables
  */
-
-@theme inline {
-  /* completely disable all default theme variables */
-  /* --*: initial; */
-
-  /* 
-    TRY THIS? clamp(2.2rem, 4cqw + 0.5rem, 2.8rem); 
-    cqw (Container Query Width) is a container query unit that represents 1% of a container's width. Still experimental.
-
-    Or ONLY set clamp on the body tag, every ancestor uses rem?
-    See: https://surgehq.ai
-  */
-  --text-*: initial;
-  --fluid-step: clamp(0, calc((100vw - 500px) / 700px), 1);
-  --text-fine: calc(9px + (2px * var(--fluid-step)));
-  --text-pill: calc(10px + (1.5px * var(--fluid-step)));
-  --text-meta: calc(11px + (2.5px * var(--fluid-step)));
-  --text-base: calc(14px + (3px * var(--fluid-step)));
-  --text-body: var(--text-base);
-  --text-heading: calc(17px + (4px * var(--fluid-step)));
-  --text-title: calc(22px + (6px * var(--fluid-step)));
-
-  --default-line-height: calc(24 / 17);
-  --text-pill--line-height: 1;
-  --text-body--line-height: var(--default-line-height);
-  --text-heading--line-height: 1.25;
-  --text-title--line-height: 1.1;
-  --text-super--line-height: 0.9;
-
-  --text-pill--letter-spacing: 0.025em;
-  --text-fine--letter-spacing: 0.0175em;
-  --text-metaHeading--letter-spacing: 0.125em;
-  --text-body--letter-spacing: 0;
-  --text-heading--letter-spacing: -0.01em;
-  --text-title--letter-spacing: -0.02em;
-
-  --text-heading--font-weight: 500;
-  --text-title--font-weight: 500;
-  --text-super--font-weight: 200;
-
-  /* spacing */
-  --spacing: 4px;
-  --spacing-em: 1em;
-  --spacing-bullet: 1.35em;
-  --spacing-inset: calc(15px + (9px * var(--fluid-step)));
-  --spacing-nav: clamp(68px, 64.57px + 0.69vw, 80px);
-  --spacing-tab: clamp(44px, 42.57px + 0.69vw, 54px);
-
-  --spacing-gap: var(--spacing-w4);
-  --spacing-small: var(--spacing-w6);
-  --spacing-minor: var(--spacing-w12);
-  --spacing-submajor: var(--spacing-w20);
-  --spacing-major: var(--spacing-w24);
-
-  --spacing-w4: calc(10.5px + (5.5px * var(--fluid-step)));
-  --spacing-w5: calc(12px + (8px * var(--fluid-step)));
-  --spacing-w6: calc(16px + (8px * var(--fluid-step)));
-  --spacing-w8: calc(21px + (11px * var(--fluid-step)));
-  --spacing-w10: calc(28px + (12px * var(--fluid-step)));
-  --spacing-w12: calc(32px + (16px * var(--fluid-step)));
-  --spacing-w16: calc(43px + (21px * var(--fluid-step)));
-  --spacing-w20: calc(54px + (26px * var(--fluid-step)));
-  --spacing-w24: calc(64px + (32px * var(--fluid-step)));
-  --spacing-w28: calc(75px + (37px * var(--fluid-step)));
-  --spacing-w32: calc(85px + (43px * var(--fluid-step)));
-  --spacing-w36: calc(96px + (48px * var(--fluid-step)));
-  --spacing-w42: calc(112px + (56px * var(--fluid-step)));
-  --spacing-w48: calc(128px + (64px * var(--fluid-step)));
-  --spacing-w64: calc(171px + (85px * var(--fluid-step)));
-  --spacing-w72: calc(192px + (96px * var(--fluid-step)));
-  --spacing-w96: calc(256px + (128px * var(--fluid-step)));
-
-  /* container */
-  --container-text: 600px;
-  --container-hero: 1040px;
-  --container-text-inset: calc(
-    var(--container-text) + (var(--spacing-inset) * 2)
-  );
-  --container-hero-inset: calc(
-    var(--container-hero) + (var(--spacing-inset) * 2)
-  );
-  --inset-full: calc((100vw - var(--spacing-inset)) * 2);
-  --inset-text: calc((100vw - var(--container-text)) / 2);
-  --inset-hero: calc((100vw - var(--container-hero)) / 2);
-
-  /* radius */
-  --radius-xs: 2px;
-  --radius-soft: 2px;
-  --radius-button: 4px;
-  --radius-card: 9px;
-  --radius-squish: 13px;
-
-  /* colors */
-  --color-*: initial;
-  --color-black: #000;
-  --color-white: #fff;
-
-  --color-canvas: var(--color-gray-base);
-  --color-canvas-contrast: var(--color-canvas-contrast);
-  --color-panel: var(--color-canvas-contrast);
-  --color-background: var(--color-gray-bg-hover);
-  --color-background-hover: var(--color-gray-bg-active);
-  --color-background-active: var(--color-gray-bg-active);
-  --color-border: var(--color-gray-border);
-  --color-line: var(--color-gray-line);
-  --color-ring: var(--color-gray-ring);
-  --color-border-hover: var(--color-gray-border-hover);
-  --color-solid-light: var(--color-gray-solid-light);
-  --color-solid: var(--color-gray-solid);
-  --color-solid-hover: var(--color-gray-solid-hover);
-  --color-fill-light: var(--color-gray-fill);
-  --color-fill: var(--color-gray-fill-contrast);
-
-  --color-accent: var(--color-accent1-solid);
-  --color-accent2: var(--color-accent2);
-  --color-accent3: var(--color-accent3-solid);
-  --color-accent3hover: var(--color-accent3-solid-hover);
-  --color-accent3bg: var(--color-accent3-solid-bg);
-
-  /* Shadcn UI */
-  /* --color-background: var(--background); */
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  /* --color-accent: var(--accent); */
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  /* --color-border: var(--border); */
-  --color-input: var(--input);
-  /* --color-ring: var(--ring); */
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-/* @media (min-width: 1024px) {
-  @theme inline {
-    --spacing-inset: 24px;
-    --spacing-nav: 80px;
-    --spacing-tab: 54px;
-  }
-} */
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    /* Flexbox defensive resets: allow flex items to shrink below intrinsic content size */
-    min-width: 0; /* Prevents horizontal overflow in flex-row layouts */
-    min-height: 0; /* Prevents vertical overflow in flex-col layouts */
+    scrollbar-width: thin;
   }
   ::selection {
     @apply bg-fill text-canvas;
   }
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-border;
+  }
   html {
-    @apply bg-canvas;
+    @apply bg-canvas text-fill;
+    @apply min-h-dvh;
   }
   body {
-    @apply relative min-h-screen;
+    @apply relative h-full min-h-svh;
     @apply text-body font-sans font-normal antialiased;
     @apply bg-canvas text-fill;
 
@@ -215,6 +60,8 @@
       "kern" 1,
       "liga" 1; */
 
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
     /* transition everywhere: do NOT use tailwind here as the variables are inherited on every child transition */
     transition:
       color 500ms ease,
@@ -242,6 +89,14 @@
       }
     }
   }
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-muted-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
 }
 
 /*
@@ -251,7 +106,7 @@
  */
 
 @layer components {
-  /* 
+  /*
    * Gallery hover effect - USED IN gallery-posts.tsx
    * When hovering any .gallery-item inside .group/gallery container:
    * - The hovered item stays in color

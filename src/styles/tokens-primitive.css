@@ -1,0 +1,14 @@
+/*
+ * RAW TOKEN LAYER
+ * Source values consumed by semantic tokens. Keep this file tiny — anything
+ * derived, computed, or semantically named belongs in tokens-semantic.css.
+ *
+ * Product code should consume the semantic Tailwind-facing tokens
+ * (--text-*, --spacing-*, --color-*) declared in tokens-semantic.css and
+ * tokens-colors.css, not values in this file.
+ */
+@theme inline {
+  --spacing: 4px;
+  --color-black: #000;
+  --color-white: #fff;
+}
