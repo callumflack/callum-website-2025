@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "create-post": "npx tsx ./create-post.ts",
     "organize-posts": "node scripts/organize-posts.mjs",
     "check-posts": "node scripts/check-post-structure.mjs",
@@ -28,7 +28,7 @@
     "feed": "^4.2.2",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
-    "next": "15.4.8",
+    "next": "16.2.4",
     "next-plausible": "^3.12.4",
     "next-themes": "^0.4.4",
     "postcss": "^8.5.3",
@@ -56,7 +56,7 @@
     "@types/react": "19.1.5",
     "@types/react-dom": "19.1.5",
     "eslint": "^9",
-    "eslint-config-next": "15.3.2",
+    "eslint-config-next": "16.2.4",
     "typescript": "^5"
   },
   "overrides": {
