@@ -1,5 +1,7 @@
 "use client";
 
+// Currently unused.
+
 import { usePathname } from "next/navigation";
 import { cx } from "cva";
 
@@ -14,7 +16,7 @@ export function BodyWrapper({
   return (
     <body
       className={cx(
-        pathname === "/" ? "bg-background-body" : "",
+        pathname === "/" ? "bg-background-active" : "",
         pathname.startsWith("/graphics/") ? "bg-background-active" : "",
         className
       )}

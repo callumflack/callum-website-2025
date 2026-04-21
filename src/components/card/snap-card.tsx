@@ -1,3 +1,4 @@
+// Currently unused.
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { mediaWrapperVariants } from "@/components/media";
 import { cx } from "cva";
@@ -26,7 +27,7 @@ export const SnapCard = ({
     <LinkOrDiv
       className={cx(
         "group rounded-card relative h-full w-full overflow-hidden",
-        "bg-canvas dark:bg-background-subtle",
+        "bg-canvas dark:bg-background",
         "block border",
         className
       )}

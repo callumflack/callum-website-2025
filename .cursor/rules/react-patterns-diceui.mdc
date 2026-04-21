@@ -1,7 +1,5 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 
 From: https://raw.githubusercontent.com/sadmann7/diceui/refs/heads/main/.cursor/rules/react-patterns.mdc
@@ -47,6 +45,7 @@ From: https://raw.githubusercontent.com/sadmann7/diceui/refs/heads/main/.cursor/
 ## Code Quality Impact
 
 These patterns prevent subtle bugs that pile up into major issues. While code may "work" without following these guidelines, violations often lead to:
+
 - Hard-to-debug timing issues
 - Unexpected re-renders
 - State synchronization problems
@@ -55,6 +54,7 @@ These patterns prevent subtle bugs that pile up into major issues. While code ma
 ## Examples
 
 ### ❌ Avoid: Multiple useState
+
 ```tsx
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState(null);
@@ -62,6 +62,7 @@ const [data, setData] = useState(null);
 ```
 
 ### ✅ Prefer: State machine
+
 ```tsx
 function useLazyRef<T>(fn: () => T) {
   const ref = React.useRef<T | null>(null);
@@ -74,22 +75,22 @@ function useLazyRef<T>(fn: () => T) {
 }
 
 interface Store<T> {
-  subscribe: (callback: () => void) => () => void
-  getState: () => T
-  setState: <K extends keyof T>(key: K, value: T[K]) => void
-  notify: () => void
+  subscribe: (callback: () => void) => () => void;
+  getState: () => T;
+  setState: <K extends keyof T>(key: K, value: T[K]) => void;
+  notify: () => void;
 }
 
 function createStore<T>(
   listenersRef: React.RefObject<Set<() => void>>,
   stateRef: React.RefObject<T>,
   onValueChange?: Partial<{
-    [K in keyof T]: (value: T[K], store: Store<T>) => void
+    [K in keyof T]: (value: T[K], store: Store<T>) => void;
   }>
 ): Store<T> {
   const store: Store<T> = {
-      subscribe: (cb) => {
-          listenersRef.current.add(cb);
+    subscribe: (cb) => {
+      listenersRef.current.add(cb);
       return () => listenersRef.current.delete(cb);
     },
     getState: () => stateRef.current,
@@ -109,24 +110,18 @@ function createStore<T>(
   return store;
 }
 
-function useStoreSelector<T, U>(
-  store: Store<T>,
-  selector: (state: T) => U
-): U {
+function useStoreSelector<T, U>(store: Store<T>, selector: (state: T) => U): U {
   const getSnapshot = React.useCallback(
     () => selector(store.snapshot()),
     [store, selector]
   );
-  
-  return React.useSyncExternalStore(
-    store.subscribe,
-    getSnapshot,
-    getSnapshot
-  );
+
+  return React.useSyncExternalStore(store.subscribe, getSnapshot, getSnapshot);
 }
 ```
 
 ### ❌ Avoid: Complex conditionals in JSX
+
 ```tsx
 return (
   <div>
@@ -146,6 +141,7 @@ return (
 ```
 
 ### ✅ Prefer: Component abstraction
+
 ```tsx
 function UserDashboard({ user }) {
   if (!user) return <LoginForm />;
@@ -156,6 +152,7 @@ function UserDashboard({ user }) {
 ```
 
 ### ❌ Avoid: Effect-driven logic
+
 ```tsx
 useEffect(() => {
   if (user && user.preferences) {
@@ -165,7 +162,7 @@ useEffect(() => {
 ```
 
 ### ✅ Prefer: Derived values
-```tsx
-const theme = user?.preferences?.theme ?? 'default';
-```
 
+```tsx
+const theme = user?.preferences?.theme ?? "default";
+```

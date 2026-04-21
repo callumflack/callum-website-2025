@@ -1,0 +1,63 @@
+/**
+ * Tailwind-facing default theme variable names → ds-kit semantic tokens.
+ * @see https://tailwindcss.com/docs/theme#default-theme-variable-reference
+ *
+ * Keep this file focused on Tailwind's default variable names. Semantic tokens
+ * live in `semantic-tokens.css`.
+ *
+ * Import after the main `@theme inline` block so bridge overrides apply after
+ * semantic defaults (e.g. `--text-base--line-height`).
+ */
+@theme inline {
+  /* text size aliases */
+  --text-xs: var(--text-fine);
+  --text-sm: var(--text-small);
+  --text-base: var(--text-body);
+  --text-lg: var(--text-large);
+  --text-xl: var(--text-xlarge);
+  --text-2xl: var(--text-heading);
+  --text-3xl: var(--text-subtitle);
+  --text-4xl: var(--text-title);
+  --text-5xl: var(--text-display);
+  --text-6xl: var(--text-hero);
+  --text-7xl: var(--text-hero);
+  --text-8xl: var(--text-hero);
+  --text-9xl: var(--text-hero);
+
+  /* text line-height aliases */
+  --text-xs--line-height: var(--text-fine--line-height);
+  --text-base--line-height: var(--text-body--line-height);
+  --text-sm--line-height: var(--text-small--line-height);
+  --text-lg--line-height: var(--text-large--line-height);
+  --text-xl--line-height: var(--text-xlarge--line-height);
+  --text-2xl--line-height: var(--text-heading--line-height);
+  --text-3xl--line-height: var(--text-subtitle--line-height);
+  --text-4xl--line-height: var(--text-title--line-height);
+  --text-5xl--line-height: var(--text-display--line-height);
+  --text-6xl--line-height: var(--text-hero--line-height);
+  --text-7xl--line-height: var(--text-hero--line-height);
+  --text-8xl--line-height: var(--text-hero--line-height);
+  --text-9xl--line-height: var(--text-hero--line-height);
+
+  /* text letter-spacing aliases */
+  --text-xs--letter-spacing: var(--text-fine--letter-spacing);
+  --text-base--letter-spacing: var(--text-body--letter-spacing);
+  --text-xl--letter-spacing: var(--text-xlarge--letter-spacing);
+  --text-2xl--letter-spacing: var(--text-heading--letter-spacing);
+  --text-3xl--letter-spacing: var(--text-subtitle--letter-spacing);
+  --text-4xl--letter-spacing: var(--text-title--letter-spacing);
+  --text-5xl--letter-spacing: var(--text-display--letter-spacing);
+  --text-6xl--letter-spacing: var(--text-hero--letter-spacing);
+  --text-7xl--letter-spacing: var(--text-hero--letter-spacing);
+  --text-8xl--letter-spacing: var(--text-hero--letter-spacing);
+  --text-9xl--letter-spacing: var(--text-hero--letter-spacing);
+
+  /* radius aliases */
+  --radius-sm: var(--radius-soft);
+  --radius-md: var(--radius-button);
+  --radius-lg: var(--radius-card);
+  --radius-xl: var(--radius-squish);
+  --radius-2xl: var(--radius-dialog);
+  --radius-3xl: var(--radius-dialog);
+  --radius-4xl: var(--radius-dialog);
+}

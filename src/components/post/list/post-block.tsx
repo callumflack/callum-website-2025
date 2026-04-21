@@ -90,7 +90,7 @@ export const PostBlock = ({
             <ArrowTopRightIcon className={cx(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
-        <Text dim intent="meta" className="group-hover:!text-fill-light">
+        <Text dim intent="meta" className="group-hover:text-fill-light!">
           {post.summary}
           {/* <span className={cx("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}

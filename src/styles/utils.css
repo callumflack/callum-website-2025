@@ -1,9 +1,12 @@
-/* https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities */
+/*
+  https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities
 
-/* Override tw utils or add new ones */
+  `@utility` defines reusable Tailwind utilities.
+  Use it for single-purpose helpers you want available to both markup and `@apply`.
+*/
+
 @utility container {
-  margin-inline: auto;
-  padding-inline: var(--spacing-inset);
+  @apply px-inset mx-auto w-full;
   max-width: var(--container-text-inset);
 }
 
@@ -11,8 +14,8 @@
   @apply relative;
   @apply underline underline-offset-[0.25em];
   @apply decoration-current decoration-[0.025em];
-  @apply hover:!text-accent hover:decoration-accent hover:decoration-[0.05em];
-  /* @apply transition-colors duration-300 ease-linear; */
+  @apply hover:text-accent! hover:decoration-accent hover:decoration-[0.05em];
+  @apply transition-colors duration-150 ease-linear;
 }
 
 /* parent link modifiers */
@@ -21,39 +24,22 @@
     @apply link;
   }
 }
-
-@utility link-alt {
-  @apply relative no-underline;
-  @apply hover:text-accent;
-}
-
-@utility link-block-alt {
-  & a:not(.Button) {
-    @apply relative no-underline;
-    @apply hover:text-accent;
-  }
-}
-
 @utility link-accent {
-  @apply link !decoration-transparent;
+  @apply link decoration-transparent!;
 }
-
 @utility link-block-accent {
   & a:not(.Button) {
-    @apply link !decoration-transparent;
+    @apply link decoration-transparent!;
   }
 }
-
 @utility link-large {
   @apply before:absolute before:-inset-[0.25em];
 }
-
 @utility link-block-large {
   & a:not(.Button) {
     @apply before:absolute before:-inset-[0.25em];
   }
 }
-
 @utility link-block-reset {
   & a:not(.Button) {
     @apply no-underline;
@@ -66,7 +52,7 @@
 }
 
 @utility border-dark-transparent {
-  @apply dark:!border-transparent;
+  @apply dark:border-transparent!;
 }
 
 /* list bullets (dash style) */

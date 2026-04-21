@@ -32,7 +32,7 @@ export const ShareButton = ({ url, theme = "post" }: ShareButtonProps) => {
         className={
           theme === "post"
             ? ""
-            : "hover:text-fill hover:!border-fill !border-transparent [&_svg]:size-[1.3em] [&_svg]:translate-y-[0.05em] [&_svg]:transform"
+            : "hover:text-fill hover:border-fill! border-transparent! [&_svg]:size-[1.3em] [&_svg]:translate-y-[0.05em] [&_svg]:transform"
         }
         PrefixIcon={theme === "post" ? <Link2Icon /> : <Link1Icon />}
       >

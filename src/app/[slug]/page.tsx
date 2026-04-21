@@ -1,23 +1,26 @@
-import { buttonVariants } from "@/components/atoms";
-import { Link } from "@/components/atoms";
+import { buttonVariants, Link } from "@/components/atoms";
 import { OutsetRule } from "@/components/elements";
-// import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
+import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
 import {
-  PageWrapper,
-  PostPage,
-  PageInner,
   getCategoryNavRoute,
   NavRoute,
+  PageInner,
+  PageWrapper,
+  PostPage,
 } from "@/components/page";
 import config from "@/config";
-import { getGithubIssueUrl } from "@/lib/github/actions";
+import { getGithubRawUrl } from "@/lib/github/actions";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { allPosts } from "content-collections";
 import { cx } from "cva";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+/* UNUSED POSSIBILITIES! */
+// import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
+// import { getGithubIssueUrl, getGithubRawUrl } from "@/lib/github/actions";
 
 interface Params {
   slug: string;
@@ -64,7 +67,12 @@ export default async function SlugPage({
                 url={`${config.PUBLIC_URL}/${post.slug}`}
                 theme="post"
               />
-              {!isPage && (
+              <DownloadButtonWrapper
+                url={await getGithubRawUrl(post._id)}
+                filename={`${post.slug}.md`}
+                label="Download"
+              />
+              {/* {!isPage && (
                 <Link
                   href={await getGithubIssueUrl(post.slug)}
                   target="_blank"
@@ -74,7 +82,7 @@ export default async function SlugPage({
                 >
                   Comment on GitHub
                 </Link>
-              )}
+              )} */}
               {/* {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
                   filename="CallumFlackCV2024.pdf"
@@ -90,7 +98,7 @@ export default async function SlugPage({
                   )}
                 >
                   <ChatBubbleIcon className="size-em" />
-                  Tweet
+                  Comment on X
                 </Link>
               )}
             </div>

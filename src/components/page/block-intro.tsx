@@ -74,10 +74,17 @@ export const Outro = ({ showLabel = true, textIntent = "meta" }: Props) => {
           email me
         </Link>{" "}
         .{" "}
-        <span className="lg:table">
+        {/* <span className="lg:table">
           The second best way is to subscribe to{" "}
           <Link href={config.SUBSTACK_URL} className="link">
             my newsletter
+          </Link>
+          .
+        </span> */}
+        <span className="lg:table">
+          The second best way is to chat on{" "}
+          <Link href={config.TWITTER_URL} className="link">
+            Xwitter
           </Link>
           .
         </span>

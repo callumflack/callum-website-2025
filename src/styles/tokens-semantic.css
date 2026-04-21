@@ -1,0 +1,181 @@
+/*
+ * SEMANTIC TOKEN LAYER
+ * Public Tailwind-facing API (--text-*, --spacing-*, --container-*, --radius-*,
+ * --color-*). Product code should consume these, not the primitives.
+ */
+
+@theme inline {
+  /*
+   * Reset the Tailwind text namespace before declaring semantic text tokens.
+   * Keeping this in its own block makes the reset order explicit and protects it
+   * from formatters or future edits that might move it below concrete `--text-*`
+   * declarations, which would break utility registration.   
+   */
+  --text-*: initial;
+}
+
+/* 
+  NB! Use "inline" when defining theme variables that reference other variables:
+  https://tailwindcss.com/docs/theme#using-your-theme-variables
+*/
+@theme inline {
+  /*
+   * FLUID STEP MECHANISM
+   * --fluid-step interpolates 0px at <=500px viewport, 1px at >=1200px.
+   * Tokens compose as: calc(min + (range * var(--fluid-step))).
+   *
+   * Chrome 131 does not support the typed-arithmetic pattern that divides one
+   * length by another length to produce a unitless number:
+   *   (100vw - 500px) / 700px  // unsupported
+   *
+   * Workaround used here: store the step as a clamped 0px..1px length and
+   * multiply tokens by a unitless range instead of a px range:
+   *   --fluid-step: max(0px, min(1px, calc((100vw - 500px) / 700)));
+   *   --text-base: calc(14px + (3 * var(--fluid-step)));
+   *
+   * The DX is identical — pick a min px value and a unitless px range.
+   */
+  --fluid-step: max(0px, min(1px, calc((100vw - 500px) / 700)));
+
+  --text-fine: calc(9px + (2 * var(--fluid-step)));
+  --text-pill: calc(10px + (1.5 * var(--fluid-step)));
+  --text-meta: calc(11px + (2.5 * var(--fluid-step)));
+  --text-base: calc(14px + (3 * var(--fluid-step)));
+  --text-body: var(--text-base);
+  --text-heading: calc(17px + (4 * var(--fluid-step)));
+  --text-title: calc(22px + (6 * var(--fluid-step)));
+
+  --default-line-height: calc(24 / 17);
+  --text-pill--line-height: 1;
+  --text-body--line-height: var(--default-line-height);
+  --text-heading--line-height: 1.25;
+  --text-title--line-height: 1.1;
+  --text-super--line-height: 0.9;
+
+  --text-pill--letter-spacing: 0.025em;
+  --text-fine--letter-spacing: 0.0175em;
+  --text-metaHeading--letter-spacing: 0.125em;
+  --text-body--letter-spacing: 0;
+  --text-heading--letter-spacing: -0.01em;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-heading--font-weight: 500;
+  --text-title--font-weight: 500;
+  --text-super--font-weight: 200;
+
+  /* spacing */
+  --spacing-em: 1em;
+  --spacing-bullet: 1.35em;
+  --spacing-inset: calc(15px + (9 * var(--fluid-step)));
+  --spacing-nav: clamp(68px, 64.57px + 0.69vw, 80px);
+  --spacing-tab: clamp(44px, 42.57px + 0.69vw, 54px);
+
+  --spacing-gap: var(--spacing-w4);
+  --spacing-small: var(--spacing-w6);
+  --spacing-minor: var(--spacing-w12);
+  --spacing-submajor: var(--spacing-w20);
+  --spacing-major: var(--spacing-w24);
+
+  --spacing-w4: calc(10.5px + (5.5 * var(--fluid-step)));
+  --spacing-w5: calc(12px + (8 * var(--fluid-step)));
+  --spacing-w6: calc(16px + (8 * var(--fluid-step)));
+  --spacing-w8: calc(21px + (11 * var(--fluid-step)));
+  --spacing-w10: calc(28px + (12 * var(--fluid-step)));
+  --spacing-w12: calc(32px + (16 * var(--fluid-step)));
+  --spacing-w16: calc(43px + (21 * var(--fluid-step)));
+  --spacing-w20: calc(54px + (26 * var(--fluid-step)));
+  --spacing-w24: calc(64px + (32 * var(--fluid-step)));
+  --spacing-w28: calc(75px + (37 * var(--fluid-step)));
+  --spacing-w32: calc(85px + (43 * var(--fluid-step)));
+  --spacing-w36: calc(96px + (48 * var(--fluid-step)));
+  --spacing-w42: calc(112px + (56 * var(--fluid-step)));
+  --spacing-w48: calc(128px + (64 * var(--fluid-step)));
+  --spacing-w64: calc(171px + (85 * var(--fluid-step)));
+  --spacing-w72: calc(192px + (96 * var(--fluid-step)));
+  --spacing-w96: calc(256px + (128 * var(--fluid-step)));
+
+  /* container: hooks into @container/cqw container-query machinery. Intent: content widths (prose, hero, read). */
+  --container-text: 600px;
+  --container-hero: 1040px;
+  --container-text-inset: calc(
+    var(--container-text) + (var(--spacing-inset) * 2)
+  );
+  /*
+   * Inset values are the gutter width beside a centered container, derived
+   * from viewport minus container. They live in --spacing-* (not --container-*)
+   * because their natural utility is px-*, scroll-px-*, m-* — not max-w-*.
+   * Rule: if the token natural utility starts with max-w-, use --container-*;
+   * if it starts with p-, m-, gap-, px-, use --spacing-*.
+   */
+  --spacing-inset-text: calc((100vw - var(--container-text)) / 2);
+
+  /* radius */
+  --radius-xs: 2px;
+  --radius-soft: 2px;
+  --radius-button: 4px;
+  --radius-card: 9px;
+  --radius-squish: 13px;
+
+  /* colors */
+  --color-*: initial;
+
+  --color-canvas: var(--color-gray-base);
+  --color-canvas-contrast: var(--color-canvas-contrast);
+  --color-panel: var(--color-canvas-contrast);
+  --color-background: var(--color-gray-bg-hover);
+  --color-background-hover: var(--color-gray-bg-active);
+  --color-background-active: var(--color-gray-bg-active);
+  --color-border: var(--color-gray-border);
+  --color-line: var(--color-gray-line);
+  --color-ring: var(--color-gray-ring);
+  --color-border-hover: var(--color-gray-border-hover);
+  --color-solid-light: var(--color-gray-solid-light);
+  --color-solid: var(--color-gray-solid);
+  --color-solid-hover: var(--color-gray-solid-hover);
+  --color-fill-light: var(--color-gray-fill);
+  --color-fill: var(--color-gray-fill-contrast);
+
+  --color-accent: var(--color-accent1-solid);
+  --color-accent2: var(--color-accent2);
+  --color-accent3: var(--color-accent3-solid);
+  --color-accent3hover: var(--color-accent3-solid-hover);
+  --color-accent3bg: var(--color-accent3-solid-bg);
+
+  /* Shadcn UI */
+  /* --color-background: var(--background); */
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  /* --color-accent: var(--accent); */
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  /* --color-border: var(--border); */
+  --color-input: var(--input);
+  /* --color-ring: var(--ring); */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
