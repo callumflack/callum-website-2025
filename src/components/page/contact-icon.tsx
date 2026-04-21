@@ -1,5 +1,5 @@
 import { buttonVariants, Link } from "@/components/atoms";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface ContactIconProps {
@@ -21,7 +21,7 @@ export const ContactIcon = ({
 }: ContactIconProps) => {
   const link = (
     <Link
-      className={cx(
+      className={cn(
         buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
         "text-solid hover:text-solid",
         label && "!px-3",
