@@ -6,7 +6,7 @@ import {
 import { filterFeaturedBySlugs } from "@/lib/posts/sorting";
 import type { SearchParams } from "@/types/search-params";
 import { allPosts, type Post } from "content-collections";
-import { HomePage } from "./(home)/home-page";
+import { GRID_TOGGLE_ENABLED, HomePage } from "./(home)/home-page";
 
 const getFeaturedProjects = (): Post[] => {
   const visiblePosts = allPosts.filter((post) => !post.draft);
@@ -51,6 +51,8 @@ function interleavePosts(primary: Post[], secondary: Post[]): Post[] {
 type HomeLayout = "default" | "grid";
 
 function getLayout(searchParams: SearchParams): HomeLayout {
+  if (!GRID_TOGGLE_ENABLED) return "default";
+
   const layoutParam = searchParams.layout;
   const layoutValue = Array.isArray(layoutParam) ? layoutParam[0] : layoutParam;
 

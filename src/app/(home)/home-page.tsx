@@ -8,6 +8,13 @@ import { HomeFolioClient } from "./home-folio-client";
 import { HomeLayoutToggle } from "./home-layout-toggle";
 import { ZoomCarousel } from "./zoom-carousel";
 
+/*
+ * Feature flag for the homepage grid-view toggle.
+ * false → toggle UI is hidden and ?layout=grid is ignored (grid unreachable).
+ * true  → toggle UI renders and URL param works. Flip locally to keep iterating.
+ */
+export const GRID_TOGGLE_ENABLED = false;
+
 export const HomePage = ({
   latestPosts,
   projects,
@@ -25,7 +32,7 @@ export const HomePage = ({
 
   return (
     <>
-      <HomeLayoutToggle layout={layout} />
+      {GRID_TOGGLE_ENABLED && <HomeLayoutToggle layout={layout} />}
       <PageWrapper
         hideFooter={isGridMode}
         showIntro={false}

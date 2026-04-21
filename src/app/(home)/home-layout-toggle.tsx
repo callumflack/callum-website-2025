@@ -1,31 +1,43 @@
-import { Link, textVariants } from "@/components/atoms";
+import { DashboardIcon, ListBulletIcon } from "@radix-ui/react-icons";
+import { buttonVariants, Link } from "@/components/atoms";
 import { cn } from "@/lib/utils";
 
 interface HomeLayoutToggleProps {
   layout: "default" | "grid";
 }
 
-const linkStyle = [
-  "h-tab flex items-center gap-0 relative hover:text-accent",
-  "before:absolute before:left-[-2px] before:right-[-2px] before:bottom-[-1px] before:border-b",
-];
+const activeStyle = "bg-background-hover text-fill";
 
 export function HomeLayoutToggle({ layout }: HomeLayoutToggleProps) {
   const isGridMode = layout === "grid";
-  const href = isGridMode ? "/" : "/?layout=grid";
-  const label = isGridMode ? "Show default" : "Show grid";
 
   return (
-    <div className="fixed top-2.5 right-3 z-300 sm:top-3 sm:right-4">
+    <div
+      className={cn(
+        "fixed z-300 flex items-center gap-[2px]",
+        "top-[calc(var(--spacing-nav)-var(--spacing-tab))]",
+        "right-[calc(var(--spacing-nav)-var(--spacing-tab))]"
+      )}
+    >
       <Link
-        href={href}
+        href="/"
+        aria-label="Show default layout"
         className={cn(
-          textVariants({ intent: "meta", weight: "medium" }),
-          linkStyle,
-          "before:border-fill hover:before:border-accent"
+          buttonVariants({ variant: "icon", size: "default" }),
+          !isGridMode && activeStyle
         )}
       >
-        {label}
+        <ListBulletIcon />
+      </Link>
+      <Link
+        href="/?layout=grid"
+        aria-label="Show grid layout"
+        className={cn(
+          buttonVariants({ variant: "icon", size: "default" }),
+          isGridMode && activeStyle
+        )}
+      >
+        <DashboardIcon />
       </Link>
     </div>
   );
