@@ -1,0 +1,77 @@
+---
+date: 2026-04-21
+title: You can't design a UI without designing the code
+summary: The UI is the prose, the code is the argument. You cannot design a good interface on top of bad code, for the same reason you cannot write a clear sentence on top of a confused idea.
+category: writing
+tags:
+  - design
+  - code
+  - systems
+---
+
+<Image
+  src="/images/post-windsor-chair.jpg"
+  alt="A Windsor chair with splayed legs socketed into a solid seat, spindles and splat rising from above"
+  aspect="800-800"
+  priority
+  background={false}
+  border={false}
+  caption="A Windsor chair"
+/>
+
+Here is a picture of a Windsor chair. Every part sockets into a solid seat: legs splay down from beneath, spindles and splat rise from above. It has no frame. Instead the joints lock because green wood shrinks onto dry spindles as it dries. You cannot design this chair by drawing it. You design it by making it. The design is a material event, not a picture.
+
+A user interface (UI) is the same. The medium is code. The UI is the prose; the code is the argument. You cannot design the UI without making it in the material it's rendered in.
+
+You only truly know what you make. Vico called this [_verum factum_](https://www.perplexity.ai/search/vico-verum-factum-.dwE1vy5QUCEYNTwT2_kOg)—the true and the made are convertible into each other.
+
+## A UI should describe the truth of a system
+
+<Image
+  src="/images/post-design-the-code.png"
+  alt="Before and after screens of the Vana data-connector UI refactor, showing the consolidation of prod embed, demo lab, and error states into a single canonical renderer"
+  aspect="1440-740"
+  priority
+  background={false}
+  border={false}
+  caption="Refactoring the data-connector UI"
+/>
+
+Here's a real example. At [Vana](https://github.com/vana-com), we have a
+data-connector UI with both a production embed and a demo lab for previewing the
+experience across different states. The lab, the prod widget, and the error
+states were being rendered by different bits of code in different places with
+different ideas of what state the user was in. That meant we didn't have one
+interface. We had three approximations of one.
+
+The refactor made the real route the only renderer, made state canonical, and made the lab preview the actual product instead of a fake copy. Only then could I understand the requirements and build a UI that was consistent and foolproof.
+
+Before the refactor, the UI could easily drift into incoherence: route mismatch here, an async race there, death by 1000 cuts. After the refactor, I understood that the demo and prod are indeed the same interface, and could therefore be driven by the same state model and the same renderer.
+
+I refactored the part that determines whether there is actually one UI at all. Only then could I design and build the UI itself.
+
+By knowing what was true of the system, I could design a UI that rendered it faithfully—one other people could use to know what was true of the system as well.
+
+## The surface is not the system
+
+Most people assume UI design means making a picture of an interface. Choose colours, arrange elements, throw the file over the wall.
+
+But an interface is not a picture. It is sequential and dynamic. It responds, holds state, routes, fails. None of that lives in a static file. A Figma file is a description of the medium, not the medium itself.
+
+Consider a Windsor chair. You cannot design one by drawing it. The chair holds together because green wood shrinks onto dry spindles as it dries. The joinery is the material behaviour. To design the chair, you had to have made one. The design lives in the wood, not in the picture of the wood.
+
+A UI is the same. A tab not backed by a route is not a navigation pattern, it is a lie the interface tells the user. A page that mixes data fetching, access control, and layout is not a component, it is a mess that will resist every future design change. You cannot see any of this in a mockup. You can only know it in the medium the interface is actually made of.
+
+## Design lives in the medium
+
+Design is the structure that makes things work. If the structure lives in code, the design work is in the code.
+
+This does not mean every designer should code. It means that anyone responsible for a product system cannot treat code as someone else's department. A decade of designers working exclusively in static tools has produced exactly what Cameron Moll [warned of](https://x.com/cameronmoll/status/2042759231418360163): the loss of "the ability to connect ideation with execution." The interface is downstream of the system. If you don't shape the system, you don't control the interface. You're decorating.
+
+I wrote the first version of this argument in ([2018](/designers-should-code)). Eight years later it hasn't changed. Ideation and execution are one act. The interface is where they meet.
+
+<Note>
+
+Refactors that don't buy product clarity are engineering vanity. The justification is never "cleaner code" but that the change makes the interface easier to reason about, extend, and keep consistent for users. If it doesn't do that, it's just moving furniture.
+
+</Note>

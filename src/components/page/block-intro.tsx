@@ -57,7 +57,7 @@ export const Intro = ({
       <Text as="p" intent="meta" balance dim>
         Current: Vana
         <span className="mx-1.5 font-light">|</span>
-        Previously: Cleared (first commit → sale), Saatchi & Saatchi (brand)
+        Prev: Cleared (first commit → sale), Saatchi & Saatchi (brand)
       </Text>
 
       <Contacts showLabel={showLabel} className="pt-0.5" />
