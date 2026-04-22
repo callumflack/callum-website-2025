@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useWindowScroll } from "react-use";
 import { sortButtonStyle } from "@/components/post/sort/sort-button";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 
 export const ListHeading = ({ title }: { title: string }) => {
   const { y } = useWindowScroll();
@@ -20,7 +20,7 @@ export const ListHeading = ({ title }: { title: string }) => {
     <Text
       as="h1"
       intent="body"
-      className={cx(
+      className={cn(
         sortButtonStyle,
         // "!gap-0",
         "hover:text-solid hover:cursor-default!",

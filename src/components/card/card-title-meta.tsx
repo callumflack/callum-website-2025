@@ -3,9 +3,8 @@ import {
   EyeOpenIcon,
   QuoteIcon,
 } from "@radix-ui/react-icons";
-import { cx } from "cva";
 import { Text } from "@/components/atoms";
-import { formatYear } from "@/lib/utils";
+import { cn, formatYear } from "@/lib/utils";
 import { type Post } from "content-collections";
 import { iconStyle, transformStyle } from "./card-styles";
 
@@ -24,7 +23,7 @@ export const CardTitleMeta = ({
 
   return (
     <Text
-      className={cx("flex shrink-0 items-center gap-2", className)}
+      className={cn("flex shrink-0 items-center gap-2", className)}
       dim
       intent="meta"
     >
@@ -38,7 +37,7 @@ export const CardTitleMeta = ({
         ) : null}
       </span>
       {thumbnailLink ? (
-        <ArrowTopRightIcon className={cx(iconStyle, transformStyle)} />
+        <ArrowTopRightIcon className={cn(iconStyle, transformStyle)} />
       ) : null}
     </Text>
   );
@@ -52,7 +51,7 @@ export const CardIcon = ({
   className?: string;
 }) => {
   if (category === "writing") {
-    return <QuoteIcon className={cx(iconStyle, transformStyle, className)} />;
+    return <QuoteIcon className={cn(iconStyle, transformStyle, className)} />;
   }
-  return <EyeOpenIcon className={cx(iconStyle, transformStyle, className)} />;
+  return <EyeOpenIcon className={cn(iconStyle, transformStyle, className)} />;
 };

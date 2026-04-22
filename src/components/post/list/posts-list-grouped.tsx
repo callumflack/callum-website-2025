@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/components/atoms";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import type { Post } from "content-collections";
 import type { GroupedPosts } from "@/types/content";
@@ -49,14 +49,14 @@ export const PostsListGrouped = ({
           key={group}
         >
           <div
-            className={cx(
+            className={cn(
               "bg-canvas sticky z-9",
               "top-[calc(var(--spacing-nav)+var(--spacing-tab))]",
               hideFeaturedDotStyle
             )}
           >
             <div
-              className={cx(
+              className={cn(
                 sortButtonStyle,
                 "h-[calc(theme(spacing.tab)-9px)]",
                 // 42px is the height of the featured dot + padding
@@ -107,7 +107,7 @@ export const PostsListGrouped = ({
 //       {sortedGroups.map(([group, posts]) => (
 //         <div className="PostsListCardGrouped space-y-w4 relative" key={group}>
 //           <div className="top-[calc(theme(spacing.nav)+theme(spacing.tab))] bg-canvas sticky z-[9]">
-//             <div className={cx(sortButtonStyle)}>{group}</div>
+//             <div className={cn(sortButtonStyle)}>{group}</div>
 //             <hr className="-mt-px" />
 //           </div>
 //           <div className="space-y-w24 pb-2.5">

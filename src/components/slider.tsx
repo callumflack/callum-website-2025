@@ -9,8 +9,7 @@ import {
   isSquare,
   isVideoFile,
 } from "@/components/media/media-utils";
-import { formatYear, slugify } from "@/lib/utils";
-import { cx } from "class-variance-authority";
+import { cn, formatYear, slugify } from "@/lib/utils";
 import { Post } from "content-collections";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +29,7 @@ function isManualPost(project: Post | ManualPost): project is ManualPost {
 export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
   return (
     <div
-      className={cx(
+      className={cn(
         // place above container pseudo-borders
         "relative z-2",
         // w-fit WTF?
@@ -95,7 +94,7 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
             key={slug}
             // href={`/graphics/${slug}`}
             // scroll={false}
-            className={cx(
+            className={cn(
               "snap-center",
               "!py-0 focus-visible:outline-none",
               "grid w-[calc(100vw-(var(--spacing-inset)*2))]",
@@ -113,12 +112,12 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
                   />
                 )
               }
-              captionClassName={cx(
+              captionClassName={cn(
                 "transition duration-100 ease-out delay-75"
                 // Apply inverse scale when zoomed, origin from top
                 // isZoomed && "scale-[0.5] origin-top transform-gpu"
               )}
-              className={cx(
+              className={cn(
                 "flex flex-col items-center justify-end [&_figcaption]:w-full"
                 // isZoomed &&
                 //   "pointer-events-none [&_figcaption]:pointer-events-auto"
@@ -130,7 +129,7 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
                 <Video
                   key={asset.src}
                   aspect={asset.aspect}
-                  className={cx(
+                  className={cn(
                     mediaWrapperVariants({
                       border: !noBorder,
                     })
@@ -153,7 +152,7 @@ export const Slider = ({ projects, showInFull, isZoomed }: SliderProps) => {
                   style={{
                     aspectRatio: getAspectRatioCSS(asset.aspect),
                   }}
-                  className={cx(
+                  className={cn(
                     mediaWrapperVariants({
                       border: !noBorder,
                     }),

@@ -1,5 +1,5 @@
 import NextImage from "next/image";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import {
   getDimensions,
   getAspectRatioCSS,
@@ -27,7 +27,7 @@ export const VideoLoader = ({
       {/* NB! using w-full here means it does NOT fill the parent's max-w-* */}
       <NextImage
         alt="video poster"
-        className={cx("VideoPoster", className)}
+        className={cn("VideoPoster", className)}
         height={height}
         priority
         quality={10}
@@ -39,7 +39,7 @@ export const VideoLoader = ({
         width={width}
       />
       <div
-        className={cx(
+        className={cn(
           "bg-black-a6 text-canvas !absolute inset-0 flex items-center justify-center",
           mediaWrapperVariants({
             border: false,

@@ -1,7 +1,7 @@
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { format, parseISO } from "date-fns";
 import { Link } from "@/components/atoms";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { mediaWrapperVariants } from "@/components/media";
 import { type Post } from "content-collections";
 import { iconStyle, transformStyle } from "./card-styles";
@@ -22,7 +22,7 @@ export const PostCard = ({
   showRule,
 }: PostCardProps) => (
   <Link
-    className={cx("PostCard group block h-full w-full", className)}
+    className={cn("PostCard group block h-full w-full", className)}
     href={post.thumbnailLink ? post.thumbnailLink : `/${post.slug}`}
   >
     <div className="relative">
@@ -30,13 +30,13 @@ export const PostCard = ({
       {post.assets && post.assets.length > 0 ? (
         <CardImage
           asset={post.assets[0]}
-          className={cx(mediaWrapperVariants())}
+          className={cn(mediaWrapperVariants())}
         />
       ) : null}
 
       {/* CAPTION */}
       <div
-        className={cx(
+        className={cn(
           "text-body flex w-full flex-1 transform items-baseline gap-2",
           captionClassName
         )}
@@ -45,7 +45,7 @@ export const PostCard = ({
         <span>{post.title}</span>
         {showRule ? (
           <hr
-            className={cx(
+            className={cn(
               "hr-vertical mx-[2px] block h-[15px] border-solid",
               transformStyle
             )}
@@ -55,7 +55,7 @@ export const PostCard = ({
           {format(parseISO(post.date), "yyyy")}
         </span>
         {post.thumbnailLink ? (
-          <ArrowTopRightIcon className={cx(iconStyle, transformStyle)} />
+          <ArrowTopRightIcon className={cn(iconStyle, transformStyle)} />
         ) : null}
       </div>
     </div>

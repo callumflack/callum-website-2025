@@ -3,7 +3,7 @@ import { CardImage } from "@/components/card";
 import { mediaWrapperVariants } from "@/components/media";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { type Post } from "content-collections";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 import { lineHoverStyle, postIconStyle } from "../post.styles";
 
@@ -21,14 +21,14 @@ export const PostBlock = ({
   return (
     <div
       data-component="PostBlock"
-      className={cx(
+      className={cn(
         "group gap-w4 grid grid-cols-20",
         lineHoverStyle,
         "hover:before:inset-y-[-12px]"
       )}
     >
       {/* IMAGE */}
-      <div className={cx("relative col-span-6 sm:col-span-5")}>
+      <div className={cn("relative col-span-6 sm:col-span-5")}>
         <div className="relative">
           {post.assets && post.assets.length > 0 ? (
             <CardImage
@@ -43,14 +43,14 @@ export const PostBlock = ({
               }}
               priority={priority}
               sizes="(min-width: 660px) 150px, 400px"
-              className={cx(mediaWrapperVariants(), "group-hover:border-fill")}
+              className={cn(mediaWrapperVariants(), "group-hover:border-fill")}
             />
           ) : null}
 
           {/* NEW */}
           {post.showAsNew ? (
             <div
-              className={cx(
+              className={cn(
                 "sm:rounded-button absolute inset-0 flex overflow-hidden",
                 "border-fill group-hover:border-accent border",
                 // "transition-colors duration-100 ease-linear",
@@ -61,7 +61,7 @@ export const PostBlock = ({
                 as="div"
                 color="canvas"
                 intent="fine"
-                className={cx(
+                className={cn(
                   "bg-fill group-hover:bg-accent",
                   "flex h-[20px] items-center px-3",
                   // "transition-colors duration-100 ease-linear",
@@ -77,7 +77,7 @@ export const PostBlock = ({
 
       {/* CAPTION */}
       <div
-        className={cx(
+        className={cn(
           "col-span-14 sm:col-span-15",
           "translate-y-[-0.25em] transform space-y-1"
         )}
@@ -87,12 +87,12 @@ export const PostBlock = ({
             {post.title}
           </Text>
           {post.thumbnailLink && !isExternal ? (
-            <ArrowTopRightIcon className={cx(postIconStyle)} />
+            <ArrowTopRightIcon className={cn(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
         <Text dim intent="meta" className="group-hover:text-fill-light!">
           {post.summary}
-          {/* <span className={cx("Text-subheading text-solid")}>
+          {/* <span className={cn("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}
             </span> */}
         </Text>

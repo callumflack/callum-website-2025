@@ -47,7 +47,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
       {/* DOTDOTDOT (utils) */}
       <div
         className={cn(
-          "dotdotdot h-[1px] flex-1 translate-y-[-0.2em] opacity-40",
+          "dotdotdot h-px flex-1 translate-y-[-0.2em] opacity-40",
           "group-hover:text-fill group-hover:opacity-100"
           // "ease transition-colors duration-300"
         )}
@@ -66,7 +66,7 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
           // shift everything down a bit
           // "translate-y-[0.35em] transform",
           // cover the last dot
-          "pl-1.5"
+          "pb-[0.15em] pl-1.5"
         )}
       >
         {/* END HOVER LABEL */}

@@ -11,7 +11,7 @@
 
 import { Button } from "@/components/atoms";
 import { Link1Icon, Link2Icon } from "@radix-ui/react-icons";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
 
 export type ShareButtonProps = {
@@ -24,7 +24,7 @@ export const ShareButton = ({ url, theme = "post" }: ShareButtonProps) => {
     <CopyButton
       valueToCopy={url || ""}
       confirmationMessage="URL copied!"
-      className={cx(theme === "post" && "-ml-0.5")}
+      className={cn(theme === "post" && "-ml-0.5")}
     >
       <Button
         variant={theme === "post" ? "outline" : "pill"}

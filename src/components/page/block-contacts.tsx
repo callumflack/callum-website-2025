@@ -5,7 +5,7 @@ import {
 } from "@/components/icons";
 import config from "@/config";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { EmailButton } from "../elements/email-button";
 import { ContactIcon } from "./contact-icon";
 
@@ -22,7 +22,7 @@ export const Contacts = ({
 }: ContactsProps) => {
   return (
     <ul
-      className={cx(
+      className={cn(
         "link-block-reset no-bullets",
         theme === "inline" ? "-ml-2 flex items-center" : "flex flex-col",
         showLabel ? "gap-0" : "gap-0.5",

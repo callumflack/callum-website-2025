@@ -16,7 +16,7 @@ import {
   isPortrait,
   type AspectRatio,
 } from "@/components/media/media-utils";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import NextImage, { type ImageProps } from "next/image";
 import React from "react";
 
@@ -86,7 +86,7 @@ export function ZoomableImage(props: MdxImageProps) {
           priority={priority}
           sizes="(min-width: 1200px) 1800px, (min-width: 660px) 600px, 100vw"
           draggable={false}
-          className={cx(mediaWrapperVariants({ border, background, rounded }))}
+          className={cn(mediaWrapperVariants({ border, background, rounded }))}
           style={
             aspect ? { aspectRatio: getAspectRatioCSS(aspect) } : undefined
           }
@@ -119,7 +119,7 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
           poster={poster || ""}
           aspect={aspect}
           allowSound={allowSound}
-          className={cx(mediaWrapperVariants({ border, background, rounded }))}
+          className={cn(mediaWrapperVariants({ border, background, rounded }))}
           {...rest}
         />
       </MediaFigure>

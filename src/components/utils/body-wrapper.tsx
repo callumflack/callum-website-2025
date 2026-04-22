@@ -3,7 +3,7 @@
 // Currently unused.
 
 import { usePathname } from "next/navigation";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 
 export function BodyWrapper({
   children,
@@ -15,7 +15,7 @@ export function BodyWrapper({
   const pathname = usePathname();
   return (
     <body
-      className={cx(
+      className={cn(
         pathname === "/" ? "bg-background-active" : "",
         pathname.startsWith("/graphics/") ? "bg-background-active" : "",
         className

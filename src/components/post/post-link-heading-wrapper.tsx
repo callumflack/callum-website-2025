@@ -1,4 +1,4 @@
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 
 export const PostLinkHeadingWrapper = ({
   children,
@@ -9,7 +9,7 @@ export const PostLinkHeadingWrapper = ({
 }) => {
   return (
     <div
-      className={cx(
+      className={cn(
         "relative flex items-center gap-0.5",
         // "group-hover:text-accent",
         className

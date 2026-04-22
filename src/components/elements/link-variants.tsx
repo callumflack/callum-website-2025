@@ -1,5 +1,5 @@
 import { ArrowRightIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import type { AnchorHTMLAttributes } from "react";
 import { Link } from "@/components/atoms";
 
@@ -22,7 +22,7 @@ export const LinkWithArrow = ({
 
   return (
     <Link
-      className={cx(
+      className={cn(
         "relative inline-flex items-center gap-[2px]",
         shouldReverse && "flex-row-reverse !gap-1.5",
         className
@@ -31,13 +31,13 @@ export const LinkWithArrow = ({
     >
       <span className="flex-grow">{children}</span>
       <span
-        className={cx(
+        className={cn(
           isExternal && theme !== "feature" && "relative flex w-[0.2em]"
         )}
       >
         {isExternal && theme !== "feature" ? (
           <ChevronRightIcon
-            className={cx(
+            className={cn(
               "absolute top-[-0.65em] right-[-0.1em]",
               "size-[0.6em] -rotate-45 transform",
               "!no-underline",
@@ -46,7 +46,7 @@ export const LinkWithArrow = ({
           />
         ) : (
           <ArrowRightIcon
-            className={cx("translate-y-[0.05em] transform", iconClassName)}
+            className={cn("translate-y-[0.05em] transform", iconClassName)}
           />
         )}
       </span>

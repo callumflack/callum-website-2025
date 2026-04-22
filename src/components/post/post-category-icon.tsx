@@ -4,7 +4,7 @@ import {
   QuoteIcon,
   StackIcon,
 } from "@radix-ui/react-icons";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 
 export const categoryIconStyle = [
   "size-[1.2em]",
@@ -14,13 +14,13 @@ export const categoryIconStyle = [
 export const PostCategoryIcon = ({ category }: { category: string }) => {
   switch (category) {
     case "projects":
-      return <EyeOpenIcon className={cx(categoryIconStyle)} />;
+      return <EyeOpenIcon className={cn(categoryIconStyle)} />;
     case "writing":
-      return <QuoteIcon className={cx(categoryIconStyle)} />;
+      return <QuoteIcon className={cn(categoryIconStyle)} />;
     case "library":
-      return <StackIcon className={cx(categoryIconStyle)} />;
+      return <StackIcon className={cn(categoryIconStyle)} />;
     case "about":
-      return <InfoCircledIcon className={cx(categoryIconStyle)} />;
+      return <InfoCircledIcon className={cn(categoryIconStyle)} />;
     default:
       return null;
   }

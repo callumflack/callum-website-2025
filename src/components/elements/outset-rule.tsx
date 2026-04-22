@@ -1,4 +1,4 @@
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 
 export const OutsetRule = ({
   className,
@@ -7,7 +7,7 @@ export const OutsetRule = ({
   className?: string;
   ruleClassName?: string;
 }) => (
-  <div className={cx("container px-0", className)}>
-    <hr className={cx("transition-colors duration-300", ruleClassName)} />
+  <div className={cn("container px-0", className)}>
+    <hr className={cn("transition-colors duration-300", ruleClassName)} />
   </div>
 );

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cx, cva, type VariantProps } from "cva";
+import { cva, type VariantProps } from "cva";
+import { cn } from "@/lib/utils";
 
 const squishStyle = "rounded-squish hover:bg-background-hover hover:text-fill";
 
@@ -101,7 +102,7 @@ export const Button = ({
   return (
     <Comp
       data-slot="button"
-      className={cx(
+      className={cn(
         buttonVariants({ variant, size, caps, full, align, className })
       )}
       {...props}

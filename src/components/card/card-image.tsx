@@ -7,7 +7,7 @@ import {
 } from "@/components/media";
 import { MediaErrorBoundary } from "@/components/utils";
 import NextImage from "next/image";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { Post } from "content-collections";
 
 export interface CardImageProps {
@@ -36,7 +36,7 @@ export const CardImage = ({
         <Video
           key={asset.src}
           aspect={aspect}
-          className={cx("CardImage-Video", className)}
+          className={cn("CardImage-Video", className)}
           poster={asset.poster || ""}
           src={asset.src}
         />
@@ -45,7 +45,7 @@ export const CardImage = ({
         <NextImage
           key={asset.src}
           alt={asset.alt}
-          className={cx("CardImage-Image", className)}
+          className={cn("CardImage-Image", className)}
           priority={priority}
           sizes={sizes}
           src={asset.src}

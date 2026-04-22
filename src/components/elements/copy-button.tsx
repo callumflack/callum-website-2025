@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { textVariants } from "@/components/atoms";
 
 export type CopyButtonProps = {
@@ -60,7 +60,7 @@ export const CopyButton = ({
   };
 
   return (
-    <span className={cx("relative", className)}>
+    <span className={cn("relative", className)}>
       {showCopied && (
         <ClickConfirmation
           isVisible={isVisible}
@@ -88,7 +88,7 @@ export const ClickConfirmation = ({
 }: ClickConfirmationProps) => {
   return (
     <span
-      className={cx(
+      className={cn(
         "absolute -top-[3.5em] left-1/2 z-50 min-w-max",
         "-translate-x-1/2 transform",
         "text-canvas rounded-button px-w4 pt-2 pb-2.5 shadow-md",

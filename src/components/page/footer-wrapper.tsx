@@ -1,4 +1,4 @@
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { OutsetRule } from "../elements/outset-rule";
 
 interface Props {
@@ -10,7 +10,7 @@ export const FooterWrapper = ({ children, intersectionRef }: Props) => (
   <>
     <OutsetRule />
     <footer
-      className={cx(
+      className={cn(
         "relative container flex flex-col",
         "pt-submajor relative min-h-[calc(100dvh-var(--spacing-nav)-1px)] justify-between"
       )}

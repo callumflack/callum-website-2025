@@ -1,6 +1,6 @@
 import config from "@/config";
 import { mono, sans } from "@/lib/fonts";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
 import "../styles/globals.css";
@@ -51,7 +51,7 @@ export default function RootLayout({
         {/* https://github.com/4lejandrito/next-plausible */}
         <PlausibleProvider domain={config.PUBLIC_DOMAIN} trackOutboundLinks />
       </head>
-      <body className={cx(sans.variable, mono.variable)}>
+      <body className={cn(sans.variable, mono.variable)}>
         <Providers>{children}</Providers>
       </body>
     </html>

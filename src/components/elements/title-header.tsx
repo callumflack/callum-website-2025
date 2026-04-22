@@ -1,4 +1,4 @@
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import * as React from "react";
 import { Text } from "../atoms";
 import type { PolymorphicProps } from "../atoms/polymorphic-element";
@@ -22,7 +22,7 @@ export const TitleHeader = ({
     <PolymorphicElement
       data-component="TitleHeader"
       as={as || "header"}
-      className={cx(
+      className={cn(
         isContained ? "" : "container",
         hasMetaSubheading ? "space-y-[3px]" : "space-y-3.5",
         className

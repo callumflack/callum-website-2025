@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { textVariants } from "@/components/atoms";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 
 interface SortButtonProps {
   sortBy: string;
@@ -69,7 +69,7 @@ export const StyledSortButton = ({
   children,
 }: StyledSortButtonProps) => (
   <SortButton
-    className={cx(
+    className={cn(
       sortButtonStyle,
       (sortBy === initialSortBy && searchParamsValue === undefined) ||
         sortBy === searchParamsValue

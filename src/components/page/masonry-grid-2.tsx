@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import NextLink from "next/link";
 import { Post } from "content-collections";
 import { CardImage } from "@/components/card";
@@ -59,7 +59,7 @@ function renderPostItem(item: PostItem) {
         </PostLinkHeadingWrapper>
         <Text dim intent="meta">
           {item.post.summary}
-          {/* <span className={cx("Text-subheading text-solid")}>
+          {/* <span className={cn("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}
             </span> */}
         </Text>
@@ -81,7 +81,7 @@ export const GridLayout = memo(
     };
 
     return (
-      <div className={cx("gap-w8 grid w-full", gridClasses[theme])}>
+      <div className={cn("gap-w8 grid w-full", gridClasses[theme])}>
         {postItems.map((item) => renderPostItem(item))}
       </div>
     );
@@ -130,7 +130,7 @@ export const MasonryGrid = memo(
 
         {/* Small screens: 2 columns */}
         <div
-          className={cx(
+          className={cn(
             "gap-w8 hidden w-full sm:grid lg:hidden",
             gridClasses[theme].sm
           )}
@@ -140,7 +140,7 @@ export const MasonryGrid = memo(
 
         {/* Medium screens: 3-4 columns */}
         <div
-          className={cx(
+          className={cn(
             "gap-w8 hidden w-full lg:grid 2xl:hidden",
             gridClasses[theme].lg
           )}
@@ -150,7 +150,7 @@ export const MasonryGrid = memo(
 
         {/* Large screens: 4-5 columns */}
         <div
-          className={cx(
+          className={cn(
             "gap-w8 hidden w-full 2xl:grid",
             gridClasses[theme]["2xl"]
           )}

@@ -1,7 +1,7 @@
 // Currently unused.
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { mediaWrapperVariants } from "@/components/media";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { Text } from "@/components/atoms";
 import { type Post } from "content-collections";
 import { LinkOrDiv } from "../utils";
@@ -25,7 +25,7 @@ export const SnapCard = ({
 
   return (
     <LinkOrDiv
-      className={cx(
+      className={cn(
         "group rounded-card relative h-full w-full overflow-hidden",
         "bg-canvas dark:bg-background",
         "block border",
@@ -40,7 +40,7 @@ export const SnapCard = ({
       {post.assets && post.assets.length > 0 ? (
         <CardImage
           asset={post.assets[0]}
-          className={cx(
+          className={cn(
             mediaWrapperVariants({
               border: false,
               rounded: false,
@@ -52,7 +52,7 @@ export const SnapCard = ({
       ) : null}
 
       <hr />
-      <div className={cx("pb-w6 space-y-[2px] px-4 py-2.5", captionClassName)}>
+      <div className={cn("pb-w6 space-y-[2px] px-4 py-2.5", captionClassName)}>
         <Text
           align="left"
           as="h2"
