@@ -12,7 +12,7 @@ import { ListHeader } from "@/components/page";
 import { StyledSortButton } from "@/components/post";
 import { MediaErrorBoundary } from "@/components/utils";
 import type { Post } from "content-collections";
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useMemo, useState } from "react";
@@ -33,7 +33,7 @@ interface GalleryPostsProps {
   isActive: boolean;
 }
 
-export function GalleryPosts({
+export function GalleryPostsSimple({
   posts,
   kind,
   initialSort = "all",
@@ -103,7 +103,7 @@ export function GalleryPosts({
       </ListHeader>
 
       <div
-        className={cx(
+        className={cn(
           // place above container pseudo-borders
           "relative z-9",
           "pt-w12 px-inset",
@@ -147,13 +147,13 @@ export function GalleryPosts({
               key={`${slug}-${index}`}
               onMouseEnter={() => setIsActive(true)}
               onMouseLeave={() => setIsActive(false)}
-              className={cx("col-span-6")}
+              className={cn("col-span-6")}
             >
               <MediaFigure
                 key={`${slug}-${index}`}
                 caption={title} // TODO: add date and project type?
                 captionClassName=""
-                className={cx(
+                className={cn(
                   isImageSquare ? "isSquare" : "",
                   "[&_figcaption]:w-full",
                   "grayscale hover:grayscale-0",
@@ -177,7 +177,7 @@ export function GalleryPosts({
                     <Video
                       key={asset.src}
                       aspect={asset.aspect}
-                      className={cx(
+                      className={cn(
                         mediaWrapperVariants({
                           border: !noBorder,
                         })
@@ -196,7 +196,7 @@ export function GalleryPosts({
                       style={{
                         aspectRatio: getAspectRatioCSS(asset.aspect),
                       }}
-                      className={cx(
+                      className={cn(
                         mediaWrapperVariants({
                           border: !noBorder,
                         }),

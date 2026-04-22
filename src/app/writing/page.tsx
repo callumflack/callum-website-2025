@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import {
@@ -7,18 +8,11 @@ import {
 } from "@/components/page";
 import { getAllPosts } from "@/lib/posts/actions";
 import type { ListCategory } from "@/types/content";
-import type { SearchParams } from "@/types/search-params";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
-export default async function WritingPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
+export default function WritingPage() {
   const kind = "writing" as ListCategory;
-  const { sort } = await searchParams;
-  const currentSort = (sort as string) || kind;
-  const postsData = await getAllPosts();
+  const postsData = getAllPosts();
 
   return (
     <PageWrapper activeNav="writing" theme="feed">
@@ -36,11 +30,9 @@ export default async function WritingPage({
             .
           </Text> */}
         </TitleHeader>
-        <FeaturedOrIndexPosts
-          initialSort={currentSort}
-          kind={kind}
-          posts={postsData}
-        />
+        <Suspense fallback={null}>
+          <FeaturedOrIndexPosts kind={kind} posts={postsData} />
+        </Suspense>
       </PageInner>
     </PageWrapper>
   );

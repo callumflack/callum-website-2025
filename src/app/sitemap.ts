@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
+import { cacheLife } from "next/cache";
 import config from "@/config";
 import { allPosts } from "content-collections";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  "use cache";
+  cacheLife("days");
+
   // Extract all unique topics from posts
   const allTopics = new Set<string>();
   allPosts.forEach((post) => {

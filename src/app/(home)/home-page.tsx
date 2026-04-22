@@ -5,13 +5,15 @@ import { PostBlock, PostLine } from "@/components/post";
 import type { Post } from "content-collections";
 import { HomeFeaturedGrid } from "./home-featured-grid";
 import { HomeFolioClient } from "./home-folio-client";
-import { HomeLayoutToggle } from "./home-layout-toggle";
 import { ZoomCarousel } from "./zoom-carousel";
 
 /*
  * Feature flag for the homepage grid-view toggle.
  * false → toggle UI is hidden and ?layout=grid is ignored (grid unreachable).
  * true  → toggle UI renders and URL param works. Flip locally to keep iterating.
+ *
+ * Consumed by src/app/page.tsx to decide whether to render the toggle + wire
+ * ?layout=grid through HomeLayoutSwitch.
  */
 export const GRID_TOGGLE_ENABLED = false;
 
@@ -32,7 +34,6 @@ export const HomePage = ({
 
   return (
     <>
-      {GRID_TOGGLE_ENABLED && <HomeLayoutToggle layout={layout} />}
       <PageWrapper
         hideFooter={isGridMode}
         showIntro={false}

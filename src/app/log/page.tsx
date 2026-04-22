@@ -1,34 +1,21 @@
+import { Suspense } from "react";
 import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
 import { getAllPostsChronological } from "@/lib/posts/actions";
-import { ViewMode } from "@/types/viewMode";
 import { Metadata } from "next";
 
-export default async function LogPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ show?: string }>;
-}) {
-  const posts = await getAllPostsChronological();
-  const resolvedSearchParams = await searchParams;
-
-  // Validate the show parameter is a valid ViewMode
-  const show = resolvedSearchParams.show as string;
-
-  // Default to "index" for log page if no parameter is provided
-  const validatedShow = !show
-    ? ("index" as ViewMode)
-    : show === "full" || show === "index"
-      ? (show as ViewMode)
-      : ("index" as ViewMode);
+export default function LogPage() {
+  const posts = getAllPostsChronological();
 
   return (
     <PageWrapper activeNav="log">
       <PageInner variant="log">
-        <FullOrIndexPosts
-          posts={posts}
-          initialShow={validatedShow}
-          routePrefix="/log"
-        />
+        <Suspense fallback={null}>
+          <FullOrIndexPosts
+            posts={posts}
+            initialShow="index"
+            routePrefix="/log"
+          />
+        </Suspense>
       </PageInner>
     </PageWrapper>
   );

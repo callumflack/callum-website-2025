@@ -1,107 +1,95 @@
+import { Suspense } from "react";
 import {
   featuredNotesSlugs,
   featuredWorkSlugs,
   featuredWritingSlugs,
+  homeLatest,
 } from "@/lib/posts/featured-posts";
-import { filterFeaturedBySlugs } from "@/lib/posts/sorting";
-import type { SearchParams } from "@/types/search-params";
+import {
+  filterFeaturedBySlugs,
+  getLatestWithPins,
+} from "@/lib/posts/sorting";
 import { allPosts, type Post } from "content-collections";
 import { GRID_TOGGLE_ENABLED, HomePage } from "./(home)/home-page";
+import { HomeLayoutShell } from "./(home)/home-layout-shell";
 
-const getFeaturedProjects = (): Post[] => {
-  const visiblePosts = allPosts.filter((post) => !post.draft);
-  return filterFeaturedBySlugs(visiblePosts, featuredWorkSlugs);
-};
+/*
+ * Home-page assembly.
+ *
+ * Curation (which slugs appear, in what order, what's excluded/pinned) lives
+ * in `lib/posts/featured-posts.ts`. This file only reads those lists and
+ * arranges them into the page sections:
+ *
+ *   Latest         → homeLatest (date-sorted + pins + excludes)
+ *   Selected Work  → featuredWorkSlugs
+ *   Selected Writing → featuredWritingSlugs
+ *   Grid mode      → work × writing (interleaved) + notes (flag-gated)
+ */
 
-const getFeaturedWriting = (): Post[] => {
-  const visiblePosts = allPosts.filter((post) => !post.draft);
-  return filterFeaturedBySlugs(visiblePosts, featuredWritingSlugs);
-};
-
-const getFeaturedNotes = (): Post[] => {
-  const visiblePosts = allPosts.filter((post) => !post.draft);
-  return filterFeaturedBySlugs(visiblePosts, featuredNotesSlugs);
-};
-
-function dedupePostsBySlug(posts: Post[]): Post[] {
-  const seenSlugs = new Set<string>();
-
+function dedupeBySlug(posts: Post[]): Post[] {
+  const seen = new Set<string>();
   return posts.filter((post) => {
-    if (seenSlugs.has(post.slug)) return false;
-    seenSlugs.add(post.slug);
+    if (seen.has(post.slug)) return false;
+    seen.add(post.slug);
     return true;
   });
 }
 
-function interleavePosts(primary: Post[], secondary: Post[]): Post[] {
-  const maxLength = Math.max(primary.length, secondary.length);
-  const combined: Post[] = [];
-
-  for (let index = 0; index < maxLength; index += 1) {
-    const primaryPost = primary[index];
-    const secondaryPost = secondary[index];
-
-    if (primaryPost) combined.push(primaryPost);
-    if (secondaryPost) combined.push(secondaryPost);
+function interleave(primary: Post[], secondary: Post[]): Post[] {
+  const out: Post[] = [];
+  const max = Math.max(primary.length, secondary.length);
+  for (let i = 0; i < max; i += 1) {
+    if (primary[i]) out.push(primary[i]);
+    if (secondary[i]) out.push(secondary[i]);
   }
-
-  return combined;
+  return out;
 }
 
-type HomeLayout = "default" | "grid";
+export default function Home() {
+  const visiblePosts = allPosts.filter((post) => !post.draft);
 
-function getLayout(searchParams: SearchParams): HomeLayout {
-  if (!GRID_TOGGLE_ENABLED) return "default";
-
-  const layoutParam = searchParams.layout;
-  const layoutValue = Array.isArray(layoutParam) ? layoutParam[0] : layoutParam;
-
-  return layoutValue === "grid" ? "grid" : "default";
-}
-
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const layout = getLayout(resolvedSearchParams);
-  const pinnedLatestSlugs = ["ways-of-seeing-generative-ai"];
-  const filteredPosts = allPosts.filter(
-    (post) =>
-      !post.draft &&
-      // or post.category === about
-      post.slug !== "the-work-and-team-im-after" &&
-      post.slug !== "about" &&
-      post.slug !== "letters"
-  );
-
-  const sortedPosts = [...filteredPosts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-  const pinnedLatestPosts = pinnedLatestSlugs
-    .map((slug) => sortedPosts.find((post) => post.slug === slug))
-    .filter(Boolean) as Post[];
-  const remainingPosts = sortedPosts.filter(
-    (post) => !pinnedLatestSlugs.includes(post.slug)
-  );
-  const latestPosts = [...pinnedLatestPosts, ...remainingPosts].slice(0, 3);
-
-  const projects = getFeaturedProjects();
-  const writing = getFeaturedWriting();
-  const notes = getFeaturedNotes();
-  const featuredGridPosts = dedupePostsBySlug([
-    ...interleavePosts(projects, writing),
+  const latestPosts = getLatestWithPins(allPosts, homeLatest);
+  const projects = filterFeaturedBySlugs(visiblePosts, featuredWorkSlugs);
+  const writing = filterFeaturedBySlugs(visiblePosts, featuredWritingSlugs);
+  const notes = filterFeaturedBySlugs(visiblePosts, featuredNotesSlugs);
+  const featuredGridPosts = dedupeBySlug([
+    ...interleave(projects, writing),
     ...notes,
   ]);
 
-  return (
+  const defaultTree = (
     <HomePage
       latestPosts={latestPosts}
       projects={projects}
       writing={writing}
       featuredGridPosts={featuredGridPosts}
-      layout={layout}
+      layout="default"
     />
+  );
+
+  if (!GRID_TOGGLE_ENABLED) {
+    return defaultTree;
+  }
+
+  const gridTree = (
+    <HomePage
+      latestPosts={latestPosts}
+      projects={projects}
+      writing={writing}
+      featuredGridPosts={featuredGridPosts}
+      layout="grid"
+    />
+  );
+
+  /*
+   * Suspense is required because HomeLayoutShell calls useSearchParams(),
+   * which triggers a client-side rendering bailout. The fallback renders the
+   * default tree so the prerendered HTML shows the right content on first
+   * paint; the shell hydrates, reads ?layout=, and may flip to grid.
+   */
+  return (
+    <Suspense fallback={defaultTree}>
+      <HomeLayoutShell defaultSlot={defaultTree} gridSlot={gridTree} />
+    </Suspense>
   );
 }

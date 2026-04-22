@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { PageInner, PageWrapper } from "@/components/page";
@@ -6,11 +7,9 @@ import { GalleryPostsClient } from "./gallery-posts-client";
 
 export const GalleryPage = ({
   projects,
-  currentSort,
   kind,
 }: {
   projects: Post[];
-  currentSort: string;
   kind: string;
 }) => {
   return (
@@ -21,11 +20,9 @@ export const GalleryPage = ({
             A gallery of graphics and interactions.
           </Text>
         </TitleHeader>
-        <GalleryPostsClient
-          currentSort={currentSort}
-          kind={kind}
-          posts={projects}
-        />
+        <Suspense fallback={null}>
+          <GalleryPostsClient kind={kind} posts={projects} />
+        </Suspense>
       </PageInner>
     </PageWrapper>
   );

@@ -1,17 +1,13 @@
 import { Feed } from "feed";
+import { cacheLife } from "next/cache";
 import config from "@/config";
 import { allPosts } from "content-collections";
 import { isVideoFile } from "@/components/media/media-utils";
 
-/* 
-  https://github.com/jpmonette/feed
-  
-  You also may want to limit how many posts you include in this feed, as with a lot of posts, this can get pretty large, so consider only requesting a certain amount of posts for each time the feed is generated. https://spacejelly.dev/posts/how-to-add-a-sitemap-rss-feed-in-next-js-app-router
+async function buildFeedXml(): Promise<string> {
+  "use cache";
+  cacheLife("days");
 
-  Consider caching these feeds: https://nextjs.org/docs/app/building-your-application/data-fetching/fetching
- */
-
-export async function GET() {
   const feed = new Feed({
     title: "Callum Flack",
     description: "Designer who codes. Writes about creativity and process.",
@@ -34,7 +30,6 @@ export async function GET() {
       link: `${config.PUBLIC_URL}/${post.slug}`,
       date: new Date(post.date),
       description: post.summary,
-      // content: post.plainContent,
       image: post.assets?.[0]?.src
         ? isVideoFile(post.assets[0].src)
           ? post.assets[0].src
@@ -44,7 +39,12 @@ export async function GET() {
     });
   });
 
-  return new Response(feed.rss2(), {
+  return feed.rss2();
+}
+
+export async function GET() {
+  const xml = await buildFeedXml();
+  return new Response(xml, {
     headers: {
       "Content-Type": "application/atom+xml; charset=utf-8",
     },

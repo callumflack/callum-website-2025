@@ -1,21 +1,18 @@
-"use server";
-
 import { allPosts, Post } from "content-collections";
 import { Category, ListCategory, ListPostsData } from "@/types/content";
 
-// Map from string literals to enum values
 const categoryMap: Record<ListCategory, Category> = {
   projects: Category.PROJECTS,
   writing: Category.WRITING,
 };
 
-export async function getPosts(category: ListCategory): Promise<Post[]> {
+export function getPosts(category: ListCategory): Post[] {
   return allPosts.filter(
     (p) => !p.draft && p.category === categoryMap[category]
   );
 }
 
-export async function getAllPosts(): Promise<ListPostsData> {
+export function getAllPosts(): ListPostsData {
   return {
     projects: allPosts.filter(
       (p) => !p.draft && p.category === categoryMap.projects
@@ -26,8 +23,7 @@ export async function getAllPosts(): Promise<ListPostsData> {
   };
 }
 
-// filter ut "about" + "the-work-and-team-im-after"
-export async function getAllPostsChronological(): Promise<Post[]> {
+export function getAllPostsChronological(): Post[] {
   return allPosts
     .filter(
       (p) =>
@@ -38,7 +34,7 @@ export async function getAllPostsChronological(): Promise<Post[]> {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-export async function getPostsByTopic(topic: string): Promise<Post[]> {
+export function getPostsByTopic(topic: string): Post[] {
   return allPosts
     .filter(
       (p) =>

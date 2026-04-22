@@ -1,10 +1,6 @@
 import type { Post } from "content-collections";
 import { GroupedPosts } from "@/types/content";
-import {
-  featuredSlugs,
-  featuredWorkSlugs,
-  featuredWritingSlugs,
-} from "./featured-posts";
+import { featuredWorkSlugs, featuredWritingSlugs } from "./featured-posts";
 
 // Group posts by year
 export function groupByYear(posts: Post[]): GroupedPosts {
@@ -37,15 +33,42 @@ export function sortAlphabetically(posts: Post[]): Post[] {
 // Filter posts by featured slugs and sort them according to the order in specified slugs array
 export function filterFeaturedBySlugs(
   posts: Post[],
-  slugsArray: string[] = featuredSlugs
+  slugsArray: readonly string[]
 ): Post[] {
-  // Filter posts to only include those in the specified slugs array
   const featured = posts.filter((post) => slugsArray.includes(post.slug));
+  return featured.sort(
+    (a, b) => slugsArray.indexOf(a.slug) - slugsArray.indexOf(b.slug)
+  );
+}
 
-  // Sort posts according to the order in the slugs array
-  return featured.sort((a, b) => {
-    return slugsArray.indexOf(a.slug) - slugsArray.indexOf(b.slug);
-  });
+/*
+ * Build the "Latest" feed: date-desc, minus excludes, with pinned slugs
+ * forced to the top in pin-order, capped to `limit`.
+ *
+ * Used by the home page. Pinned posts that are excluded or missing are
+ * silently dropped.
+ */
+export function getLatestWithPins(
+  posts: Post[],
+  options: {
+    pinned: readonly string[];
+    exclude: readonly string[];
+    limit: number;
+  }
+): Post[] {
+  const { pinned, exclude, limit } = options;
+
+  const eligible = posts
+    .filter((post) => !post.draft && !exclude.includes(post.slug))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const pinnedPosts = pinned
+    .map((slug) => eligible.find((post) => post.slug === slug))
+    .filter(Boolean) as Post[];
+
+  const rest = eligible.filter((post) => !pinned.includes(post.slug));
+
+  return [...pinnedPosts, ...rest].slice(0, limit);
 }
 
 // Filter posts by "featured" tag and sort by date (newest first)

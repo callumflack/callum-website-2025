@@ -11,9 +11,9 @@ import {
 import { PostsListGrouped } from "@/components/post/list/posts-list-grouped";
 import type { GroupedPosts, ListCategory, SortMethod } from "@/types/content";
 import type { Post } from "content-collections";
-import { cx } from "cva";
-import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
+import { cn } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Fragment } from "react";
 import { ListHeader } from "./list-header";
 
 /* Used on writing and work index pages */
@@ -39,21 +39,26 @@ const SORT_DISPLAY_MODES: Record<string, DisplayMode> = {
 interface FeaturedOrIndexPostsProps {
   posts: Record<ListCategory, Post[]>;
   kind: ListCategory;
-  initialSort: string;
 }
+
+/*
+ * State model: the URL is the single source of truth. `currentSort` is
+ * derived from `?sort=...` every render, and `showGrid` is derived from
+ * `currentSort`. Click handlers only mutate the URL via router.push; the
+ * next render picks up the new sort. This keeps back/forward navigation in
+ * sync with the UI automatically.
+ */
 
 export function FeaturedOrIndexPosts({
   posts,
   kind,
-  initialSort,
 }: FeaturedOrIndexPostsProps) {
   const router = useRouter();
-  const [currentSort, setCurrentSort] = useState<string>(initialSort);
+  const searchParams = useSearchParams();
 
-  // Use the configuration to determine display mode
-  const [showGrid, setShowGrid] = useState(
-    SORT_DISPLAY_MODES[initialSort] === "grid" || initialSort === kind
-  );
+  const currentSort = searchParams.get("sort") ?? kind;
+  const showGrid =
+    SORT_DISPLAY_MODES[currentSort] === "grid" || currentSort === kind;
 
   const sortedPostsMap = useSortedPosts(
     posts,
@@ -66,14 +71,7 @@ export function FeaturedOrIndexPosts({
   const SORT_BY = [kind, "year"];
 
   const handleSortButtonClick = (sortKind: string) => {
-    setCurrentSort(sortKind);
     router.push(`?sort=${sortKind}`, { scroll: false });
-
-    if (sortKind === "projects" || sortKind === "writing") {
-      setShowGrid((prev) => !prev);
-    } else {
-      setShowGrid(false);
-    }
   };
 
   const getSortLabel = (sort: string): string => {
@@ -89,7 +87,7 @@ export function FeaturedOrIndexPosts({
         rhsNode={
           kind === "projects" && (
             <LinkWithArrow
-              className={cx(
+              className={cn(
                 sortButtonStyle,
                 "text-solid pr-0 normal-case opacity-0"
               )}
@@ -121,7 +119,7 @@ export function FeaturedOrIndexPosts({
           kind={kind as ListCategory}
           sortBy={currentSort}
           sortedPostsMap={sortedPostsMap}
-          wrapperClassName={cx("flex flex-col gap-w8 sm:gap-w6 pt-w8")}
+          wrapperClassName={cn("flex flex-col gap-w8 sm:gap-w6 pt-w8")}
         />
       ) : GROUPED_SORT_TYPES.has(currentSort) && ENABLE_GROUPED_VIEWS ? (
         <PostsListGrouped

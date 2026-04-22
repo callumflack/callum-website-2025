@@ -2,7 +2,9 @@ import type { NextConfig } from "next";
 import { withContentCollections } from "@content-collections/next";
 
 const nextConfig: NextConfig = {
+  cacheComponents: true,
   images: {
+    qualities: [10, 75],
     remotePatterns: [
       {
         protocol: "https",

@@ -1,21 +1,29 @@
+import { Suspense } from "react";
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
 import { getPostsByTopic } from "@/lib/posts/actions";
-import { ViewMode } from "@/types/viewMode";
+import { allPosts } from "content-collections";
 import { Metadata } from "next";
 import { ListHeading } from "./list-heading";
 
+export function generateStaticParams() {
+  const topics = new Set<string>();
+  allPosts.forEach((post) => {
+    post.tags?.forEach((tag) => {
+      if (tag !== "featured") topics.add(tag);
+    });
+  });
+  return Array.from(topics).map((topic) => ({ topic }));
+}
+
 export default async function TopicPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ topic: string }>;
-  searchParams: Promise<{ show?: ViewMode }>;
 }) {
   const { topic } = await params;
-  const posts = await getPostsByTopic(topic);
-  const resolvedSearchParams = await searchParams;
+  const posts = getPostsByTopic(topic);
 
   return (
     <PageWrapper activeNav="feed" theme="feed">
@@ -38,13 +46,14 @@ export default async function TopicPage({
             .
           </Text> */}
         </TitleHeader>
-        <FullOrIndexPosts
-          posts={posts}
-          topic={topic}
-          initialShow={resolvedSearchParams.show}
-          routePrefix="/topic"
-          listHeaderNode={<ListHeading title={topic} />}
-        />
+        <Suspense fallback={null}>
+          <FullOrIndexPosts
+            posts={posts}
+            topic={topic}
+            routePrefix="/topic"
+            listHeaderNode={<ListHeading title={topic} />}
+          />
+        </Suspense>
       </PageInner>
     </PageWrapper>
   );

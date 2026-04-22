@@ -1,16 +1,17 @@
-import { DashboardIcon, ListBulletIcon } from "@radix-ui/react-icons";
-import { buttonVariants, Link } from "@/components/atoms";
-import { cn } from "@/lib/utils";
+"use client";
 
-interface HomeLayoutToggleProps {
-  layout: "default" | "grid";
-}
+import { DashboardIcon, ListBulletIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/atoms";
+import { cn } from "@/lib/utils";
 
 const activeStyle = "bg-background-hover text-fill";
 
-export function HomeLayoutToggle({ layout }: HomeLayoutToggleProps) {
-  const isGridMode = layout === "grid";
+interface HomeLayoutToggleProps {
+  isGrid: boolean;
+  onToggle: (isGrid: boolean) => void;
+}
 
+export function HomeLayoutToggle({ isGrid, onToggle }: HomeLayoutToggleProps) {
   return (
     <div
       className={cn(
@@ -19,26 +20,26 @@ export function HomeLayoutToggle({ layout }: HomeLayoutToggleProps) {
         "right-[calc(var(--spacing-nav)-var(--spacing-tab))]"
       )}
     >
-      <Link
-        href="/"
+      <Button
+        variant="icon"
+        size="default"
         aria-label="Show default layout"
-        className={cn(
-          buttonVariants({ variant: "icon", size: "default" }),
-          !isGridMode && activeStyle
-        )}
+        aria-pressed={!isGrid}
+        onClick={() => onToggle(false)}
+        className={!isGrid ? activeStyle : ""}
       >
         <ListBulletIcon />
-      </Link>
-      <Link
-        href="/?layout=grid"
+      </Button>
+      <Button
+        variant="icon"
+        size="default"
         aria-label="Show grid layout"
-        className={cn(
-          buttonVariants({ variant: "icon", size: "default" }),
-          isGridMode && activeStyle
-        )}
+        aria-pressed={isGrid}
+        onClick={() => onToggle(true)}
+        className={isGrid ? activeStyle : ""}
       >
         <DashboardIcon />
-      </Link>
+      </Button>
     </div>
   );
 }

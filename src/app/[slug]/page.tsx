@@ -12,9 +12,9 @@ import {
 } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
+import { cn } from "@/lib/utils";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { allPosts } from "content-collections";
-import { cx } from "cva";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -68,7 +68,7 @@ export default async function SlugPage({
                 theme="post"
               />
               <DownloadButtonWrapper
-                url={await getGithubRawUrl(post._id)}
+                url={getGithubRawUrl(post._id)}
                 filename={`${post.slug}.md`}
                 label="Download"
               />
@@ -76,7 +76,7 @@ export default async function SlugPage({
                 <Link
                   href={await getGithubIssueUrl(post.slug)}
                   target="_blank"
-                  className={cx(
+                  className={cn(
                     buttonVariants({ variant: "outline", size: "sm" })
                   )}
                 >
@@ -93,7 +93,7 @@ export default async function SlugPage({
                 <Link
                   href={post.tweet}
                   target="_blank"
-                  className={cx(
+                  className={cn(
                     buttonVariants({ variant: "outline", size: "sm" })
                   )}
                 >
