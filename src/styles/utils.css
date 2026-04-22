@@ -10,6 +10,67 @@
   max-width: var(--container-text-inset);
 }
 
+/*
+ * gutter-rules — two fixed vertical rules at the text-container edges.
+ *
+ * USAGE
+ *   Apply to <body>. Any element that needs to *emulate* these rules
+ *   locally (because it has an opaque background that would otherwise
+ *   cover the page rules — e.g. sticky nav, sticky list-header) should
+ *   get `data-gutter-align` instead of a manual `border-x`. This utility
+ *   paints their borders automatically, so turning gutter-rules off on
+ *   <body> disables the entire system from one place.
+ *
+ * HOW IT WORKS
+ *   1. The ::before is `position: fixed`, centered at 50% with
+ *      `transform: translateX(-50%)` and widthed to --container-text-inset.
+ *      `border-inline` draws both rules in a single pseudo — no symmetric
+ *      `calc(50% - w/2)` math, no second ::after needed.
+ *   2. z-index: -1 sends the pseudo BEHIND in-flow content so gallery
+ *      images, cards, etc. cover it. For this to work, <body> MUST NOT
+ *      have its own background — the bg lives on <html> (see globals.css).
+ *      A body bg would paint at the in-flow layer and hide the rules.
+ *   3. Sticky elements (nav z-200, list-header z-10) sit above the z: -1
+ *      pseudo and their bg-canvas covers the page rules inside them.
+ *      `[data-gutter-align]` re-draws matching borders at their own layer
+ *      so the rules appear continuous across the sticky surface.
+ *   4. md breakpoint only — the rules only render from 768px up because
+ *      below that the container spans the viewport and the rules would
+ *      sit on the viewport edge.
+ *
+ * TOGGLING
+ *   Remove `gutter-rules` from <body> (globals.css). Everything —
+ *   page rules AND the nav/list-header emulated borders — disappears
+ *   together. That's the single source of truth.
+ *
+ * GOTCHAS
+ *   - Do NOT add `bg-canvas` (or any opaque bg) to <body>. It will hide
+ *     the z: -1 pseudo.
+ *   - Do NOT raise z-index to paint over content. Tried z: 300 — the
+ *     fixed 1px lines then visibly cross gallery images. z: -1 is the
+ *     right layer; re-emulate locally on sticky surfaces instead.
+ *   - If a new sticky/opaque surface spans the container width, give it
+ *     `data-gutter-align` rather than a manual `border-x`.
+ */
+@utility gutter-rules {
+  @media (min-width: 768px) {
+    &::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      left: 50%;
+      width: var(--container-text-inset);
+      transform: translateX(-50%);
+      border-inline: 1px solid var(--color-border);
+      pointer-events: none;
+      z-index: -1;
+    }
+    & [data-gutter-align] {
+      border-inline: 1px solid var(--color-border);
+    }
+  }
+}
+
 @utility link {
   @apply relative;
   @apply underline underline-offset-[0.25em];

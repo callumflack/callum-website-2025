@@ -1,6 +1,6 @@
 "use client";
 
-import { cx } from "cva";
+import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useWindowScroll } from "react-use";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
@@ -38,10 +38,10 @@ export const Nav = ({
   const isScrolled = y > 150;
 
   return (
-    // Want id="top"? Move it to a parent element without sticky positioning
+    // Want id="top"? Not here! Move it to a parent element without sticky positioning
     <div
       data-component={componentName}
-      className={cx(
+      className={cn(
         "bg-canvas sticky top-0 z-200",
         // "bg-canvas border-b"
         // "bg-canvas-[0.99] backdrop-blur-xl"
@@ -49,14 +49,14 @@ export const Nav = ({
       )}
     >
       <nav
-        className={cx(
+        data-gutter-align
+        className={cn(
           "container flex items-center gap-2.5",
-          "pt-[calc(var(--spacing-nav)-var(--spacing-tab))]",
-          "border-x"
+          "pt-[calc(var(--spacing-nav)-var(--spacing-tab))]"
         )}
       >
         <NavLink
-          className={cx("pl-0 before:left-0")}
+          className={cn("pl-0 before:left-0")}
           isActive={pathname === "/" || showRootActive}
           href="/"
           label={anchorName}
@@ -79,7 +79,7 @@ export const Nav = ({
       </nav>
 
       <OutsetRule
-        ruleClassName={cx(
+        ruleClassName={cn(
           isScrolled ? "border-border" : "border-transparent",
           ruleClassName
         )}
@@ -97,7 +97,7 @@ interface NavLinkProps {
 
 const NavLink = ({ href, isActive, label, className }: NavLinkProps) => (
   <Link
-    className={cx(
+    className={cn(
       textVariants({ intent: "meta", weight: "medium" }),
       linkStyle,
       isActive

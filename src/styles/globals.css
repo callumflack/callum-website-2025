@@ -52,7 +52,7 @@
   body {
     @apply relative h-full min-h-svh;
     @apply text-body font-sans font-normal antialiased;
-    @apply bg-canvas text-fill;
+    @apply text-fill;
 
     /* 1. Apple kerning, from http://design.byform.co/ */
     /* font-feature-settings: "kern" 1,'ss01' 1,'ss02' 1,'ss03' 1,'ss04' 1; */
@@ -67,27 +67,8 @@
       color 500ms ease,
       opacity 500ms ease;
 
-    &::before,
-    &::after {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background-color: var(--color-border);
-      z-index: 1;
-    }
-    &::before {
-      left: calc(50% - var(--container-text-inset) / 2);
-    }
-    &::after {
-      right: calc(50% - var(--container-text-inset) / 2);
-    }
-    @media (min-width: 768px) {
-      &::before,
-      &::after {
-        content: "";
-      }
-    }
+    /* custom body style! */
+    @apply gutter-rules;
   }
   input::placeholder,
   textarea::placeholder {
