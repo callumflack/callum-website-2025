@@ -31,7 +31,7 @@
    * Workaround used here: store the step as a clamped 0px..1px length and
    * multiply tokens by a unitless range instead of a px range:
    *   --fluid-step: max(0px, min(1px, calc((100vw - 500px) / 700)));
-   *   --text-base: calc(14px + (3 * var(--fluid-step)));
+   *   --text-body: calc(14px + (3 * var(--fluid-step)));
    *
    * The DX is identical — pick a min px value and a unitless px range.
    */
@@ -40,10 +40,9 @@
   --text-fine: calc(9px + (2 * var(--fluid-step)));
   --text-pill: calc(10px + (1.5 * var(--fluid-step)));
   --text-meta: calc(11px + (2.5 * var(--fluid-step)));
-  --text-base: calc(14px + (3 * var(--fluid-step)));
-  --text-body: var(--text-base);
+  --text-body: calc(14px + (3 * var(--fluid-step)));
   --text-heading: calc(17px + (4 * var(--fluid-step)));
-  --text-title: calc(22px + (6 * var(--fluid-step)));
+  --text-title: calc(21px + (6 * var(--fluid-step)));
 
   --default-line-height: calc(24 / 17);
   --text-pill--line-height: 1;
