@@ -56,7 +56,7 @@ function extractCaption(alt: string = "", explicitCaption?: React.ReactNode) {
   return { caption: undefined, cleanAlt: alt };
 }
 
-const mediaSpacing = "py-w6 first:pt-0";
+const mediaSpacing = "py-small first:pt-0 first:pb-gap";
 
 export function ZoomableImage(props: MdxImageProps) {
   const {
