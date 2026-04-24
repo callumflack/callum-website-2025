@@ -39,6 +39,7 @@ export const posts = defineCollection({
       Category.PROJECTS,
       Category.NOTES,
       Category.PAGE,
+      Category.SHELF,
     ]),
     type: z
       .enum([PostType.POST, PostType.PAGE, PostType.LINK, PostType.INDEX])

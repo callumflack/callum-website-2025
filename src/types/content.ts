@@ -9,6 +9,7 @@ export enum Category {
   PROJECTS = "projects",
   NOTES = "notes",
   PAGE = "page",
+  SHELF = "shelf",
 }
 
 // Client-safe types derived from Category enum

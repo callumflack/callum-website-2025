@@ -10,7 +10,7 @@ export enum NavRoute {
   WRITING = "writing",
   WORK = "work",
   GALLERY = "gallery",
-  // SHELF = "shelf",
+  SHELF = "shelf",
   // FRIENDS = "friends",
   ABOUT = "about",
 }
@@ -20,7 +20,7 @@ export enum NavLabel {
   WRITING = "Writing",
   WORK = "Work",
   GALLERY = "Gallery",
-  // SHELF = "Shelf",
+  SHELF = "Shelf",
   // FRIENDS = "Friends",
   ABOUT = "About",
 }
@@ -33,6 +33,8 @@ export const getCategoryNavRoute = (category: string): NavRoute | undefined => {
       return NavRoute.WRITING;
     case Category.NOTES:
       return NavRoute.LOG;
+    case Category.SHELF:
+      return NavRoute.SHELF;
     default:
       return undefined;
   }
@@ -69,8 +71,8 @@ export const PageWrapper = ({
           { href: `/${NavRoute.WORK}`, label: NavLabel.WORK },
           { href: `/${NavRoute.WRITING}`, label: NavLabel.WRITING },
           { href: `/${NavRoute.GALLERY}`, label: NavLabel.GALLERY },
-          { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
-          // { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
+          { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
+          // { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
           // { href: `/${NavRoute.FRIENDS}`, label: NavLabel.FRIENDS },
           { href: `/${NavRoute.ABOUT}`, label: NavLabel.ABOUT },
         ]}

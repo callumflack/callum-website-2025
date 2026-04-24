@@ -15,11 +15,19 @@
 .Prose > [data-component="Zoomable"] {
   max-width: none;
 }
-.Prose > a {
-  @apply block;
+
+/* PARAGRAPHS */
+.Prose p {
+  @apply text-pretty;
+}
+.Prose li > p {
+  @apply text-balance;
 }
 
 /* INLINE ELEMENTS - strong, em, span (MDX highlight syntax) */
+.Prose > a {
+  @apply block;
+}
 .Prose strong {
   @apply font-medium;
 }
@@ -39,12 +47,14 @@
 .Prose > h2,
 .Prose > h3 {
   @apply mt-w8;
+  @apply text-balance;
 }
 .Prose > h2 + h3 {
   @apply mt-w4;
 }
 .Prose h4 {
   @apply font-bold;
+  @apply text-balance;
 }
 
 /* ZOOMABLE ORCHESTRATION - Sibling spacing for media */

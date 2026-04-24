@@ -6,6 +6,12 @@ const categoryMap: Record<ListCategory, Category> = {
   writing: Category.WRITING,
 };
 
+export function getShelfPosts(): Post[] {
+  return allPosts
+    .filter((p) => !p.draft && p.category === Category.SHELF)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
 export function getPosts(category: ListCategory): Post[] {
   return allPosts.filter(
     (p) => !p.draft && p.category === categoryMap[category]
