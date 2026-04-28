@@ -12,6 +12,7 @@ export enum NavRoute {
   GALLERY = "gallery",
   SHELF = "shelf",
   // FRIENDS = "friends",
+  NOW = "now",
   ABOUT = "about",
 }
 
@@ -22,6 +23,7 @@ export enum NavLabel {
   GALLERY = "Gallery",
   SHELF = "Shelf",
   // FRIENDS = "Friends",
+  NOW = "Now",
   ABOUT = "About",
 }
 
@@ -74,6 +76,7 @@ export const PageWrapper = ({
           { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
           // { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
           // { href: `/${NavRoute.FRIENDS}`, label: NavLabel.FRIENDS },
+          { href: `/${NavRoute.NOW}`, label: NavLabel.NOW },
           { href: `/${NavRoute.ABOUT}`, label: NavLabel.ABOUT },
         ]}
       />

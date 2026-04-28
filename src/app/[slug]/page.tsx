@@ -1,5 +1,5 @@
-import { buttonVariants, Link } from "@/components/atoms";
-import { OutsetRule } from "@/components/elements";
+import { buttonVariants, Link, Text } from "@/components/atoms";
+import { OutsetRule, TitleHeader } from "@/components/elements";
 import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
@@ -40,6 +40,7 @@ export default async function SlugPage({
   }
 
   const isAboutPage = post.slug === "about";
+  const isNowPage = post.slug === "now";
   const isWorkPage = post.slug === "the-work-and-team-im-after";
   const isLettersPage = post.slug === "letters";
   const isPage = post.type === "page";
@@ -47,6 +48,9 @@ export default async function SlugPage({
   const renderActiveNav = () => {
     if (isAboutPage || isWorkPage) {
       return NavRoute.ABOUT;
+    }
+    if (isNowPage) {
+      return NavRoute.NOW;
     }
     return getCategoryNavRoute(post.category);
   };
@@ -106,7 +110,14 @@ export default async function SlugPage({
         )
       }
     >
-      <PageInner variant="post">
+      <PageInner variant={isNowPage ? "index" : "post"}>
+        {isNowPage && (
+          <TitleHeader>
+            <Text as="h1" intent="title">
+              {post.title}
+            </Text>
+          </TitleHeader>
+        )}
         <PostPage post={post} theme="post" />
       </PageInner>
     </PageWrapper>
