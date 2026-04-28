@@ -3,23 +3,7 @@ import localFont from "next/font/local";
 export const sans = localFont({
   variable: "--font-sans",
   display: "swap",
-  src: [
-    {
-      path: "../../public/fonts/neue-haas-unica-pro-regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/neue-haas-unica-pro-medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/neue-haas-unica-pro-bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+  src: "../../public/fonts/DiatypePlusVariable.woff2",
 });
 
 export const mono = localFont({
