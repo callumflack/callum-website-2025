@@ -1,5 +1,6 @@
 import { buttonVariants, Link, Text } from "@/components/atoms";
 import { OutsetRule, TitleHeader } from "@/components/elements";
+import { CopyMarkdownButtonWrapper } from "@/components/elements/copy-markdown-button-wrapper";
 import { DownloadButtonWrapper } from "@/components/elements/download-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
@@ -75,6 +76,10 @@ export default async function SlugPage({
                 url={getGithubRawUrl(post._id)}
                 filename={`${post.slug}.md`}
                 label="Download"
+              />
+              <CopyMarkdownButtonWrapper
+                url={getGithubRawUrl(post._id)}
+                label="Copy"
               />
               {/* {!isPage && (
                 <Link
