@@ -72,7 +72,7 @@ export const PageWrapper = ({
         navItems={[
           { href: `/${NavRoute.WORK}`, label: NavLabel.WORK },
           { href: `/${NavRoute.WRITING}`, label: NavLabel.WRITING },
-          { href: `/${NavRoute.GALLERY}`, label: NavLabel.GALLERY },
+          // { href: `/${NavRoute.GALLERY}`, label: NavLabel.GALLERY },
           { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
           // { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
           // { href: `/${NavRoute.FRIENDS}`, label: NavLabel.FRIENDS },

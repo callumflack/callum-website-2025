@@ -39,9 +39,9 @@
 
   --text-fine: calc(9px + (2 * var(--fluid-step)));
   --text-pill: calc(10px + (2 * var(--fluid-step)));
-  --text-meta: calc(11px + (2 * var(--fluid-step)));
-  --text-body: calc(14px + (2 * var(--fluid-step)));
-  --text-heading: calc(17px + (3 * var(--fluid-step)));
+  --text-meta: calc(12px + (1 * var(--fluid-step)));
+  --text-body: calc(15px + (1 * var(--fluid-step)));
+  --text-heading: calc(17px + (2 * var(--fluid-step)));
   --text-title: calc(21px + (6 * var(--fluid-step)));
 
   --default-line-height: calc(24 / 17);
@@ -66,8 +66,8 @@
   --spacing-em: 1em;
   --spacing-bullet: 1.35em;
   --spacing-inset: calc(15px + (9 * var(--fluid-step)));
-  --spacing-nav: clamp(68px, 64.57px + 0.69vw, 80px);
-  --spacing-tab: clamp(44px, 42.57px + 0.69vw, 54px);
+  --spacing-nav: calc(68px + (12 * var(--fluid-step)));
+  --spacing-tab: calc(44px + (10 * var(--fluid-step)));
 
   --spacing-gap: var(--spacing-w4);
   --spacing-small: var(--spacing-w6);

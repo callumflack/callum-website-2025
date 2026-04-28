@@ -68,7 +68,7 @@
       opacity 500ms ease;
 
     /* custom body style! */
-    @apply gutter-rules;
+    /* @apply gutter-rules; */
   }
   input::placeholder,
   textarea::placeholder {
