@@ -49,5 +49,5 @@ export const featuredNotesSlugs = [
 export const homeLatest = {
   pinned: ["you-cant-design-a-ui-without-designing-the-code"],
   exclude: ["the-work-and-team-im-after", "about", "letters"],
-  limit: 3,
+  limit: 5,
 } as const;
