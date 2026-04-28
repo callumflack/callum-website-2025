@@ -1,0 +1,65 @@
+---
+date: 2026-04-28
+title: Two interrogation skills
+draft: false
+summary: "I published two agent skills for reading before responding: one for mining idioms, one for locating claims. They are small tools for preserving the shape of thinking."
+category: writing
+tags:
+  - agents
+  - language
+  - thinking
+---
+
+> I argue that data becomes temporarily interesting by itself to some self-improving, but computationally limited, subjective observer once he learns to predict or compress the data in a better way, thus making it subjectively simpler and more beautiful. **Jürgen Schmidhuber, [Driven by Compression Progress](https://arxiv.org/abs/0812.4360)**
+
+Friction protects compression progress. To enhance my agentic research process, I've published two small agent skills that do just this:
+
+- [`interrogate-idiom`](https://github.com/callumflack/skills)
+- [`interrogate-claim`](https://github.com/callumflack/skills)
+
+They are not writing prompts. They are reading prompts. Friction prompts, if you will.
+
+The point is not to slow down but to reintroduce friction exactly where judgment is needed. Agents make it very easy to answer before one has understood what kind of thing one is looking at. These skills put friction back at the exact moment where reading usually collapses.
+
+## Interrogate idiom
+
+[Center Study](https://x.com/centerstudy_) has a particular vocabulary for how language gathers attention into shared scenes. The term I need here is "idiom".[^1]
+
+In ordinary speech, an idiom is a phrase whose meaning cannot be understood from its individual words: raining cats and dogs, piece of cake, break a leg. But in Center Study parlance, an idiom is the little piece of language that becomes the durable, repeatable handle that organises a scene. It becomes the currency that allows people to recognise, co-ordinate and attend to the same thing without needing to unfold the whole argument every time.
+
+LLM agents default to summarise. And summary kills idioms. It turns the thing with force back into explanation. `interrogate-idiom` does the opposite. It keeps the phrase intact long enough to ask whether it is active: can it hold a scene, carry pressure, and yield distinctions?
+
+That is what [`interrogate-idiom`](https://github.com/callumflack/skills) is for. It asks:
+
+- what exact phrase is carrying force?
+- what scene produced the need for it?
+- what pressure does it compress?
+- what does it make newly easy to say?
+- can it travel?
+- does it become more useful when repeated?
+
+This is [idiom mining](https://x.com/centerstudy_/status/2005055163791516146?s=20). The phrase is already there in the material. The question is whether it is just wording, or whether an old force is trying to become a new scene through it.
+
+## Interrogate claim
+
+The second skill is simpler: [`interrogate-claim`](https://github.com/callumflack/skills).
+
+It exists because most disagreement is fake disagreement. A note says one thing (usually with an iceberg of context hidden under the surface). The reader reacts to a neighboring thing. Then everyone argues about the wrong thing.
+
+`interrogate-claim` forces the reader to locate the claim before responding. What is the central claim? What level is it operating at? Product, protocol, UX, business model, sequencing, wording? What burden does the argument carry? What would need to be true for it to hold? Does the objection answer the claim, or only a weaker nearby claim?
+
+The useful output is not agree or disagree. The useful output is:
+
+> here is the claim, here is the level, here is the real burden.
+
+That is enough to make the next response better.
+
+## Why skills
+
+These are the first skills I've published in my [skills repo](https://github.com/callumflack/skills) because this is the way I want to work with agents. Not "write me something", "summarise this", or "give me takes" but sparring partners that force attention back onto the object before judgment runs ahead of reading.
+
+Sometimes that means finding the claim. Sometimes it means refusing to flatten an idiom into explanation.
+
+This is the friction I want from agents: not drag, but the pressure that keeps attention in the place where better compression becomes possible.
+
+[^1]: Adam Katz's [On Credit and the Idiom](https://www.centersearchcenter.com/2024-12-20/on-credit-and-the-idiom) is the primary source I am using to anchor `interrogate-idiom`.
