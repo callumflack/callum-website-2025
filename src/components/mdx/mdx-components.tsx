@@ -1,6 +1,5 @@
 import type { TextProps } from "@/components/atoms";
 import { Link, Text } from "@/components/atoms";
-import { LinkWithArrow } from "@/components/elements";
 import {
   Avatar,
   Contacts,
@@ -52,10 +51,12 @@ export const components = {
   },
   a: ({ href, ...props }: AnchorProps) => {
     const isExternal = href && /^(?:https?:)?\/\//.test(href);
-    return isExternal ? (
-      <LinkWithArrow href={href} {...props} />
-    ) : (
-      <Link href={href || "#"} {...props} />
+    return (
+      <Link
+        data-external={isExternal ? "true" : undefined}
+        href={href || "#"}
+        {...props}
+      />
     );
   },
   EmailLink: ({ children, ...props }: Omit<AnchorProps, "href">) => (
@@ -140,7 +141,6 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
       className="group/heading not-first:mt-w8 scroll-mt-[calc(var(--spacing-nav)+var(--spacing-inset))]"
       id={id}
       intent={as === "h2" ? "heading" : "body"}
-      weight={as === "h2" ? "medium" : "medium"}
     >
       {children ? (
         <Link
