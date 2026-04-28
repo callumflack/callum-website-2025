@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/atoms";
 import { DownloadIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClickConfirmation } from "./copy-button";
 import { Spinner } from "./spinner";
 
@@ -17,20 +17,24 @@ export const CVDownloadButton = ({
 }: CVDownloadButtonProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    if (showNotification) {
-      setIsVisible(true);
-      timeout = setTimeout(() => {
-        setIsVisible(false);
-        setTimeout(() => setShowNotification(false), 300); // Remove from DOM after transition
-      }, 2000);
-    }
-    return () => clearTimeout(timeout);
-  }, [showNotification]);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const showConfirmation = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    setShowNotification(true);
+
+    timeoutRef.current = setTimeout(() => {
+      setShowNotification(false);
+    }, 2000);
+  };
 
   const handleDownload = async () => {
     try {
@@ -53,13 +57,13 @@ export const CVDownloadButton = ({
       document.body.removeChild(a);
 
       // Show success notification
-      setShowNotification(true);
+      showConfirmation();
     } catch (error) {
       console.error("Download error:", error);
       setErrorMessage(
         error instanceof Error ? error.message : "Download failed"
       );
-      setShowNotification(true);
+      showConfirmation();
     } finally {
       setIsDownloading(false);
     }
@@ -69,7 +73,6 @@ export const CVDownloadButton = ({
     <span className="relative">
       {showNotification && (
         <ClickConfirmation
-          isVisible={isVisible}
           hasError={!!errorMessage}
           message={errorMessage || "CV downloaded!"}
         />
