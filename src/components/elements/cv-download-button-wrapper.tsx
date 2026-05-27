@@ -10,8 +10,7 @@ import {
 } from "./cv-download-button";
 
 export function CVDownloadButtonWrapper({
-  filename,
   label,
 }: CVDownloadButtonProps) {
-  return <CVDownloadButton filename={filename} label={label} />;
+  return <CVDownloadButton label={label} />;
 }

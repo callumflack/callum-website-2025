@@ -1,18 +1,17 @@
 "use client";
 
 import { Button } from "@/components/atoms";
+import config from "@/config";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState } from "react";
 import { ClickConfirmation } from "./copy-button";
 import { Spinner } from "./spinner";
 
 export type CVDownloadButtonProps = {
-  filename: string;
   label?: string;
 };
 
 export const CVDownloadButton = ({
-  filename,
   label = "Download CV",
 }: CVDownloadButtonProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -41,12 +40,11 @@ export const CVDownloadButton = ({
       setIsDownloading(true);
       setErrorMessage(null);
 
-      // Create a path to the public PDF file
-      const pdfPath = `/CallumFlack-CV-260527.pdf`;
+      const filename = config.CV_URL.split("/").at(-1) ?? "CallumFlack-CV.pdf";
 
       // Create a temporary download link to the file in the public folder
       const a = document.createElement("a");
-      a.href = pdfPath;
+      a.href = config.CV_URL;
       a.download = filename;
       document.body.appendChild(a);
 

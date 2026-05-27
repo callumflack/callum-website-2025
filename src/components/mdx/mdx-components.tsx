@@ -64,6 +64,11 @@ export const components = {
       {children ?? config.EMAIL}
     </Link>
   ),
+  CVLink: ({ children, ...props }: Omit<AnchorProps, "href">) => (
+    <Link href={config.CV_URL} {...props}>
+      {children ?? "my CV"}
+    </Link>
+  ),
   p: ({ children, ...props }: ParagraphProps) => {
     // Check if children is a single element and is an image
     if (

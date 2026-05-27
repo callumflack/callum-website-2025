@@ -10,6 +10,7 @@ const config = {
   LINKEDIN_URL: "https://www.linkedin.com/in/callumflack/",
   SUBSTACK_URL: "https://thelittoralline.substack.com/",
   READCV_URL: "https://read.cv/callum",
+  CV_URL: "/CallumFlack-CV-260527.pdf",
 };
 
 export default config;
