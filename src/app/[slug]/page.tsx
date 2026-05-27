@@ -93,7 +93,7 @@ export default async function SlugPage({
               )} */}
               {/* {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
-                  filename="CallumFlackCV2024.pdf"
+                  filename="CallumFlack-CV-260527.pdf"
                   label="Download CV"
                 />
               ) : null} */}

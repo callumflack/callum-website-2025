@@ -42,7 +42,7 @@ export const CVDownloadButton = ({
       setErrorMessage(null);
 
       // Create a path to the public PDF file
-      const pdfPath = `/CallumFlackCV2024.pdf`;
+      const pdfPath = `/CallumFlack-CV-260527.pdf`;
 
       // Create a temporary download link to the file in the public folder
       const a = document.createElement("a");
