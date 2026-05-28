@@ -8,6 +8,7 @@ const categoryDirMap = new Map([
   ["projects", "projects"],
   ["notes", "notes"],
   ["page", "pages"],
+  ["shelf", "shelf"],
 ]);
 
 const isMdx = (name) => name.endsWith(".mdx");
