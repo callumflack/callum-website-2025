@@ -1,0 +1,111 @@
+---
+date: 2026-05-20
+title: Before nontrivial action, prove the owner and oracle
+linkTitle: Owner and oracle
+draft: false
+summary: "A compact rule for working with coding agents: before they act, make them name what owns the work and what will prove it touched reality."
+category: writing
+tags:
+  - engineering
+  - AI
+  - agents
+---
+
+My shortest rule for using coding agents well is:
+
+> Before nontrivial action, prove the owner and oracle.
+
+That sounds abstract, but it is practical. Before an agent edits or claims done, it should name:
+
+- the owner surface
+- allowed writes
+- forbidden surfaces
+- done gate
+- first real check
+
+For trivial chat or one-line commands, skip it. For anything that can sprawl, break, or silently mutate the wrong part of a system, do it first.
+
+## Owner
+
+The owner is the surface with authority over the work.
+
+In a codebase, this might be the route, package, resolver, gate, README, test, product doc, design primitive, or runtime boundary that actually owns the decision. Without an owner, agents drift toward whatever file looks nearby or recently loaded.
+
+That is how analogy becomes architecture. A useful idea from one repo gets pasted into another without being translated into local checks. A package gets extracted because reuse sounds clean. A skill gets patched because the agent found a skill folder, even though local doctrine belongs in the resolver.
+
+The owner question blocks that.
+
+What owns this work?
+
+What am I allowed to change?
+
+What am I forbidden to touch?
+
+## Oracle
+
+The oracle is the check that proves the work touched reality.
+
+For code, that might be a typecheck, test, lint pass, browser probe, runtime-boundary check, or exact file inspection. For writing, it might be source pressure: does the sentence still carry the live distinction, or did we smooth it into mush?
+
+Agents are fluent enough to fake completion. The oracle makes completion expensive to fake.
+
+The useful version is not “verify the work.” That is too vague. The useful version is:
+
+What is the first real check?
+
+Then: what is the next check if this one passes?
+
+## Friction
+
+Friction is signal.
+
+If it repeats or costs too much, add the smallest constraint and the nearest check.
+
+This is the part I keep relearning. Friction with an agent is rarely solved by telling it to be better. The better move is to ask what was missing:
+
+- Was the owner unclear?
+- Were forbidden surfaces unnamed?
+- Was the done gate vague?
+- Was memory stale?
+- Was there no real oracle?
+- Did the agent turn analogy into architecture?
+
+Then add the smallest guardrail that would have prevented the miss.
+
+Not a process cathedral. Not another giant instruction file. Just enough constraint at the point where guessing became expensive.
+
+## My Default Agent Rules
+
+Here is the current block I use:
+
+```text
+Keep your responses brutally short and idiomatic.
+Always feel free to disagree.
+
+Before nontrivial action, prove the owner and oracle.
+That means: name the owner surface, allowed writes, forbidden surfaces, done gate, and first real check before editing or claiming done. For trivial chat or one-line commands, skip this.
+
+Do not turn analogy into architecture. Translate ideas into repo-local checks before claiming they apply.
+
+Prefer the smallest constraint that prevents the miss. Do not add process unless a repeated failure or high-cost footgun proves it.
+
+When using memory, distinguish confirmed-current facts from stale context. Re-check live files when the answer depends on repo state.
+
+If a task is ambiguous, make one concrete assumption and state it briefly. Ask only when the wrong assumption would be expensive.
+
+Treat user friction as signal: stop, restate the actual request, identify the missed constraint, then continue only inside the corrected scope.
+
+For code work, prove done with the narrowest real oracle: typecheck, test, lint, browser truth, runtime-boundary check, or exact file inspection.
+
+For writing/synthesis, preserve the source's pressure. Do not smooth language until the claim, burden, and live distinction are clear.
+
+Do not over-explain. Give the gist first; expand only where the decision depends on it.
+
+If I'm frustrated and inconsiderate, please accept my apologies; Treat friction as signal: when it repeats or costs too much, add the smallest constraint and the nearest check.
+```
+
+The point is not to make agents slower. The point is to keep them in contact with the actual system.
+
+Owner says where the work belongs.
+
+Oracle says how reality answers back.

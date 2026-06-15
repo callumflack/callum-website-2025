@@ -47,7 +47,7 @@ export const featuredNotesSlugs = [
  * writing feed (personal pages, pitch pages, etc).
  */
 export const homeLatest = {
-  pinned: ["you-cant-design-a-ui-without-designing-the-code"],
+  pinned: [],
   exclude: ["the-work-and-team-im-after", "about", "letters"],
-  limit: 5,
+  limit: 7,
 } as const;
