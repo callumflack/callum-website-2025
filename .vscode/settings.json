@@ -5,7 +5,8 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
 
   // Language-specific formatters
