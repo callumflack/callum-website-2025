@@ -8,6 +8,7 @@ import {
   NavRoute,
   PageInner,
   PageWrapper,
+  PostMeta,
   PostPage,
 } from "@/components/page";
 import config from "@/config";
@@ -114,11 +115,16 @@ export default async function SlugPage({
       }
     >
       <PageInner variant={isNowPage ? "index" : "post"}>
-        {isNowPage && (
+        {(isNowPage || isWorkPage) && (
           <TitleHeader>
             <Text as="h1" intent="title">
               {post.title}
             </Text>
+            <PostMeta
+              post={post}
+              theme="post"
+              dateFormat={isNowPage ? "monthYear" : "lastUpdatedMonthYear"}
+            />
           </TitleHeader>
         )}
         <PostPage post={post} theme="post" />

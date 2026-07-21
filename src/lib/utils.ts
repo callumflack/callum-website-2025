@@ -10,6 +10,10 @@ export const formatPostDate = (dateString: string): string => {
   return format(parseISO(dateString), "MMM d, yyyy");
 };
 
+export const formatPostMonthYear = (dateString: string): string => {
+  return format(parseISO(dateString), "MMMM yyyy");
+};
+
 export function slugify(title: string): string {
   return (
     title
