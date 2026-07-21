@@ -5,8 +5,8 @@ export const pageInnerVariants = cva({
   base: "",
   variants: {
     variant: {
-      post: "pt-w12 space-y-w8",
-      index: "pt-w12 space-y-2.5",
+      post: "pt-w20 space-y-w8",
+      index: "pt-w20 space-y-2.5",
       log: "",
       home: "pt-w8 space-y-2.5",
     },

@@ -45,8 +45,8 @@ export const buttonVariants = cva({
     },
     size: {
       default: "h-[44px] px-w6 text-body",
-      sm: "h-[36px] px-w4 text-meta",
-      xs: "h-[27px] px-3 text-meta",
+      sm: "h-[32px] px-w4 text-meta",
+      xs: "h-[25px] px-3 text-meta",
       reset: "",
     },
     caps: {

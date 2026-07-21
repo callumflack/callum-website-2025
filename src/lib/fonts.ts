@@ -5,18 +5,28 @@ export const sans = localFont({
   display: "swap",
   src: [
     {
-      path: "../../public/fonts/neue-haas-unica-pro-regular.woff2",
+      path: "../../public/fonts/NeueHaasUnicaW1G.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-medium.woff2",
+      path: "../../public/fonts/NeueHaasUnicaW1GItalic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/NeueHaasUnicaW1GMedium.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/neue-haas-unica-pro-bold.woff2",
+      path: "../../public/fonts/NeueHaasUnicaW1GBold.woff2",
       weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/NeueHaasUnicaW1GHeavy.woff2",
+      weight: "800",
       style: "normal",
     },
   ],
@@ -27,16 +37,8 @@ export const mono = localFont({
   display: "swap",
   src: [
     {
-      // public/fonts/IBMPlexMono-Medium.woff
-      // path: "../../public/fonts/SohneMono-Buch.woff2",
-      path: "../../public/fonts/GT-America-Mono-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      // path: "../../public/fonts/SohneMono-Buch.woff2",
-      path: "../../public/fonts/GT-America-Mono-Medium.woff2",
-      weight: "500",
+      path: "../../public/fonts/PaperMono[wght].ttf",
+      weight: "100 900",
       style: "normal",
     },
   ],
