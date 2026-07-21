@@ -65,23 +65,21 @@ export default async function SlugPage({
       hideFooter={isLettersPage}
       shareNode={
         isLettersPage ? null : (
-          <div>
-            <OutsetRule />
-            <div className="py-w8 gap-w4 container flex items-center">
-              <ShareButtonWrapper
-                url={`${config.PUBLIC_URL}/${post.slug}`}
-                theme="post"
-              />
-              {/* <DownloadButtonWrapper
+          <div className="py-w6 gap-gap container flex items-center">
+            <ShareButtonWrapper
+              url={`${config.PUBLIC_URL}/${post.slug}`}
+              theme="post"
+            />
+            {/* <DownloadButtonWrapper
                 url={getGithubRawUrl(post._id)}
                 filename={`${post.slug}.md`}
                 label="Download"
               /> */}
-              <CopyMarkdownButtonWrapper
-                url={getGithubRawUrl(post._id)}
-                label="Copy"
-              />
-              {/* {!isPage && (
+            <CopyMarkdownButtonWrapper
+              url={getGithubRawUrl(post._id)}
+              label="Copy"
+            />
+            {/* {!isPage && (
                 <Link
                   href={await getGithubIssueUrl(post.slug)}
                   target="_blank"
@@ -92,24 +90,23 @@ export default async function SlugPage({
                   Comment on GitHub
                 </Link>
               )} */}
-              {/* {isAboutPage || isWorkPage ? (
+            {/* {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
                   label="Download CV"
                 />
               ) : null} */}
-              {post.tweet && (
-                <Link
-                  href={post.tweet}
-                  target="_blank"
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" })
-                  )}
-                >
-                  <ChatBubbleIcon className="size-em" />
-                  Comment on X
-                </Link>
-              )}
-            </div>
+            {post.tweet && (
+              <Link
+                href={post.tweet}
+                target="_blank"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" })
+                )}
+              >
+                <ChatBubbleIcon className="size-em" />
+                Comment on X
+              </Link>
+            )}
           </div>
         )
       }
