@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import type { ComponentPropsWithoutRef } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { textVariants } from "@/components/atoms";
+import { cn } from "@/lib/utils";
 
 export type CopyButtonProps = {
   valueToCopy: string;
@@ -80,24 +81,45 @@ type ClickConfirmationProps = {
   message: string;
 };
 
+type ClickConfirmationSurfaceProps = ComponentPropsWithoutRef<"span"> & {
+  hasError: boolean;
+};
+
+export const ClickConfirmationSurface = forwardRef<
+  HTMLSpanElement,
+  ClickConfirmationSurfaceProps
+>(({ hasError, className, style, ...props }, ref) => (
+  <span
+    ref={ref}
+    className={cn(
+      "rounded-button px-w4 pt-2 pb-2.5 shadow-md",
+      textVariants({ intent: "pill" }),
+      className
+    )}
+    style={{
+      backgroundColor: hasError ? "#ef4444" : "#202020",
+      color: "#fdfdfd",
+      ...style,
+    }}
+    {...props}
+  />
+));
+
+ClickConfirmationSurface.displayName = "ClickConfirmationSurface";
+
 export const ClickConfirmation = ({
   hasError,
   message,
 }: ClickConfirmationProps) => {
   return (
-    <span
+    <ClickConfirmationSurface
+      hasError={hasError}
       className={cn(
         "absolute -top-[3.5em] left-1/2 z-50 min-w-max",
-        "-translate-x-1/2 transform",
-        "rounded-button px-w4 pt-2 pb-2.5 shadow-md",
-        textVariants({ intent: "pill" })
+        "-translate-x-1/2 transform"
       )}
-      style={{
-        backgroundColor: hasError ? "#ef4444" : "#202020",
-        color: "#fdfdfd",
-      }}
     >
       {message}
-    </span>
+    </ClickConfirmationSurface>
   );
 };
