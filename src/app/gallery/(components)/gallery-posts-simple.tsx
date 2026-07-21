@@ -15,10 +15,12 @@ import type { Post } from "content-collections";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import { ManualPost } from "./projects-manual";
 
 /* A relative of FeaturedOrIndexPosts and FullOrIndexPosts */
+
+const SORT_BY = ["all", "interactions", "graphics"] as const;
 
 // Type guard to check if a project is a ManualPost
 function isManualPost(project: Post | ManualPost): project is ManualPost {
@@ -42,46 +44,35 @@ export function GalleryPostsSimple({
 }: GalleryPostsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [currentSort, setCurrentSort] = useState<string>(initialSort);
-  const [filteredPosts, setFilteredPosts] =
-    useState<(Post | ManualPost)[]>(posts);
+  const sortParam = searchParams.get("sort");
+  const currentSort =
+    sortParam && SORT_BY.includes(sortParam as (typeof SORT_BY)[number])
+      ? sortParam
+      : initialSort;
 
-  const SORT_BY = useMemo(() => ["all", "interactions", "graphics"], []);
-
-  useEffect(() => {
-    // Filter posts based on the current sort
+  const filteredPosts = useMemo(() => {
     if (currentSort === "all") {
-      setFilteredPosts(posts);
-    } else if (currentSort === "interactions") {
-      // Filter for posts with video assets
-      setFilteredPosts(
-        posts.filter((post) => {
-          if (!post.assets || post.assets.length === 0) return false;
-          return isVideoFile(post.assets[0].src);
-        })
-      );
-    } else if (currentSort === "graphics") {
-      // Filter for posts without video assets
-      setFilteredPosts(
-        posts.filter((post) => {
-          if (!post.assets || post.assets.length === 0) return false;
-          return !isVideoFile(post.assets[0].src);
-        })
-      );
+      return posts;
     }
+
+    return posts.filter((post) => {
+      if (!post.assets || post.assets.length === 0) return false;
+      if (currentSort === "interactions") {
+        return isVideoFile(post.assets[0].src);
+      }
+
+      if (currentSort === "graphics") {
+        return !isVideoFile(post.assets[0].src);
+      }
+
+      return false;
+    });
   }, [currentSort, posts]);
 
-  // Sync with URL params on mount
-  useEffect(() => {
-    const sortParam = searchParams.get("sort");
-    if (sortParam && SORT_BY.includes(sortParam)) {
-      setCurrentSort(sortParam);
-    }
-  }, [searchParams, SORT_BY]);
-
   const handleSortButtonClick = (sortKind: string) => {
-    setCurrentSort(sortKind);
-    router.push(`?sort=${sortKind}`, { scroll: false });
+    if (SORT_BY.includes(sortKind as (typeof SORT_BY)[number])) {
+      router.push(`?sort=${sortKind}`, { scroll: false });
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
