@@ -6,6 +6,7 @@ interface ContactIconProps {
   href: string;
   children: React.ReactNode;
   label?: string;
+  ariaLabel?: string;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   withListItem?: boolean;
@@ -15,12 +16,14 @@ export const ContactIcon = ({
   href,
   children,
   label,
+  ariaLabel,
   className,
   onClick,
   withListItem = true,
 }: ContactIconProps) => {
   const link = (
     <Link
+      aria-label={ariaLabel ?? label}
       className={cn(
         buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
         "text-solid hover:text-solid",
