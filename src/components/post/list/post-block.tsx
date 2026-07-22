@@ -24,7 +24,7 @@ export const PostBlock = ({
       className={cn(
         "group gap-w4 grid grid-cols-20",
         lineHoverStyle,
-        "hover:before:inset-y-[-12px]"
+        "hover:before:inset-y-[calc(1px-var(--spacing-gap))]"
       )}
     >
       {/* IMAGE */}
