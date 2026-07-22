@@ -10,7 +10,7 @@ export default function LogPage() {
 
   return (
     <PageWrapper activeNav="log">
-      <PageInner variant="index">
+      <PageInner variant="indexSticky">
         <TitleHeader>
           <Text as="h1" intent="title">
             Log

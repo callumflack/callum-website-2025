@@ -16,8 +16,7 @@ export const ListHeader = ({
   <div
     data-component="ListHeader"
     className={cn(
-      "bg-canvas top-nav sticky z-10",
-      "translate-y-px transform",
+      "bg-canvas sticky top-0 z-10",
       className
     )}
   >

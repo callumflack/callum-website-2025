@@ -16,10 +16,10 @@ export default function WorkPage() {
 
   return (
     <PageWrapper activeNav="work" theme="feed">
-      <PageInner variant="index">
+      <PageInner variant="indexSticky">
         <TitleHeader>
           <Text as="h1" intent="title">
-            Designing since 1998. Coding since 2010.
+            Projects
           </Text>
           {/* <Text dim balance intent="meta">
             The value of good design is only realised if you have an engineer

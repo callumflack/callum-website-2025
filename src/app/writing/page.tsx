@@ -16,10 +16,10 @@ export default function WritingPage() {
 
   return (
     <PageWrapper activeNav="writing" theme="feed">
-      <PageInner variant="index">
+      <PageInner variant="indexSticky">
         <TitleHeader>
           <Text as="h1" intent="title">
-            If you have the words, you&apos;ll find the way.
+            Writing
           </Text>
           {/* <Text dim balance intent="meta">
             Writing about creativity, design and complexity through the lens of
