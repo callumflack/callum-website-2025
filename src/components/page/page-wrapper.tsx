@@ -76,7 +76,7 @@ const PageWrapperNav = () => (
     data-component="PageWrapper-Nav"
     className="pointer-events-none absolute inset-0 z-20"
   >
-    <nav aria-label="Site navigation" className="top-w20 sticky">
+    <nav aria-label="Site navigation" className="top-gap sm:top-w20 sticky">
       <div className="relative container">
         <HomeButton />
       </div>
