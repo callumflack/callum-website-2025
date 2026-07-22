@@ -27,6 +27,7 @@ export const posts = defineCollection({
   schema: (z) => ({
     draft: z.boolean().optional(),
     date: z.string(),
+    dateLabel: z.string().optional(),
     endDate: z.string().optional(),
     projectIsOngoing: z.boolean().optional(),
     lastEditedDate: z.string().optional(),

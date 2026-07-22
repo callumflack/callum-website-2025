@@ -1,20 +1,26 @@
-import { buttonVariants, Text } from "@/components/atoms";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { type Post } from "content-collections";
+import { ArrowTopRightIcon, StarFilledIcon } from "@radix-ui/react-icons";
+import type { Post } from "content-collections";
 import { format, parseISO } from "date-fns";
-// import { PostCategoryIcon } from "../post-category-icon";
-import { StarFilledIcon } from "@radix-ui/react-icons";
-import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
+import { buttonVariants, Text } from "@/components/atoms";
+import { cn } from "@/lib/utils";
 import { lineHoverStyle } from "../post.styles";
-import { cn } from "@/lib/classes";
+import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 
 interface PostLineProps {
   post: Post;
   isFeed?: boolean;
   isFeatured?: boolean;
+  categoryStyle?: "pill" | "plain";
+  dateFormat?: "date" | "year";
 }
 
-export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
+export const PostLine = ({
+  post,
+  isFeed,
+  isFeatured,
+  categoryStyle = "pill",
+  dateFormat = isFeed ? "date" : "year",
+}: PostLineProps) => {
   // const hoverLabel = () => {
   //   if (isFeed) return "View";
   //   if (post.thumbnailLink) return "Open";
@@ -85,24 +91,23 @@ export const PostLine = ({ post, isFeed, isFeatured }: PostLineProps) => {
         /> */}
 
         {isFeed && (
-          <div
+          <span
             className={cn(
-              buttonVariants({
-                variant: "pill",
-              }),
-              "group-hover:border-fill"
+              categoryStyle === "pill" &&
+                buttonVariants({
+                  variant: "pill",
+                }),
+              categoryStyle === "pill" && "group-hover:border-fill"
             )}
           >
-            <span>
-              {post.category === "projects" ? "Project" : post.category}
-            </span>
-          </div>
+            {post.category === "projects" ? "Project" : post.category}
+          </span>
         )}
 
-        <div className={cn(isFeed ? "md:min-w-[91px]" : "")}>
-          {isFeed
+        <div className={cn(dateFormat === "date" ? "md:min-w-[91px]" : "")}>
+          {dateFormat === "date"
             ? format(parseISO(post.date), "MMM dd, yyyy")
-            : format(parseISO(post.date), "yyyy")}
+            : (post.dateLabel ?? format(parseISO(post.date), "yyyy"))}
         </div>
       </Text>
     </div>

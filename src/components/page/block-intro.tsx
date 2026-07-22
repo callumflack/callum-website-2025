@@ -1,16 +1,18 @@
-import { Link, Text, TextProps } from "@/components/atoms";
+import Image from "next/image";
+import { Link, Text, type TextProps } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
 import { Contacts } from "@/components/page";
 import config from "@/config";
-import Image from "next/image";
 
 type Props = {
+  as?: "h1" | "p";
   showLabel?: boolean;
   showWhatIWant?: boolean;
   textIntent?: TextProps["intent"];
 };
 
 export const Intro = ({
+  as = "p",
   showLabel = true,
   showWhatIWant = true,
   textIntent = "meta",
@@ -18,7 +20,7 @@ export const Intro = ({
   return (
     <div className="space-y-2.5">
       <Avatar />
-      <Text as="p" intent={textIntent} balance>
+      <Text as={as} intent={textIntent} balance>
         {/* I&apos;m Callum Flack — a software engineer, writer, and founder. I
         currently work as the CEO of Buttondown, the best way to start and grow
         your newsletter, and as a partner at Third South Capital. Read about me{" "} */}
@@ -43,9 +45,15 @@ export const Intro = ({
         execution. I design beautiful things and I can build them. This helps teams not only ship faster but enhance quality.
         don&apos;t just write clean code—I ensure it works in the blink of an
         eye, creating the most valued currency—trust.{" "} */}
+        {/* Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I create beautiful hypertext products that work in the blink of an eye, creating the most valued currency—trust.  */}
+        {/* Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I
+        shape product interfaces from fragile idea to production, bringing
+        language, interaction and React into the same loop to make software feel
+        clear, fast and trustworthy.{" "} */}
         Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I
-        create beautiful hypertext products that work in the blink of an eye,
-        creating the most valued currency—trust.{" "}
+        create beautiful hypertext products from fragile idea to production,
+        bringing language, interaction and code into the same loop so they work
+        in the blink of an eye—and earn the most valuable currency: trust.{" "}
         {showWhatIWant && (
           <Text as="span">
             <LinkWithArrow theme="default" className="link" href="/about">

@@ -5,11 +5,13 @@ export const ListHeader = ({
   rhsNode,
   showContained,
   className,
+  ariaLabel,
 }: {
   children: React.ReactNode;
   rhsNode?: React.ReactNode;
   showContained?: boolean;
   className?: string;
+  ariaLabel?: string;
 }) => (
   <div
     data-component="ListHeader"
@@ -38,6 +40,7 @@ export const ListHeader = ({
      * scrolling past the sticky header. Verified by turning it off.
      */}
     <nav
+      aria-label={ariaLabel}
       {...(showContained ? { "data-gutter-align": "" } : {})}
       className={cn(
         "relative",
