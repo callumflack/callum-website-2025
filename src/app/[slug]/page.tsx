@@ -59,8 +59,6 @@ export default async function SlugPage({
   return (
     <PageWrapper
       activeNav={renderActiveNav()}
-      showIntro={!isPage}
-      showWhatIWant={!isWorkPage}
       /* Remove the entire footer (no wrapper spacing) for content pages like letters */
       hideFooter={isLettersPage}
       shareNode={

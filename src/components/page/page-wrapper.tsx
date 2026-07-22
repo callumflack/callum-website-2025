@@ -41,8 +41,6 @@ export const getCategoryNavRoute = (category: string): NavRoute | undefined => {
 type Props = {
   activeNav?: NavRoute | string;
   children: React.ReactNode;
-  showIntro?: boolean;
-  showWhatIWant?: boolean;
   shareNode?: React.ReactNode;
   footerNode?: React.ReactNode;
   hideFooter?: boolean;
@@ -52,8 +50,6 @@ type Props = {
 
 export const PageWrapper = ({
   children,
-  showIntro = true,
-  showWhatIWant = true,
   shareNode,
   footerNode,
   hideFooter = false,
