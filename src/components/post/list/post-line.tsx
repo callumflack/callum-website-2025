@@ -10,6 +10,10 @@ interface PostLineProps {
   post: Post;
   isFeed?: boolean;
   isFeatured?: boolean;
+  /**
+   * `plain` inherits the shared mono-caps metadata style so topic and date
+   * align. Use `pill` to opt into the bordered button treatment again.
+   */
   categoryStyle?: "pill" | "plain";
   dateFormat?: "date" | "year";
 }
@@ -18,7 +22,7 @@ export const PostLine = ({
   post,
   isFeed,
   isFeatured,
-  categoryStyle = "pill",
+  categoryStyle = "plain",
   dateFormat = isFeed ? "date" : "year",
 }: PostLineProps) => {
   // const hoverLabel = () => {
