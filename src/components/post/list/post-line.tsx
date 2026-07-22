@@ -96,13 +96,14 @@ export const PostLine = ({
 
         {isFeed && (
           <span
-            className={cn(
-              categoryStyle === "pill" &&
-                buttonVariants({
-                  variant: "pill",
-                }),
-              categoryStyle === "pill" && "group-hover:border-fill"
-            )}
+            className={
+              categoryStyle === "pill"
+                ? cn(
+                    buttonVariants({ variant: "pill" }),
+                    "group-hover:border-fill"
+                  )
+                : undefined
+            }
           >
             {post.category === "projects" ? "Project" : post.category}
           </span>
