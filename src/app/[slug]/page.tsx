@@ -1,3 +1,7 @@
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { allPosts } from "content-collections";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { buttonVariants, Link, Text } from "@/components/atoms";
 import { OutsetRule, TitleHeader } from "@/components/elements";
 import { CopyMarkdownButtonWrapper } from "@/components/elements/copy-markdown-button-wrapper";
@@ -14,10 +18,6 @@ import {
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
 import { cn } from "@/lib/utils";
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
-import { allPosts } from "content-collections";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 /* UNUSED POSSIBILITIES! */
 // import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
@@ -147,7 +147,7 @@ export async function generateMetadata({
 
   const { title, date: publishedTime, summary: description, assets } = post;
   const asset = assets?.[0];
-  let image;
+  let image: string;
 
   if (asset?.src) {
     if (isVideoFile(asset.src) && asset.poster) {
