@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import type { KeyboardEvent } from "react";
 import {
   focusVisibleOutlineStyle,
@@ -23,12 +23,13 @@ export function HomeIndex({
   chronologicalPosts: PostListItem[];
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const activeView: HomeView =
     searchParams.get("view") === "chrono" ? "chrono" : "start";
 
   const setActiveView = (view: HomeView) => {
+    if (view === activeView) return;
+
     const params = new URLSearchParams(searchParams.toString());
 
     if (view === "start") {
@@ -37,10 +38,14 @@ export function HomeIndex({
       params.set("view", view);
     }
 
+    // Both panels are already client-side; shallow history update avoids the
+    // RSC round-trip a router.replace() navigation would trigger per click.
     const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, {
-      scroll: false,
-    });
+    window.history.replaceState(
+      null,
+      "",
+      query ? `${pathname}?${query}` : pathname
+    );
   };
 
   const moveToTab = (
