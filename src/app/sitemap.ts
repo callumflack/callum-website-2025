@@ -1,15 +1,17 @@
 import type { MetadataRoute } from "next";
 import { cacheLife } from "next/cache";
 import config from "@/config";
-import { allPosts } from "content-collections";
+import { getPublishedPosts } from "@/lib/posts/actions";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   "use cache";
   cacheLife("days");
 
+  const publishedPosts = getPublishedPosts();
+
   // Extract all unique topics from posts
   const allTopics = new Set<string>();
-  allPosts.forEach((post) => {
+  publishedPosts.forEach((post) => {
     if (post.tags) {
       post.tags.forEach((tag) => {
         if (tag !== "featured") {
@@ -40,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${config.PUBLIC_URL}/gallery`,
       lastModified: new Date(),
     },
-    ...allPosts.map((post) => ({
+    ...publishedPosts.map((post) => ({
       url: `${config.PUBLIC_URL}/${post.slug}`,
       lastModified: new Date(),
     })),

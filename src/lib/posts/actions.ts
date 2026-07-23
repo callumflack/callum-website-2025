@@ -11,6 +11,19 @@ const categoryMap: Record<ListCategory, Category> = {
   writing: Category.WRITING,
 };
 
+/*
+ * The single draft gate for route surfaces (pages, sitemap, feed, posts.json).
+ * `draft: true` posts stay fully out of production; in development they still
+ * render at their URL for preview.
+ */
+export function getPublishedPosts(): Post[] {
+  return allPosts.filter((post) => !post.draft);
+}
+
+export function isPubliclyVisible(post: Post): boolean {
+  return !post.draft || process.env.NODE_ENV !== "production";
+}
+
 export function getShelfPosts(): Post[] {
   return allPosts
     .filter((p) => !p.draft && p.category === Category.SHELF)

@@ -1,8 +1,8 @@
 import { Feed } from "feed";
 import { cacheLife } from "next/cache";
 import config from "@/config";
-import { allPosts } from "content-collections";
 import { isVideoFile } from "@/components/media/media-utils";
+import { getPublishedPosts } from "@/lib/posts/actions";
 
 async function buildFeedXml(): Promise<string> {
   "use cache";
@@ -23,7 +23,7 @@ async function buildFeedXml(): Promise<string> {
     },
   });
 
-  allPosts.map((post) => {
+  getPublishedPosts().map((post) => {
     feed.addItem({
       title: post.title,
       id: `${config.PUBLIC_URL}/${post.slug}`,

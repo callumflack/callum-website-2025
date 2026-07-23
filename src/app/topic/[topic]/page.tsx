@@ -1,15 +1,15 @@
-import { allPosts } from "content-collections";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
-import { getPostsByTopic } from "@/lib/posts/actions";
+import { getPostsByTopic, getPublishedPosts } from "@/lib/posts/actions";
 import { ListHeading } from "./list-heading";
 
 export function generateStaticParams() {
   const topics = new Set<string>();
-  allPosts.forEach((post) => {
+  getPublishedPosts().forEach((post) => {
     post.tags?.forEach((tag) => {
       if (tag !== "featured") topics.add(tag);
     });
@@ -24,6 +24,10 @@ export default async function TopicPage({
 }) {
   const { topic } = await params;
   const posts = getPostsByTopic(topic);
+
+  if (posts.length === 0) {
+    notFound();
+  }
 
   return (
     <PageWrapper activeNav="feed" theme="feed">

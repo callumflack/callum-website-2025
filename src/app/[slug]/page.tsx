@@ -17,6 +17,7 @@ import {
 } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
+import { getPublishedPosts, isPubliclyVisible } from "@/lib/posts/actions";
 import { cn } from "@/lib/utils";
 
 /* UNUSED POSSIBILITIES! */
@@ -36,7 +37,7 @@ export default async function SlugPage({
 
   const post = allPosts.find((p) => p.slug === slug);
 
-  if (!post) {
+  if (!post || !isPubliclyVisible(post)) {
     notFound();
   }
 
@@ -129,7 +130,7 @@ export default async function SlugPage({
 }
 
 export function generateStaticParams(): Params[] {
-  return allPosts.map((post) => ({
+  return getPublishedPosts().map((post) => ({
     slug: post.slug,
   }));
 }
@@ -141,7 +142,7 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   const { slug } = await params;
   const post = allPosts.find((p) => p.slug === slug);
-  if (!post) {
+  if (!post || !isPubliclyVisible(post)) {
     return;
   }
 
