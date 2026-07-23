@@ -1,11 +1,18 @@
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { allPosts, type Post } from "content-collections";
 import Image from "next/image";
 import { Suspense } from "react";
-import { Link, Text } from "@/components/atoms";
+import {
+  Button,
+  focusVisibleOutlineStyle,
+  Link,
+  Text,
+} from "@/components/atoms";
 import { getImageDimensions } from "@/components/media/media-utils";
 import { Intro, PageWrapper } from "@/components/page";
 import { getAllPostsChronological } from "@/lib/posts/actions";
 import { filterFeaturedBySlugs } from "@/lib/posts/sorting";
+import { cn } from "@/lib/utils";
 import { HomeIndex } from "./(home)/home-index";
 
 const startHereSlugs = [
@@ -15,8 +22,8 @@ const startHereSlugs = [
   "cleared",
   "the-matter-of-taste",
   "kalaurie",
-  "replier",
   "you-cant-design-a-ui-without-designing-the-code",
+  "replier",
 ] as const;
 
 const HOME_FEATURE_ENABLED = true;
@@ -48,8 +55,80 @@ export default function Home() {
             startHerePosts={startHerePosts}
           />
         </Suspense>
+
+        <NewsletterSubscribe />
       </main>
     </PageWrapper>
+  );
+}
+
+function NewsletterSubscribe() {
+  return (
+    <section
+      aria-labelledby="newsletter-subscribe-label"
+      className="pt-w12 space-y-gap"
+    >
+      {/* <hr /> */}
+      <div className="space-y-gap">
+        <Text
+          as="p"
+          className="text-pretty"
+          id="newsletter-subscribe-label"
+          intent="meta"
+          color="solid"
+        >
+          Get notified of new stuff.
+        </Text>
+        {/*
+         * SUBSTACK HANDOFF
+         *
+         * We own and style this form, then hand the reader to Substack's hosted
+         * /subscribe page with their email prefilled. This avoids Substack's
+         * supported iframe, which Substack says cannot be customized:
+         * https://support.substack.com/hc/en-us/articles/360041759232
+         *
+         * Tradeoffs:
+         * - The /subscribe page is public and documented; its `email` prefill
+         *   query parameter is not a documented API contract.
+         * - The email appears in the destination URL and browser history.
+         * - The reader must still confirm on Substack, where Substack branding,
+         *   plan selection, recommendations, and consent flows are owned.
+         * - Do not replace this with a POST to /api/v1/free: that endpoint is
+         *   undocumented for third-party integrations and is more likely to
+         *   change or gain anti-abuse requirements.
+         *
+         * Maintenance: periodically submit a test address and confirm the new
+         * tab opens /subscribe with the email populated. If prefill stops
+         * working, keep the branded boundary off-site and fall back to linking
+         * to /subscribe without passing the email.
+         */}
+        <form
+          action="https://thelittoralline.substack.com/subscribe"
+          className="flex"
+          method="get"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <input
+            aria-label="Email address"
+            autoComplete="email"
+            className="border-solid-light focus-visible:border-fill text-body placeholder:text-solid h-11 min-w-0 flex-1 border bg-transparent px-3 pb-[0.2em] outline-none focus:z-10"
+            name="email"
+            placeholder="Email address"
+            required
+            type="email"
+          />
+          <Button
+            className="-ml-px w-fit"
+            size="default"
+            SuffixIcon={<ArrowRightIcon />}
+            type="submit"
+          >
+            Subscribe
+          </Button>
+        </form>
+      </div>
+    </section>
   );
 }
 
@@ -65,7 +144,7 @@ function FeaturedCard({
   return (
     <Link
       aria-label={`Featured: ${post.title}`}
-      className="group py-w6 block"
+      className={cn("group py-w6 block", focusVisibleOutlineStyle)}
       href={`/${post.slug}`}
     >
       <article>

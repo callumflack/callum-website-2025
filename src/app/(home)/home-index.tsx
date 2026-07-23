@@ -3,7 +3,11 @@
 import type { Post } from "content-collections";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { KeyboardEvent } from "react";
-import { Link, textVariants } from "@/components/atoms";
+import {
+  focusVisibleOutlineStyle,
+  Link,
+  textVariants,
+} from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
 import { ListHeader } from "@/components/page";
 import { PostLine, sortButtonStyle } from "@/components/post";
@@ -56,12 +60,31 @@ export function HomeIndex({
       <ListHeader
         ariaLabel="Home sections"
         rhsNode={
-          <LinkWithArrow
-            className={cn(sortButtonStyle, "text-solid gap-1! pr-0")}
-            href="/work"
-          >
-            Work overview
-          </LinkWithArrow>
+          <div className="flex items-center">
+            {/* TODO: Once the long-form, Jenny Wen-style work story exists,
+                reserve "Work overview" and /work for it, then move this project
+                index to /projects. Until then, label the link for today's target. */}
+            <LinkWithArrow
+              className={cn(
+                sortButtonStyle,
+                "text-solid gap-1!",
+                focusVisibleOutlineStyle
+              )}
+              href="/work"
+            >
+              Projects
+            </LinkWithArrow>
+            <LinkWithArrow
+              className={cn(
+                sortButtonStyle,
+                "text-solid gap-1! pr-0",
+                focusVisibleOutlineStyle
+              )}
+              href="/writing"
+            >
+              Writing
+            </LinkWithArrow>
+          </div>
         }
       >
         <div aria-label="Choose an index view" className="flex" role="tablist">
@@ -89,9 +112,7 @@ export function HomeIndex({
         labelledBy="home-tab-start"
         panelId="home-panel-start"
         posts={startHerePosts}
-      >
-        <IndexFooter href="/writing">All writing</IndexFooter>
-      </HomePanel>
+      />
 
       <HomePanel
         isActive={activeView === "chrono"}
@@ -126,7 +147,8 @@ function HomeTab({
       aria-selected={isActive}
       className={cn(
         sortButtonStyle,
-        isActive ? "border-b-fill! text-fill" : "text-solid"
+        isActive ? "border-b-fill! text-fill" : "text-solid",
+        focusVisibleOutlineStyle
       )}
       id={tabId}
       onKeyDown={onKeyDown}
@@ -147,7 +169,7 @@ function HomePanel({
   panelId,
   posts,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isActive: boolean;
   labelledBy: string;
   panelId: string;
@@ -173,7 +195,11 @@ function HomePanel({
 function IndexRow({ post }: { post: Post }) {
   return (
     <Link
-      className="block"
+      className={cn(
+        "group relative z-0 block",
+        "focus-visible:before:bg-background-hover focus-visible:before:absolute focus-visible:before:inset-y-0 focus-visible:before:-inset-x-3 focus-visible:before:-z-[1] focus-visible:before:content-['']",
+        focusVisibleOutlineStyle
+      )}
       href={post.thumbnailLink ?? `/${post.slug}`}
       data-slot="index-row"
     >
@@ -193,8 +219,9 @@ function IndexFooter({
     <div className="pt-gap flex justify-end">
       <LinkWithArrow
         className={cn(
-          textVariants({ intent: "meta", weight: "medium" }),
-          "hover:text-accent inline-flex min-h-10 items-center gap-1"
+          textVariants({ intent: "meta", weight: "medium", color: "solid" }),
+          "hover:text-fill inline-flex min-h-10 items-center gap-1",
+          focusVisibleOutlineStyle
         )}
         href={href}
       >
