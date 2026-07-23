@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 /*
 `use-device-detect.ts` is better than this because it:
@@ -35,16 +35,13 @@ function isMobile(): boolean {
   return isMobileValue;
 }
 
+const emptySubscribe = () => () => {};
+
 export function useIsMobile(): boolean {
-  const [localMobileValue, setLocalMobileValue] = useState(
-    isMobileValue ?? false
-  );
-
-  useEffect(() => {
-    setLocalMobileValue(isMobile());
-  }, []);
-
-  return localMobileValue;
+  // Touch capability never changes within a session, so there is nothing to
+  // subscribe to — the server snapshot (false) swaps to the real value after
+  // hydration.
+  return useSyncExternalStore(emptySubscribe, isMobile, () => false);
 }
 
 export default isMobile;

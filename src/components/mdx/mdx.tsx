@@ -14,6 +14,10 @@ export function Mdx({ code, children }: MdxProps) {
   return (
     <MdxProse>
       <MDXErrorBoundary>
+        {/* Rendering a component built from compiled MDX during render is
+            inherent to @content-collections/mdx — its identity is stable for
+            a given `code`. */}
+        {/* eslint-disable-next-line react-hooks/static-components */}
         <Component components={components} />
       </MDXErrorBoundary>
 
