@@ -1,6 +1,6 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "cva";
+import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const squishStyle = "rounded-squish hover:bg-background-hover hover:text-fill";
@@ -44,9 +44,18 @@ export const buttonVariants = cva({
       ],
     },
     size: {
-      default: "h-[44px] px-w6 text-body",
-      sm: "h-[32px] px-w4 text-meta",
-      xs: "h-[25px] px-3 text-meta",
+      default: [
+        "h-[44px] px-w6 text-body",
+        "has-data-[icon=inline-end]:pr-gap has-data-[icon=inline-start]:pl-gap",
+      ],
+      sm: [
+        "h-[32px] px-w4 text-meta",
+        "has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+      ],
+      xs: [
+        "h-[25px] px-3 text-meta",
+        "has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+      ],
       reset: "",
     },
     caps: {
@@ -63,7 +72,7 @@ export const buttonVariants = cva({
   compoundVariants: [
     {
       variant: "icon",
-      class: "!size-[40px] !px-0",
+      class: "size-[40px]! px-0!",
     },
     {
       variant: "pill",
@@ -79,10 +88,10 @@ export const buttonVariants = cva({
 });
 
 export interface ButtonProps
-  extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
+  extends ComponentProps<"button">, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  PrefixIcon?: React.ReactNode;
-  SuffixIcon?: React.ReactNode;
+  PrefixIcon?: ReactNode;
+  SuffixIcon?: ReactNode;
 }
 
 export const Button = ({
@@ -107,10 +116,18 @@ export const Button = ({
       )}
       {...props}
     >
-      {PrefixIcon}
+      {PrefixIcon ? (
+        <span className="inline-flex shrink-0" data-icon="inline-start">
+          {PrefixIcon}
+        </span>
+      ) : null}
       {/* Button-children is used to align the label within the button */}
       <span className="Button-children inline-flex">{props.children}</span>
-      {SuffixIcon}
+      {SuffixIcon ? (
+        <span className="inline-flex shrink-0" data-icon="inline-end">
+          {SuffixIcon}
+        </span>
+      ) : null}
     </Comp>
   );
 };

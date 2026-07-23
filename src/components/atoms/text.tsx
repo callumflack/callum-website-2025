@@ -1,6 +1,6 @@
-import { cn } from "@/lib/classes";
 import type { VariantProps } from "cva";
 import { cva } from "cva";
+import { cn } from "@/lib/classes";
 
 export const textVariants = cva({
   base: "",
@@ -8,7 +8,7 @@ export const textVariants = cva({
     intent: {
       pill: [
         // same as button
-        "text-pill font-mono font-medium uppercase",
+        "text-pill font-mono font-medium uppercase tracking-[0.01em]",
       ],
       pillMeta: ["text-pillMeta font-mono uppercase"],
       fine: "text-fine subpixel-antialiased",
@@ -67,10 +67,6 @@ export const textVariants = cva({
     },
   },
   compoundVariants: [
-    {
-      intent: ["title"],
-      balance: true,
-    },
     // This is cool, but I can't use it in button.tsx because it's a compound variant.
     // {
     //   intent: ["pill"],
@@ -87,7 +83,8 @@ export const textVariants = cva({
 });
 
 export interface TextProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, "color">,
+  extends
+    Omit<React.HTMLAttributes<HTMLElement>, "color">,
     VariantProps<typeof textVariants> {
   as?: React.ElementType;
   children: React.ReactNode;
@@ -146,26 +143,4 @@ function formatText(text: string): string {
     .replace(/'/g, "\u2018") // Right single quote (&rsquo; or '\u2018')
     .replace(/"/g, "\u201C") // Left double quote (&ldquo; or '\u201C')
     .replace(/"/g, "\u201D"); // Right double quote (&rdquo; or '\u201D')
-}
-
-// Function to get CSS class name from intent
-export function getIntentClassName(intent?: TextProps["intent"]): string {
-  switch (intent) {
-    case "pill":
-      return "text-pill font-mono font-medium uppercase";
-    case "pillMeta":
-      return "text-pillMeta font-mono uppercase";
-    case "fine":
-      return "text-fine subpixel-antialiased";
-    case "meta":
-      return "text-meta";
-    case "body":
-      return "text-body";
-    case "heading":
-      return "text-heading";
-    case "title":
-      return "text-title";
-    default:
-      return "";
-  }
 }

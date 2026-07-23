@@ -1,19 +1,22 @@
-"use client";
-
-import type { ComponentPropsWithoutRef } from "react";
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  MouseEvent,
+  MouseEventHandler,
+  ReactElement,
+} from "react";
+import { cloneElement, forwardRef, useEffect, useRef, useState } from "react";
 import { textVariants } from "@/components/atoms";
 import { cn } from "@/lib/utils";
 
 export type CopyButtonProps = {
   valueToCopy: string;
-  children: React.ReactElement<{
-    onClick?: React.MouseEventHandler<HTMLElement>;
+  children: ReactElement<{
+    onClick?: MouseEventHandler<HTMLElement>;
   }>;
   confirmationMessage?: string;
   successDuration?: number;
   onSuccessCopy?: () => void;
-  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
   className?: string;
 };
 
@@ -45,7 +48,7 @@ export const CopyButton = ({
     }, successDuration);
   };
 
-  const handleCopy = async (e: React.MouseEvent<HTMLElement>) => {
+  const handleCopy = async (e: MouseEvent<HTMLElement>) => {
     if (onClick) {
       onClick(e);
     }
@@ -64,14 +67,18 @@ export const CopyButton = ({
     }
   };
 
+  // cloneElement merges onClick onto the child so currentTarget stays the interactive node.
+  // eslint-disable-next-line react-hooks/refs -- prop merge via cloneElement, not a render-time ref read
+  const trigger = cloneElement(children, {
+    onClick: handleCopy,
+  });
+
   return (
     <span className={cn("relative", className)}>
       {showCopied && (
         <ClickConfirmation hasError={false} message={confirmationMessage} />
       )}
-      {React.cloneElement(children, {
-        onClick: handleCopy,
-      })}
+      {trigger}
     </span>
   );
 };
@@ -88,19 +95,17 @@ type ClickConfirmationSurfaceProps = ComponentPropsWithoutRef<"span"> & {
 export const ClickConfirmationSurface = forwardRef<
   HTMLSpanElement,
   ClickConfirmationSurfaceProps
->(({ hasError, className, style, ...props }, ref) => (
+>(({ hasError, className, ...props }, ref) => (
   <span
     ref={ref}
     className={cn(
-      "rounded-button px-w4 pt-2 pb-2.5 shadow-md",
+      "rounded-button px-3 pt-2 pb-2.25 shadow-md",
       textVariants({ intent: "pill" }),
+      // inverted toast: same pairing as globals selection (`bg-fill text-canvas`)
+      "text-canvas",
+      hasError ? "bg-destructive" : "bg-fill",
       className
     )}
-    style={{
-      backgroundColor: hasError ? "#ef4444" : "#202020",
-      color: "#fdfdfd",
-      ...style,
-    }}
     {...props}
   />
 ));
@@ -115,7 +120,7 @@ export const ClickConfirmation = ({
     <ClickConfirmationSurface
       hasError={hasError}
       className={cn(
-        "absolute -top-[3.5em] left-1/2 z-50 min-w-max",
+        "absolute -top-[3.25em] left-1/2 z-50 min-w-max",
         "-translate-x-1/2 transform"
       )}
     >

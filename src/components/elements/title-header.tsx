@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import * as React from "react";
+import { cn } from "@/lib/utils";
 import { Text } from "../atoms";
 import type { PolymorphicProps } from "../atoms/polymorphic-element";
 import { PolymorphicElement } from "../atoms/polymorphic-element";

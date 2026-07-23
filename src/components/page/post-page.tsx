@@ -24,7 +24,9 @@ export const PostPage = ({ post, theme }: Props) => {
       {!isPage && post.slug !== "about" && (
         <TitleHeader isContained={theme === "feed"}>
           <Text as="h1" intent="title" balance>
-            <Link href={`/${post.slug}`}>{post.title}</Link>
+            <Link href={`/${post.slug}`} className="hover:text-accent">
+              {post.title}
+            </Link>
           </Text>
 
           {theme === "post" && (
@@ -78,18 +80,38 @@ export const PostMeta = ({
       ? monthYear
       : dateFormat === "lastUpdatedMonthYear"
         ? `Last updated ${lastEditedMonthYear ?? monthYear}`
-      : post.category === "writing" || post.category === "notes"
-        ? date
-        : post.lastEditedDate
-          ? `Last edited ${lastEditedDate}`
-          : theme === "feed"
-            ? date
-            : year;
+        : post.category === "writing" || post.category === "notes"
+          ? date
+          : post.lastEditedDate
+            ? `Last edited ${lastEditedDate}`
+            : theme === "feed"
+              ? date
+              : year;
   const readingMinutes = Math.max(1, Math.floor(post.readingTime) - 1);
+  const categoryMeta = {
+    projects: { href: "/work", label: "Projects" },
+    writing: { href: "/writing", label: "Writing" },
+    notes: { href: "/writing?sort=notes", label: "Notes" },
+    shelf: { href: "/writing?sort=shelf", label: "Shelf" },
+    page: null,
+  }[post.category];
 
   return (
     <Text as="div" intent="pill" dim className="flex items-center gap-2.5">
       <>
+        {/* Category */}
+        {categoryMeta && (
+          <>
+            <Link
+              href={categoryMeta.href}
+              className="hover:text-fill no-underline"
+            >
+              {categoryMeta.label}
+            </Link>
+            <hr className="hr-vertical border-border-hover h-[12px]" />
+          </>
+        )}
+
         {/* Date */}
         <span>
           {/* Ongoing */}
@@ -117,8 +139,7 @@ export const PostMeta = ({
         {/* Reading time */}
         <>
           <hr className="hr-vertical border-border-hover h-[12px]" />
-          {readingMinutes}{" "}
-          min
+          {readingMinutes} min
           {readingMinutes !== 1 ? "s" : ""}
         </>
 

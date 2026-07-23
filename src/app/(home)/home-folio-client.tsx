@@ -1,8 +1,8 @@
 "use client";
 
-import { PageInner } from "@/components/page/page-inner";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { PageInner } from "@/components/page/page-wrapper";
+import { cn } from "@/lib/utils";
 
 interface HomeFolioClientProps {
   children: React.ReactNode;

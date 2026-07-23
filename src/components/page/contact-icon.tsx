@@ -1,4 +1,8 @@
-import { buttonVariants, Link } from "@/components/atoms";
+import {
+  buttonVariants,
+  focusVisibleOutlineStyle,
+  Link,
+} from "@/components/atoms";
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -26,7 +30,8 @@ export const ContactIcon = ({
       aria-label={ariaLabel ?? label}
       className={cn(
         buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
-        "text-solid hover:text-solid",
+        "text-solid hover:text-solid focus-visible:bg-background-hover",
+        focusVisibleOutlineStyle,
         label && "!px-3",
         className
       )}

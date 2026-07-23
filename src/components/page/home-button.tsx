@@ -15,16 +15,16 @@ export const HomeButton = () => (
         aria-label="Return home"
         className={cn(
           buttonVariants({ variant: "icon", size: "sm" }),
-          "text-heading -mt-[0.3em]",
+          "text-heading -mt-[0.35em]",
           "text-fill hover:text-fill",
-          "pointer-events-auto absolute left-0 lg:right-[calc(100%+12px)] lg:left-auto"
+          "pointer-events-auto absolute left-0 lg:right-[calc(100%-2px)] lg:left-auto"
         )}
       >
         <LucideCornerUpLeft aria-hidden className="size-em" />
       </Link>
     </Tooltip.Trigger>
     <Tooltip.Portal>
-      <Tooltip.Content asChild side="top" sideOffset={8}>
+      <Tooltip.Content asChild side="top" sideOffset={12}>
         <ClickConfirmationSurface hasError={false} className="z-50 min-w-max">
           Home
         </ClickConfirmationSurface>

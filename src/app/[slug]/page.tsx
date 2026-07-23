@@ -3,7 +3,7 @@ import { allPosts } from "content-collections";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buttonVariants, Link, Text } from "@/components/atoms";
-import { OutsetRule, TitleHeader } from "@/components/elements";
+import { TitleHeader } from "@/components/elements";
 import { CopyMarkdownButtonWrapper } from "@/components/elements/copy-markdown-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
