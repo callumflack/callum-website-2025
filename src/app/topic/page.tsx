@@ -1,10 +1,10 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Text } from "@/components/atoms";
 import { buttonVariants } from "@/components/atoms/button";
 import { TitleHeader } from "@/components/elements";
 import { PageInner, PageWrapper } from "@/components/page";
 import { getAllPostsChronological } from "@/lib/posts/actions";
-import { Metadata } from "next";
-import Link from "next/link";
 
 export default async function TopicIndexPage() {
   const posts = await getAllPostsChronological();

@@ -1,5 +1,5 @@
-import { cacheLife } from "next/cache";
 import { allPosts } from "content-collections";
+import { cacheLife } from "next/cache";
 
 async function buildPostsJson(): Promise<string> {
   "use cache";
