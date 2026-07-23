@@ -42,7 +42,7 @@ export const PostLine = ({
         lineHoverStyle
       )}
     >
-      <PostLinkHeadingWrapper className="group-hover:text-fill! group-focus-visible:text-fill!">
+      <PostLinkHeadingWrapper className="group-hover:text-fill! group-focus-visible:text-fill! min-w-0">
         {isFeatured && isFeed ? (
           <div className="absolute top-1/2 left-[-0.6em] -translate-y-1/2 sm:left-[-1.25em]">
             <StarFilledIcon className="text-accent group-hover:text-fill group-focus-visible:text-fill size-[0.6em]" />
@@ -50,7 +50,9 @@ export const PostLine = ({
         ) : null}
 
         {/* purposefully not using Text here so we can hoist type styles */}
-        <h2 className="leading-[1.25]">{post.linkTitle || post.title}</h2>
+        <h2 className="max-sm:truncate leading-[1.25]">
+          {post.linkTitle || post.title}
+        </h2>
         {post.thumbnailLink ? <ArrowTopRightIcon className="size-em" /> : null}
       </PostLinkHeadingWrapper>
 
