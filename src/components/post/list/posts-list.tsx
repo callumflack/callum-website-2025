@@ -1,7 +1,6 @@
 import { Link } from "@/components/atoms";
 import type { ListCategory } from "@/types/content";
-import type { SortedPostsMap } from "@/types/content";
-import type { Post } from "content-collections";
+import type { PostListItem, SortedPostsMap } from "@/types/content";
 import { PostLine } from "./post-line";
 
 interface PostsListProps {
@@ -15,7 +14,7 @@ interface PostLinesProps {
   dateFormat?: "date" | "year";
   isFeed?: boolean;
   postLinkPrefix?: string;
-  posts: Post[];
+  posts: PostListItem[];
   showFeatured?: boolean;
   wrapperClassName?: string;
 }
@@ -57,7 +56,7 @@ export const PostsList = ({
   wrapperClassName,
 }: PostsListProps) => {
   const key = sortBy ?? kind;
-  const posts = sortedPostsMap[key] as Post[];
+  const posts = sortedPostsMap[key] as PostListItem[];
 
   // console.log("Rendering PostsList with:", key, posts);
 

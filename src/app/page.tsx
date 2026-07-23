@@ -10,7 +10,7 @@ import {
 } from "@/components/atoms";
 import { getImageDimensions } from "@/components/media/media-utils";
 import { Intro, PageWrapper } from "@/components/page";
-import { getAllPostsChronological } from "@/lib/posts/actions";
+import { getAllPostsChronological, toPostListItem } from "@/lib/posts/actions";
 import { filterFeaturedBySlugs } from "@/lib/posts/sorting";
 import { cn } from "@/lib/utils";
 import { HomeIndex } from "./(home)/home-index";
@@ -31,8 +31,14 @@ const HOME_FEATURE_SLUG = "you-cant-design-a-ui-without-designing-the-code";
 
 export default function Home() {
   const visiblePosts = allPosts.filter((post) => !post.draft);
-  const startHerePosts = filterFeaturedBySlugs(visiblePosts, startHereSlugs);
-  const chronologicalPosts = getAllPostsChronological().slice(0, 12);
+  // Slim view models only: full Posts carry the compiled MDX `content` bundle,
+  // which must not be serialized into the client HomeIndex props.
+  const startHerePosts = filterFeaturedBySlugs(visiblePosts, startHereSlugs).map(
+    toPostListItem
+  );
+  const chronologicalPosts = getAllPostsChronological()
+    .slice(0, 12)
+    .map(toPostListItem);
   const featuredPost = HOME_FEATURE_ENABLED
     ? visiblePosts.find((post) => post.slug === HOME_FEATURE_SLUG)
     : undefined;

@@ -1,13 +1,13 @@
 import { ArrowTopRightIcon, StarFilledIcon } from "@radix-ui/react-icons";
-import type { Post } from "content-collections";
 import { format, parseISO } from "date-fns";
 import { buttonVariants, Text } from "@/components/atoms";
 import { cn } from "@/lib/utils";
+import type { PostListItem } from "@/types/content";
 import { lineHoverStyle } from "../post.styles";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 
 interface PostLineProps {
-  post: Post;
+  post: PostListItem;
   isFeed?: boolean;
   isFeatured?: boolean;
   /**

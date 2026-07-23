@@ -1,6 +1,5 @@
 "use client";
 
-import type { Post } from "content-collections";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { KeyboardEvent } from "react";
 import {
@@ -12,6 +11,7 @@ import { LinkWithArrow } from "@/components/elements";
 import { ListHeader } from "@/components/page";
 import { PostLine, sortButtonStyle } from "@/components/post";
 import { cn } from "@/lib/utils";
+import type { PostListItem } from "@/types/content";
 
 type HomeView = "start" | "chrono";
 
@@ -19,8 +19,8 @@ export function HomeIndex({
   startHerePosts,
   chronologicalPosts,
 }: {
-  startHerePosts: Post[];
-  chronologicalPosts: Post[];
+  startHerePosts: PostListItem[];
+  chronologicalPosts: PostListItem[];
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -173,7 +173,7 @@ function HomePanel({
   isActive: boolean;
   labelledBy: string;
   panelId: string;
-  posts: Post[];
+  posts: PostListItem[];
 }) {
   return (
     <div
@@ -192,7 +192,7 @@ function HomePanel({
   );
 }
 
-function IndexRow({ post }: { post: Post }) {
+function IndexRow({ post }: { post: PostListItem }) {
   return (
     <Link
       className={cn(

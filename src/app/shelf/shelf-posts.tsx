@@ -1,11 +1,11 @@
 "use client";
 
-import type { Post } from "content-collections";
 import { ListHeader } from "@/components/page/list-header";
 import { PostsList, SortModeButton } from "@/components/post";
+import type { PostListItem } from "@/types/content";
 
 interface ShelfPostsProps {
-  posts: Post[];
+  posts: PostListItem[];
 }
 
 export function ShelfPosts({ posts }: ShelfPostsProps) {

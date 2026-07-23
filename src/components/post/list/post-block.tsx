@@ -1,14 +1,14 @@
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import type { Post } from "content-collections";
 import { Text } from "@/components/atoms";
 import { CardImage } from "@/components/card";
 import { mediaWrapperVariants } from "@/components/media";
 import { cn } from "@/lib/utils";
+import type { PostListItem } from "@/types/content";
 import { lineHoverStyle, postIconStyle } from "../post.styles";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 
 interface PostBlockProps {
-  post: Post;
+  post: PostListItem;
   isExternal?: boolean;
   priority?: boolean;
 }

@@ -1,8 +1,11 @@
 "use client";
 
-import type { Post } from "content-collections";
 import { Link } from "@/components/atoms";
-import type { ListCategory, SortedPostsMap } from "@/types/content";
+import type {
+  ListCategory,
+  PostListItem,
+  SortedPostsMap,
+} from "@/types/content";
 import { PostBlock } from "./post-block";
 
 interface PostsListBlockProps {
@@ -23,7 +26,7 @@ export const PostsListBlock = ({
 
   return (
     <div data-component="PostsListBlock" className={wrapperClassName}>
-      {(sorted as Post[]).map((post: Post, index: number) => (
+      {(sorted as PostListItem[]).map((post, index) => (
         <Link
           href={post.thumbnailLink ? post.thumbnailLink : post.slug}
           key={post._id}

@@ -49,11 +49,36 @@ export type Asset = {
   };
 };
 
+/*
+ * The slim shape list UIs actually render. Server pages map full `Post`s
+ * through `toPostListItem` before handing them to client components so the
+ * compiled MDX `content` bundle never lands in the flight payload. A full
+ * `Post` is structurally assignable wherever a `PostListItem` is expected.
+ */
+export type PostListItem = Pick<
+  Post,
+  | "_id"
+  | "slug"
+  | "title"
+  | "linkTitle"
+  | "date"
+  | "dateLabel"
+  | "summary"
+  | "category"
+  | "tags"
+  | "thumbnailLink"
+  | "showAsNew"
+  | "assets"
+>;
+
 // Posts collection types
-export type GroupedPosts = Record<string, Post[]>;
+export type GroupedPosts<T extends PostListItem = PostListItem> = Record<
+  string,
+  T[]
+>;
 
 export interface SortedPostsMap {
-  [key: string]: Post[] | GroupedPosts;
+  [key: string]: PostListItem[] | GroupedPosts;
 }
 
 export interface ListPostsData {
@@ -62,7 +87,7 @@ export interface ListPostsData {
 }
 
 export interface WritingIndexPostsData {
-  notes: Post[];
-  shelf: Post[];
-  writing: Post[];
+  notes: PostListItem[];
+  shelf: PostListItem[];
+  writing: PostListItem[];
 }
