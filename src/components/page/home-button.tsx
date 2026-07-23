@@ -17,7 +17,7 @@ export const HomeButton = () => (
           buttonVariants({ variant: "icon", size: "sm" }),
           "text-heading -mt-[0.35em]",
           "text-fill hover:text-fill",
-          "pointer-events-auto absolute left-0 lg:right-[calc(100%-2px)] lg:left-auto"
+          "pointer-events-auto absolute left-0 lg:right-full lg:left-auto"
         )}
       >
         <LucideCornerUpLeft aria-hidden className="size-em" />
