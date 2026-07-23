@@ -10,6 +10,7 @@ import {
 import config from "@/config";
 import type { ComponentPropsWithoutRef } from "react";
 import { highlight } from "sugar-high";
+import { CodeCopyButton } from "./code-copy-button";
 import {
   MdxImageProps,
   ZoomableImage,
@@ -96,6 +97,7 @@ export const components = {
   h4: ({ children, ...props }: HeadingProps) => <h4 {...props}>{children}</h4>,
   pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
     <div data-component="pre">
+      <CodeCopyButton />
       <pre className="Pre" {...props}>
         {children}
       </pre>
@@ -146,6 +148,7 @@ function HeadingWithId({ as, children }: HeadingWithIdProps) {
       className="group/heading not-first:mt-w8 scroll-mt-[calc(var(--spacing-nav)+var(--spacing-inset))]"
       id={id}
       intent={as === "h2" ? "heading" : "body"}
+      weight={as === "h3" ? "medium" : undefined}
     >
       {children ? (
         <Link
