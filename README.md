@@ -6,10 +6,12 @@ Video CDN = Bunny.net
 
 ## Design snapshots
 
-The site before the July 2026 redesign is preserved at
+The July 2026 redesign is preserved at
+[`redesign-2026-07`](https://github.com/callumflack/callum-website-2025/tree/redesign-2026-07).
+The preceding design is preserved at
 [`pre-redesign-2026-07`](https://github.com/callumflack/callum-website-2025/tree/pre-redesign-2026-07).
 
-Open it in a separate worktree without disturbing the current checkout:
+Open a snapshot in a separate worktree without disturbing the current checkout:
 
 ```bash
 git fetch origin --tags
