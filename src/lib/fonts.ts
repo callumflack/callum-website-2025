@@ -24,11 +24,8 @@ export const sans = localFont({
       weight: "700",
       style: "normal",
     },
-    {
-      path: "../../public/fonts/NeueHaasUnicaW1GHeavy.woff2",
-      weight: "800",
-      style: "normal",
-    },
+    // No 800 weight: nothing in src/ or posts/ uses font-extrabold, so
+    // NeueHaasUnicaW1GHeavy.woff2 stays in the repo but out of the preload set.
   ],
 });
 
@@ -37,7 +34,7 @@ export const mono = localFont({
   display: "swap",
   src: [
     {
-      path: "../../public/fonts/PaperMono[wght].ttf",
+      path: "../../public/fonts/PaperMono[wght].woff2",
       weight: "100 900",
       style: "normal",
     },
