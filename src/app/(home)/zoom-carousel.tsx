@@ -210,7 +210,6 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
       }
       container.style.overflowAnchor = originalOverflowAnchor;
       container.style.willChange = originalWillChange; // Ensure will-change is reset
-      setClickedIndex(null);
     }
 
     // Cleanup function to restore styles if component unmounts mid-animation
@@ -251,6 +250,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
         logPrefix,
         `[handleContainerClick] Collapsing. Setting isExpanded: false`
       );
+      setClickedIndex(null);
       setIsExpanded(false);
     } else if (index !== null) {
       console.log(

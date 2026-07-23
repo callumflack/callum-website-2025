@@ -1,5 +1,9 @@
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { allPosts } from "content-collections";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { buttonVariants, Link, Text } from "@/components/atoms";
-import { OutsetRule, TitleHeader } from "@/components/elements";
+import { TitleHeader } from "@/components/elements";
 import { CopyMarkdownButtonWrapper } from "@/components/elements/copy-markdown-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
@@ -8,15 +12,13 @@ import {
   NavRoute,
   PageInner,
   PageWrapper,
+  PostMeta,
   PostPage,
 } from "@/components/page";
 import config from "@/config";
 import { getGithubRawUrl } from "@/lib/github/actions";
+import { getPublishedPosts, isPubliclyVisible } from "@/lib/posts/actions";
 import { cn } from "@/lib/utils";
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
-import { allPosts } from "content-collections";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 /* UNUSED POSSIBILITIES! */
 // import { CVDownloadButtonWrapper } from "@/components/elements/cv-download-button-wrapper";
@@ -35,7 +37,7 @@ export default async function SlugPage({
 
   const post = allPosts.find((p) => p.slug === slug);
 
-  if (!post) {
+  if (!post || !isPubliclyVisible(post)) {
     notFound();
   }
 
@@ -58,29 +60,25 @@ export default async function SlugPage({
   return (
     <PageWrapper
       activeNav={renderActiveNav()}
-      showIntro={!isPage}
-      showWhatIWant={!isWorkPage}
       /* Remove the entire footer (no wrapper spacing) for content pages like letters */
       hideFooter={isLettersPage}
       shareNode={
         isLettersPage ? null : (
-          <div>
-            <OutsetRule />
-            <div className="py-w8 gap-w4 container flex items-center">
-              <ShareButtonWrapper
-                url={`${config.PUBLIC_URL}/${post.slug}`}
-                theme="post"
-              />
-              {/* <DownloadButtonWrapper
+          <div className="py-w6 gap-gap container flex items-center">
+            <ShareButtonWrapper
+              url={`${config.PUBLIC_URL}/${post.slug}`}
+              theme="post"
+            />
+            {/* <DownloadButtonWrapper
                 url={getGithubRawUrl(post._id)}
                 filename={`${post.slug}.md`}
                 label="Download"
               /> */}
-              <CopyMarkdownButtonWrapper
-                url={getGithubRawUrl(post._id)}
-                label="Copy"
-              />
-              {/* {!isPage && (
+            <CopyMarkdownButtonWrapper
+              url={getGithubRawUrl(post._id)}
+              label="Copy"
+            />
+            {/* {!isPage && (
                 <Link
                   href={await getGithubIssueUrl(post.slug)}
                   target="_blank"
@@ -91,34 +89,38 @@ export default async function SlugPage({
                   Comment on GitHub
                 </Link>
               )} */}
-              {/* {isAboutPage || isWorkPage ? (
+            {/* {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
                   label="Download CV"
                 />
               ) : null} */}
-              {post.tweet && (
-                <Link
-                  href={post.tweet}
-                  target="_blank"
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" })
-                  )}
-                >
-                  <ChatBubbleIcon className="size-em" />
-                  Comment on X
-                </Link>
-              )}
-            </div>
+            {post.tweet && (
+              <Link
+                href={post.tweet}
+                target="_blank"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" })
+                )}
+              >
+                <ChatBubbleIcon className="size-em" />
+                Comment on X
+              </Link>
+            )}
           </div>
         )
       }
     >
       <PageInner variant={isNowPage ? "index" : "post"}>
-        {isNowPage && (
+        {(isNowPage || isWorkPage) && (
           <TitleHeader>
             <Text as="h1" intent="title">
               {post.title}
             </Text>
+            <PostMeta
+              post={post}
+              theme="post"
+              dateFormat={isNowPage ? "monthYear" : "lastUpdatedMonthYear"}
+            />
           </TitleHeader>
         )}
         <PostPage post={post} theme="post" />
@@ -128,7 +130,7 @@ export default async function SlugPage({
 }
 
 export function generateStaticParams(): Params[] {
-  return allPosts.map((post) => ({
+  return getPublishedPosts().map((post) => ({
     slug: post.slug,
   }));
 }
@@ -140,13 +142,13 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   const { slug } = await params;
   const post = allPosts.find((p) => p.slug === slug);
-  if (!post) {
+  if (!post || !isPubliclyVisible(post)) {
     return;
   }
 
   const { title, date: publishedTime, summary: description, assets } = post;
   const asset = assets?.[0];
-  let image;
+  let image: string;
 
   if (asset?.src) {
     if (isVideoFile(asset.src) && asset.poster) {

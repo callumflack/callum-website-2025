@@ -5,17 +5,19 @@ export const ListHeader = ({
   rhsNode,
   showContained,
   className,
+  ariaLabel,
 }: {
   children: React.ReactNode;
   rhsNode?: React.ReactNode;
   showContained?: boolean;
   className?: string;
+  ariaLabel?: string;
 }) => (
   <div
     data-component="ListHeader"
     className={cn(
-      "bg-canvas top-nav sticky z-10",
-      "translate-y-px transform",
+      "bg-canvas sticky top-0 z-10",
+      // "translate-y-px transform",
       className
     )}
   >
@@ -31,13 +33,20 @@ export const ListHeader = ({
      * scrolling up underneath get properly masked at the sticky boundary.
      *
      * - contained: pseudo matches the container width exactly (inset-x-0)
-     * - uncontained: pseudo extends horizontally by ~spacing-inset so it
+     * - uncontained: pseudo extends horizontally by spacing-inset so it
      *   covers the viewport edges where wide hover bgs can bleed in
+     *
+     * The uncontained mask must match lineHoverStyle's full spacing-inset.
+     * Do not subtract 1px to leave room for gutter-rules: when enabled,
+     * data-gutter-align redraws those rules above opaque sticky surfaces.
+     * Shrinking this mask instead exposes the scrolling hover wash as a 1px
+     * vertical rail beneath the sticky header.
      *
      * Removing this causes visible bleed-through of hovered list rows
      * scrolling past the sticky header. Verified by turning it off.
      */}
     <nav
+      aria-label={ariaLabel}
       {...(showContained ? { "data-gutter-align": "" } : {})}
       className={cn(
         "relative",
@@ -45,7 +54,7 @@ export const ListHeader = ({
         "before:bg-canvas before:absolute before:inset-y-0 before:z-0 before:content-['']",
         showContained
           ? "before:inset-x-0"
-          : "before:-inset-x-[calc(var(--spacing-inset)-1px)]"
+          : "before:-inset-x-inset"
       )}
     >
       <div className="relative z-1 flex justify-between">

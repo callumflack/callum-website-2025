@@ -3,17 +3,19 @@
 /**
  * Zoomable - Simple inline zoom component
  *
- * Now using CSS transforms instead of width changes for more consistent behavior
+ * Width changes preserve inline flow while CSS Grid keeps expanded content centered.
+ *
+ * The server and the client's first render must produce identical markup, so
+ * nothing here reads the viewport during render: responsive width lives in
+ * CSS (`md:`), and mobile zoom-disabling is checked at click time.
  */
 
 import { useState, ReactNode, useRef, useEffect } from "react";
-import { CONTAINER_TEXT_WIDTH } from "@/lib/constants";
-import { useWindowSize } from "react-use";
 import { centerInViewport } from "@/lib/center-in-viewport";
+import { cn } from "@/lib/utils";
 
 export type ZoomableProps = {
   children: ReactNode;
-  maxWidth?: number;
   scaleAmount?: number;
   transitionDuration?: number;
   className?: string;
@@ -25,7 +27,6 @@ export type ZoomableProps = {
 
 export function Zoomable({
   children,
-  maxWidth = CONTAINER_TEXT_WIDTH,
   scaleAmount = 2,
   transitionDuration = 0.3,
   className,
@@ -33,13 +34,8 @@ export function Zoomable({
   mobileBreakpoint = 768,
   aspect,
 }: ZoomableProps) {
-  const { width: viewportWidth } = useWindowSize();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isZoomed, setIsZoomed] = useState(false);
-  const baseWidthRef = useRef<number | null>(null);
-
-  // Determine if on mobile
-  const isMobile = viewportWidth < mobileBreakpoint;
 
   // Controls the ZOOMED (open) state max width as fraction of viewport (0.7 = 70vw)
   const zoomedMaxVw = 0.7;
@@ -52,6 +48,7 @@ export function Zoomable({
       })()
     : null; // null if no aspect provided, assume landscape
   const isPortraitOrSquare = aspectRatio !== null && aspectRatio <= 1;
+  const isZoomable = !isPortraitOrSquare;
 
   // Center element in viewport when zoomed
   useEffect(() => {
@@ -72,7 +69,7 @@ export function Zoomable({
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
     };
-  }, [isZoomed, scaleAmount, viewportWidth]);
+  }, [isZoomed, scaleAmount]);
 
   // Re-center while zoomed if the content size changes (e.g. image/video load)
   useEffect(() => {
@@ -97,65 +94,21 @@ export function Zoomable({
     };
   }, [isZoomed]);
 
-  // If on mobile and zooming is disabled, render children directly
-  // We might want to pass down className for layout consistency
-  if (isMobile && disableOnMobile) {
-    if (className) {
-      return (
-        <div data-component="Zoomable-mobile" className={className}>
-          {children}
-        </div>
-      );
-    }
-    return <>{children}</>;
-  }
-
-  // Portrait/square images don't zoom — just render without zoom behavior
-  if (isPortraitOrSquare) {
-    if (className) {
-      return (
-        <div data-component="Zoomable-portrait" className={className}>
-          {children}
-        </div>
-      );
-    }
-    return <>{children}</>;
-  }
-
   const handleZoom = () => {
-    if (!(isMobile && disableOnMobile)) {
-      // Capture the current base width at the moment we zoom in (useful when width is responsive).
-      if (!isZoomed) {
-        const el = contentRef.current;
-        if (el) baseWidthRef.current = el.getBoundingClientRect().width;
-      }
-      setIsZoomed(!isZoomed);
-    }
+    if (!isZoomable) return;
+    // Viewport is only read here, inside the event handler, never at render.
+    if (disableOnMobile && window.innerWidth < mobileBreakpoint) return;
+    setIsZoomed((zoomed) => !zoomed);
   };
-
-  // Calculate dimensions (baseline = zoomed-out width)
-  const baseWidth = isMobile
-    ? (baseWidthRef.current ?? viewportWidth)
-    : maxWidth;
-  const calculatedOriginalWidth = isMobile
-    ? Math.min(baseWidth, viewportWidth)
-    : baseWidth;
-
-  // Calculate zoomed width (landscape only — portrait/square already returned above)
-  const zoomedWidth = Math.min(
-    calculatedOriginalWidth * scaleAmount,
-    viewportWidth * zoomedMaxVw
-  );
-
-  const offset = isZoomed ? (calculatedOriginalWidth - zoomedWidth) / 2 : 0;
 
   return (
     <div
       // NB! We rely on an exact sentence case for CSS styling in mdx-prose
       data-component="Zoomable"
-      className={className}
+      className={cn("w-full md:w-(--container-text)", className)}
       style={{
-        width: isMobile ? "100%" : maxWidth,
+        display: "grid",
+        justifyItems: "center",
         position: "relative",
         margin: "0 auto",
         overflow: "visible", // Allow content to overflow
@@ -165,15 +118,18 @@ export function Zoomable({
         ref={contentRef}
         onClick={handleZoom}
         data-zoomed={isZoomed || undefined}
-        style={{
-          width: isZoomed ? zoomedWidth : "100%",
-          transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          cursor: !(isMobile && disableOnMobile)
+        className={
+          isZoomable
             ? isZoomed
-              ? "zoom-out"
-              : "zoom-in"
-            : "default",
-          transform: `translateX(${offset}px)`,
+              ? "md:cursor-zoom-out"
+              : "md:cursor-zoom-in"
+            : undefined
+        }
+        style={{
+          width: isZoomed
+            ? `min(calc(100% * ${scaleAmount}), ${zoomedMaxVw * 100}vw)`
+            : "100%",
+          transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
           position: "relative",
           zIndex: isZoomed ? 49 : 1,
         }}

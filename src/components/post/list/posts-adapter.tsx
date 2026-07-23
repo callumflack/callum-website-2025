@@ -1,5 +1,4 @@
-import { GroupedPosts } from "@/types/content";
-import type { Post } from "content-collections";
+import { GroupedPosts, PostListItem } from "@/types/content";
 
 // A simple adapter component that normalizes post data
 // This manages presentation of grouped or flat posts data from the useSortedPosts hook
@@ -7,8 +6,8 @@ export const PostsAdapter = ({
   data,
   renderPost,
 }: {
-  data: Post[] | GroupedPosts;
-  renderPost: (post: Post) => React.ReactNode;
+  data: PostListItem[] | GroupedPosts;
+  renderPost: (post: PostListItem) => React.ReactNode;
 }) => {
   // If data is already flat (array), render it directly
   if (Array.isArray(data)) {

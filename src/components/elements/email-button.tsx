@@ -27,7 +27,12 @@ export const EmailButton = ({ label }: EmailButtonProps) => {
           }
         }}
       >
-        <ContactIcon href={`mailto:${config.EMAIL}`} label={label} withListItem={false}>
+        <ContactIcon
+          ariaLabel="Email"
+          href={`mailto:${config.EMAIL}`}
+          label={label}
+          withListItem={false}
+        >
           <EnvelopeClosedIcon />
         </ContactIcon>
       </CopyButton>

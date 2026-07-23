@@ -1,9 +1,9 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { PageInner, PageWrapper } from "@/components/page";
 import { getShelfPosts } from "@/lib/posts/actions";
-import type { Metadata } from "next";
 import { ShelfPosts } from "./shelf-posts";
 
 export default function ShelfPage() {

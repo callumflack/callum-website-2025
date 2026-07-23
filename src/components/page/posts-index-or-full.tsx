@@ -1,113 +1,140 @@
 "use client";
 
-import { Button, Link } from "@/components/atoms";
+import type { Post } from "content-collections";
+import type { KeyboardEvent } from "react";
 import { ListHeader, PostPage } from "@/components/page";
-import { PostLine } from "@/components/post/list/post-line";
-import { EyeOpenIcon, ListBulletIcon } from "@radix-ui/react-icons";
-import { Post } from "content-collections";
-import { useRouter, useSearchParams } from "next/navigation";
-import { ViewMode } from "@/types/viewMode";
+import { ListModeButton } from "@/components/page/sort-button";
+import { PostLines } from "@/components/post";
+import type { ViewMode } from "@/types/viewMode";
+import { useIndexMode } from "./use-index-mode";
 
 /* Used on log and topic pages */
 
 interface FullOrIndexPostsProps {
   posts: Post[];
-  topic?: string; // Make optional since feed page doesn't need it
+  topic?: string;
   initialShow?: ViewMode;
-  routePrefix: string; // Add route prefix for navigation
-  listHeaderNode?: React.ReactNode; // only used in [topic] pages ATM
+  listHeaderNode?: React.ReactNode;
 }
+
+/*
+ * State model: the URL is the single source of truth. `show` is derived from
+ * `?show=...` every render, and `showInFull` is derived from `show`. Click and
+ * keyboard handlers only update the URL through `useIndexMode`; the next
+ * render mounts the selected presentation and removes the other. This keeps
+ * browser history, tab selection, and the visible panel in sync.
+ */
 
 export function FullOrIndexPosts({
   posts,
   topic,
   initialShow = "index",
-  routePrefix,
   listHeaderNode,
 }: FullOrIndexPostsProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { mode: show, setMode: setShow } = useIndexMode({
+    allowedValues: ["index", "full"],
+    fallback: initialShow,
+    param: "show",
+  });
+  const showInFull = show === "full";
 
-  // Derive view mode from URL (source of truth), fallback to initialShow
-  const showParam = searchParams.get("show") as ViewMode | null;
-  const showInFull = showParam ? showParam === "full" : initialShow === "full";
+  const moveToTab = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    show: ViewMode,
+    tabId: string
+  ) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-  const updateShowMode = (show: ViewMode) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("show", show);
-    const path = topic ? `${routePrefix}/${topic}` : routePrefix;
-    router.push(`${path}?${params.toString()}`);
+    event.preventDefault();
+    setShow(show);
+    requestAnimationFrame(() => document.getElementById(tabId)?.focus());
   };
+
+  const viewTabs = (
+    <div aria-label="Choose a post view" className="flex" role="tablist">
+      <ListModeButton
+        aria-controls="full-or-index-panel-index"
+        aria-selected={!showInFull}
+        id="full-or-index-tab-index"
+        isActive={!showInFull}
+        onKeyDown={(event) =>
+          moveToTab(event, "full", "full-or-index-tab-full")
+        }
+        onClick={() => setShow("index")}
+        role="tab"
+        tabIndex={showInFull ? -1 : 0}
+      >
+        Index
+      </ListModeButton>
+      <ListModeButton
+        aria-controls="full-or-index-panel-full"
+        aria-selected={showInFull}
+        id="full-or-index-tab-full"
+        isActive={showInFull}
+        onKeyDown={(event) =>
+          moveToTab(event, "index", "full-or-index-tab-index")
+        }
+        onClick={() => setShow("full")}
+        role="tab"
+        tabIndex={showInFull ? 0 : -1}
+      >
+        Full
+      </ListModeButton>
+    </div>
+  );
 
   return (
     <>
       <ListHeader
+        ariaLabel={topic ? "Topic views" : "Log views"}
         showContained
-        rhsNode={
-          <div className="flex items-center gap-[2px]">
-            <Button
-              title="Full"
-              variant="icon"
-              onClick={() => updateShowMode("full")}
-              className={showInFull ? "bg-background-hover text-fill" : ""}
-            >
-              <EyeOpenIcon className="size-em" />
-            </Button>
-            <Button
-              title="Index"
-              variant="icon"
-              onClick={() => {
-                updateShowMode("index");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className={!showInFull ? "bg-background-hover text-fill" : ""}
-            >
-              <ListBulletIcon className="size-em" />
-            </Button>
-          </div>
-        }
+        rhsNode={listHeaderNode}
       >
-        {listHeaderNode ? (
-          listHeaderNode
-        ) : (
-          /* retain consistent height! */
-          <div className="h-tab w-px">&nbsp;</div>
-        )}
+        {viewTabs}
       </ListHeader>
 
-      {showInFull ? (
-        <main className="space-y-w10 pt-w8">
-          {posts.map((post: Post) => (
-            <div
-              key={post.slug}
-              // NB! This space MUST match PostPageInner
-              className="Post space-y-w6 [&>header]:container"
-            >
-              <PostPage key={post.slug} post={post} theme="feed" />
-              <div className="pt-w6">
-                <hr />
+      <div
+        aria-labelledby="full-or-index-tab-full"
+        hidden={!showInFull}
+        id="full-or-index-panel-full"
+        data-slot="PostsIndexOrFull"
+        role="tabpanel"
+      >
+        {showInFull ? (
+          <main className="space-y-w10 pt-w8">
+            {posts.map((post: Post) => (
+              <div
+                key={post.slug}
+                // NB! This space MUST match PostPageInner
+                className="Post space-y-w6 [&>header]:container"
+              >
+                <PostPage key={post.slug} post={post} theme="feed" />
+                <div className="pt-w6">
+                  <hr />
+                </div>
               </div>
-            </div>
-          ))}
-        </main>
-      ) : (
-        <main className="container pt-3">
-          {posts.map((post: Post) => (
-            <Link
-              key={post._id}
-              href={post.thumbnailLink ? post.thumbnailLink : `/${post.slug}`}
-              className="block"
-            >
-              <PostLine
-                post={post}
-                // isFeatured={post.tags?.includes("featured")}
-                isFeatured={false}
-                isFeed
-              />
-            </Link>
-          ))}
-        </main>
-      )}
+            ))}
+          </main>
+        ) : null}
+      </div>
+
+      <div
+        aria-labelledby="full-or-index-tab-index"
+        hidden={showInFull}
+        id="full-or-index-panel-index"
+        role="tabpanel"
+      >
+        {!showInFull ? (
+          <main className="container pt-3">
+            <PostLines
+              isFeed
+              postLinkPrefix="/"
+              posts={posts}
+              showFeatured={false}
+            />
+          </main>
+        ) : null}
+      </div>
     </>
   );
 }

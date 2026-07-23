@@ -1,10 +1,10 @@
 import { cacheLife } from "next/cache";
-import { allPosts } from "content-collections";
+import { getPublishedPosts } from "@/lib/posts/actions";
 
 async function buildPostsJson(): Promise<string> {
   "use cache";
   cacheLife("days");
-  return JSON.stringify(allPosts);
+  return JSON.stringify(getPublishedPosts());
 }
 
 export async function GET() {

@@ -18,7 +18,7 @@
 
 ## Tech stack
 
-- Next.js 15 with App Router and Turbopack
+- Next.js 16 with App Router and Turbopack
 - TypeScript with strict mode
 - TailwindCSS v4 with custom theme configuration
 - Content Collections for type-safe MDX content management

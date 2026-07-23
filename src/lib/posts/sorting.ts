@@ -1,18 +1,25 @@
 import type { Post } from "content-collections";
-import { GroupedPosts } from "@/types/content";
+import { GroupedPosts, PostListItem } from "@/types/content";
 import { featuredWorkSlugs, featuredWritingSlugs } from "./featured-posts";
 
+/*
+ * Generic over the post shape so both full `Post`s (server) and slim
+ * `PostListItem`s (client) flow through without casts.
+ */
+
 // Group posts by year
-export function groupByYear(posts: Post[]): GroupedPosts {
+export function groupByYear<T extends PostListItem>(posts: T[]): GroupedPosts<T> {
   return posts.reduce((groups, post) => {
     const year = new Date(post.date).getFullYear().toString();
     groups[year] = [...(groups[year] || []), post];
     return groups;
-  }, {} as GroupedPosts);
+  }, {} as GroupedPosts<T>);
 }
 
 // Group posts by topic (tag)
-export function groupByTopic(posts: Post[]): GroupedPosts {
+export function groupByTopic<T extends PostListItem>(
+  posts: T[]
+): GroupedPosts<T> {
   return posts.reduce((groups, post) => {
     if (!post.tags?.length) return groups;
 
@@ -22,19 +29,19 @@ export function groupByTopic(posts: Post[]): GroupedPosts {
     });
 
     return groups;
-  }, {} as GroupedPosts);
+  }, {} as GroupedPosts<T>);
 }
 
 // Sort posts alphabetically
-export function sortAlphabetically(posts: Post[]): Post[] {
+export function sortAlphabetically<T extends PostListItem>(posts: T[]): T[] {
   return [...posts].sort((a, b) => a.title.localeCompare(b.title));
 }
 
 // Filter posts by featured slugs and sort them according to the order in specified slugs array
-export function filterFeaturedBySlugs(
-  posts: Post[],
+export function filterFeaturedBySlugs<T extends PostListItem>(
+  posts: T[],
   slugsArray: readonly string[]
-): Post[] {
+): T[] {
   const featured = posts.filter((post) => slugsArray.includes(post.slug));
   return featured.sort(
     (a, b) => slugsArray.indexOf(a.slug) - slugsArray.indexOf(b.slug)
@@ -72,7 +79,7 @@ export function getLatestWithPins(
 }
 
 // Filter posts by "featured" tag and sort by date (newest first)
-export function filterFeaturedByTag(posts: Post[]): Post[] {
+export function filterFeaturedByTag<T extends PostListItem>(posts: T[]): T[] {
   return posts
     .filter((post) => post.tags?.includes("featured"))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -81,10 +88,10 @@ export function filterFeaturedByTag(posts: Post[]): Post[] {
 // Sort posts for the "Selected" sort option (projects or writing)
 // 1. First show posts from featured lists in their order
 // 2. Then show any posts with "featured" tag that aren't already included
-export function sortSelectedPosts(
-  posts: Post[],
+export function sortSelectedPosts<T extends PostListItem>(
+  posts: T[],
   category: "projects" | "writing"
-): Post[] {
+): T[] {
   // Get the appropriate featured slugs list based on category
   const featuredList =
     category === "projects" ? featuredWorkSlugs : featuredWritingSlugs;
@@ -92,7 +99,7 @@ export function sortSelectedPosts(
   // First, get posts that match the featured list in their defined order
   const featuredListPosts = featuredList
     .map((slug) => posts.find((post) => post.slug === slug))
-    .filter(Boolean) as Post[];
+    .filter(Boolean) as T[];
 
   // Get slugs of posts already included
   const includedSlugs = featuredListPosts.map((post) => post.slug);

@@ -1,35 +1,31 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 interface DeviceDetect {
   isMobileUserAgent: boolean;
   isMobileViewport: boolean;
 }
 
+const subscribeToResize = (callback: () => void) => {
+  window.addEventListener("resize", callback, true);
+  return () => window.removeEventListener("resize", callback, true);
+};
+
 export const useDeviceDetect = (): DeviceDetect => {
   const userAgent =
     typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
   const deviceProperties = detectDevice(userAgent);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
-
-  const onWindowSizeChanged = useCallback(() => {
-    setIsMobileViewport(window.innerWidth < 640);
-  }, []);
-
-  useEffect(() => {
-    onWindowSizeChanged();
-    window.addEventListener("resize", onWindowSizeChanged, true);
-
-    return () => {
-      window.removeEventListener("resize", onWindowSizeChanged, true);
-    };
-  }, [onWindowSizeChanged]);
+  const isMobileViewport = useSyncExternalStore(
+    subscribeToResize,
+    () => window.innerWidth < 640,
+    () => false
+  );
 
   return {
     isMobileViewport,
     isMobileUserAgent: deviceProperties.isMobile(),
-  } as DeviceDetect;
+  };
 };
 
 const detectDevice = (userAgent: string) => {

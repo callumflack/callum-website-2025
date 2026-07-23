@@ -3,10 +3,9 @@
 import { Link } from "@/components/atoms";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
-import type { Post } from "content-collections";
-import type { GroupedPosts } from "@/types/content";
+import type { GroupedPosts, PostListItem } from "@/types/content";
 import { PostLine } from "./post-line";
-import { sortButtonStyle } from "../sort";
+import { sortButtonStyle } from "@/components/page/sort-button";
 import { hideFeaturedDotStyle } from "../post.styles";
 
 interface PostsListGroupedProps {
@@ -22,7 +21,10 @@ export const PostsListGrouped = ({
     if (sortOrder) {
       return sortOrder
         .map((group) => [group, groupedPosts[group]])
-        .filter(([, posts]) => Array.isArray(posts)) as [string, Post[]][];
+        .filter(([, posts]) => Array.isArray(posts)) as [
+        string,
+        PostListItem[],
+      ][];
     }
 
     // Default sorting (for years, sort numerically descending)
@@ -71,7 +73,7 @@ export const PostsListGrouped = ({
           </div>
           <div className="space-y-0 pb-1.5">
             {Array.isArray(posts) &&
-              posts.map((post: Post) => (
+              posts.map((post: PostListItem) => (
                 <Link href={post.thumbnailLink ?? post.slug} key={post._id}>
                   <PostLine
                     isFeatured={post.tags?.includes("featured")}
@@ -95,7 +97,7 @@ export const PostsListGrouped = ({
 //     if (sortOrder) {
 //       return sortOrder
 //         .map((group) => [group, groupedPosts[group]])
-//         .filter(([, posts]) => Array.isArray(posts)) as [string, Post[]][];
+//         .filter(([, posts]) => Array.isArray(posts)) as [string, PostListItem[]][];
 //     }
 //     return Object.entries(groupedPosts).sort(
 //       (a, b) => parseInt(b[0]) - parseInt(a[0])
@@ -112,7 +114,7 @@ export const PostsListGrouped = ({
 //           </div>
 //           <div className="space-y-w24 pb-2.5">
 //             {Array.isArray(posts) &&
-//               posts.map((post: Post) => (
+//               posts.map((post: PostListItem) => (
 //                 // <HomeCard
 //                 //   key={post.title}
 //                 //   post={post}

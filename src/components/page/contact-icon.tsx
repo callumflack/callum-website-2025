@@ -1,4 +1,8 @@
-import { buttonVariants, Link } from "@/components/atoms";
+import {
+  buttonVariants,
+  focusVisibleOutlineStyle,
+  Link,
+} from "@/components/atoms";
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -6,6 +10,7 @@ interface ContactIconProps {
   href: string;
   children: React.ReactNode;
   label?: string;
+  ariaLabel?: string;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   withListItem?: boolean;
@@ -15,15 +20,18 @@ export const ContactIcon = ({
   href,
   children,
   label,
+  ariaLabel,
   className,
   onClick,
   withListItem = true,
 }: ContactIconProps) => {
   const link = (
     <Link
+      aria-label={ariaLabel ?? label}
       className={cn(
         buttonVariants({ variant: label ? "ghost" : "icon", size: "default" }),
-        "text-solid hover:text-solid",
+        "text-solid hover:text-solid focus-visible:bg-background-hover",
+        focusVisibleOutlineStyle,
         label && "!px-3",
         className
       )}

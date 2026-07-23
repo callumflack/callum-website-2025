@@ -1,16 +1,15 @@
-import { Asset } from "@/types/content";
+import type { Asset } from "@/types/content";
 
-// ManualPost interface that matches content collection Post where relevant
-export interface ManualPost {
+export type ManualGalleryProject = {
   title: string;
   date: string;
   summary?: string;
   slug?: string;
-  assets: Asset[];
+  assets: [Asset, ...Asset[]];
   noBorder?: boolean;
-}
+};
 
-export const manualProjects: ManualPost[] = [
+export const manualGalleryProjects: ManualGalleryProject[] = [
   {
     title: "Sagatiba for Saatchi & Saatchi, London",
     date: "2006-01-01",

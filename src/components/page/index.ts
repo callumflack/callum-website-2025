@@ -1,5 +1,4 @@
 export * from "./page-wrapper";
-export * from "./page-inner";
 export * from "./post-page";
 export * from "./posts-index-or-featured";
 export * from "./posts-index-or-full";

@@ -1,9 +1,7 @@
-import { OutsetRule, TitleHeader } from "@/components/elements";
+import { cva, type VariantProps } from "cva";
 import { cn } from "@/lib/utils";
-import { Intro, Outro } from "./block-intro";
-import { Nav } from "./nav";
 import { Category } from "@/types/content";
-import { Text } from "@/components/atoms";
+import { HomeButton } from "./home-button";
 
 export enum NavRoute {
   LOG = "log",
@@ -45,97 +43,83 @@ export const getCategoryNavRoute = (category: string): NavRoute | undefined => {
 type Props = {
   activeNav?: NavRoute | string;
   children: React.ReactNode;
-  showIntro?: boolean;
-  showWhatIWant?: boolean;
   shareNode?: React.ReactNode;
   footerNode?: React.ReactNode;
   hideFooter?: boolean;
+  showNav?: boolean;
   theme?: "post" | "feed";
 };
 
 export const PageWrapper = ({
-  activeNav,
   children,
-  showIntro = true,
-  showWhatIWant = true,
   shareNode,
   footerNode,
   hideFooter = false,
-  theme = "post",
+  showNav = true,
 }: Props) => {
   return (
     <>
-      <Nav
-        componentName="PageWrapper-Nav"
-        activeNav={activeNav}
-        anchorName="Callum"
-        navItems={[
-          { href: `/${NavRoute.WORK}`, label: NavLabel.WORK },
-          { href: `/${NavRoute.WRITING}`, label: NavLabel.WRITING },
-          // { href: `/${NavRoute.GALLERY}`, label: NavLabel.GALLERY },
-          { href: `/${NavRoute.SHELF}`, label: NavLabel.SHELF },
-          // { href: `/${NavRoute.LOG}`, label: NavLabel.LOG },
-          // { href: `/${NavRoute.FRIENDS}`, label: NavLabel.FRIENDS },
-          { href: `/${NavRoute.NOW}`, label: NavLabel.NOW },
-          { href: `/${NavRoute.ABOUT}`, label: NavLabel.ABOUT },
-        ]}
-      />
+      <div className="relative">
+        {showNav && <PageWrapperNav />}
+        {children}
+      </div>
 
-      {children}
-
-      {!hideFooter &&
-        (footerNode ? (
-          <footer
-            data-component="PageWrapper-Footer"
-            className={cn(footerStyle, "pt-w8")}
-          >
-            {footerNode}
-            <div className="container">
-              <FooterNote />
-            </div>
-          </footer>
-        ) : (
-          <footer
-            data-component="PageWrapper-Footer"
-            className={cn(theme === "post" ? "pt-w12" : "pt-w8")}
-          >
-            {shareNode}
-            <OutsetRule />
-            <div className={cn(footerStyle, "pt-w8 container")}>
-              {showIntro ? (
-                <Intro textIntent="body" showWhatIWant={showWhatIWant} />
-              ) : (
-                <div>
-                  {/* duplicated Outro section from HomePage */}
-                  <TitleHeader as="div" isContained>
-                    <Text as="h3" intent="title">
-                      Connect
-                    </Text>
-                  </TitleHeader>
-                  <div className="pt-w6">
-                    <Outro showLabel={true} textIntent="body" />
-                  </div>
-                </div>
-              )}
-              <FooterNote />
-            </div>
-          </footer>
-        ))}
+      {!hideFooter && (
+        <footer data-component="PageWrapper-Footer" className="pt-w8 pb-w72">
+          {footerNode ?? shareNode}
+        </footer>
+      )}
     </>
   );
 };
 
-const FooterNote = () => {
+const PageWrapperNav = () => (
+  <aside
+    data-component="PageWrapper-Nav"
+    className="pointer-events-none absolute inset-0 z-20"
+  >
+    <nav aria-label="Site navigation" className="top-gap sm:top-w20 sticky">
+      <div className="relative container">
+        <HomeButton />
+      </div>
+    </nav>
+  </aside>
+);
+
+export const pageInnerVariants = cva({
+  base: "",
+  variants: {
+    variant: {
+      post: "pt-w20 space-y-w8",
+      index: "pt-w20 space-y-2.5",
+      indexSticky: [
+        // Single-line TitleHeader contract.
+        "pt-[calc(var(--spacing-w20)-(var(--spacing)*2.5))]",
+        "[--height-index-title-header:calc((var(--spacing)*5)+(var(--text-title)*var(--text-title--line-height)))]",
+        // Sticky title and list controls.
+        "*:data-[component=TitleHeader]:sticky *:data-[component=TitleHeader]:top-0 *:data-[component=TitleHeader]:z-11 *:data-[component=TitleHeader]:bg-canvas *:data-[component=TitleHeader]:py-2.5",
+        "**:data-[component=ListHeader]:top-[length:var(--height-index-title-header)]",
+      ],
+      log: "",
+      home: "pt-w8 space-y-2.5",
+    },
+  },
+  defaultVariants: {
+    variant: "post",
+  },
+});
+
+interface PageInnerProps
+  extends React.ComponentProps<"div">, VariantProps<typeof pageInnerVariants> {}
+
+export const PageInner = ({ className, variant, ...props }: PageInnerProps) => {
   return (
-    <div data-component="FooterNote" className="pb-w8">
-      <Text as="p" intent="fine" dim>
-        Thank you for visiting this personal website.
-      </Text>
+    <div
+      data-component="PageInner"
+      className={cn(pageInnerVariants({ variant }), className)}
+      {...props}
+    >
+      {props.children}
     </div>
   );
 };
-
-const footerStyle = [
-  "flex flex-col justify-between",
-  "min-h-[calc(100dvh-var(--spacing-nav)-1px)]",
-];

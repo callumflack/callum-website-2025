@@ -1,16 +1,24 @@
-import { Link, Text, TextProps } from "@/components/atoms";
+import Image from "next/image";
+import {
+  focusVisibleOutlineStyle,
+  Link,
+  Text,
+  type TextProps,
+} from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
 import { Contacts } from "@/components/page";
 import config from "@/config";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 type Props = {
+  as?: "h1" | "p";
   showLabel?: boolean;
   showWhatIWant?: boolean;
   textIntent?: TextProps["intent"];
 };
 
 export const Intro = ({
+  as = "p",
   showLabel = true,
   showWhatIWant = true,
   textIntent = "meta",
@@ -18,7 +26,7 @@ export const Intro = ({
   return (
     <div className="space-y-2.5">
       <Avatar />
-      <Text as="p" intent={textIntent} balance>
+      <Text as={as} intent={textIntent} balance>
         {/* I&apos;m Callum Flack — a software engineer, writer, and founder. I
         currently work as the CEO of Buttondown, the best way to start and grow
         your newsletter, and as a partner at Third South Capital. Read about me{" "} */}
@@ -43,12 +51,21 @@ export const Intro = ({
         execution. I design beautiful things and I can build them. This helps teams not only ship faster but enhance quality.
         don&apos;t just write clean code—I ensure it works in the blink of an
         eye, creating the most valued currency—trust.{" "} */}
-        Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I
-        create beautiful hypertext products that work in the blink of an eye,
-        creating the most valued currency—trust.{" "}
+        {/* Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I create beautiful hypertext products that work in the blink of an eye, creating the most valued currency—trust.  */}
+        {/* Hi, I&apos;m Callum Flack, a designer and engineer from Australia. I
+        shape product interfaces from fragile idea to production, bringing
+        language, interaction and React into the same loop to make software feel
+        clear, fast and trustworthy.{" "} */}
+        Hi, I&apos;m Callum Flack, an Australian designer and engineer. I unite
+        language, interaction and code in beautiful hypertext products that work
+        in the blink of an eye, earning the most valuable currency—trust.{" "}
         {showWhatIWant && (
           <Text as="span">
-            <LinkWithArrow theme="default" className="link" href="/about">
+            <LinkWithArrow
+              theme="default"
+              className={cn("link", focusVisibleOutlineStyle)}
+              href="/about"
+            >
               Read more
             </LinkWithArrow>
           </Text>
@@ -70,7 +87,10 @@ export const Outro = ({ showLabel = true, textIntent = "meta" }: Props) => {
     <div className="space-y-2.5">
       <Text as="p" intent={textIntent} balance>
         The best way to connect is to{" "}
-        <Link href={`mailto:${config.EMAIL}`} className="link">
+        <Link
+          href={`mailto:${config.EMAIL}`}
+          className={cn("link", focusVisibleOutlineStyle)}
+        >
           email me
         </Link>{" "}
         .{" "}
@@ -83,7 +103,10 @@ export const Outro = ({ showLabel = true, textIntent = "meta" }: Props) => {
         </span> */}
         <span className="lg:table">
           The second best way is to chat on{" "}
-          <Link href={config.TWITTER_URL} className="link">
+          <Link
+            href={config.TWITTER_URL}
+            className={cn("link", focusVisibleOutlineStyle)}
+          >
             Xwitter
           </Link>
           .
@@ -113,7 +136,7 @@ export const WhatIWantLink = () => {
   return (
     <LinkWithArrow
       theme="feature"
-      className="link no-underline"
+      className={cn("link no-underline", focusVisibleOutlineStyle)}
       href="/the-work-and-team-im-after"
     >
       Read about what I do and who I work with
@@ -125,7 +148,7 @@ export const SubstackLink = () => {
   return (
     <LinkWithArrow
       theme="feature"
-      className="link no-underline"
+      className={cn("link no-underline", focusVisibleOutlineStyle)}
       href={config.SUBSTACK_URL}
     >
       I write occasional newsletters. You should subscribe.

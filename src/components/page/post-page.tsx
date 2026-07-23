@@ -3,12 +3,16 @@ import { TitleHeader } from "@/components/elements";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { Mdx } from "@/components/mdx";
 import config from "@/config";
-import { formatPostDate, formatYear } from "@/lib/utils";
+import { formatPostDate, formatPostMonthYear, formatYear } from "@/lib/utils";
 import type { Post } from "content-collections";
 
 type Props = {
   post: Post;
   theme: "post" | "feed";
+};
+
+type PostMetaProps = Props & {
+  dateFormat?: "default" | "monthYear" | "lastUpdatedMonthYear";
 };
 
 export const PostPage = ({ post, theme }: Props) => {
@@ -20,7 +24,9 @@ export const PostPage = ({ post, theme }: Props) => {
       {!isPage && post.slug !== "about" && (
         <TitleHeader isContained={theme === "feed"}>
           <Text as="h1" intent="title" balance>
-            <Link href={`/${post.slug}`}>{post.title}</Link>
+            <Link href={`/${post.slug}`} className="hover:text-accent">
+              {post.title}
+            </Link>
           </Text>
 
           {theme === "post" && (
@@ -48,7 +54,11 @@ export const PostPage = ({ post, theme }: Props) => {
   );
 };
 
-const PostMeta = ({ post, theme }: Props) => {
+export const PostMeta = ({
+  post,
+  theme,
+  dateFormat = "default",
+}: PostMetaProps) => {
   const categoryLink =
     post.category === "projects"
       ? "/work"
@@ -56,29 +66,64 @@ const PostMeta = ({ post, theme }: Props) => {
         ? "/log"
         : "/writing";
   const date = formatPostDate(post.date);
+  const monthYear = formatPostMonthYear(post.date);
   const year = formatYear(post.date);
   const endYear = post.endDate ? formatYear(post.endDate) : null;
   const lastEditedDate = post.lastEditedDate
     ? formatPostDate(post.lastEditedDate)
     : null;
+  const lastEditedMonthYear = post.lastEditedDate
+    ? formatPostMonthYear(post.lastEditedDate)
+    : null;
+  const dateContent =
+    dateFormat === "monthYear"
+      ? monthYear
+      : dateFormat === "lastUpdatedMonthYear"
+        ? `Last updated ${lastEditedMonthYear ?? monthYear}`
+        : post.category === "writing" || post.category === "notes"
+          ? date
+          : post.lastEditedDate
+            ? `Last edited ${lastEditedDate}`
+            : theme === "feed"
+              ? date
+              : year;
+  const readingMinutes = Math.max(1, Math.floor(post.readingTime) - 1);
+  const categoryMeta = {
+    projects: { href: "/work", label: "Projects" },
+    writing: { href: "/writing", label: "Writing" },
+    notes: { href: "/writing?sort=notes", label: "Notes" },
+    shelf: { href: "/writing?sort=shelf", label: "Shelf" },
+    page: null,
+  }[post.category];
 
   return (
     <Text as="div" intent="pill" dim className="flex items-center gap-2.5">
       <>
+        {/* Category */}
+        {categoryMeta && (
+          <>
+            <Link
+              href={categoryMeta.href}
+              className="hover:text-fill no-underline"
+            >
+              {categoryMeta.label}
+            </Link>
+            <hr className="hr-vertical border-border-hover h-[12px]" />
+          </>
+        )}
+
         {/* Date */}
         <span>
           {/* Ongoing */}
           {post.projectIsOngoing && <span>Since&nbsp;</span>}
 
-          <Link href={`${categoryLink}?sort=year#${year}`}>
-            {post.category === "writing" || post.category === "notes"
-              ? date
-              : post.lastEditedDate
-                ? `Last edited ${lastEditedDate}`
-                : theme === "feed"
-                  ? date
-                  : year}
-          </Link>
+          {post.category === "page" ? (
+            dateContent
+          ) : (
+            <Link href={`${categoryLink}?sort=year#${year}`}>
+              {dateContent}
+            </Link>
+          )}
 
           {/* End date, e.g. for a project */}
           {endYear ? (
@@ -94,21 +139,8 @@ const PostMeta = ({ post, theme }: Props) => {
         {/* Reading time */}
         <>
           <hr className="hr-vertical border-border-hover h-[12px]" />
-          {Math.max(
-            1,
-            post.readingTime % 1 >= 0.7
-              ? Math.ceil(post.readingTime)
-              : Math.floor(post.readingTime)
-          )}{" "}
-          min
-          {Math.max(
-            1,
-            post.readingTime % 1 >= 0.7
-              ? Math.ceil(post.readingTime)
-              : Math.floor(post.readingTime)
-          ) !== 1
-            ? "s"
-            : ""}
+          {readingMinutes} min
+          {readingMinutes !== 1 ? "s" : ""}
         </>
 
         {/* Feed share */}

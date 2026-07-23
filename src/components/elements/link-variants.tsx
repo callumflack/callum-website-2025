@@ -1,7 +1,7 @@
 import { ArrowRightIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { cn } from "@/lib/utils";
 import type { AnchorHTMLAttributes } from "react";
 import { Link } from "@/components/atoms";
+import { cn } from "@/lib/utils";
 
 interface LinkWithArrowProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -28,6 +28,7 @@ export const LinkWithArrow = ({
         className
       )}
       href={href}
+      data-slot="link-with-arrow"
     >
       <span className="flex-grow">{children}</span>
       <span

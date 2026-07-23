@@ -31,6 +31,7 @@ export const Contacts = ({
     >
       <EmailButton label={showLabel ? "Email" : undefined} />
       <ContactIcon
+        ariaLabel="Xwitter"
         className="translate-y-[-0.05em] transform"
         href={config.TWITTER_URL}
         label={showLabel ? "Xwitter" : undefined}
@@ -38,6 +39,7 @@ export const Contacts = ({
         <TwitterLogoIcon />
       </ContactIcon>
       <ContactIcon
+        ariaLabel="LinkedIn"
         className="translate-y-[-1px] transform [&_svg]:!size-[1.25em]"
         href={config.LINKEDIN_URL}
         label={showLabel ? "LinkedIn" : undefined}
@@ -45,6 +47,7 @@ export const Contacts = ({
         <IonSocialLinkedinOutline />
       </ContactIcon>
       <ContactIcon
+        ariaLabel="GitHub"
         className="translate-y-[-1px] transform [&_svg]:!size-[1.25em]"
         href={config.GITHUB_URL}
         label={showLabel ? "Github" : undefined}
@@ -52,6 +55,7 @@ export const Contacts = ({
         <MynauiBrandGithub />
       </ContactIcon>
       <ContactIcon
+        ariaLabel="Substack"
         label={showLabel ? "Substack" : undefined}
         href={config.SUBSTACK_URL}
         className="translate-y-[-1px] transform [&_svg]:!size-[1.25em]"

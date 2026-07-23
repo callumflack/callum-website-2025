@@ -13,4 +13,5 @@ export {
 export { Text, textVariants, type TextProps } from "./text";
 export { Link, type LinkProps } from "./next-link";
 export { Button, buttonVariants, type ButtonProps } from "./button";
+export { focusVisibleOutlineStyle } from "./focus";
 export { Svg, type SvgIconProps } from "./svg";

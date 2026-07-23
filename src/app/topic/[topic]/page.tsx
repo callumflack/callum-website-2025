@@ -1,15 +1,15 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
-import { getPostsByTopic } from "@/lib/posts/actions";
-import { allPosts } from "content-collections";
-import { Metadata } from "next";
+import { getPostsByTopic, getPublishedPosts } from "@/lib/posts/actions";
 import { ListHeading } from "./list-heading";
 
 export function generateStaticParams() {
   const topics = new Set<string>();
-  allPosts.forEach((post) => {
+  getPublishedPosts().forEach((post) => {
     post.tags?.forEach((tag) => {
       if (tag !== "featured") topics.add(tag);
     });
@@ -25,6 +25,10 @@ export default async function TopicPage({
   const { topic } = await params;
   const posts = getPostsByTopic(topic);
 
+  if (posts.length === 0) {
+    notFound();
+  }
+
   return (
     <PageWrapper activeNav="feed" theme="feed">
       <PageInner variant="index">
@@ -36,21 +40,11 @@ export default async function TopicPage({
             <span className="font-light">/</span>{" "}
             <span className="capitalize">{topic}</span>
           </Text>
-          {/* <Text dim balance intent="meta">
-            The value of good design is only realised if you have an engineer
-            capable of discerning the details in code (or if you&apos;re lucky,
-            they&apos;re one and the same).{" "}
-            <LinkWithArrow href={config.SUBSTACK_URL} className="link">
-              Signup for new posts
-            </LinkWithArrow>
-            .
-          </Text> */}
         </TitleHeader>
         <Suspense fallback={null}>
           <FullOrIndexPosts
             posts={posts}
             topic={topic}
-            routePrefix="/topic"
             listHeaderNode={<ListHeading title={topic} />}
           />
         </Suspense>

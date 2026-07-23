@@ -1,7 +1,6 @@
 import { Link } from "@/components/atoms";
 import type { ListCategory } from "@/types/content";
-import type { SortedPostsMap } from "@/types/content";
-import type { Post } from "content-collections";
+import type { PostListItem, SortedPostsMap } from "@/types/content";
 import { PostLine } from "./post-line";
 
 interface PostsListProps {
@@ -11,6 +10,45 @@ interface PostsListProps {
   wrapperClassName?: string;
 }
 
+interface PostLinesProps {
+  dateFormat?: "date" | "year";
+  isFeed?: boolean;
+  postLinkPrefix?: string;
+  posts: PostListItem[];
+  showFeatured?: boolean;
+  wrapperClassName?: string;
+}
+
+export const PostLines = ({
+  dateFormat,
+  isFeed,
+  postLinkPrefix = "",
+  posts,
+  showFeatured = true,
+  wrapperClassName,
+}: PostLinesProps) => (
+  <div className={wrapperClassName}>
+    {posts.map((post) => (
+      <Link
+        key={post._id}
+        href={
+          post.thumbnailLink
+            ? post.thumbnailLink
+            : `${postLinkPrefix}${post.slug}`
+        }
+        className="block"
+      >
+        <PostLine
+          dateFormat={dateFormat}
+          isFeatured={showFeatured && post.tags?.includes("featured")}
+          isFeed={isFeed}
+          post={post}
+        />
+      </Link>
+    ))}
+  </div>
+);
+
 export const PostsList = ({
   kind,
   sortBy,
@@ -18,21 +56,9 @@ export const PostsList = ({
   wrapperClassName,
 }: PostsListProps) => {
   const key = sortBy ?? kind;
-  const posts = sortedPostsMap[key] as Post[];
+  const posts = sortedPostsMap[key] as PostListItem[];
 
   // console.log("Rendering PostsList with:", key, posts);
 
-  return (
-    <div className={wrapperClassName}>
-      {posts.map((post: Post) => (
-        <Link
-          key={post._id}
-          href={post.thumbnailLink ? post.thumbnailLink : post.slug}
-          className="block"
-        >
-          <PostLine isFeatured={post.tags?.includes("featured")} post={post} />
-        </Link>
-      ))}
-    </div>
-  );
+  return <PostLines posts={posts} wrapperClassName={wrapperClassName} />;
 };
