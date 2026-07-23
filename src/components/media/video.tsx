@@ -47,6 +47,7 @@ export const Video = ({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    let isActive = true;
 
     const handleMetadataLoaded = async () => {
       await new Promise<void>((resolve) => {
@@ -96,8 +97,12 @@ export const Video = ({
     const setupVideo = async () => {
       try {
         await handleMetadataLoaded();
+        if (!isActive) return;
         video.addEventListener("play", handlePlay);
         video.addEventListener("error", handleError);
+        if (video.autoplay && video.paused && video.muted) {
+          await video.play();
+        }
       } catch (err) {
         console.error("Error setting up video:", err);
         setVideoStatus("error");
@@ -108,6 +113,10 @@ export const Video = ({
     void setupVideo();
 
     return () => {
+      isActive = false;
+      video.pause();
+      video.muted = true;
+      setSound(false);
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("error", handleError);
     };
