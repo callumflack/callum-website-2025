@@ -21,6 +21,12 @@ type GalleryGridItem = {
 };
 
 const VIDEO_AUTOPLAY_STAGGER_MS = 1000;
+// Cap the stagger so videos far down the page don't wait `order * 1s` after
+// scrolling into view; the IntersectionObserver already gates loading.
+const VIDEO_AUTOPLAY_STAGGER_MAX_MS = 4000;
+// The first grid row (3 tiles) is the LCP candidate set — the expanded tile
+// varies per shuffle, so preload the whole row, not just index 0.
+const LEADING_TILE_COUNT = 3;
 
 export async function GalleryView() {
   await connection();
@@ -40,14 +46,17 @@ export async function GalleryView() {
       {rows.flat().map(({ item, expanded }, index) => {
         const autoplayDelay =
           isVideoFile(item.asset.src) && item.asset.poster
-            ? nextVideoOrder++ * VIDEO_AUTOPLAY_STAGGER_MS
+            ? Math.min(
+                nextVideoOrder++ * VIDEO_AUTOPLAY_STAGGER_MS,
+                VIDEO_AUTOPLAY_STAGGER_MAX_MS
+              )
             : null;
 
         return (
           <GalleryTile
             autoplayDelay={autoplayDelay}
             expanded={expanded}
-            isLeading={index === 0}
+            isLeading={index < LEADING_TILE_COUNT}
             item={item}
             key={item.id}
           />
