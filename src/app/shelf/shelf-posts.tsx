@@ -1,8 +1,8 @@
 "use client";
 
-import { PostsList, StyledSortButton } from "@/components/post";
-import { ListHeader } from "@/components/page/list-header";
 import type { Post } from "content-collections";
+import { ListHeader } from "@/components/page/list-header";
+import { PostsList, SortModeButton } from "@/components/post";
 
 interface ShelfPostsProps {
   posts: Post[];
@@ -14,14 +14,14 @@ export function ShelfPosts({ posts }: ShelfPostsProps) {
   return (
     <main className="container">
       <ListHeader>
-        <StyledSortButton
+        <SortModeButton
           initialSortBy="year"
           onClick={() => {}}
           searchParamsValue="year"
           sortBy="year"
         >
           Chrono
-        </StyledSortButton>
+        </SortModeButton>
       </ListHeader>
 
       <PostsList

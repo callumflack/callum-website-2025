@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import type { Post } from "content-collections";
 import type { GroupedPosts } from "@/types/content";
 import { PostLine } from "./post-line";
-import { sortButtonStyle } from "../sort";
+import { sortButtonStyle } from "@/components/page/sort-button";
 import { hideFeaturedDotStyle } from "../post.styles";
 
 interface PostsListGroupedProps {

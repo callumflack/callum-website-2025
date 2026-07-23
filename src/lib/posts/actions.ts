@@ -1,5 +1,10 @@
-import { allPosts, Post } from "content-collections";
-import { Category, ListCategory, ListPostsData } from "@/types/content";
+import { allPosts, type Post } from "content-collections";
+import {
+  Category,
+  type ListCategory,
+  type ListPostsData,
+  type WritingIndexPostsData,
+} from "@/types/content";
 
 const categoryMap: Record<ListCategory, Category> = {
   projects: Category.PROJECTS,
@@ -29,13 +34,31 @@ export function getAllPosts(): ListPostsData {
   };
 }
 
+export function getWritingIndexPosts(): WritingIndexPostsData {
+  const publishedPosts = allPosts.filter((post) => !post.draft);
+  const newestFirst = (posts: Post[]) =>
+    [...posts].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+  return {
+    writing: publishedPosts.filter(
+      (post) => post.category === Category.WRITING
+    ),
+    notes: newestFirst(
+      publishedPosts.filter((post) => post.category === Category.NOTES)
+    ),
+    shelf: newestFirst(
+      publishedPosts.filter((post) => post.category === Category.SHELF)
+    ),
+  };
+}
+
 export function getAllPostsChronological(): Post[] {
   return allPosts
     .filter(
       (p) =>
-        !p.draft &&
-        p.type !== "page" &&
-        p.slug !== "the-work-and-team-im-after"
+        !p.draft && p.type !== "page" && p.slug !== "the-work-and-team-im-after"
     )
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }

@@ -1,8 +1,8 @@
 "use client";
 
+import type { Post } from "content-collections";
 import { Link } from "@/components/atoms";
 import type { ListCategory, SortedPostsMap } from "@/types/content";
-import type { Post } from "content-collections";
 import { PostBlock } from "./post-block";
 
 interface PostsListBlockProps {
@@ -20,8 +20,6 @@ export const PostsListBlock = ({
 }: PostsListBlockProps) => {
   const key = sortBy ?? kind;
   const sorted = sortedPostsMap[key];
-
-  // console.log("Rendering PostsListBlock with:", key, sorted);
 
   return (
     <div data-component="PostsListBlock" className={wrapperClassName}>

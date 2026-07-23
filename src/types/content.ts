@@ -60,3 +60,9 @@ export interface ListPostsData {
   projects: Post[];
   writing: Post[];
 }
+
+export interface WritingIndexPostsData {
+  notes: Post[];
+  shelf: Post[];
+  writing: Post[];
+}

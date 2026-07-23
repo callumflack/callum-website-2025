@@ -6,6 +6,6 @@ export const hideFeaturedDotStyle =
 
 export const lineHoverStyle = [
   "hover:relative hover:z-0",
-  "hover:before:-inset-x-inset hover:before:bg-background-hover hover:before:absolute hover:before:inset-y-0 hover:before:-z-[1] hover:before:content-['']",
+  "hover:before:-inset-x-3 hover:before:bg-background-hover hover:before:absolute hover:before:inset-y-0 hover:before:-z-[1] hover:before:content-['']",
   // "hover:before:rounded-squish"
 ];

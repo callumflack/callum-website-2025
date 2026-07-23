@@ -38,14 +38,14 @@ export const PostLine = ({
       className={cn(
         // h-[40px]
         "group flex items-end justify-between gap-2 leading-none",
-        isFeed ? "pt-2.5 pb-2.5" : "pt-3.5 pb-3",
+        isFeed ? "pt-2.5 pb-2.5" : "pt-2.5 pb-2.5",
         lineHoverStyle
       )}
     >
-      <PostLinkHeadingWrapper className="group-hover:text-fill!">
+      <PostLinkHeadingWrapper className="group-hover:text-fill! group-focus-visible:text-fill!">
         {isFeatured && isFeed ? (
           <div className="absolute top-1/2 left-[-0.6em] -translate-y-1/2 sm:left-[-1.25em]">
-            <StarFilledIcon className="text-accent group-hover:text-fill size-[0.6em]" />
+            <StarFilledIcon className="text-accent group-hover:text-fill group-focus-visible:text-fill size-[0.6em]" />
           </div>
         ) : null}
 
@@ -58,7 +58,8 @@ export const PostLine = ({
       <div
         className={cn(
           "dotdotdot h-px flex-1 translate-y-[-0.2em] opacity-40",
-          "group-hover:text-fill group-hover:opacity-100"
+          "group-hover:text-fill group-hover:opacity-100",
+          "group-focus-visible:text-fill group-focus-visible:opacity-100"
           // "ease transition-colors duration-300"
         )}
       />
@@ -70,7 +71,7 @@ export const PostLine = ({
         intent="pill"
         dim
         className={cn(
-          "group-hover:text-fill! relative",
+          "group-hover:text-fill! group-focus-visible:text-fill! relative",
           "flex items-center gap-3.5",
           // "ease transition-colors duration-300",
           // shift everything down a bit
@@ -100,7 +101,7 @@ export const PostLine = ({
               categoryStyle === "pill"
                 ? cn(
                     buttonVariants({ variant: "pill" }),
-                    "group-hover:border-fill"
+                    "group-hover:border-fill group-focus-visible:border-fill"
                   )
                 : undefined
             }

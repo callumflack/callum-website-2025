@@ -17,11 +17,7 @@ export default function LogPage() {
           </Text>
         </TitleHeader>
         <Suspense fallback={null}>
-          <FullOrIndexPosts
-            posts={posts}
-            initialShow="index"
-            routePrefix="/log"
-          />
+          <FullOrIndexPosts posts={posts} initialShow="index" />
         </Suspense>
       </PageInner>
     </PageWrapper>

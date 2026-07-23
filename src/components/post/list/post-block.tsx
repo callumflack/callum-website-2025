@@ -1,11 +1,11 @@
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+import type { Post } from "content-collections";
 import { Text } from "@/components/atoms";
 import { CardImage } from "@/components/card";
 import { mediaWrapperVariants } from "@/components/media";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { type Post } from "content-collections";
 import { cn } from "@/lib/utils";
-import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 import { lineHoverStyle, postIconStyle } from "../post.styles";
+import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
 
 interface PostBlockProps {
   post: Post;
@@ -24,7 +24,7 @@ export const PostBlock = ({
       className={cn(
         "group gap-w4 grid grid-cols-20",
         lineHoverStyle,
-        "hover:before:inset-y-[calc(1px-var(--spacing-gap))]"
+        "hover:before:-inset-y-3"
       )}
     >
       {/* IMAGE */}
