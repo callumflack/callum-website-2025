@@ -104,7 +104,7 @@ export function HomeIndex({
           <HomeTab
             controls="home-panel-chrono"
             isActive={activeView === "chrono"}
-            label="Chrono"
+            label="Recent"
             onKeyDown={(event) => moveToTab(event, "start", "home-tab-start")}
             onSelect={() => setActiveView("chrono")}
             tabId="home-tab-chrono"
