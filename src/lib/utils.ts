@@ -6,6 +6,23 @@ export { cn } from "./classes";
 export const formatYear = (dateString: string) =>
   format(parseISO(dateString), "yyyy");
 
+type PostYearFields = {
+  date: string;
+  dateLabel?: string;
+  endDate?: string;
+};
+
+/** Year span for project cards: closed projects use full years; ongoing use dateLabel. */
+export function formatPostYearSpan(post: PostYearFields): string {
+  if (post.endDate) {
+    return `${formatYear(post.date)}–${formatYear(post.endDate)}`;
+  }
+  if (post.dateLabel) {
+    return post.dateLabel;
+  }
+  return formatYear(post.date);
+}
+
 export const formatPostDate = (dateString: string): string => {
   return format(parseISO(dateString), "MMM d, yyyy");
 };

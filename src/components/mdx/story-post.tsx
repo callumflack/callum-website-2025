@@ -6,7 +6,7 @@ import { PostBlock } from "@/components/post/list/post-block";
 import { PostLine } from "@/components/post/list/post-line";
 import { lineHoverStyle } from "@/components/post/post.styles";
 import { getPublishedPosts, toPostListItem } from "@/lib/posts/actions";
-import { cn, formatYear } from "@/lib/utils";
+import { cn, formatPostYearSpan } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 import { mdxMediaSpacing } from "./mdx-media";
 
@@ -87,8 +87,6 @@ function StoryPostCard({
   post: Post;
   showSummary?: boolean;
 }) {
-  const endYear = post.endDate ? formatYear(post.endDate) : null;
-
   return (
     <Link
       className={cn(
@@ -127,12 +125,7 @@ function StoryPostCard({
             intent={showSummary ? "body" : "meta"}
             weight={showSummary ? "medium" : "normal"}
           >
-            <span>{formatYear(post.date)}</span>
-            {endYear ? (
-              <>
-                &ndash;<span>{endYear}</span>
-              </>
-            ) : null}
+            {formatPostYearSpan(post)}
           </Text>
         </div>
         {showSummary ? (
