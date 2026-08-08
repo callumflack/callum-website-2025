@@ -53,13 +53,16 @@
 }
 
 /* HEADING SPACING & WEIGHTS */
-.Prose > h2,
+.Prose > h2 {
+  @apply mt-minor;
+  @apply text-balance;
+}
 .Prose > h3 {
-  @apply mt-w8;
+  @apply mt-small;
   @apply text-balance;
 }
 .Prose > h2 + h3 {
-  @apply mt-w4;
+  @apply mt-gap;
 }
 .Prose h4 {
   @apply font-bold;
@@ -74,12 +77,12 @@
 .Prose > h1 + [data-component="Zoomable"],
 .Prose > h2 + [data-component="Zoomable"],
 .Prose > h3 + [data-component="Zoomable"] {
-  /* override py-w6 in mediaSpacing from mdx-media */
-  @apply pt-2;
+  /* override py-* in mediaSpacing from mdx-media */
+  @apply pt-3;
 }
 .Prose > [data-component="Zoomable"] + h2,
 .Prose > [data-component="Zoomable"] + h3 {
-  @apply mt-2;
+  @apply mt-w6; /* purposefully not --spacing-minor */
 }
 
 /* MEDIA OVERRIDES */
