@@ -97,8 +97,10 @@ export const components = {
   h4: ({ children, ...props }: HeadingProps) => <h4 {...props}>{children}</h4>,
   pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
     <div data-component="pre">
-      <CodeCopyButton />
-      <pre className="Pre" {...props}>
+      <pre className="Pre relative" {...props}>
+        <div className="absolute top-0 right-0 z-10 flex items-center">
+          <CodeCopyButton />
+        </div>
         {children}
       </pre>
     </div>
@@ -106,6 +108,7 @@ export const components = {
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
     // sugar-high encapsulates code styles so we can't set them here nor in <Prose> but we can in a global CSS file, see styles/code.css
     const codeHTML = highlight(children as string);
+    // biome-ignore lint/security/noDangerouslySetInnerHtml: sugar-high returns syntax markup from the authored MDX code string, not arbitrary user HTML.
     return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
   },
   hr: () => (
