@@ -180,6 +180,8 @@ export function StoryCarouselClient({
       className={cn(
         "StoryCarousel not-prose max-w-full min-w-0",
         mdxMediaSpacing,
+        // override media spacing
+        "first:pb-small!",
         className
       )}
       data-component="StoryCarousel"

@@ -33,8 +33,8 @@ export default function Home() {
           </Suspense>
         </div>
 
-        <div className="container">
-          <NewsletterSubscribe className="pt-w12" />
+        <div className="pt-w12 container">
+          <NewsletterSubscribe />
         </div>
       </div>
     </PageWrapper>

@@ -63,7 +63,7 @@ export function StoryPostList({
 
   return (
     <div
-      className={cn(showThumbnails && "gap-w8 pt-w8 sm:gap-w6 flex flex-col")}
+      className={cn(showThumbnails && "py-minor gap-w6 flex flex-col")}
       data-component="StoryPostList"
       data-thumbnails={showThumbnails ? "true" : "false"}
     >
