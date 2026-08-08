@@ -16,6 +16,16 @@
   max-width: none;
 }
 
+/* Home start panel — no Prose stack margins, Story media breaks out */
+.Prose.Prose--homeStart > :not(:last-child) {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+/* .Prose.Prose--homeStart > [data-component="StoryPost"],
+.Prose.Prose--homeStart > [data-component="StoryCarousel"] {
+  @apply max-w-[900px];
+} */
+
 /* PARAGRAPHS */
 .Prose p {
   @apply text-pretty;

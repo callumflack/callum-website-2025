@@ -4,15 +4,16 @@ import { components } from "./mdx-components";
 import { MdxProse } from "./mdx-prose";
 
 interface MdxProps {
+  className?: string;
   code: string;
   children?: React.ReactNode;
 }
 
-export function Mdx({ code, children }: MdxProps) {
+export function Mdx({ className, code, children }: MdxProps) {
   const Component = useMDXComponent(code);
 
   return (
-    <MdxProse>
+    <MdxProse className={className}>
       <MDXErrorBoundary>
         {/* Rendering a component built from compiled MDX during render is
             inherent to @content-collections/mdx — its identity is stable for

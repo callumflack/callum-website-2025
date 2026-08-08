@@ -1,3 +1,5 @@
+import type { ComponentPropsWithoutRef } from "react";
+import { highlight } from "sugar-high";
 import type { TextProps } from "@/components/atoms";
 import { Link, Text } from "@/components/atoms";
 import {
@@ -8,15 +10,15 @@ import {
   WhatIWantLink,
 } from "@/components/page";
 import config from "@/config";
-import type { ComponentPropsWithoutRef } from "react";
-import { highlight } from "sugar-high";
 import { CodeCopyButton } from "./code-copy-button";
 import {
-  MdxImageProps,
+  type MdxImageProps,
   ZoomableImage,
   ZoomableVideo,
-  ZoomableVideoProps,
+  type ZoomableVideoProps,
 } from "./mdx-media";
+import { StoryCarousel } from "./story-carousel";
+import { StoryPost, StoryPostList } from "./story-post";
 
 /*
   mdx-components: Element Definition (Zero Styling)
@@ -45,6 +47,9 @@ type DivProps = ComponentPropsWithoutRef<"div">;
 export const components = {
   Image: (props: MdxImageProps) => <ZoomableImage {...props} />,
   Video: (props: ZoomableVideoProps) => <ZoomableVideo {...props} />,
+  StoryCarousel,
+  StoryPost,
+  StoryPostList,
   // This doesn't fucking work
   img: (props: MdxImageProps) => {
     // console.log("img props:", props);

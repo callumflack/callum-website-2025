@@ -36,6 +36,10 @@ export default async function SlugPage({
 }) {
   const { slug } = await params;
 
+  if (slug === "home") {
+    notFound();
+  }
+
   const post = allPosts.find((p) => p.slug === slug);
 
   if (!post || !isPubliclyVisible(post)) {
@@ -137,9 +141,11 @@ export default async function SlugPage({
 }
 
 export function generateStaticParams(): Params[] {
-  return getPublishedPosts().map((post) => ({
-    slug: post.slug,
-  }));
+  return getPublishedPosts()
+    .filter((post) => post.slug !== "home")
+    .map((post) => ({
+      slug: post.slug,
+    }));
 }
 
 export async function generateMetadata({
