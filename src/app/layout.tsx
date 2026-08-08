@@ -3,6 +3,7 @@ import { mono, sans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
+import "pasito/styles.css";
 import "../styles/globals.css";
 import { Providers } from "./providers";
 
