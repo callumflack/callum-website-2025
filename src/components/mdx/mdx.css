@@ -183,6 +183,9 @@
 .Prose hr {
   @apply border-0;
 }
+.Prose hr.hr-vertical {
+  @apply border-l;
+}
 
 /* CONTACTS */
 .Prose [data-component="contacts"] {
