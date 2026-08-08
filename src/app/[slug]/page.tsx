@@ -10,6 +10,7 @@ import { isVideoFile } from "@/components/media";
 import {
   getCategoryNavRoute,
   NavRoute,
+  NewsletterSubscribe,
   PageInner,
   PageWrapper,
   PostMeta,
@@ -45,7 +46,6 @@ export default async function SlugPage({
   const isNowPage = post.slug === "now";
   const isWorkPage = post.slug === "the-work-and-team-im-after";
   const isLettersPage = post.slug === "letters";
-  const isPage = post.type === "page";
 
   const renderActiveNav = () => {
     if (isAboutPage || isWorkPage) {
@@ -64,21 +64,37 @@ export default async function SlugPage({
       hideFooter={isLettersPage}
       shareNode={
         isLettersPage ? null : (
-          <div className="py-w6 gap-gap container flex items-center">
-            <ShareButtonWrapper
-              url={`${config.PUBLIC_URL}/${post.slug}`}
-              theme="post"
-            />
-            {/* <DownloadButtonWrapper
+          <div className="pt-w8 space-y-0">
+            {/* <div className="container">
+              <hr />
+            </div> */}
+            <div className="py-w6 gap-gap container flex items-center">
+              <ShareButtonWrapper
+                url={`${config.PUBLIC_URL}/${post.slug}`}
+                theme="post"
+              />
+              {/* <DownloadButtonWrapper
                 url={getGithubRawUrl(post._id)}
                 filename={`${post.slug}.md`}
                 label="Download"
               /> */}
-            <CopyMarkdownButtonWrapper
-              url={getGithubRawUrl(post._id)}
-              label="Copy"
-            />
-            {/* {!isPage && (
+              {post.tweet && (
+                <Link
+                  href={post.tweet}
+                  target="_blank"
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
+                >
+                  <ChatBubbleIcon className="size-em" />
+                  X.com
+                </Link>
+              )}
+              <CopyMarkdownButtonWrapper
+                url={getGithubRawUrl(post._id)}
+                label="Copy"
+              />
+              {/* {!isPage && (
                 <Link
                   href={await getGithubIssueUrl(post.slug)}
                   target="_blank"
@@ -89,28 +105,19 @@ export default async function SlugPage({
                   Comment on GitHub
                 </Link>
               )} */}
-            {/* {isAboutPage || isWorkPage ? (
+              {/* {isAboutPage || isWorkPage ? (
                 <CVDownloadButtonWrapper
                   label="Download CV"
                 />
               ) : null} */}
-            {post.tweet && (
-              <Link
-                href={post.tweet}
-                target="_blank"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" })
-                )}
-              >
-                <ChatBubbleIcon className="size-em" />
-                Comment on X
-              </Link>
-            )}
+
+              <NewsletterSubscribe showLabel={false} className="flex-1" />
+            </div>
           </div>
         )
       }
     >
-      <PageInner variant={isNowPage ? "index" : "post"}>
+      <PageInner newsletter={false} variant={isNowPage ? "index" : "post"}>
         {(isNowPage || isWorkPage) && (
           <TitleHeader>
             <Text as="h1" intent="title">

@@ -9,4 +9,5 @@ export * from "./list-header";
 // Content blocks
 export * from "./block-contacts";
 export * from "./block-intro";
+export * from "./block-newsletter";
 export * from "./block-available";

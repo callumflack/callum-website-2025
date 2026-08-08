@@ -1,6 +1,7 @@
 import { cva, type VariantProps } from "cva";
 import { cn } from "@/lib/utils";
 import { Category } from "@/types/content";
+import { NewsletterSubscribe } from "./block-newsletter";
 import { HomeButton } from "./home-button";
 
 export enum NavRoute {
@@ -110,16 +111,32 @@ export const pageInnerVariants = cva({
 });
 
 interface PageInnerProps
-  extends React.ComponentProps<"div">, VariantProps<typeof pageInnerVariants> {}
+  extends React.ComponentProps<"div">, VariantProps<typeof pageInnerVariants> {
+  newsletter?: boolean;
+}
 
-export const PageInner = ({ className, variant, ...props }: PageInnerProps) => {
+export const PageInner = ({
+  className,
+  variant,
+  newsletter,
+  children,
+  ...props
+}: PageInnerProps) => {
+  const showNewsletter =
+    newsletter ?? (variant === "index" || variant === "indexSticky");
+
   return (
     <div
       data-component="PageInner"
       className={cn(pageInnerVariants({ variant }), className)}
       {...props}
     >
-      {props.children}
+      {children}
+      {showNewsletter ? (
+        <div className="container pt-w12">
+          <NewsletterSubscribe />
+        </div>
+      ) : null}
     </div>
   );
 };
