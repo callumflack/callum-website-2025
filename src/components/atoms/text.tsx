@@ -8,7 +8,7 @@ export const textVariants = cva({
     intent: {
       pill: [
         // same as button
-        "text-pill font-mono font-medium uppercase tracking-[0.01em]",
+        "text-pill font-mono font-medium uppercase",
       ],
       pillMeta: ["text-pillMeta font-mono uppercase"],
       fine: "text-fine subpixel-antialiased",

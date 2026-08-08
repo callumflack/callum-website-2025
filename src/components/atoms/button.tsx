@@ -49,7 +49,7 @@ export const buttonVariants = cva({
         "has-data-[icon=inline-end]:pr-gap has-data-[icon=inline-start]:pl-gap",
       ],
       sm: [
-        "h-[32px] px-w4 text-meta",
+        "h-button px-w4 text-meta",
         "has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
       ],
       xs: [
