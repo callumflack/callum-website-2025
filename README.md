@@ -6,14 +6,15 @@ Video CDN = Bunny.net
 
 ## Design snapshots
 
-Each past homepage design is tagged at the commit where it was last live. The
-tag is the real thing — old components, old tokens, old content, old lockfile.
+Each homepage design is tagged at the commit where it was last live. The tag is
+the real thing — its own components, tokens, content and lockfile.
 
 | Tag | Design | Live | Deployed example |
 | --- | --- | --- | --- |
 | `home-2508` | ZoomCarousel, latest/work/writing sections | ~Apr 2025 – Feb 2026 | — |
 | `home-2604` | Grid-view toggle redesign (#8) | Apr 2026 – Jul 2026 | [preview](https://callum-website-2025-co1gns76r-callums-projects-ad2d654c.vercel.app/) |
 | `home-2607` | Featured card + "Start here"/"Recent" tabs | Jul 2026 – Aug 2026 | [preview](https://callum-website-2025-4zov99inr-callums-projects-ad2d654c.vercel.app/) |
+| `home-2608` | Authored MDX home story | Aug 2026 – current | — |
 
 The deployed examples are Vercel preview URLs — the quickest way to look at a
 past design without checking anything out.
