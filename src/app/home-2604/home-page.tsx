@@ -1,0 +1,171 @@
+import { Link, Text } from "@/components/atoms";
+import { TitleHeader } from "@/components/elements";
+import { Intro, Outro } from "@/components/page";
+// Frozen 2026-04 page chrome: the live PageWrapper dropped the <Nav> and its
+// PageInner now auto-injects NewsletterSubscribe, neither of which this design
+// had. Import the archived copies instead.
+import { PageInner } from "./page-inner";
+import { PageWrapper } from "./page-wrapper";
+import { PostBlock, PostLine } from "@/components/post";
+import type { Post } from "content-collections";
+import { HomeFeaturedGrid } from "./home-featured-grid";
+import { HomeFolioClient } from "./home-folio-client";
+import { ZoomCarousel } from "./zoom-carousel";
+
+/*
+ * Feature flag for the homepage grid-view toggle.
+ * false → toggle UI is hidden and ?layout=grid is ignored (grid unreachable).
+ * true  → toggle UI renders and URL param works. Flip locally to keep iterating.
+ *
+ * Consumed by src/app/page.tsx to decide whether to render the toggle + wire
+ * ?layout=grid through HomeLayoutSwitch.
+ */
+// ARCHIVE FIXUP: shipped as `false` at 759637e, which hid the toggle UI and
+// made the grid view unreachable. Set to `true` here so the archive shows the
+// design as it was actually being iterated on — the toggle and ?layout=grid.
+export const GRID_TOGGLE_ENABLED = true;
+
+export const HomePage = ({
+  latestPosts,
+  projects,
+  writing,
+  featuredGridPosts,
+  layout,
+}: {
+  latestPosts: Post[];
+  projects: Post[];
+  writing: Post[];
+  featuredGridPosts: Post[];
+  layout: "default" | "grid";
+}) => {
+  const isGridMode = layout === "grid";
+
+  return (
+    <>
+      <PageWrapper
+        hideFooter={isGridMode}
+        showIntro={false}
+        footerNode={
+          isGridMode ? undefined : (
+            /* OUTRO */
+            <div>
+              <TitleHeader as="div">
+                <Text as="h3" intent="title" className="flex">
+                  Connect
+                </Text>
+              </TitleHeader>
+              <div className="pt-w6 container">
+                <Outro showLabel={true} textIntent="body" />
+              </div>
+            </div>
+          )
+        }
+      >
+        {isGridMode ? (
+          <PageInner variant="index">
+            <HomeFeaturedGrid posts={featuredGridPosts} />
+            <RuleWithinInner />
+          </PageInner>
+        ) : (
+          <>
+            {/* INTRO */}
+            <PageInner variant="index">
+              <header className="container">
+                <Intro showLabel={false} textIntent="body" />
+              </header>
+              <RuleWithinInner />
+            </PageInner>
+
+            {/* LATEST */}
+            <PageInner variant="home">
+              <TitleHeader as="div">
+                <Text as="h1" intent="title" className="flex">
+                  <Link href="/log" className="hover:text-accent flex-1">
+                    Latest
+                  </Link>
+                </Text>
+              </TitleHeader>
+              <div className="container">
+                {latestPosts.map((post) => (
+                  <Link key={post.slug} href={`/${post.slug}`}>
+                    <PostLine post={post} isFeatured={false} isFeed />
+                  </Link>
+                ))}
+              </div>
+              <RuleWithinInner />
+            </PageInner>
+
+            {/* FOLIO */}
+            <HomeFolioClient>
+              <TitleHeader as="div">
+                <Text as="h3" intent="title" className="flex">
+                  <Link href="/work" className="hover:text-accent flex-1">
+                    Selected Work
+                  </Link>
+                </Text>
+              </TitleHeader>
+              <div className="pt-w6">
+                {/* avoid hydration jank: this or min-height */}
+                {/* {!isHydrated ? (          
+            <div 
+              className="w-full h-[400px] bg-background-hover rounded-md"
+              style={{ aspectRatio: "16/9" }} // Match slider aspect ratio
+            ></div> */}
+                {/* // min-h avoids hydration jank
+            className="z-2 min-h-[276px] sm:min-h-[331px]"? */}
+                <ZoomCarousel projects={projects} />
+              </div>
+              <RuleWithinInner />
+            </HomeFolioClient>
+
+            {/* WRITING */}
+            <PageInner variant="home">
+              <TitleHeader as="div">
+                <Text as="h3" intent="title" className="flex">
+                  <Link href="/writing" className="hover:text-accent flex-1">
+                    Selected Writing
+                  </Link>
+                </Text>
+              </TitleHeader>
+              <div className="gap-w6 pt-w6 container flex flex-col">
+                {writing.map((post) => (
+                  <Link key={post.slug} href={`/${post.slug}`}>
+                    <PostBlock post={post} priority={false} />
+                  </Link>
+                ))}
+              </div>
+              <RuleWithinInner />
+            </PageInner>
+
+            {/* IN TOUCH */}
+            {/* <PageInner variant="home">
+        <TitleHeader as="div">
+          <Text as="h3" intent="title" className="flex">
+            Stay in touch
+          </Text>
+        </TitleHeader>
+        <div className="gap-w6 pt-w6 container flex flex-col">
+          <Link href="/log">
+            <Text as="p" intent="body">
+              The best way to stay in touch is write me an email. The second
+              best way is to subscribe to my newsletter.
+            </Text>
+          </Link>
+          <Contacts showLabel />
+        </div>
+        <RuleWithinInner />
+      </PageInner> */}
+          </>
+        )}
+      </PageWrapper>
+    </>
+  );
+};
+
+const RuleWithinInner = () => {
+  return (
+    <div data-component="RuleWithinInner" className="pt-w5">
+      <hr />
+    </div>
+  );
+};
