@@ -11,6 +11,18 @@ export type ManualGalleryProject = {
 
 export const manualGalleryProjects: ManualGalleryProject[] = [
   {
+    title: "Library of Economic Possibility",
+    date: "2022-05-01",
+    slug: "the-library-of-economic-possibility",
+    assets: [
+      {
+        src: "/images/lep-brand-clean-1600-1000.jpg",
+        alt: "Brand typography system for the Library of Economic Possibility.",
+        aspect: "1600-1000",
+      },
+    ],
+  },
+  {
     title: "Sagatiba for Saatchi & Saatchi, London",
     date: "2006-01-01",
     summary: "Illustration work for Saatchi & Saatchi London",

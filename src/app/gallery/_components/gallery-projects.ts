@@ -30,7 +30,7 @@ export function getGalleryItems(): GalleryItem[] {
     featuredProjects.map((project) => project.title)
   );
   const manualProjects = manualGalleryProjects.filter(
-    (project) => !featuredTitles.has(project.title)
+    (project) => !featuredTitles.has(project.title) || Boolean(project.slug)
   );
 
   return [
