@@ -3,9 +3,9 @@ import {
   EyeOpenIcon,
   QuoteIcon,
 } from "@radix-ui/react-icons";
+import type { Post } from "content-collections";
 import { Text } from "@/components/atoms";
 import { cn, formatYear } from "@/lib/utils";
-import { type Post } from "content-collections";
 import { iconStyle, transformStyle } from "./card-styles";
 
 interface CardTitleMetaProps {

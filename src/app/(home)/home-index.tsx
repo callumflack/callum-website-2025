@@ -1,31 +1,32 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import type { KeyboardEvent } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 import {
   focusVisibleOutlineStyle,
   Link,
   textVariants,
 } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
+import { Mdx } from "@/components/mdx";
 import { ListHeader } from "@/components/page";
-import { PostLine, sortButtonStyle } from "@/components/post";
+import { ListModeButton, PostLine, sortButtonStyle } from "@/components/post";
 import { cn } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 
-type HomeView = "start" | "chrono";
+type HomeView = "start" | "recent";
 
 export function HomeIndex({
-  startHerePosts,
-  chronologicalPosts,
+  homeContent,
+  recentPosts,
 }: {
-  startHerePosts: PostListItem[];
-  chronologicalPosts: PostListItem[];
+  homeContent: string;
+  recentPosts: PostListItem[];
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeView: HomeView =
-    searchParams.get("view") === "chrono" ? "chrono" : "start";
+    searchParams.get("view") === "recent" ? "recent" : "start";
 
   const setActiveView = (view: HomeView) => {
     if (view === activeView) return;
@@ -38,8 +39,6 @@ export function HomeIndex({
       params.set("view", view);
     }
 
-    // Both panels are already client-side; shallow history update avoids the
-    // RSC round-trip a router.replace() navigation would trigger per click.
     const query = params.toString();
     window.history.replaceState(
       null,
@@ -61,71 +60,66 @@ export function HomeIndex({
   };
 
   return (
-    <section aria-label="Home index">
-      <ListHeader
-        ariaLabel="Home sections"
-        rhsNode={
-          <div className="flex items-center">
-            {/* TODO: Once the long-form, Jenny Wen-style work story exists,
-                reserve "Work overview" and /work for it, then move this project
-                index to /projects. Until then, label the link for today's target. */}
-            <LinkWithArrow
-              className={cn(
-                sortButtonStyle,
-                "text-solid gap-1!",
-                focusVisibleOutlineStyle
-              )}
-              href="/work"
-            >
-              Projects
-            </LinkWithArrow>
-            <LinkWithArrow
-              className={cn(
-                sortButtonStyle,
-                "text-solid gap-1! pr-0",
-                focusVisibleOutlineStyle
-              )}
-              href="/writing"
-            >
-              Writing
-            </LinkWithArrow>
+    <section aria-label="Home index" data-component="HomeIndex">
+      <div className="container">
+        <ListHeader
+          ariaLabel="Home sections"
+          rhsNode={
+            <div className="flex items-center">
+              <HomeIndexLink href="/work">Projects</HomeIndexLink>
+              <HomeIndexLink className="pr-0" href="/writing">
+                Writing
+              </HomeIndexLink>
+            </div>
+          }
+        >
+          <div aria-label="Choose a home view" className="flex" role="tablist">
+            <HomeTab
+              controls="home-panel-start"
+              isActive={activeView === "start"}
+              label="Start here"
+              onKeyDown={(event) =>
+                moveToTab(event, "recent", "home-tab-recent")
+              }
+              onSelect={() => setActiveView("start")}
+              tabId="home-tab-start"
+            />
+            <HomeTab
+              controls="home-panel-recent"
+              isActive={activeView === "recent"}
+              label="Recent"
+              onKeyDown={(event) => moveToTab(event, "start", "home-tab-start")}
+              onSelect={() => setActiveView("recent")}
+              tabId="home-tab-recent"
+            />
           </div>
-        }
-      >
-        <div aria-label="Choose an index view" className="flex" role="tablist">
-          <HomeTab
-            controls="home-panel-start"
-            isActive={activeView === "start"}
-            label="Start here"
-            onKeyDown={(event) => moveToTab(event, "chrono", "home-tab-chrono")}
-            onSelect={() => setActiveView("start")}
-            tabId="home-tab-start"
-          />
-          <HomeTab
-            controls="home-panel-chrono"
-            isActive={activeView === "chrono"}
-            label="Recent"
-            onKeyDown={(event) => moveToTab(event, "start", "home-tab-start")}
-            onSelect={() => setActiveView("chrono")}
-            tabId="home-tab-chrono"
-          />
-        </div>
-      </ListHeader>
+        </ListHeader>
+      </div>
 
       <HomePanel
         isActive={activeView === "start"}
         labelledBy="home-tab-start"
         panelId="home-panel-start"
-        posts={startHerePosts}
-      />
+      >
+        <div className={cn(activeView === "start" ? "pt-small" : "pt-3")}>
+          <Mdx
+            className={activeView === "start" ? "Prose--homeStart" : undefined}
+            code={homeContent}
+          />
+        </div>
+      </HomePanel>
 
       <HomePanel
-        isActive={activeView === "chrono"}
-        labelledBy="home-tab-chrono"
-        panelId="home-panel-chrono"
-        posts={chronologicalPosts}
+        isActive={activeView === "recent"}
+        labelledBy="home-tab-recent"
+        panelId="home-panel-recent"
       >
-        <IndexFooter href="/log">View full log</IndexFooter>
+        <main className="container pt-3">
+          {recentPosts.map((post) => (
+            <IndexRow key={post.slug} post={post} />
+          ))}
+          <IndexFooter href="/log">View full log</IndexFooter>
+        </main>
       </HomePanel>
     </section>
   );
@@ -147,23 +141,19 @@ function HomeTab({
   tabId: string;
 }) {
   return (
-    <button
+    <ListModeButton
       aria-controls={controls}
       aria-selected={isActive}
-      className={cn(
-        sortButtonStyle,
-        isActive ? "border-b-fill! text-fill" : "text-solid",
-        focusVisibleOutlineStyle
-      )}
+      className={focusVisibleOutlineStyle}
       id={tabId}
-      onKeyDown={onKeyDown}
+      isActive={isActive}
       onClick={onSelect}
+      onKeyDown={onKeyDown}
       role="tab"
       tabIndex={isActive ? 0 : -1}
-      type="button"
     >
       {label}
-    </button>
+    </ListModeButton>
   );
 }
 
@@ -172,13 +162,11 @@ function HomePanel({
   isActive,
   labelledBy,
   panelId,
-  posts,
 }: {
-  children?: React.ReactNode;
+  children: ReactNode;
   isActive: boolean;
   labelledBy: string;
   panelId: string;
-  posts: PostListItem[];
 }) {
   return (
     <div
@@ -187,11 +175,6 @@ function HomePanel({
       id={panelId}
       role="tabpanel"
     >
-      <div className="pt-3">
-        {posts.map((post) => (
-          <IndexRow key={post.slug} post={post} />
-        ))}
-      </div>
       {children}
     </div>
   );
@@ -202,11 +185,11 @@ function IndexRow({ post }: { post: PostListItem }) {
     <Link
       className={cn(
         "group relative z-0 block",
-        "focus-visible:before:bg-background-hover focus-visible:before:absolute focus-visible:before:inset-y-0 focus-visible:before:-inset-x-3 focus-visible:before:-z-[1] focus-visible:before:content-['']",
+        "focus-visible:before:bg-background-hover focus-visible:before:absolute focus-visible:before:-inset-x-3 focus-visible:before:inset-y-0 focus-visible:before:-z-[1] focus-visible:before:content-['']",
         focusVisibleOutlineStyle
       )}
-      href={post.thumbnailLink ?? `/${post.slug}`}
       data-slot="index-row"
+      href={post.thumbnailLink ?? `/${post.slug}`}
     >
       <PostLine categoryStyle="plain" dateFormat="year" isFeed post={post} />
     </Link>
@@ -217,14 +200,14 @@ function IndexFooter({
   children,
   href,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   href: string;
 }) {
   return (
     <div className="pt-gap flex justify-end">
       <LinkWithArrow
         className={cn(
-          textVariants({ intent: "meta", weight: "medium", color: "solid" }),
+          textVariants({ intent: "meta", weight: "normal", color: "solid" }),
           "hover:text-fill inline-flex min-h-10 items-center gap-1",
           focusVisibleOutlineStyle
         )}
@@ -233,5 +216,29 @@ function IndexFooter({
         {children}
       </LinkWithArrow>
     </div>
+  );
+}
+
+function HomeIndexLink({
+  children,
+  className,
+  href,
+}: {
+  children: ReactNode;
+  className?: string;
+  href: string;
+}) {
+  return (
+    <LinkWithArrow
+      className={cn(
+        sortButtonStyle,
+        "text-solid gap-1!",
+        focusVisibleOutlineStyle,
+        className
+      )}
+      href={href}
+    >
+      {children}
+    </LinkWithArrow>
   );
 }

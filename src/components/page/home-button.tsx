@@ -15,9 +15,9 @@ export const HomeButton = () => (
         aria-label="Return home"
         className={cn(
           buttonVariants({ variant: "icon", size: "sm" }),
-          "text-heading -mt-[0.35em]",
+          "bg-canvas text-heading -mt-[0.35em]",
           "text-fill hover:text-fill",
-          "pointer-events-auto absolute left-0 md:right-[calc(100%+3px)] md:left-auto"
+          "pointer-events-auto absolute left-0 md:right-[calc(100%+6px)] md:left-auto"
         )}
       >
         <LucideCornerUpLeft aria-hidden className="size-em" />

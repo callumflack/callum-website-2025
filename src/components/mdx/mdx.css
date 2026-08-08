@@ -16,6 +16,16 @@
   max-width: none;
 }
 
+/* Home start panel — no Prose stack margins, Story media breaks out */
+.Prose.Prose--homeStart > :not(:last-child) {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+/* .Prose.Prose--homeStart > [data-component="StoryPost"],
+.Prose.Prose--homeStart > [data-component="StoryCarousel"] {
+  @apply max-w-[900px];
+} */
+
 /* PARAGRAPHS */
 .Prose p {
   @apply text-pretty;
@@ -53,13 +63,16 @@
 }
 
 /* HEADING SPACING & WEIGHTS */
-.Prose > h2,
+.Prose > h2 {
+  @apply mt-minor;
+  @apply text-balance;
+}
 .Prose > h3 {
-  @apply mt-w8;
+  @apply mt-small;
   @apply text-balance;
 }
 .Prose > h2 + h3 {
-  @apply mt-w4;
+  @apply mt-gap;
 }
 .Prose h4 {
   @apply font-bold;
@@ -74,12 +87,12 @@
 .Prose > h1 + [data-component="Zoomable"],
 .Prose > h2 + [data-component="Zoomable"],
 .Prose > h3 + [data-component="Zoomable"] {
-  /* override py-w6 in mediaSpacing from mdx-media */
-  @apply pt-2;
+  /* override py-* in mediaSpacing from mdx-media */
+  @apply pt-3;
 }
 .Prose > [data-component="Zoomable"] + h2,
 .Prose > [data-component="Zoomable"] + h3 {
-  @apply mt-2;
+  @apply mt-w6; /* purposefully not --spacing-minor */
 }
 
 /* MEDIA OVERRIDES */
@@ -113,19 +126,13 @@
 
 /* PRE (code blocks) */
 .Prose [data-component="pre"] {
-  @apply relative py-1;
-}
-.Prose .CodeCopyButton {
-  @apply text-solid hover:text-fill focus-visible:text-fill absolute top-3 right-2 z-10 inline-flex size-7 items-center justify-center rounded-soft transition-colors;
-}
-.Prose .CodeCopyButton svg {
-  @apply size-4;
+  @apply relative py-2;
 }
 .Prose .Pre {
   @apply bg-background rounded-button overflow-auto;
 }
 .Prose .Pre code {
-  @apply block overflow-auto py-2.5 pr-12 pl-3;
+  @apply py-gap block overflow-auto pr-12 pl-3;
   @apply hide-scrollbar leading-[1.6];
   @apply bg-transparent;
 }
@@ -185,6 +192,9 @@
 /* HR */
 .Prose hr {
   @apply border-0;
+}
+.Prose hr.hr-vertical {
+  @apply border-l;
 }
 
 /* CONTACTS */

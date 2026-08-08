@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export const sortButtonStyle = [
   "inline-flex h-tab items-center gap-2",
-  textVariants({ intent: "meta", weight: "medium" }),
+  textVariants({ intent: "meta", weight: "normal" }),
   "capitalize tracking-[0.01em]",
   "pl-2 pr-1 first:pl-0",
   "hover:text-fill",

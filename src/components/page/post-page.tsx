@@ -15,6 +15,15 @@ type PostMetaProps = Props & {
   dateFormat?: "default" | "monthYear" | "lastUpdatedMonthYear";
 };
 
+const categoryMeta = (category: Post["category"]) =>
+  ({
+    projects: { href: "/work", label: "Projects" },
+    writing: { href: "/writing", label: "Writing" },
+    notes: { href: "/writing?sort=notes", label: "Notes" },
+    shelf: { href: "/writing?sort=shelf", label: "Shelf" },
+    page: null,
+  })[category];
+
 export const PostPage = ({ post, theme }: Props) => {
   // console.log(post);
   const isPage = post.type === "page";
@@ -42,6 +51,22 @@ export const PostPage = ({ post, theme }: Props) => {
       <Mdx code={post.content}>
         {theme === "post" && post.tags && (
           <div className="pt-w4 flex items-center gap-1">
+            {categoryMeta(post.category) && (
+              <Text
+                as="div"
+                intent="pill"
+                dim
+                className="flex items-center gap-2.5 pr-1.5"
+              >
+                <Link
+                  href={categoryMeta(post.category)!.href}
+                  className="hover:text-fill no-underline!"
+                >
+                  {categoryMeta(post.category)!.label}
+                </Link>
+                <hr className="hr-vertical border-border-hover h-[12px] border-l!" />
+              </Text>
+            )}
             <Text intent="pill" dim>
               {post.tags.length > 1 ? "Topics:" : "Topic:"}
             </Text>
@@ -88,25 +113,16 @@ export const PostMeta = ({
               ? date
               : year;
   const readingMinutes = Math.max(1, Math.floor(post.readingTime) - 1);
-  const categoryMeta = {
-    projects: { href: "/work", label: "Projects" },
-    writing: { href: "/writing", label: "Writing" },
-    notes: { href: "/writing?sort=notes", label: "Notes" },
-    shelf: { href: "/writing?sort=shelf", label: "Shelf" },
-    page: null,
-  }[post.category];
+  const category = categoryMeta(post.category);
 
   return (
     <Text as="div" intent="pill" dim className="flex items-center gap-2.5">
       <>
         {/* Category */}
-        {categoryMeta && (
+        {category && (
           <>
-            <Link
-              href={categoryMeta.href}
-              className="hover:text-fill no-underline"
-            >
-              {categoryMeta.label}
+            <Link href={category.href} className="hover:text-fill no-underline">
+              {category.label}
             </Link>
             <hr className="hr-vertical border-border-hover h-[12px]" />
           </>

@@ -38,7 +38,13 @@ export function CodeCopyButton() {
   return (
     <button
       aria-label={copied ? "Copied" : "Copy code"}
-      className={cn("CodeCopyButton", focusVisibleOutlineStyle)}
+      className={cn(
+        "text-solid/50 hover:text-fill focus-visible:text-fill",
+        "inline-flex items-center justify-center",
+        "rounded-soft size-12",
+        "[&_svg]:size-4",
+        focusVisibleOutlineStyle
+      )}
       onClick={handleCopy}
       type="button"
     >

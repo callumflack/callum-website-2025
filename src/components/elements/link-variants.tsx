@@ -24,13 +24,13 @@ export const LinkWithArrow = ({
     <Link
       className={cn(
         "relative inline-flex items-center gap-[2px]",
-        shouldReverse && "flex-row-reverse !gap-1.5",
+        shouldReverse && "flex-row-reverse gap-1.5!",
         className
       )}
       href={href}
       data-slot="link-with-arrow"
     >
-      <span className="flex-grow">{children}</span>
+      <span className="grow">{children}</span>
       <span
         className={cn(
           isExternal && theme !== "feature" && "relative flex w-[0.2em]"
@@ -41,7 +41,7 @@ export const LinkWithArrow = ({
             className={cn(
               "absolute top-[-0.65em] right-[-0.1em]",
               "size-[0.6em] -rotate-45 transform",
-              "!no-underline",
+              "no-underline!",
               iconClassName
             )}
           />

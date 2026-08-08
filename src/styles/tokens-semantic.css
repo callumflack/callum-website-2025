@@ -38,29 +38,32 @@
   --fluid-step: max(0px, min(1px, calc((100vw - 500px) / 700)));
 
   --text-fine: calc(9px + (2 * var(--fluid-step)));
-  --text-pill: calc(10px + (2 * var(--fluid-step)));
-  --text-meta: calc(12px + (1 * var(--fluid-step)));
-  --text-body: calc(15px + (2 * var(--fluid-step)));
-  --text-heading: calc(17px + (2 * var(--fluid-step)));
-  --text-title: calc(20px + (4 * var(--fluid-step)));
+  --text-pill: calc(11px + (2 * var(--fluid-step)));
+  --text-meta: calc(13px + (2 * var(--fluid-step)));
+  --text-body: calc(16px + (2 * var(--fluid-step)));
+  --text-heading: calc(18px + (3 * var(--fluid-step)));
+  --text-title: calc(21px + (6 * var(--fluid-step)));
 
-  --default-line-height: calc(24 / 17);
   --text-pill--line-height: 1;
-  --text-body--line-height: var(--default-line-height);
+  --text-meta--line-height: 1.45;
+  --text-body--line-height: calc(24 / 17);
   --text-heading--line-height: 1.25;
   --text-title--line-height: 1.1;
-  --text-super--line-height: 0.9;
 
-  --text-pill--letter-spacing: 0.025em;
+  --text-pill--letter-spacing: 0.03em;
   --text-fine--letter-spacing: 0.0175em;
-  --text-metaHeading--letter-spacing: 0.125em;
-  --text-body--letter-spacing: 0;
   --text-heading--letter-spacing: -0.01em;
   --text-title--letter-spacing: -0.02em;
 
   --text-heading--font-weight: 500;
   --text-title--font-weight: 500;
-  --text-super--font-weight: 200;
+
+  /* container: hooks into @container/cqw container-query machinery. Intent: content widths (prose, hero, read). */
+  --container-text: 720px; /* ~70ch */
+  --container-hero: 1040px;
+  --container-text-inset: calc(
+    var(--container-text) + (var(--spacing-inset) * 2)
+  );
 
   /* spacing */
   --spacing-em: 1em;
@@ -69,9 +72,10 @@
   --spacing-inset: 15px;
   --spacing-nav: calc(68px + (12 * var(--fluid-step)));
   --spacing-tab: calc(44px + (10 * var(--fluid-step)));
+  --spacing-button: 38px;
 
   --spacing-gap: var(--spacing-w4);
-  --spacing-small: var(--spacing-w6);
+  --spacing-small: var(--spacing-w8);
   --spacing-minor: var(--spacing-w12);
   --spacing-submajor: var(--spacing-w20);
   --spacing-major: var(--spacing-w24);
@@ -94,12 +98,6 @@
   --spacing-w72: calc(192px + (96 * var(--fluid-step)));
   --spacing-w96: calc(256px + (128 * var(--fluid-step)));
 
-  /* container: hooks into @container/cqw container-query machinery. Intent: content widths (prose, hero, read). */
-  --container-text: 620px;
-  --container-hero: 1040px;
-  --container-text-inset: calc(
-    var(--container-text) + (var(--spacing-inset) * 2)
-  );
   /*
    * Inset values are the gutter width beside a centered container, derived
    * from viewport minus container. They live in --spacing-* (not --container-*)
@@ -118,7 +116,6 @@
 
   /* colors */
   --color-*: initial;
-
   --color-canvas: var(--color-gray-base);
   --color-canvas-contrast: var(--color-canvas-contrast);
   --color-panel: var(--color-canvas-contrast);
