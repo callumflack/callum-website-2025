@@ -1,24 +1,24 @@
+import NextImage, { type ImageProps } from "next/image";
+import type React from "react";
 import {
   MediaFigure,
-  mediaWrapperVariants,
-  Video,
   type MediaFigureProps,
   type MediaWrapperProps,
+  mediaWrapperVariants,
+  Video,
   type VideoProps,
 } from "@/components/media";
+import {
+  type AspectRatio,
+  getAspectRatioCSS,
+  getImageDimensions,
+  isPortrait,
+} from "@/components/media/media-utils";
 import {
   Zoomable as Zoomable02,
   type ZoomableProps,
 } from "@/components/media/zoomable-02";
-import {
-  getAspectRatioCSS,
-  getImageDimensions,
-  isPortrait,
-  type AspectRatio,
-} from "@/components/media/media-utils";
 import { cn } from "@/lib/utils";
-import NextImage, { type ImageProps } from "next/image";
-import React from "react";
 
 export type MdxImageProps = Partial<ZoomableProps> &
   Partial<Omit<MediaFigureProps, "children">> &
@@ -56,7 +56,7 @@ function extractCaption(alt: string = "", explicitCaption?: React.ReactNode) {
   return { caption: undefined, cleanAlt: alt };
 }
 
-const mediaSpacing = "py-small first:pt-0 first:pb-gap";
+export const mdxMediaSpacing = "py-small first:pt-0 first:pb-gap";
 
 export function ZoomableImage(props: MdxImageProps) {
   const {
@@ -76,7 +76,7 @@ export function ZoomableImage(props: MdxImageProps) {
   const { width, height } = getImageDimensions(aspect);
 
   return (
-    <Zoomable02 className={mediaSpacing} aspect={aspect}>
+    <Zoomable02 className={mdxMediaSpacing} aspect={aspect}>
       <MediaFigure caption={extractedCaption} isPortrait={isPortrait(aspect)}>
         <NextImage
           src={src}
@@ -109,20 +109,30 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
     ...rest
   } = props;
 
-  // console.log("ZoomableVideo props:", props);
+  const video = (
+    <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
+      <Video
+        src={typeof src === "string" ? src : ""}
+        poster={poster || ""}
+        aspect={aspect}
+        allowSound={allowSound}
+        className={cn(mediaWrapperVariants({ border, background, rounded }))}
+        {...rest}
+      />
+    </MediaFigure>
+  );
+
+  // Sound videos render a mute <button> inside Video. Zoomable wraps landscape
+  // media in a zoom <button>, which is invalid nested-button HTML + hydration error.
+  // If we need zoom + sound later, change Zoomable's outer <button> to a
+  // focusable div (role="button") instead of skipping zoom here.
+  if (allowSound) {
+    return <div className={mdxMediaSpacing}>{video}</div>;
+  }
 
   return (
-    <Zoomable02 className={mediaSpacing} aspect={aspect}>
-      <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
-        <Video
-          src={typeof src === "string" ? src : ""}
-          poster={poster || ""}
-          aspect={aspect}
-          allowSound={allowSound}
-          className={cn(mediaWrapperVariants({ border, background, rounded }))}
-          {...rest}
-        />
-      </MediaFigure>
+    <Zoomable02 className={mdxMediaSpacing} aspect={aspect}>
+      {video}
     </Zoomable02>
   );
 }

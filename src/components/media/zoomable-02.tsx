@@ -10,7 +10,7 @@
  * CSS (`md:`), and mobile zoom-disabling is checked at click time.
  */
 
-import { useState, ReactNode, useRef, useEffect } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { centerInViewport } from "@/lib/center-in-viewport";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +34,10 @@ export function Zoomable({
   mobileBreakpoint = 768,
   aspect,
 }: ZoomableProps) {
-  const contentRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLButtonElement | HTMLDivElement | null>(null);
+  const setContentRef = (node: HTMLButtonElement | HTMLDivElement | null) => {
+    contentRef.current = node;
+  };
   const [isZoomed, setIsZoomed] = useState(false);
 
   // Controls the ZOOMED (open) state max width as fraction of viewport (0.7 = 70vw)
@@ -69,7 +72,7 @@ export function Zoomable({
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
     };
-  }, [isZoomed, scaleAmount]);
+  }, [isZoomed]);
 
   // Re-center while zoomed if the content size changes (e.g. image/video load)
   useEffect(() => {
@@ -101,11 +104,26 @@ export function Zoomable({
     setIsZoomed((zoomed) => !zoomed);
   };
 
+  const contentClassName = cn(
+    isZoomable && (isZoomed ? "md:cursor-zoom-out" : "md:cursor-zoom-in"),
+    isZoomable &&
+      "block w-full border-0 bg-transparent p-0 text-left font-[inherit]"
+  );
+
+  const contentStyle = {
+    width: isZoomed
+      ? `min(calc(100% * ${scaleAmount}), ${zoomedMaxVw * 100}vw)`
+      : "100%",
+    transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
+    position: "relative" as const,
+    zIndex: isZoomed ? 49 : 1,
+  };
+
   return (
     <div
       // NB! We rely on an exact sentence case for CSS styling in mdx-prose
       data-component="Zoomable"
-      className={cn("w-full md:w-(--container-text)", className)}
+      className={cn("md:w-text w-full", className)}
       style={{
         display: "grid",
         justifyItems: "center",
@@ -114,28 +132,29 @@ export function Zoomable({
         overflow: "visible", // Allow content to overflow
       }}
     >
-      <div
-        ref={contentRef}
-        onClick={handleZoom}
-        data-zoomed={isZoomed || undefined}
-        className={
-          isZoomable
-            ? isZoomed
-              ? "md:cursor-zoom-out"
-              : "md:cursor-zoom-in"
-            : undefined
-        }
-        style={{
-          width: isZoomed
-            ? `min(calc(100% * ${scaleAmount}), ${zoomedMaxVw * 100}vw)`
-            : "100%",
-          transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          position: "relative",
-          zIndex: isZoomed ? 49 : 1,
-        }}
-      >
-        {children}
-      </div>
+      {isZoomable ? (
+        <button
+          type="button"
+          ref={setContentRef}
+          onClick={handleZoom}
+          aria-pressed={isZoomed}
+          aria-label={isZoomed ? "Zoom out" : "Zoom in"}
+          data-zoomed={isZoomed || undefined}
+          className={contentClassName}
+          style={contentStyle}
+        >
+          {children}
+        </button>
+      ) : (
+        <div
+          ref={setContentRef}
+          data-zoomed={isZoomed || undefined}
+          className={contentClassName}
+          style={contentStyle}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 }
