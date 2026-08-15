@@ -2,7 +2,7 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Text } from "@/components/atoms";
 import { CardImage } from "@/components/card";
 import { mediaWrapperVariants } from "@/components/media";
-import { cn } from "@/lib/utils";
+import { cn, formatPostYearSpan } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 import { lineHoverStyle, postIconStyle } from "../post.styles";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
@@ -24,7 +24,8 @@ export const PostBlock = ({
       className={cn(
         "group gap-w4 grid grid-cols-20",
         lineHoverStyle,
-        "hover:before:-inset-y-3"
+        "hover:before:-inset-y-3",
+        "hover:before:rounded-[12px]"
       )}
     >
       {/* IMAGE */}
@@ -82,9 +83,13 @@ export const PostBlock = ({
           "translate-y-[-0.25em] transform space-y-1"
         )}
       >
-        <PostLinkHeadingWrapper>
+        <PostLinkHeadingWrapper className="items-baseline gap-2.5">
           <Text as="h2" intent="body" weight="medium">
             {post.title}
+          </Text>
+          <hr className="hr-vertical border-border-hover h-[12px]" />
+          <Text as="span" dim intent="meta">
+            {formatPostYearSpan(post)}
           </Text>
           {post.thumbnailLink && !isExternal ? (
             <ArrowTopRightIcon className={cn(postIconStyle)} />
@@ -100,4 +105,4 @@ export const PostBlock = ({
       </div>
     </div>
   );
-};
+}

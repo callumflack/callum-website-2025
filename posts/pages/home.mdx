@@ -6,32 +6,25 @@ category: page
 type: page
 ---
 
-<StoryCarousel
-  label="Vana"
-  slides={[
-    { slug: "vana", assetIndex: 0 },
-    { slug: "vana", assetIndex: 1 },
+<SectionHeader href="/work">Work</SectionHeader>
+<StoryPostList
+  slugs={[
+    "vana",
+    "the-library-of-economic-possibility",
+    "kalaurie",
+    "cleared",
+    "replier",
   ]}
+  showThumbnails
 />
 
-<StoryCarousel
-  label="The Library of Economic Possibility"
-  slides={[
-    { slug: "the-library-of-economic-possibility", assetIndex: 0 },
-    { slug: "the-library-of-economic-possibility", assetIndex: 2 },
-  ]}
-/>
-
-<StoryPost slug="kalaurie" />
-<StoryPost slug="replier" />
-<StoryPost slug="cleared" />
-<StoryPost slug="studio-round" />
-
+<SectionHeader href="/writing">Writing</SectionHeader>
 <StoryPostList
   slugs={[
     "you-cant-design-a-ui-without-designing-the-code",
     "the-instantaneous-language-of-beauty",
     "the-matter-of-taste",
+    "creativity-starts-with-love-and-theft",
     "answerable-vocabulary-for-llm-work",
   ]}
   showThumbnails

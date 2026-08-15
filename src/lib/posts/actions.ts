@@ -37,6 +37,7 @@ export function toPostListItem(post: Post): PostListItem {
     linkTitle: post.linkTitle,
     date: post.date,
     dateLabel: post.dateLabel,
+    endDate: post.endDate,
     summary: post.summary,
     category: post.category,
     tags: post.tags,

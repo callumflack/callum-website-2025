@@ -16,11 +16,37 @@
   max-width: none;
 }
 
-/* Home start panel — no Prose stack margins, Story media breaks out */
-.Prose.Prose--homeStart > :not(:last-child) {
+/*
+  Home start is mixed content: typography + story/media.
+  Native elements keep the Prose stack (same as posts).
+  Story/media blocks already own vertical rhythm via mdxMediaSpacing —
+  kill only their Prose sibling margins so they don't double up.
+  Do not use a bare [data-component] selector: headings are Text
+  (data-component="text") and posts rely on Zoomable sibling rules.
+*/
+.Prose.Prose--homeStart > :first-child:is(h1, h2, h3, h4, h5, h6),
+.Prose.Prose--homeStart > [data-component="SectionHeader"]:first-child {
+  margin-block-start: 0;
+}
+.Prose.Prose--homeStart > [data-component="StoryPost"],
+.Prose.Prose--homeStart > [data-component="StoryCarousel"],
+.Prose.Prose--homeStart > [data-component="ProjectHeroCarousel"],
+.Prose.Prose--homeStart > [data-component="StoryPostList"],
+.Prose.Prose--homeStart > [data-component="IndexFooter"],
+.Prose.Prose--homeStart > [data-component="ViewAll"] {
   margin-block-start: 0;
   margin-block-end: 0;
 }
+
+.Prose [data-component="SectionHeader"] a {
+  @apply no-underline hover:text-accent! hover:decoration-transparent!;
+}
+
+.Prose [data-component="ViewAll"] a,
+.Prose [data-component="IndexFooter"] a {
+  @apply no-underline hover:text-fill! hover:decoration-transparent!;
+}
+
 /* .Prose.Prose--homeStart > [data-component="StoryPost"],
 .Prose.Prose--homeStart > [data-component="StoryCarousel"] {
   @apply max-w-[900px];
@@ -63,7 +89,8 @@
 }
 
 /* HEADING SPACING & WEIGHTS */
-.Prose > h2 {
+.Prose > h2,
+.Prose > [data-component="SectionHeader"] {
   @apply mt-minor;
   @apply text-balance;
 }
@@ -91,7 +118,8 @@
   @apply pt-3;
 }
 .Prose > [data-component="Zoomable"] + h2,
-.Prose > [data-component="Zoomable"] + h3 {
+.Prose > [data-component="Zoomable"] + h3,
+.Prose > [data-component="Zoomable"] + [data-component="SectionHeader"] {
   @apply mt-w6; /* purposefully not --spacing-minor */
 }
 

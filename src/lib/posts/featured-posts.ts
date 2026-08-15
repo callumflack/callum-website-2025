@@ -21,6 +21,9 @@ export const featuredWorkSlugs = [
   "vana",
   "replier",
   "studio-round",
+  "themes-for-shadcnblocks",
+  "anchor-ceramics",
+  "breaka",
 ];
 
 export const featuredWritingSlugs = [

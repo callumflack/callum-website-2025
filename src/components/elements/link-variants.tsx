@@ -23,7 +23,7 @@ export const LinkWithArrow = ({
   return (
     <Link
       className={cn(
-        "relative inline-flex items-center gap-[2px]",
+        "relative inline-flex w-fit items-center gap-[0.25em]",
         shouldReverse && "flex-row-reverse gap-1.5!",
         className
       )}
@@ -47,7 +47,10 @@ export const LinkWithArrow = ({
           />
         ) : (
           <ArrowRightIcon
-            className={cn("translate-y-[0.05em] transform", iconClassName)}
+            className={cn(
+              "size-[1em] shrink-0 translate-y-[0.05em]",
+              iconClassName
+            )}
           />
         )}
       </span>

@@ -14,6 +14,8 @@ type Props = {
   as?: "h1" | "p";
   showLabel?: boolean;
   showWhatIWant?: boolean;
+  showCurrentPrev?: boolean;
+  showContacts?: boolean;
   textIntent?: TextProps["intent"];
 };
 
@@ -21,6 +23,8 @@ export const Intro = ({
   as = "p",
   showLabel = true,
   showWhatIWant = true,
+  showCurrentPrev = true,
+  showContacts = true,
   textIntent = "meta",
 }: Props) => {
   return (
@@ -56,9 +60,17 @@ export const Intro = ({
         shape product interfaces from fragile idea to production, bringing
         language, interaction and React into the same loop to make software feel
         clear, fast and trustworthy.{" "} */}
-        Hi, I&apos;m Callum Flack, an Australian designer and engineer. I unite
+        {/* Hi, I&apos;m Callum Flack, an Australian designer and engineer. I unite
         language, interaction and code in beautiful hypertext products that work
-        in the blink of an eye, earning the most valuable currency—trust.{" "}
+        in the blink of an eye, earning the most valuable currency—trust.{" "} */}
+        Hi, I&apos;m Callum Flack, an Australian designer-engineer. I began in
+        brand design, moved into code to design the whole product, and now work
+        across interface design, code and context engineering.
+      </Text>
+      <Text as={as} intent={textIntent} balance>
+        I’m interested in how AI changes software design: the language,
+        constraints and feedback loops that help people and agents build
+        coherent products together. If you are too, say hello.{" "}
         {showWhatIWant && (
           <Text as="span">
             <LinkWithArrow
@@ -71,13 +83,15 @@ export const Intro = ({
           </Text>
         )}
       </Text>
-      <Text as="p" intent="meta" balance dim>
-        Current: Vana
-        <span className="mx-1.5 font-light">|</span>
-        Prev: Cleared (first commit → sale), Saatchi & Saatchi (brand)
-      </Text>
+      {showCurrentPrev && (
+        <Text as="p" intent="meta" balance dim>
+          Current: Vana
+          <span className="mx-1.5 font-light">|</span>
+          Prev: Cleared (first commit → sale), Saatchi & Saatchi (brand)
+        </Text>
+      )}
 
-      <Contacts showLabel={showLabel} className="pt-0.5" />
+      {showContacts && <Contacts showLabel={showLabel} className="pt-0.5" />}
     </div>
   );
 };

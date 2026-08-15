@@ -2,19 +2,18 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import type { KeyboardEvent, ReactNode } from "react";
-import {
-  focusVisibleOutlineStyle,
-  Link,
-  textVariants,
-} from "@/components/atoms";
+import { focusVisibleOutlineStyle, Link } from "@/components/atoms";
 import { LinkWithArrow } from "@/components/elements";
 import { Mdx } from "@/components/mdx";
-import { ListHeader } from "@/components/page";
+import { IndexFooter, ListHeader } from "@/components/page";
 import { ListModeButton, PostLine, sortButtonStyle } from "@/components/post";
 import { cn } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 
 type HomeView = "start" | "recent";
+
+/** Flip to true to restore the Recent tab + `?view=recent` panel. */
+const SHOW_RECENT_TAB = false;
 
 export function HomeIndex({
   homeContent,
@@ -26,9 +25,12 @@ export function HomeIndex({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeView: HomeView =
-    searchParams.get("view") === "recent" ? "recent" : "start";
+    SHOW_RECENT_TAB && searchParams.get("view") === "recent"
+      ? "recent"
+      : "start";
 
   const setActiveView = (view: HomeView) => {
+    if (!SHOW_RECENT_TAB && view === "recent") return;
     if (view === activeView) return;
 
     const params = new URLSearchParams(searchParams.toString());
@@ -61,14 +63,15 @@ export function HomeIndex({
 
   return (
     <section aria-label="Home index" data-component="HomeIndex">
-      <div className="container">
+      {/* <div className="container">
         <ListHeader
           ariaLabel="Home sections"
           rhsNode={
             <div className="flex items-center">
               <HomeIndexLink href="/work">Projects</HomeIndexLink>
-              <HomeIndexLink className="pr-0" href="/writing">
-                Writing
+              <HomeIndexLink href="/writing">Writing</HomeIndexLink>
+              <HomeIndexLink className="pr-0" href="/about">
+                About
               </HomeIndexLink>
             </div>
           }
@@ -84,17 +87,21 @@ export function HomeIndex({
               onSelect={() => setActiveView("start")}
               tabId="home-tab-start"
             />
-            <HomeTab
-              controls="home-panel-recent"
-              isActive={activeView === "recent"}
-              label="Recent"
-              onKeyDown={(event) => moveToTab(event, "start", "home-tab-start")}
-              onSelect={() => setActiveView("recent")}
-              tabId="home-tab-recent"
-            />
+            {SHOW_RECENT_TAB ? (
+              <HomeTab
+                controls="home-panel-recent"
+                isActive={activeView === "recent"}
+                label="Recent"
+                onKeyDown={(event) =>
+                  moveToTab(event, "start", "home-tab-start")
+                }
+                onSelect={() => setActiveView("recent")}
+                tabId="home-tab-recent"
+              />
+            ) : null}
           </div>
         </ListHeader>
-      </div>
+      </div> */}
 
       <HomePanel
         isActive={activeView === "start"}
@@ -109,18 +116,20 @@ export function HomeIndex({
         </div>
       </HomePanel>
 
-      <HomePanel
-        isActive={activeView === "recent"}
-        labelledBy="home-tab-recent"
-        panelId="home-panel-recent"
-      >
-        <main className="container pt-3">
-          {recentPosts.map((post) => (
-            <IndexRow key={post.slug} post={post} />
-          ))}
-          <IndexFooter href="/log">View full log</IndexFooter>
-        </main>
-      </HomePanel>
+      {SHOW_RECENT_TAB ? (
+        <HomePanel
+          isActive={activeView === "recent"}
+          labelledBy="home-tab-recent"
+          panelId="home-panel-recent"
+        >
+          <main className="container pt-3">
+            {recentPosts.map((post) => (
+              <IndexRow key={post.slug} post={post} />
+            ))}
+            <IndexFooter href="/log">View full log</IndexFooter>
+          </main>
+        </HomePanel>
+      ) : null}
     </section>
   );
 }
@@ -193,29 +202,6 @@ function IndexRow({ post }: { post: PostListItem }) {
     >
       <PostLine categoryStyle="plain" dateFormat="year" isFeed post={post} />
     </Link>
-  );
-}
-
-function IndexFooter({
-  children,
-  href,
-}: {
-  children: ReactNode;
-  href: string;
-}) {
-  return (
-    <div className="pt-gap flex justify-end">
-      <LinkWithArrow
-        className={cn(
-          textVariants({ intent: "meta", weight: "normal", color: "solid" }),
-          "hover:text-fill inline-flex min-h-10 items-center gap-1",
-          focusVisibleOutlineStyle
-        )}
-        href={href}
-      >
-        {children}
-      </LinkWithArrow>
-    </div>
   );
 }
 

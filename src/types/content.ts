@@ -63,6 +63,7 @@ export type PostListItem = Pick<
   | "linkTitle"
   | "date"
   | "dateLabel"
+  | "endDate"
   | "summary"
   | "category"
   | "tags"

@@ -7,6 +7,9 @@ import {
   Contacts,
   Intro,
   Outro,
+  IndexFooter,
+  SectionHeader,
+  ViewAll,
   WhatIWantLink,
 } from "@/components/page";
 import config from "@/config";
@@ -17,6 +20,7 @@ import {
   ZoomableVideo,
   type ZoomableVideoProps,
 } from "./mdx-media";
+import { ProjectHeroCarousel } from "./project-hero-carousel";
 import { StoryCarousel } from "./story-carousel";
 import { StoryPost, StoryPostList } from "./story-post";
 
@@ -47,9 +51,13 @@ type DivProps = ComponentPropsWithoutRef<"div">;
 export const components = {
   Image: (props: MdxImageProps) => <ZoomableImage {...props} />,
   Video: (props: ZoomableVideoProps) => <ZoomableVideo {...props} />,
+  ProjectHeroCarousel,
+  IndexFooter,
+  SectionHeader,
   StoryCarousel,
   StoryPost,
   StoryPostList,
+  ViewAll,
   // This doesn't fucking work
   img: (props: MdxImageProps) => {
     // console.log("img props:", props);
