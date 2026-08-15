@@ -19,12 +19,19 @@ export default function Home() {
 
   return (
     <PageWrapper hideFooter showNav={false}>
-      <div className="pt-w20 pb-w72">
+      <div className="pt-w20 pb-w72" data-slot="home-inner">
         <header className="container">
-          <Intro as="h1" showLabel={false} textIntent="body" />
+          <Intro
+            as="h1"
+            showLabel={false}
+            showContacts={true}
+            showCurrentPrev={true}
+            showWhatIWant={true}
+            textIntent="body"
+          />
         </header>
 
-        <div className="pt-w6">
+        <div className="pt-small" data-slot="home-content">
           <Suspense fallback={null}>
             <HomeIndex
               homeContent={homeStory.content}

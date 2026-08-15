@@ -67,9 +67,6 @@ export const PostPage = ({ post, theme }: Props) => {
                 <hr className="hr-vertical border-border-hover h-[12px] border-l!" />
               </Text>
             )}
-            <Text intent="pill" dim>
-              {post.tags.length > 1 ? "Topics:" : "Topic:"}
-            </Text>
             <PostTags tags={post.tags} />
           </div>
         )}

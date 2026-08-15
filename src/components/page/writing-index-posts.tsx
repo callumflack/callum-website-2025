@@ -29,10 +29,9 @@ export function WritingIndexPosts({ posts }: { posts: WritingIndexPostsData }) {
   const sortedPostsMap = useMemo<SortedPostsMap>(
     () => ({
       writing: sortSelectedPosts(posts.writing, "writing"),
-      year: [...posts.writing].sort(
+      year: [...posts.writing, ...posts.notes, ...posts.shelf].sort(
         (a, b) =>
-          Number(b.date?.split("-")[0] || 0) -
-          Number(a.date?.split("-")[0] || 0)
+          new Date(b.date).getTime() - new Date(a.date).getTime()
       ),
       notes: posts.notes,
       shelf: posts.shelf,

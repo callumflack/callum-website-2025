@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buttonVariants, Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
-import { CopyMarkdownButtonWrapper } from "@/components/elements/copy-markdown-button-wrapper";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
 import {
@@ -17,7 +16,6 @@ import {
   PostPage,
 } from "@/components/page";
 import config from "@/config";
-import { getGithubRawUrl } from "@/lib/github/actions";
 import { getPublishedPosts, isPubliclyVisible } from "@/lib/posts/actions";
 import { cn } from "@/lib/utils";
 
@@ -94,10 +92,10 @@ export default async function SlugPage({
                   X.com
                 </Link>
               )}
-              <CopyMarkdownButtonWrapper
+              {/* <CopyMarkdownButtonWrapper
                 url={getGithubRawUrl(post._id)}
                 label="Copy"
-              />
+              /> */}
               {/* {!isPage && (
                 <Link
                   href={await getGithubIssueUrl(post.slug)}

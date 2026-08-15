@@ -10,6 +10,9 @@ import { cn, formatPostYearSpan } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 import { mdxMediaSpacing } from "./mdx-media";
 
+/** Flip to true to restore StoryPost card hover overlay (lineHoverStyle). */
+const SHOW_STORY_POST_HOVER = false;
+
 export type StorySlide = {
   assetIndex?: number;
   showSummary?: boolean;
@@ -17,7 +20,7 @@ export type StorySlide = {
 };
 
 export interface StoryPostProps extends StorySlide {
-  variant?: "card";
+  variant?: "block" | "card";
 }
 
 export interface StoryPostListProps {
@@ -42,7 +45,12 @@ export function StoryPost({
   variant = "card",
 }: StoryPostProps) {
   const post = resolveStoryPost(slug);
-  const asset = resolveStoryAsset(post, assetIndex);
+  const body = renderStoryPostBody({
+    assetIndex,
+    post,
+    showSummary,
+    variant,
+  });
 
   return (
     <div
@@ -50,9 +58,38 @@ export function StoryPost({
       data-component="StoryPost"
       data-variant={variant}
     >
-      <StoryPostCard asset={asset} post={post} showSummary={showSummary} />
+      {body}
     </div>
   );
+}
+
+function renderStoryPostBody({
+  assetIndex,
+  post,
+  showSummary,
+  variant,
+}: {
+  assetIndex: number;
+  post: Post;
+  showSummary: boolean;
+  variant: NonNullable<StoryPostProps["variant"]>;
+}) {
+  switch (variant) {
+    case "block":
+      return <StoryPostBlock post={post} />;
+    case "card":
+      return (
+        <StoryPostCard
+          asset={resolveStoryAsset(post, assetIndex)}
+          post={post}
+          showSummary={showSummary}
+        />
+      );
+    default: {
+      const _exhaustive: never = variant;
+      return _exhaustive;
+    }
+  }
 }
 
 export function StoryPostList({
@@ -63,7 +100,7 @@ export function StoryPostList({
 
   return (
     <div
-      className={cn(showThumbnails && "py-minor gap-w6 flex flex-col")}
+      className={cn(showThumbnails && "py-small gap-w6 flex flex-col")}
       data-component="StoryPostList"
       data-thumbnails={showThumbnails ? "true" : "false"}
     >
@@ -91,8 +128,7 @@ function StoryPostCard({
     <Link
       className={cn(
         "group rounded-button block",
-        lineHoverStyle,
-        "hover:before:-inset-y-3",
+        SHOW_STORY_POST_HOVER && [lineHoverStyle, "hover:before:-inset-y-3"],
         "text-fill! hover:text-fill! focus-visible:text-fill! no-underline!",
         focusVisibleOutlineStyle
       )}
@@ -130,7 +166,10 @@ function StoryPostCard({
         </div>
         {showSummary ? (
           <Text
-            className="group-hover:text-fill-light! group-focus-visible:text-fill-light!"
+            className={cn(
+              SHOW_STORY_POST_HOVER && "group-hover:text-fill-light!",
+              "group-focus-visible:text-fill-light!"
+            )}
             dim
             intent="meta"
           >

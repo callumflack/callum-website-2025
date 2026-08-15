@@ -9,8 +9,10 @@ export const lineHoverStyle = [
   // before
   "hover:before:absolute",
   "hover:before:-inset-x-3 hover:before:inset-y-0",
-  "hover:before:bg-background-hover",
-  "hover:before:border hover:before:border-border-hover/25",
+  // "hover:before:bg-background-hover",
+  "hover:before:border",
+  // "hover:before:border-border-hover/25",
+  "hover:before:border-solid",
   "hover:before:rounded-button",
   "hover:before:content-[''] hover:before:-z-[1]",
 ];

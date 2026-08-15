@@ -5,6 +5,9 @@ export * from "./posts-index-or-full";
 export * from "./nav";
 export * from "./site-time";
 export * from "./list-header";
+export * from "./section-header";
+export * from "./index-footer";
+export * from "./view-all";
 
 // Content blocks
 export * from "./block-contacts";

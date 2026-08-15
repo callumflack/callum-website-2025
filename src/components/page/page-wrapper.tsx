@@ -60,7 +60,7 @@ export const PageWrapper = ({
 }: Props) => {
   return (
     <>
-      <div className="relative">
+      <div className="relative" data-slot="PageWrapper-Content">
         {showNav && <PageWrapperNav />}
         {children}
       </div>
@@ -133,7 +133,7 @@ export const PageInner = ({
     >
       {children}
       {showNewsletter ? (
-        <div className="container pt-w12">
+        <div className="pt-w12 container">
           <NewsletterSubscribe />
         </div>
       ) : null}

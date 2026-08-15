@@ -2,7 +2,7 @@ import type { Post } from "content-collections";
 import { Link } from "@/components/atoms/next-link";
 import { PostBlock } from "@/components/post/list/post-block";
 import { PostLines } from "@/components/post/list/posts-list";
-import { getPosts } from "@/lib/posts/actions";
+import { getPosts, toPostListItem } from "@/lib/posts/actions";
 import { sortSelectedPosts } from "@/lib/posts/sorting";
 import type { WorkMode } from "./work-mode";
 
@@ -10,8 +10,8 @@ export function WorkPostsView({ mode }: { mode: WorkMode }) {
   const projects = getPosts("projects");
   const posts =
     mode === "projects"
-      ? sortSelectedPosts(projects, "projects")
-      : sortChronologically(projects);
+      ? sortSelectedPosts(projects, "projects").map(toPostListItem)
+      : sortChronologically(projects).map(toPostListItem);
 
   if (mode === "year") {
     return (
@@ -28,7 +28,7 @@ export function WorkPostsView({ mode }: { mode: WorkMode }) {
     >
       {posts.map((post, index) => (
         <Link
-          href={post.thumbnailLink ? post.thumbnailLink : post.slug}
+          href={post.thumbnailLink ?? `/${post.slug}`}
           key={post._id}
         >
           <PostBlock post={post} priority={index < 4} />
