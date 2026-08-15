@@ -88,7 +88,7 @@ export const PostBlock = ({
             {post.title}
           </Text>
           <hr className="hr-vertical border-border-hover h-[12px]" />
-          <Text as="span" dim intent="meta">
+          <Text as="span" dim intent="pill">
             {formatPostYearSpan(post)}
           </Text>
           {post.thumbnailLink && !isExternal ? (

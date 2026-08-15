@@ -4,6 +4,7 @@
 
 - `260202-repo-guide.md` - Repo guide + architecture dock.
 - `260202-implementation-guidelines.md` - Implementation rules and guardrails.
+- `typography.md` - Current typography roles and metadata treatment.
 
 ## Process
 
