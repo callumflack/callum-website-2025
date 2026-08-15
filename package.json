@@ -7,8 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "knip": "knip",
-    "knip:md": "knip --reporter markdown --no-exit-code > knip-report.md",
     "create-post": "npx tsx ./create-post.ts",
     "organize-posts": "node scripts/organize-posts.mjs",
     "check-posts": "node scripts/check-post-structure.mjs",
@@ -60,7 +58,6 @@
     "@types/react-dom": "19.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
-    "knip": "^6.32.2",
     "typescript": "^5"
   },
   "overrides": {

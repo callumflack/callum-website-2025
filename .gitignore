@@ -48,6 +48,3 @@ next-env.d.ts
 
 # local Claude launcher
 .claude/launch.json
-
-# knip
-knip-report.md
