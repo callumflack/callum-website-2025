@@ -12,13 +12,13 @@ type PostYearFields = {
   endDate?: string;
 };
 
-/** Year span for project cards: closed projects use full years; ongoing use dateLabel. */
+/** Year span for project cards: explicit labels override derived closed-project spans. */
 export function formatPostYearSpan(post: PostYearFields): string {
-  if (post.endDate) {
-    return `${formatYear(post.date)}–${formatYear(post.endDate)}`;
-  }
   if (post.dateLabel) {
     return post.dateLabel;
+  }
+  if (post.endDate) {
+    return `${formatYear(post.date)}–${formatYear(post.endDate)}`;
   }
   return formatYear(post.date);
 }
