@@ -13,6 +13,7 @@ import {
   WhatIWantLink,
 } from "@/components/page";
 import config from "@/config";
+import { cn } from "@/lib/utils";
 import { CodeCopyButton } from "./code-copy-button";
 import {
   type MdxImageProps,
@@ -47,8 +48,10 @@ type ListProps = ComponentPropsWithoutRef<"ul">;
 type ListItemProps = ComponentPropsWithoutRef<"li">;
 type BlockquoteProps = ComponentPropsWithoutRef<"blockquote">;
 type DivProps = ComponentPropsWithoutRef<"div">;
+type PreProps = ComponentPropsWithoutRef<"pre"> & { wrap?: boolean };
 
 export const components = {
+  CodeBlock,
   Image: (props: MdxImageProps) => <ZoomableImage {...props} />,
   Video: (props: ZoomableVideoProps) => <ZoomableVideo {...props} />,
   ProjectHeroCarousel,
@@ -108,16 +111,7 @@ export const components = {
   h2: (props: HeadingProps) => <HeadingWithId as="h2" {...props} />,
   h3: (props: HeadingProps) => <HeadingWithId as="h3" {...props} />,
   h4: ({ children, ...props }: HeadingProps) => <h4 {...props}>{children}</h4>,
-  pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => (
-    <div data-component="pre">
-      <pre className="Pre relative" {...props}>
-        <div className="absolute top-0 right-0 z-10 flex items-center">
-          <CodeCopyButton />
-        </div>
-        {children}
-      </pre>
-    </div>
-  ),
+  pre: Pre,
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
     // sugar-high encapsulates code styles so we can't set them here nor in <Prose> but we can in a global CSS file, see styles/code.css
     const codeHTML = highlight(children as string);
@@ -148,6 +142,31 @@ export const components = {
     </div>
   ),
 };
+
+function Pre({ children, className, wrap = false, ...props }: PreProps) {
+  return (
+    <div data-component="pre">
+      <pre
+        className={cn("Pre relative", className)}
+        data-wrap={wrap ? "true" : undefined}
+        {...props}
+      >
+        <div className="absolute top-0 right-0 z-10 flex items-center">
+          <CodeCopyButton />
+        </div>
+        {children}
+      </pre>
+    </div>
+  );
+}
+
+function CodeBlock({ children, ...props }: PreProps) {
+  return (
+    <Pre {...props}>
+      <code>{children}</code>
+    </Pre>
+  );
+}
 
 type HeadingWithIdProps = HeadingProps &
   Pick<TextProps, "as" | "intent"> & {
