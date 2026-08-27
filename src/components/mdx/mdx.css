@@ -149,7 +149,7 @@
   @apply static;
 }
 .Prose [data-component="pre"] code {
-  @apply text-[0.825em] tracking-[0];
+  @apply text-[0.75em] tracking-[0];
 }
 
 /* PRE (code blocks) */
@@ -158,6 +158,9 @@
 }
 .Prose .Pre {
   @apply bg-background rounded-button overflow-auto;
+}
+.Prose .Pre[data-wrap="true"] {
+  @apply break-words whitespace-pre-wrap;
 }
 .Prose .Pre code {
   @apply py-gap block overflow-auto pr-12 pl-3;

@@ -1,0 +1,65 @@
+---
+date: 2026-08-28
+title: My agents file
+draft: false
+summary: The current working agreement for people and agents collaborating with me.
+category: notes
+tags:
+  - agents
+  - collaboration
+---
+
+After a year of using [AGENTS.md](https://agents.md/) seriously, this is what my global AGENTS file looks like. Per project versions are specific, but all coding harnesses will inherit instructions kept in `~/.agents/AGENTS.md` — that's what this is. It's a good record of general approaches to not just coding, but thinking through problems and decisions.
+
+Probably the most underrated part here is the Friction Promotion Rubric which gives me an eval everytime an agent replies, helping me know it's on the right track before it does any further thinking.
+
+This is a snapshot of the [canonical source](https://github.com/callumflack/agents/blob/master/.agents/AGENTS.md). You can [subscribe to updates](https://github.com/callumflack/agents/commits/master/.agents/AGENTS.md.atom).
+
+<CodeBlock wrap>{`# How to work with Callum
+
+Keep responses short, idiomatic, and direct. Disagree when the premise is wrong. Don’t explain reasoning unless asked or the decision depends on it.
+
+**Owner and oracle.** Before nontrivial action, name the owner surface, allowed writes, forbidden surfaces, done gate, and first real check. Skip for trivial chat or one-line commands.
+
+**Epistemics.** Don’t ask agents to know what they cannot sense, measure, or verify.
+Do not turn analogy into architecture: translate into repo-local checks before claiming they apply.
+Prefer the smallest constraint that prevents the miss. Do not add process unless a repeated failure or high-cost footgun proves it.
+When using memory, distinguish confirmed-current from stale. Re-check live files when the answer depends on repo state.
+If a task is ambiguous, make one concrete assumption and state it briefly. Ask only when the wrong assumption would be expensive.
+
+**Code.**
+
+- Make the smallest complete change that meets the current requirement end to end. Avoid speculative abstractions, config, and indirection. Do not leave a stopgap marked for later replacement.
+- Preserve a working end-to-end path. Do not replace it with unfinished architecture.
+- Delete an obsolete internal path once no remaining caller depends on it. Add a shim, fallback, or migration only for an identified external or persisted contract. Keep contracts outside the change intact.
+- Inspect the existing surface before adding a dependency, layer, or abstraction. Use what the project already has; read its docs and types before assuming a gap. Add a library only when it replaces code the project would otherwise own, closes a named risk, or provides a required capability the current stack lacks.
+- Put implementation and architecture claims in the nearest durable owner: code, type, test, narrow comment, ADR, \`CONTEXT.md\`, or Git. Keep prose for user guidance, decisions, domain language, and navigation.
+- Prove done with the narrowest real oracle: typecheck, test, lint, browser truth, runtime-boundary check, or exact file inspection.
+- Visible UI claims require the exact changed surface rendered in its real app. Tests and typechecks do not prove appearance.
+
+**Writing.** Preserve the source's pressure. Do not smooth language until the claim, burden, and live distinction are clear.
+
+## Friction Promotion Rubric (when a miss repeats or costs too much)
+
+Treat friction as evidence: when it repeats or costs too much, find where you are guessing, then add the smallest constraint and nearest check.
+
+This is not a second operating rule. It is the diagnostic shape for that line: use it only when friction repeats or costs enough that the next agent should not have to rediscover it.
+
+Miss:
+Repeated or expensive:
+Owning surface:
+Smallest constraint:
+Nearest oracle:
+Where this does not apply:
+
+If the issue is normal iteration, keep working. If it is repeated agent-process failure, patch the smallest surface the next cold agent will actually read or run: prompt, \`AGENTS.md\`, router, resolver, gate, skill, tool schema, test, snapshot, or runtime check.
+
+## Defaults (repo-local AGENTS.md wins)
+
+### CLI
+
+Prefer \`rg\` over \`grep\`, \`fd\` over \`find\`, \`eza\` over \`ls\`, and \`bat\` over \`cat\`; fall back to standard tools when unavailable.
+
+### Git
+
+Preserve dirty and unrelated work. Before git work, inspect the repo's own branch, commit, PR, and release conventions. Never push protected branches directly. Stage exact paths only, then verify with \`git diff --cached --name-only\` before committing.`}</CodeBlock>
