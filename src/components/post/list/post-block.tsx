@@ -6,6 +6,7 @@ import { cn, formatPostYearSpan } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 import { lineHoverStyle, postIconStyle } from "../post.styles";
 import { PostLinkHeadingWrapper } from "../post-link-heading-wrapper";
+import { PostTextThumbnail } from "./post-text-thumbnail";
 
 interface PostBlockProps {
   post: PostListItem;
@@ -45,6 +46,11 @@ export const PostBlock = ({
               priority={priority}
               sizes="(min-width: 660px) 150px, 400px"
               className={cn(mediaWrapperVariants(), "group-hover:border-fill")}
+            />
+          ) : post.thumbnailText ? (
+            <PostTextThumbnail
+              className="group-hover:border-fill"
+              text={post.thumbnailText}
             />
           ) : null}
 

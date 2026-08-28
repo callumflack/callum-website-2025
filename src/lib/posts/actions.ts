@@ -42,6 +42,7 @@ export function toPostListItem(post: Post): PostListItem {
     category: post.category,
     tags: post.tags,
     thumbnailLink: post.thumbnailLink,
+    thumbnailText: post.thumbnailText,
     showAsNew: post.showAsNew,
     assets: post.assets,
   };

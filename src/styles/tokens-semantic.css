@@ -122,6 +122,11 @@
   --color-background: var(--color-gray-bg-hover);
   --color-background-hover: var(--color-gray-bg-active);
   --color-background-active: var(--color-gray-bg-active);
+  --color-thumbnail-background: color-mix(
+    in oklab,
+    var(--color-gray-bg-hover) 80%,
+    var(--color-accent3-bg)
+  );
   --color-border: var(--color-gray-border);
   --color-line: var(--color-gray-line);
   --color-ring: var(--color-gray-ring);

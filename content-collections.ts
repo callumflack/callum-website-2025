@@ -49,6 +49,7 @@ export const posts = defineCollection({
     tags: z.array(z.string()).optional(),
     nextPostLink: z.string().optional(),
     thumbnailLink: z.string().optional(), // External link used on thumbnails. If present, the UI does not link to the Post page
+    thumbnailText: z.string().optional(),
     projectLink: z.string().optional(),
     tweet: z.string().optional(),
     assets: z

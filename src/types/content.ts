@@ -68,6 +68,7 @@ export type PostListItem = Pick<
   | "category"
   | "tags"
   | "thumbnailLink"
+  | "thumbnailText"
   | "showAsNew"
   | "assets"
 >;
