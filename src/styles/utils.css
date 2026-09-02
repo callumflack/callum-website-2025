@@ -274,7 +274,13 @@
 }
 
 @supports (animation-timeline: scroll()) {
-  :where([class^="scroll-mask-"], [class*=" scroll-mask-"]) {
+  /* Token match, not ^="scroll-mask-": `sm:scroll-mask-x` lives in the class
+     string as `:scroll-mask-`, so unprefixed-only selectors miss variants. */
+  :where(
+    [class^="scroll-mask-"],
+    [class*=" scroll-mask-"],
+    [class*=":scroll-mask-"]
+  ) {
     --scroll-mask-t: linear-gradient(
       to top,
       black,

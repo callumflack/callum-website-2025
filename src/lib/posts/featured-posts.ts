@@ -16,6 +16,7 @@
  */
 
 export const featuredWorkSlugs = [
+  "open-data-labs",
   "kalaurie",
   "the-library-of-economic-possibility",
   "vana",
