@@ -54,8 +54,9 @@ export const textVariants = cva({
     inline: {
       true: "leading-none",
     },
-    balance: {
-      true: "text-balance",
+    wrap: {
+      balance: "text-balance",
+      pretty: "text-pretty",
     },
     bullet: {
       true: [
@@ -99,7 +100,7 @@ export const Text = ({
   align,
   caps,
   inline,
-  balance,
+  wrap,
   bullet,
   dim,
   children,
@@ -121,7 +122,7 @@ export const Text = ({
           align,
           caps,
           inline,
-          balance,
+          wrap,
           bullet: bulletProp,
           dim,
           className,

@@ -64,7 +64,7 @@ export const HomePage = ({
           {/* INTRO */}
           <PageInner variant="index">
             <header className="container">
-              <Intro as="h1" showLabel={false} textIntent="body" />
+              <Intro showLabel={false} textIntent="body" />
             </header>
             <RuleWithinInner />
           </PageInner>

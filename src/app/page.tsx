@@ -22,7 +22,6 @@ export default function Home() {
       <div className="pt-w20 pb-w72" data-slot="home-inner">
         <header className="container">
           <Intro
-            as="h1"
             showLabel={false}
             showContacts={true}
             showCurrentPrev={true}

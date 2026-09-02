@@ -10,8 +10,13 @@ import { Contacts } from "@/components/page";
 import config from "@/config";
 import { cn } from "@/lib/utils";
 
+const INTRO_NAV = [
+  { href: "/work", label: "Work" },
+  { href: "/writing", label: "Writing" },
+  { href: "/log", label: "Log" },
+] as const;
+
 type Props = {
-  as?: "h1" | "p";
   showLabel?: boolean;
   showWhatIWant?: boolean;
   showCurrentPrev?: boolean;
@@ -20,7 +25,6 @@ type Props = {
 };
 
 export const Intro = ({
-  as = "p",
   showLabel = true,
   showWhatIWant = true,
   showCurrentPrev = true,
@@ -30,7 +34,7 @@ export const Intro = ({
   return (
     <div className="space-y-2.5">
       <Avatar />
-      <Text as={as} intent={textIntent} balance>
+      <Text as="h1" intent={textIntent} wrap="pretty" className="lg:pr-small">
         {/* I&apos;m Callum Flack — a software engineer, writer, and founder. I
         currently work as the CEO of Buttondown, the best way to start and grow
         your newsletter, and as a partner at Third South Capital. Read about me{" "} */}
@@ -65,9 +69,21 @@ export const Intro = ({
         in the blink of an eye, earning the most valuable currency—trust.{" "} */}
         Hi, I&apos;m Callum Flack, an Australian designer-engineer. I began in
         brand design, moved into code to design the whole product, and now work
-        across interface design, code and context engineering.
+        across interface design, code and context engineering. Currently
+        plucking language models to unlock the adjacent possible.{" "}
+        {showWhatIWant && (
+          <Text as="span">
+            <LinkWithArrow
+              theme="default"
+              className={cn("link", focusVisibleOutlineStyle)}
+              href="/about"
+            >
+              Read more
+            </LinkWithArrow>
+          </Text>
+        )}
       </Text>
-      <Text as={as} intent={textIntent} balance>
+      {/* <Text as="p" intent={textIntent} wrap="pretty">
         I’m interested in how AI changes software design: the language,
         constraints and feedback loops that help people and agents build
         coherent products together. If you are too, say hello.{" "}
@@ -82,16 +98,34 @@ export const Intro = ({
             </LinkWithArrow>
           </Text>
         )}
-      </Text>
+      </Text> */}
       {showCurrentPrev && (
-        <Text as="p" intent="meta" balance dim>
+        <Text as="p" intent="meta" wrap="pretty" dim>
           Current: Vana
           <span className="mx-1.5 font-light">|</span>
           Prev: Cleared (first commit → sale), Saatchi & Saatchi (brand)
         </Text>
       )}
 
-      {showContacts && <Contacts showLabel={showLabel} className="pt-0.5" />}
+      {showContacts ? (
+        <div className="flex items-center justify-between gap-4 pt-0.5">
+          <Contacts showLabel={showLabel} />
+          {/* <nav aria-label="Sections" className="flex items-center gap-3">
+            {INTRO_NAV.map((item) => (
+              <LinkWithArrow
+                className={cn(
+                  "text-meta no-underline! hover:text-accent",
+                  focusVisibleOutlineStyle
+                )}
+                href={item.href}
+                key={item.href}
+              >
+                {item.label}
+              </LinkWithArrow>
+            ))}
+          </nav> */}
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -99,7 +133,7 @@ export const Intro = ({
 export const Outro = ({ showLabel = true, textIntent = "meta" }: Props) => {
   return (
     <div className="space-y-2.5">
-      <Text as="p" intent={textIntent} balance>
+      <Text as="p" intent={textIntent} wrap="balance">
         The best way to connect is to{" "}
         <Link
           href={`mailto:${config.EMAIL}`}
