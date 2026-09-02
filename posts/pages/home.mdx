@@ -8,24 +8,22 @@ type: page
 
 <SectionHeader href="/log">Latest</SectionHeader>
 <StoryPostList
-  slugs={[
-    "my-agents-file",
-    "answerable-vocabulary-for-llm-work",
-    "two-interrogation-skills",
-  ]}
-  showThumbnails
+  slugs={["my-agents-file", "favourite-articles", "two-interrogation-skills"]}
 />
 
 <SectionHeader href="/work">Work</SectionHeader>
-<StoryPostList
+<ZoomCarousel
+  className="scroll-mask-x scroll-mask-x-from-90%"
   slugs={[
-    "vana",
-    "the-library-of-economic-possibility",
     "kalaurie",
-    "cleared",
+    "the-library-of-economic-possibility",
+    "vana",
     "replier",
+    "studio-round",
+    "themes-for-shadcnblocks",
+    "anchor-ceramics",
+    "breaka",
   ]}
-  showThumbnails
 />
 
 <SectionHeader href="/writing">Writing</SectionHeader>

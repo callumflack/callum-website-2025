@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
+@source "../../posts";
 
 /*
  * Keep token imports ordered.

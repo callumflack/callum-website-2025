@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { motion, animate } from "framer-motion";
-import { Asset } from "@/types/content";
+import { Post } from "content-collections";
+import { animate, motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import {
   Caption,
   MediaFigure,
@@ -10,16 +12,14 @@ import {
   Video,
 } from "@/components/media";
 import {
+  getDimensions,
   isPortrait,
   isVideoFile,
-  getDimensions,
 } from "@/components/media/media-utils";
-import Link from "next/link";
-import { cn, formatYear } from "@/lib/utils";
-import { Post } from "content-collections";
-import Image from "next/image";
 import { MediaErrorBoundary } from "@/components/utils";
 import { centerInViewport } from "@/lib/center-in-viewport";
+import { cn, formatPostYearSpan, formatYear } from "@/lib/utils";
+import { Asset } from "@/types/content";
 
 const logPrefix = "[ZoomCarousel]";
 
@@ -27,7 +27,13 @@ const logPrefix = "[ZoomCarousel]";
 const ZOOM_BREAKPOINT_PX = 1024;
 
 // Main ZoomCarousel component
-export function ZoomCarousel({ projects }: { projects: Post[] }) {
+export function ZoomCarousel({
+  projects,
+  className,
+}: {
+  projects: Post[];
+  className?: string;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -40,7 +46,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
   const [isWideEnoughForZoom, setIsWideEnoughForZoom] = useState(false);
 
   // Image heights (for aspect ratio calculations)
-  const imageBaseHeight = 240;
+  const imageBaseHeight = 180;
   const imageExpandedHeight = 480;
   // Buffer for caption + gap (caption sits outside image container)
   const captionBuffer = 40;
@@ -219,52 +225,46 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
         container.style.willChange = originalWillChange; // Restore on unmount too
       }
     };
-  }, [
-    isExpanded,
-    clickedIndex,
-    projects,
-    imageExpandedHeight,
-    gridGap,
-    paddingLeft,
-  ]);
+  }, [isExpanded, clickedIndex, projects, gridGap, paddingLeft]);
 
-  // Handle clicks on the container
-  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // --- Prevent zoom if viewport is too narrow ---
-    if (!isWideEnoughForZoom) {
-      // On narrow screens, clicking the image area does nothing.
-      // Navigation still works via the caption link.
-      return;
-    }
-    // ---------------------------------------------
+  const toggleExpand = (target: EventTarget | null) => {
+    if (!isWideEnoughForZoom) return;
 
-    const clickedItem = (e.target as Element).closest<HTMLDivElement>(
-      "[data-index]"
-    );
-    const index = clickedItem?.dataset.index
-      ? parseInt(clickedItem.dataset.index, 10)
-      : null;
+    const item = (target as Element).closest<HTMLDivElement>("[data-index]");
+    const index = item?.dataset.index ? parseInt(item.dataset.index, 10) : null;
 
     if (isExpanded) {
-      console.log(
-        logPrefix,
-        `[handleContainerClick] Collapsing. Setting isExpanded: false`
-      );
       setClickedIndex(null);
       setIsExpanded(false);
-    } else if (index !== null) {
-      console.log(
-        logPrefix,
-        `[handleContainerClick] Item ${index} clicked. Expanding. Setting clickedIndex: ${index}, isExpanded: true`
-      );
+      return;
+    }
+
+    if (index !== null) {
       setClickedIndex(index);
       setIsExpanded(true);
     }
   };
 
+  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    toggleExpand(e.target);
+  };
+
+  const handleContainerKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    if ((e.target as HTMLElement).closest("a")) return;
+    e.preventDefault();
+    toggleExpand(e.target);
+  };
+
   return (
     <MediaErrorBoundary>
-      <div className="w-full overflow-x-auto" onClick={handleContainerClick}>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: Zoom is delegated from this wrapper onto [data-index] items; caption links stay the inner interactive. */}
+      <div
+        className="pt-small w-full overflow-x-auto"
+        data-component="ZoomCarousel"
+        onClick={handleContainerClick}
+        onKeyDown={handleContainerKeyDown}
+      >
         <motion.div
           ref={carouselRef}
           // Ensure initial classes include snap/smooth
@@ -282,7 +282,8 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
             // "lg:gap-[calc(var(--spacing-inset)*2)]",
             "min-[620px]:scroll-px-inset-text min-[620px]:px-inset-text",
             // hide scrollbar
-            "hide-scrollbar"
+            "hide-scrollbar",
+            className
           )}
           initial={false}
           animate={{
@@ -322,6 +323,7 @@ export function ZoomCarousel({ projects }: { projects: Post[] }) {
                   imageExpandedHeight={imageExpandedHeight}
                   title={project.title}
                   date={project.date}
+                  yearSpan={formatPostYearSpan(project)}
                   slug={project.slug}
                   showCaption={true}
                 />
@@ -344,6 +346,7 @@ const CarouselItem = ({
   slug,
   title,
   date,
+  yearSpan,
   showCaption = true,
 }: {
   asset: Asset;
@@ -355,6 +358,7 @@ const CarouselItem = ({
   slug?: string;
   title?: string;
   date?: string;
+  yearSpan?: string;
   showCaption?: boolean;
 }) => {
   const { aspect } = asset;
@@ -379,6 +383,7 @@ const CarouselItem = ({
     <motion.div
       key={index}
       data-index={index}
+      tabIndex={isZoomEnabled ? 0 : undefined}
       className="relative flex shrink-0 snap-center flex-col gap-2.5 overflow-hidden"
       initial={false}
       animate={{
@@ -438,9 +443,14 @@ const CarouselItem = ({
           />
         )}
       </MediaFigure>
-      {showCaption && title && date && (
+      {showCaption && title && yearSpan && (
         <Caption className="w-full">
-          <SimpleCardCaption slug={slug || ""} title={title} date={date} />
+          <SimpleCardCaption
+            slug={slug || ""}
+            title={title}
+            date={date}
+            yearSpan={yearSpan}
+          />
         </Caption>
       )}
     </motion.div>
@@ -452,22 +462,26 @@ const SimpleCardCaption = ({
   slug,
   title,
   date,
+  yearSpan,
 }: {
   slug: string;
   title: string;
-  date: string;
+  date?: string;
+  yearSpan: string;
 }) => {
+  const label = yearSpan || (date ? formatYear(date) : "");
+
   return (
     <Link
       href={`/${slug}`}
-      className="link flex items-center gap-1.5 no-underline"
+      className="hover:text-fill! focus-visible:text-fill! flex items-center gap-1.5 no-underline!"
       onClick={(e) => {
         e.stopPropagation();
       }}
     >
       <span>{title}</span>
       <hr className="hr-vertical border-border-hover h-[12px]" />
-      <span>{formatYear(date)}</span>
+      <span>{label}</span>
     </Link>
   );
 };

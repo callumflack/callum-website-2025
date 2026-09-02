@@ -12,7 +12,8 @@
   @apply mx-auto;
   max-width: var(--container-text);
 }
-.Prose > [data-component="Zoomable"] {
+.Prose > [data-component="Zoomable"],
+.Prose > [data-component="ZoomCarousel"] {
   max-width: none;
 }
 
@@ -31,6 +32,7 @@
 .Prose.Prose--homeStart > [data-component="StoryPost"],
 .Prose.Prose--homeStart > [data-component="StoryCarousel"],
 .Prose.Prose--homeStart > [data-component="ProjectHeroCarousel"],
+.Prose.Prose--homeStart > [data-component="ZoomCarousel"],
 .Prose.Prose--homeStart > [data-component="StoryPostList"],
 .Prose.Prose--homeStart > [data-component="IndexFooter"],
 .Prose.Prose--homeStart > [data-component="ViewAll"] {
@@ -38,13 +40,25 @@
   margin-block-end: 0;
 }
 
+/* Last PostLine already has pb-2.5; pull the next header up by that (CF adjusted by eyeballing) so Latest → Work matches ZoomCarousel → Writing. */
+.Prose.Prose--homeStart
+  > [data-component="StoryPostList"][data-thumbnails="false"] {
+  margin-block-end: calc(-1 * --spacing(2.5));
+}
+
+.Prose.Prose--homeStart > [data-component="ZoomCarousel"] {
+  margin-inline: calc(var(--spacing-inset) * -1);
+  width: calc(100% + (var(--spacing-inset) * 2));
+}
+
 .Prose [data-component="SectionHeader"] a {
-  @apply no-underline hover:text-accent! hover:decoration-transparent!;
+  @apply hover:text-accent! no-underline hover:decoration-transparent!;
 }
 
 .Prose [data-component="ViewAll"] a,
-.Prose [data-component="IndexFooter"] a {
-  @apply no-underline hover:text-fill! hover:decoration-transparent!;
+.Prose [data-component="IndexFooter"] a,
+.Prose [data-component="ZoomCarousel"] a {
+  @apply hover:text-fill! no-underline hover:decoration-transparent!;
 }
 
 /* .Prose.Prose--homeStart > [data-component="StoryPost"],
