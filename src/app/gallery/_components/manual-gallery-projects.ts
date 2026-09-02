@@ -11,6 +11,32 @@ export type ManualGalleryProject = {
 
 export const manualGalleryProjects: ManualGalleryProject[] = [
   {
+    title: "Kalaurie",
+    date: "2024-07-22",
+    slug: "kalaurie",
+    assets: [
+      {
+        src: "https://cdn.callumflack.design/kalaurie-shop-mobile-240722.mp4",
+        poster: "/images/kalaurie-shop-mobile-poster-430-932.jpg",
+        alt: "Kalaurie mobile website shop",
+        aspect: "430-932",
+      },
+    ],
+  },
+  {
+    title: "Studio Round",
+    date: "2022-06-01",
+    slug: "studio-round",
+    assets: [
+      {
+        src: "https://cdn.callumflack.design/studio-round-dots-240722.mp4",
+        poster: "/images/studio-round-dots-poster-1600-1000.jpg",
+        alt: "Studio Round website animated menu dots",
+        aspect: "1600-1000",
+      },
+    ],
+  },
+  {
     title: "Library of Economic Possibility",
     date: "2022-05-01",
     slug: "the-library-of-economic-possibility",
