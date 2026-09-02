@@ -5,7 +5,7 @@ import { Intro, Outro, PageInner, PageWrapper } from "@/components/page";
 import { PostBlock, PostLine } from "@/components/post";
 import { HomeFeaturedGrid } from "./home-featured-grid";
 import { HomeFolioClient } from "./home-folio-client";
-import { ZoomCarousel } from "./zoom-carousel";
+import { ZoomCarousel } from "@/components/mdx/zoom-carousel";
 
 /*
  * Feature flag for the homepage grid-view toggle.
@@ -64,7 +64,7 @@ export const HomePage = ({
           {/* INTRO */}
           <PageInner variant="index">
             <header className="container">
-              <Intro as="h1" showLabel={false} textIntent="body" />
+              <Intro showLabel={false} textIntent="body" />
             </header>
             <RuleWithinInner />
           </PageInner>
@@ -106,7 +106,7 @@ export const HomePage = ({
             ></div> */}
               {/* // min-h avoids hydration jank
             className="z-2 min-h-[276px] sm:min-h-[331px]"? */}
-              <ZoomCarousel projects={projects} />
+              <ZoomCarousel slugs={projects.map((project) => project.slug)} />
             </div>
             <RuleWithinInner />
           </HomeFolioClient>

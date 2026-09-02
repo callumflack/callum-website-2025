@@ -111,4 +111,4 @@ export const PostBlock = ({
       </div>
     </div>
   );
-}
+};

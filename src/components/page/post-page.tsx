@@ -32,7 +32,7 @@ export const PostPage = ({ post, theme }: Props) => {
     <>
       {!isPage && post.slug !== "about" && (
         <TitleHeader isContained={theme === "feed"}>
-          <Text as="h1" intent="title" balance>
+          <Text as="h1" intent="title" wrap="balance">
             <Link href={`/${post.slug}`} className="hover:text-accent">
               {post.title}
             </Link>

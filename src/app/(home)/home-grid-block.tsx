@@ -83,7 +83,7 @@ export function HomeIntroCard() {
       data-component="HomeIntroCard"
       className={cn(homeCardArticleStyle, textInnerStyle)}
     >
-      <Intro as="h1" showLabel={false} textIntent="body" />
+      <Intro showLabel={false} textIntent="body" />
     </article>
   );
 }

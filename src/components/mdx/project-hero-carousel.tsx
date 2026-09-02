@@ -1,6 +1,7 @@
 import type { Post } from "content-collections";
 import { isVideoFile } from "@/components/media/media-utils";
 import { getPublishedPosts } from "@/lib/posts/actions";
+import { formatPostYearSpan } from "@/lib/utils";
 import {
   ProjectHeroCarouselClient,
   type ProjectHeroCarouselSlide,
@@ -57,8 +58,10 @@ function resolveSlide(
 
   return {
     asset,
+    href: `/${post.slug}`,
     id: `${slug}-${assetIndex}-${index}`,
     title: post.title,
+    yearSpan: formatPostYearSpan(post),
   };
 }
 

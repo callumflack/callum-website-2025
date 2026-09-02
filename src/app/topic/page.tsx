@@ -28,7 +28,7 @@ export default async function TopicIndexPage() {
     <PageWrapper activeNav="feed" theme="feed">
       <PageInner variant="index">
         <TitleHeader>
-          <Text as="h1" intent="title" balance>
+          <Text as="h1" intent="title" wrap="balance">
             Topics
           </Text>
           <div className="mt-w8 flex flex-wrap gap-2">

@@ -24,6 +24,7 @@ import {
 import { ProjectHeroCarousel } from "./project-hero-carousel";
 import { StoryCarousel } from "./story-carousel";
 import { StoryPost, StoryPostList } from "./story-post";
+import { ZoomCarousel } from "./zoom-carousel";
 
 /*
   mdx-components: Element Definition (Zero Styling)
@@ -61,6 +62,7 @@ export const components = {
   StoryPost,
   StoryPostList,
   ViewAll,
+  ZoomCarousel,
   // This doesn't fucking work
   img: (props: MdxImageProps) => {
     // console.log("img props:", props);

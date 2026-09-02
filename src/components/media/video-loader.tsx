@@ -12,12 +12,14 @@ interface VideoLoaderProps {
   poster: string;
   aspect: AspectRatio;
   className?: string;
+  priority?: boolean;
 }
 
 export const VideoLoader = ({
   poster,
   aspect,
   className,
+  priority = true,
 }: VideoLoaderProps) => {
   const { width, height } = getDimensions(aspect);
   const aspectRatioCSS = getAspectRatioCSS(aspect);
@@ -29,7 +31,7 @@ export const VideoLoader = ({
         alt="video poster"
         className={cn("VideoPoster", className)}
         height={height}
-        priority
+        priority={priority}
         quality={10}
         sizes="(min-width: 660px) 600px, 400px"
         src={poster}
