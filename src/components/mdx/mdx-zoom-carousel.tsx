@@ -1,27 +1,38 @@
 import {
-  ZoomCarousel as ZoomCarouselClient,
+  ZoomCarouselClient,
   type ZoomCarouselProject,
-} from "@/app/(home)/zoom-carousel";
+} from "@/app/(home)/zoom-carousel-client";
 import { getPublishedPosts } from "@/lib/posts/actions";
 import { formatPostYearSpan } from "@/lib/utils";
 
-interface ZoomCarouselProps {
+interface MdxZoomCarouselProps {
   slugs: readonly string[];
   className?: string;
+  wrapperClassName?: string;
 }
 
 const publishedPostsBySlug = new Map(
   getPublishedPosts().map((post) => [post.slug, post])
 );
 
-export function ZoomCarousel({ slugs, className }: ZoomCarouselProps) {
+export function MdxZoomCarousel({
+  slugs,
+  className,
+  wrapperClassName,
+}: MdxZoomCarouselProps) {
   const projects = slugs.map(resolveProject);
 
   if (projects.length === 0) {
     throw new Error("ZoomCarousel requires at least one slug");
   }
 
-  return <ZoomCarouselClient className={className} projects={projects} />;
+  return (
+    <ZoomCarouselClient
+      className={className}
+      wrapperClassName={wrapperClassName}
+      projects={projects}
+    />
+  );
 }
 
 function resolveProject(slug: string): ZoomCarouselProject {

@@ -5,9 +5,9 @@ import { Link, Text } from "@/components/atoms";
 import {
   Avatar,
   Contacts,
+  IndexFooter,
   Intro,
   Outro,
-  IndexFooter,
   SectionHeader,
   ViewAll,
   WhatIWantLink,
@@ -21,10 +21,10 @@ import {
   ZoomableVideo,
   type ZoomableVideoProps,
 } from "./mdx-media";
+import { MdxZoomCarousel } from "./mdx-zoom-carousel";
 import { ProjectHeroCarousel } from "./project-hero-carousel";
 import { StoryCarousel } from "./story-carousel";
 import { StoryPost, StoryPostList } from "./story-post";
-import { ZoomCarousel } from "./zoom-carousel";
 
 /*
   mdx-components: Element Definition (Zero Styling)
@@ -62,7 +62,7 @@ export const components = {
   StoryPost,
   StoryPostList,
   ViewAll,
-  ZoomCarousel,
+  ZoomCarousel: MdxZoomCarousel,
   // This doesn't fucking work
   img: (props: MdxImageProps) => {
     // console.log("img props:", props);

@@ -20,10 +20,13 @@ import { centerInViewport } from "@/lib/center-in-viewport";
 import { cn } from "@/lib/utils";
 import type { Asset } from "@/types/content";
 
-const logPrefix = "[ZoomCarousel]";
+const logPrefix = "[ZoomCarouselClient]";
 
 // Define the breakpoint for enabling zoom functionality
 const ZOOM_BREAKPOINT_PX = 1024;
+
+const overlayClassName =
+  "focus-visible:outline-fill absolute inset-x-0 top-0 z-1 border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid";
 
 export type ZoomCarouselProject = {
   asset: Asset;
@@ -32,13 +35,14 @@ export type ZoomCarouselProject = {
   yearSpan: string;
 };
 
-// Main ZoomCarousel component
-export function ZoomCarousel({
+export function ZoomCarouselClient({
   projects,
   className,
+  wrapperClassName,
 }: {
   projects: ZoomCarouselProject[];
   className?: string;
+  wrapperClassName?: string;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
@@ -249,7 +253,7 @@ export function ZoomCarousel({
   return (
     <MediaErrorBoundary>
       <div
-        className="pt-small w-full overflow-x-auto"
+        className={cn("w-full overflow-x-auto", wrapperClassName)}
         data-component="ZoomCarousel"
       >
         <motion.div
@@ -267,7 +271,8 @@ export function ZoomCarousel({
             "grid grid-flow-col grid-cols-[max-content] grid-rows-1",
             "px-inset gap-inset scroll-px-inset",
             // "lg:gap-[calc(var(--spacing-inset)*2)]",
-            "min-[620px]:scroll-px-inset-text min-[620px]:px-inset-text",
+            "min-[620px]:max-lg:scroll-px-inset-text min-[620px]:max-lg:px-inset-text",
+            "lg:scroll-px-[calc(var(--spacing-inset-text)-var(--spacing-major))] lg:px-[calc(var(--spacing-inset-text)-var(--spacing-major))]",
             // hide scrollbar
             "hide-scrollbar",
             className
@@ -361,7 +366,7 @@ const CarouselItem = ({
   return (
     <motion.div
       key={index}
-      className="relative flex shrink-0 snap-center flex-col gap-2.5 overflow-hidden"
+      className="relative flex shrink-0 snap-start flex-col gap-2.5 overflow-hidden"
       initial={false}
       animate={{
         width:
@@ -377,18 +382,22 @@ const CarouselItem = ({
         This ensures the image height calculation (for width) matches actual image height.
         MediaFigure gets explicit height, caption sits below with gap-2.5.
       */}
+      {slug ? (
+        <Link
+          href={`/${slug}`}
+          aria-label={title || asset.alt}
+          className={cn(overlayClassName, "absolute! block lg:hidden")}
+          style={{ height: currentImageHeight }}
+        />
+      ) : null}
       <button
         aria-expanded={isExpanded}
         aria-label={`${isExpanded ? "Zoom out" : "Zoom in"}: ${title || asset.alt}`}
         className={cn(
-          "focus-visible:outline-fill absolute inset-x-0 top-0 z-1 border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid",
-          isZoomEnabled
-            ? isExpanded
-              ? "cursor-zoom-out"
-              : "cursor-zoom-in"
-            : "cursor-default"
+          overlayClassName,
+          "hidden lg:block",
+          isExpanded ? "cursor-zoom-out" : "cursor-zoom-in"
         )}
-        disabled={!isZoomEnabled}
         onClick={() => onToggle(index)}
         style={{ height: currentImageHeight }}
         type="button"

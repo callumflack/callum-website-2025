@@ -5,7 +5,7 @@ import { Intro, Outro, PageInner, PageWrapper } from "@/components/page";
 import { PostBlock, PostLine } from "@/components/post";
 import { HomeFeaturedGrid } from "./home-featured-grid";
 import { HomeFolioClient } from "./home-folio-client";
-import { ZoomCarousel } from "@/components/mdx/zoom-carousel";
+import { MdxZoomCarousel as ZoomCarousel } from "@/components/mdx/mdx-zoom-carousel";
 
 /*
  * Feature flag for the homepage grid-view toggle.
