@@ -1,5 +1,5 @@
 import type { Post } from "content-collections";
-import { focusVisibleOutlineStyle, Link, Text } from "@/components/atoms";
+import { focusVisibleOutlineStyle, Link } from "@/components/atoms";
 import { CardImage } from "@/components/card";
 import { mediaWrapperVariants } from "@/components/media";
 import { PostBlock } from "@/components/post/list/post-block";
@@ -9,6 +9,7 @@ import { getPublishedPosts, toPostListItem } from "@/lib/posts/actions";
 import { cn, formatPostYearSpan } from "@/lib/utils";
 import type { PostListItem } from "@/types/content";
 import { mdxMediaSpacing } from "./mdx-media";
+import { StoryPostMeta } from "./story-post-meta";
 
 /** Flip to true to restore StoryPost card hover overlay (lineHoverStyle). */
 const SHOW_STORY_POST_HOVER = false;
@@ -100,7 +101,11 @@ export function StoryPostList({
 
   return (
     <div
-      className={cn(showThumbnails && "py-small gap-w6 flex flex-col")}
+      className={cn(
+        showThumbnails
+          ? "py-small gap-w6 flex flex-col"
+          : "pt-[calc(var(--spacing-small)---spacing(2.5))]"
+      )}
       data-component="StoryPostList"
       data-thumbnails={showThumbnails ? "true" : "false"}
     >
@@ -115,13 +120,15 @@ export function StoryPostList({
   );
 }
 
-function StoryPostCard({
+export function StoryPostCard({
   asset,
   post,
+  sizes,
   showSummary = false,
 }: {
   asset?: StoryAsset;
   post: Post;
+  sizes?: string;
   showSummary?: boolean;
 }) {
   return (
@@ -142,41 +149,21 @@ function StoryPostCard({
             mediaWrapperVariants(),
             "group-hover:border-fill group-focus-visible:border-fill w-full"
           )}
-          sizes="(min-width: 660px) 620px, 100vw"
+          sizes={sizes ?? "(min-width: 660px) 620px, 100vw"}
         />
       ) : null}
 
-      <div className={cn("space-y-1", asset && "pt-2.5")}>
-        <div className="flex items-baseline gap-2.5">
-          <Text
-            as="h2"
-            intent={showSummary ? "body" : "meta"}
-            weight={showSummary ? "medium" : "normal"}
-          >
-            {post.title}
-          </Text>
-          <hr className="hr-vertical border-border-hover h-[0.7em] translate-y-px" />
-          <Text
-            as="span"
-            intent={showSummary ? "body" : "meta"}
-            weight={showSummary ? "medium" : "normal"}
-          >
-            {formatPostYearSpan(post)}
-          </Text>
-        </div>
-        {showSummary ? (
-          <Text
-            className={cn(
-              SHOW_STORY_POST_HOVER && "group-hover:text-fill-light!",
-              "group-focus-visible:text-fill-light!"
-            )}
-            dim
-            intent="meta"
-          >
-            {post.summary}
-          </Text>
-        ) : null}
-      </div>
+      <StoryPostMeta
+        className={cn(asset && "pt-2.5")}
+        showSummary={showSummary}
+        summary={post.summary}
+        summaryClassName={cn(
+          SHOW_STORY_POST_HOVER && "group-hover:text-fill-light!",
+          "group-focus-visible:text-fill-light!"
+        )}
+        title={post.title}
+        yearSpan={formatPostYearSpan(post)}
+      />
     </Link>
   );
 }
