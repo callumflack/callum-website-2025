@@ -40,7 +40,7 @@
   --text-fine: calc(9.5px + (1 * var(--fluid-step)));
   --text-pill: calc(11px + (1 * var(--fluid-step)));
   --text-meta: calc(12px + (2 * var(--fluid-step)));
-  --text-body: calc(15px + (3 * var(--fluid-step)));
+  --text-body: calc(15px + (2 * var(--fluid-step)));
   --text-heading: calc(17px + (3 * var(--fluid-step)));
   --text-title: calc(19px + (6 * var(--fluid-step)));
 
@@ -141,7 +141,7 @@
   --color-accent2: var(--color-accent2);
   --color-accent3: var(--color-accent3-solid);
   --color-accent3hover: var(--color-accent3-solid-hover);
-  --color-accent3bg: var(--color-accent3-solid-bg);
+  --color-accent3bg: var(--color-accent3-bg);
 
   /* Shadcn UI */
   /* --color-background: var(--background); */
