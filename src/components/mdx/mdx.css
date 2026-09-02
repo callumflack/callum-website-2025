@@ -40,10 +40,10 @@
   margin-block-end: 0;
 }
 
-/* Last PostLine already has pb-2.5; pull the next header up by that (CF adjusted by eyeballing) so Latest → Work matches ZoomCarousel → Writing. */
+/* Add a small gap after the text-only Latest list so its next header aligns visually with the carousel section rhythm. */
 .Prose.Prose--homeStart
   > [data-component="StoryPostList"][data-thumbnails="false"] {
-  margin-block-end: calc(-1 * --spacing(2.5));
+  margin-block-end: calc(1 * --spacing(1));
 }
 
 .Prose.Prose--homeStart > [data-component="ZoomCarousel"] {
