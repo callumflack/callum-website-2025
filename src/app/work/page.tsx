@@ -39,13 +39,14 @@ export default function WorkPage({
   );
 }
 
-export const unstable_instant = {
-  prefetch: "runtime",
-  samples: [
+export const instant = {
+  unstable_samples: [
     { searchParams: { sort: "projects" } },
     { searchParams: { sort: "year" } },
   ],
 };
+
+export const prefetch = "partial";
 
 export const metadata: Metadata = {
   title: "Work",
