@@ -77,7 +77,7 @@ export const PageWrapper = ({
 const PageWrapperNav = () => (
   <aside
     data-component="PageWrapper-Nav"
-    className="pointer-events-none absolute inset-0 z-20"
+    className="pointer-events-none absolute inset-0 z-200"
   >
     <nav aria-label="Site navigation" className="top-gap sm:top-w20 sticky">
       <div className="relative container">
