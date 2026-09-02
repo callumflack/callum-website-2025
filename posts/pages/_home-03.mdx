@@ -1,0 +1,64 @@
+---
+date: 2026-08-04
+title: Home
+summary: Selected work and writing by Callum Flack, a designer and engineer working across language, interaction, and code.
+category: page
+type: page
+---
+
+<SectionHeader>Carousel test</SectionHeader>
+<StoryCarousel
+  label="Carousel test"
+  showControls
+  slides={[{ slug: "vana" }, { slug: "kalaurie" }, { slug: "cleared" }]}
+/>
+
+<StoryPostList
+  slugs={["cleared", "replier", "themes-for-shadcnblocks", "studio-round"]}
+  showThumbnails
+/>
+
+<SectionHeader>Start</SectionHeader>
+<ProjectHeroCarousel
+  label="Hero carousel test"
+  slides={[
+    { slug: "vana" },
+    { slug: "kalaurie" },
+    { slug: "the-library-of-economic-possibility" },
+    { slug: "cleared" },
+  ]}
+/>
+
+<SectionHeader href="/log">Latest</SectionHeader>
+<StoryPostList
+  slugs={[
+    "my-agents-file",
+    "answerable-vocabulary-for-llm-work",
+    "two-interrogation-skills",
+  ]}
+  showThumbnails
+/>
+
+<SectionHeader href="/work">Work</SectionHeader>
+<StoryPostList
+  slugs={[
+    "vana",
+    "the-library-of-economic-possibility",
+    "kalaurie",
+    "cleared",
+    "replier",
+  ]}
+  showThumbnails
+/>
+
+<SectionHeader href="/writing">Writing</SectionHeader>
+<StoryPostList
+  slugs={[
+    "you-cant-design-a-ui-without-designing-the-code",
+    "the-instantaneous-language-of-beauty",
+    "the-matter-of-taste",
+    "creativity-starts-with-love-and-theft",
+    "answerable-vocabulary-for-llm-work",
+  ]}
+  showThumbnails
+/>
