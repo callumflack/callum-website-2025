@@ -19,6 +19,7 @@ export interface VideoProps
   aspect: AspectRatio;
   className: string;
   allowSound?: boolean;
+  posterPriority?: boolean;
   onError?: (event: React.SyntheticEvent<HTMLVideoElement, Event>) => void;
   // sizes?: string;
 }
@@ -34,6 +35,7 @@ export const Video = ({
   className,
   allowSound,
   onError,
+  posterPriority = true,
   ...rest
 }: VideoProps) => {
   const { isMobileViewport } = useDeviceDetect();
@@ -178,7 +180,12 @@ export const Video = ({
         {/* LOADING OR ERROR - both show the poster */}
         {(videoStatus === "loading" || videoStatus === "error") && poster ? (
           <div className="relative">
-            <VideoLoader aspect={aspect} className={className} poster={poster} />
+            <VideoLoader
+              aspect={aspect}
+              className={className}
+              poster={poster}
+              priority={posterPriority}
+            />
             {videoStatus === "error" && (
               <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-black">
                 <div className="max-w-[80%] rounded bg-white p-2 text-center dark:bg-gray-800">

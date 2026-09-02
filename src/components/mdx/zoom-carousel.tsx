@@ -1,6 +1,9 @@
-import type { Post } from "content-collections";
-import { ZoomCarousel as ZoomCarouselClient } from "@/app/(home)/zoom-carousel";
+import {
+  ZoomCarousel as ZoomCarouselClient,
+  type ZoomCarouselProject,
+} from "@/app/(home)/zoom-carousel";
 import { getPublishedPosts } from "@/lib/posts/actions";
+import { formatPostYearSpan } from "@/lib/utils";
 
 interface ZoomCarouselProps {
   slugs: readonly string[];
@@ -21,7 +24,7 @@ export function ZoomCarousel({ slugs, className }: ZoomCarouselProps) {
   return <ZoomCarouselClient className={className} projects={projects} />;
 }
 
-function resolveProject(slug: string): Post {
+function resolveProject(slug: string): ZoomCarouselProject {
   const post = publishedPostsBySlug.get(slug);
 
   if (!post) {
@@ -32,5 +35,10 @@ function resolveProject(slug: string): Post {
     throw new Error(`ZoomCarousel post "${slug}" has no assets`);
   }
 
-  return post;
+  return {
+    asset: post.assets[0],
+    slug: post.slug,
+    title: post.title,
+    yearSpan: formatPostYearSpan(post),
+  };
 }
