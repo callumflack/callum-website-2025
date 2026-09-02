@@ -101,7 +101,16 @@ export const Video = ({
         video.addEventListener("play", handlePlay);
         video.addEventListener("error", handleError);
         if (video.autoplay && video.paused && video.muted) {
-          await video.play();
+          void video.play().catch((err: unknown) => {
+            const name =
+              err instanceof DOMException || err instanceof Error
+                ? err.name
+                : "";
+            // Chrome pauses muted offscreen/background video to save power.
+            // NotAllowedError is autoplay policy. Neither is a load failure.
+            if (name === "AbortError" || name === "NotAllowedError") return;
+            console.error("Error setting up video:", err);
+          });
         }
       } catch (err) {
         console.error("Error setting up video:", err);
