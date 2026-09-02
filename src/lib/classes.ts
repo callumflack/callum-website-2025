@@ -31,6 +31,7 @@ const customTwMerge = extendTailwindMerge({
         "minor",
         "submajor",
         "major",
+        "super",
         "w4",
         "w5",
         "w6",

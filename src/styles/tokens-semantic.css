@@ -77,8 +77,9 @@
   --spacing-gap: var(--spacing-w4);
   --spacing-small: var(--spacing-w6);
   --spacing-minor: var(--spacing-w10);
-  --spacing-submajor: var(--spacing-w20);
+  --spacing-submajor: var(--spacing-w16);
   --spacing-major: var(--spacing-w24);
+  --spacing-super: var(--spacing-w32);
 
   --spacing-w4: calc(10.5px + (5.5 * var(--fluid-step)));
   --spacing-w5: calc(12px + (8 * var(--fluid-step)));

@@ -26,12 +26,14 @@ export type MdxImageProps = Partial<ZoomableProps> &
   ImageProps & {
     caption?: React.ReactNode;
     aspect: AspectRatio;
+    breathe?: boolean;
   };
 
 export type ZoomableVideoProps = Omit<VideoProps, "className"> &
   Partial<Omit<MediaFigureProps, "children">> &
   Partial<MediaWrapperProps> & {
     caption?: React.ReactNode;
+    breathe?: boolean;
   };
 
 /**
@@ -56,7 +58,21 @@ function extractCaption(alt: string = "", explicitCaption?: React.ReactNode) {
   return { caption: undefined, cleanAlt: alt };
 }
 
-export const mdxMediaSpacing = "py-small first:pt-0 first:pb-gap";
+// export const mdxMediaSpacing = "py-small first:pt-0 first:pb-gap";
+export const mdxMediaSpacing = "py-minor first:pt-0 first:pb-gap";
+
+/** Rest width/rhythm for MDX Image/Video. Open/zoom size lives in zoomable-02. */
+export function mdxMediaClass(breathe?: boolean) {
+  return cn(
+    mdxMediaSpacing,
+    breathe
+      ? "py-submajor mx-auto md:w-[calc(var(--container-text)+2*var(--spacing-super))]"
+      : "md:w-text"
+  );
+}
+
+/** Keep caption on the text column while the frame is breathe-wide. */
+const breatheCaptionClass = "md:px-super";
 
 export function ZoomableImage(props: MdxImageProps) {
   const {
@@ -68,6 +84,7 @@ export function ZoomableImage(props: MdxImageProps) {
     border,
     background,
     rounded,
+    breathe,
   } = props;
 
   // console.log("ZoomableImage props:", props);
@@ -76,8 +93,12 @@ export function ZoomableImage(props: MdxImageProps) {
   const { width, height } = getImageDimensions(aspect);
 
   return (
-    <Zoomable02 className={mdxMediaSpacing} aspect={aspect}>
-      <MediaFigure caption={extractedCaption} isPortrait={isPortrait(aspect)}>
+    <Zoomable02 className={mdxMediaClass(breathe)} aspect={aspect}>
+      <MediaFigure
+        caption={extractedCaption}
+        captionClassName={breathe ? breatheCaptionClass : undefined}
+        isPortrait={isPortrait(aspect)}
+      >
         <NextImage
           src={src}
           alt={cleanAlt}
@@ -106,11 +127,16 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
     background,
     rounded,
     allowSound,
+    breathe,
     ...rest
   } = props;
 
   const video = (
-    <MediaFigure caption={caption} isPortrait={isPortrait(aspect)}>
+    <MediaFigure
+      caption={caption}
+      captionClassName={breathe ? breatheCaptionClass : undefined}
+      isPortrait={isPortrait(aspect)}
+    >
       <Video
         src={typeof src === "string" ? src : ""}
         poster={poster || ""}
@@ -127,11 +153,15 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
   // If we need zoom + sound later, change Zoomable's outer <button> to a
   // focusable div (role="button") instead of skipping zoom here.
   if (allowSound) {
-    return <div className={mdxMediaSpacing}>{video}</div>;
+    return (
+      <div className={mdxMediaClass(breathe)} data-component="Zoomable">
+        {video}
+      </div>
+    );
   }
 
   return (
-    <Zoomable02 className={mdxMediaSpacing} aspect={aspect}>
+    <Zoomable02 className={mdxMediaClass(breathe)} aspect={aspect}>
       {video}
     </Zoomable02>
   );
