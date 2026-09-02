@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
-import { Caption } from "./caption";
 import { cn } from "@/lib/classes";
+import { Caption } from "./caption";
 
 export const mediaFigureVariants = cva({
   base: [
@@ -56,8 +56,7 @@ export const mediaFigureVariants = cva({
 });
 
 export interface MediaFigureProps
-  extends ComponentProps<"figure">,
-    VariantProps<typeof mediaFigureVariants> {
+  extends ComponentProps<"figure">, VariantProps<typeof mediaFigureVariants> {
   caption?: React.ReactNode | string;
   captionClassName?: string;
   // captionIntent?: VariantProps<typeof mediaFigureVariants>["figureIntent"];

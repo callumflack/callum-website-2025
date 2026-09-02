@@ -4,16 +4,18 @@ import { SpeakerLoudIcon, SpeakerOffIcon } from "@radix-ui/react-icons";
 import type { SVGProps, VideoHTMLAttributes } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
-  getAspectRatioCSS,
   type AspectRatio,
+  getAspectRatioCSS,
 } from "@/components/media/media-utils";
-import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { MediaErrorBoundary } from "@/components/utils";
+import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { VideoLoader } from "./video-loader";
 // import { useIsMobileViewport } from "@/hooks/use-breakpoint";
 
-export interface VideoProps
-  extends Omit<VideoHTMLAttributes<HTMLVideoElement>, "onError"> {
+export interface VideoProps extends Omit<
+  VideoHTMLAttributes<HTMLVideoElement>,
+  "onError"
+> {
   src: string;
   poster: string;
   aspect: AspectRatio;
