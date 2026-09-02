@@ -15,7 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { focusVisibleOutlineStyle } from "@/components/atoms";
+import { focusVisibleOutlineStyle, Link } from "@/components/atoms";
 import { Video } from "@/components/media";
 import {
   getImageDimensions,
@@ -24,12 +24,18 @@ import {
 import { cn } from "@/lib/utils";
 import type { Asset } from "@/types/content";
 import { mdxMediaSpacing } from "./mdx-media";
+import { StoryPostMeta } from "./story-post-meta";
 
 export interface ProjectHeroCarouselSlide {
   asset: Asset;
+  href: string;
   id: string;
   title: string;
+  yearSpan: string;
 }
+
+// const RAIL_MEDIA_HEIGHT = "h-[clamp(160px,34vw,220px)]";
+const RAIL_MEDIA_HEIGHT = "h-[180px]";
 
 interface ProjectHeroCarouselClientProps {
   label: string;
@@ -224,6 +230,7 @@ export function ProjectHeroCarouselClient({
         aria-roledescription="carousel"
         className={cn(
           "ProjectHeroCarousel not-prose max-w-full min-w-0",
+          // "!max-w-[calc(var(--container-text)+var(--spacing-inset)*2)]",
           mdxMediaSpacing,
           "first:pb-small!"
         )}
@@ -231,48 +238,73 @@ export function ProjectHeroCarouselClient({
       >
         <div
           className={cn(
-            "relative w-full max-w-full overflow-hidden",
-            // clip edge marks
-            "before:bg-border before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-1 before:hidden before:w-px before:content-['']",
-            "after:bg-ring/50 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-1 after:hidden after:w-px after:content-['']",
-            // show the marks when the rail can scroll left or right
-            "data-[can-scroll-left=true]:before:block",
-            "data-[can-scroll-right=true]:after:block"
+            // extend margins
+            "lg:-mr-major"
           )}
-          data-can-scroll-left={railOverflow.left ? "true" : undefined}
-          data-can-scroll-right={railOverflow.right ? "true" : undefined}
         >
           <div
-            className="hide-scrollbar flex h-[clamp(11.25rem,34vw,15.625rem)] gap-2.5 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]"
-            ref={railRef}
+            className={cn(
+              "relative w-full max-w-full overflow-hidden",
+              // clip edge marks stay on the media row, not the captions
+              "before:bg-border before:pointer-events-none before:absolute before:top-0 before:left-0 before:z-1 before:hidden before:h-[clamp(160px,34vw,220px)] before:w-px before:content-['']",
+              "after:bg-ring/50 after:pointer-events-none after:absolute after:top-0 after:right-0 after:z-1 after:hidden after:h-[clamp(160px,34vw,220px)] after:w-px after:content-['']",
+              // show the marks when the rail can scroll left or right
+              "data-[can-scroll-left=true]:before:block",
+              "data-[can-scroll-right=true]:after:block"
+            )}
+            data-can-scroll-left={railOverflow.left ? "true" : undefined}
+            data-can-scroll-right={railOverflow.right ? "true" : undefined}
           >
-            {slides.map((slide, index) => {
-              const { width, height } = getImageDimensions(slide.asset.aspect);
+            <div
+              className="hide-scrollbar flex gap-2.5 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]"
+              ref={railRef}
+            >
+              {slides.map((slide, index) => {
+                const { width, height } = getImageDimensions(
+                  slide.asset.aspect
+                );
 
-              return (
-                <motion.button
-                  aria-label={`Open ${slide.title} ${index + 1} of ${count}`}
-                  className={cn(
-                    "group border-ring bg-background-hover sm:rounded-button relative h-full w-auto shrink-0 cursor-zoom-in overflow-hidden border",
-                    focusVisibleOutlineStyle
-                  )}
-                  key={slide.id}
-                  layoutId={
-                    reduceMotion ? undefined : `project-hero-${slide.id}`
-                  }
-                  onClick={(event) => openAt(index, event.currentTarget)}
-                  style={{ aspectRatio: `${width} / ${height}` }}
-                  transition={{ duration: 0.23, ease: [0.22, 1, 0.36, 1] }}
-                  type="button"
-                >
-                  <SlideMedia
-                    className="pointer-events-none object-cover"
-                    sizes="(min-width: 720px) 400px, 80vw"
-                    slide={slide}
-                  />
-                </motion.button>
-              );
-            })}
+                return (
+                  <div className="flex w-auto shrink-0 flex-col" key={slide.id}>
+                    <motion.button
+                      aria-label={`Open ${slide.title} ${index + 1} of ${count}`}
+                      className={cn(
+                        "group border-ring bg-background-hover sm:rounded-button relative w-auto cursor-zoom-in overflow-hidden border",
+                        RAIL_MEDIA_HEIGHT,
+                        focusVisibleOutlineStyle
+                      )}
+                      layoutId={
+                        reduceMotion ? undefined : `project-hero-${slide.id}`
+                      }
+                      onClick={(event) => openAt(index, event.currentTarget)}
+                      style={{ aspectRatio: `${width} / ${height}` }}
+                      transition={{ duration: 0.23, ease: [0.22, 1, 0.36, 1] }}
+                      type="button"
+                    >
+                      <SlideMedia
+                        className="pointer-events-none object-cover"
+                        sizes="(min-width: 720px) 400px, 80vw"
+                        slide={slide}
+                      />
+                    </motion.button>
+                    <Link
+                      className={cn(
+                        "rounded-button block min-w-0",
+                        "text-fill! hover:text-fill! focus-visible:text-fill! no-underline!",
+                        focusVisibleOutlineStyle
+                      )}
+                      href={slide.href}
+                    >
+                      <StoryPostMeta
+                        className="pt-2.5"
+                        title={slide.title}
+                        yearSpan={slide.yearSpan}
+                      />
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
