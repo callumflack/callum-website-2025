@@ -22,18 +22,15 @@
 :root {
   /* GRAY */
   /* backgrounds */
+  --color-zero: white;
   /* --color-gray-base: var(--gray-1); */
-  /* --color-gray-base: #fdfdfd; */
-  --color-gray-base: #fafafa;
+  --color-gray-base: #fafafa; /* Apple */
   --color-gray-bg-subtle: var(--gray-2);
-  --color-gray-bg: #fafafa; /* Apple */
   --color-gray-bg-hover: #f4f4f4;
   --color-gray-bg-active: #f2f2f0; /* Apple */
-  --color-canvas-contrast: #f0f8ff;
-  --color-canvas-contrast: #f9f4ec;
 
   /* borders, lines & focus rings */
-  --color-gray-border: var(--gray-4); /* 7 is too dark */
+  --color-gray-border: var(--gray-4);
   --color-gray-line: var(--gray-4);
   --color-gray-ring: var(--gray-5);
   --color-gray-border-hover: var(--gray-7);
@@ -65,6 +62,7 @@
   Slightly different dark base.
  */
 .dark {
+  --color-zero: black;
   --color-gray-base: var(--gray-1);
   --color-gray-bg-subtle: var(--gray-2);
   --color-gray-bg: var(--gray-3);

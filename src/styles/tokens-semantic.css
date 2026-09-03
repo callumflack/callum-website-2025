@@ -122,12 +122,12 @@
 
   /* colors */
   --color-*: initial;
+  --color-zero: var(--color-zero);
   --color-canvas: var(--color-gray-base);
-  --color-canvas-contrast: var(--color-canvas-contrast);
-  --color-panel: var(--color-canvas-contrast);
   --color-background: var(--color-gray-bg-hover);
   --color-background-hover: var(--color-gray-bg-active);
   --color-background-active: var(--color-gray-bg-active);
+
   --color-thumbnail-background: color-mix(
     in oklab,
     var(--color-gray-bg-hover) 80%,
@@ -138,6 +138,7 @@
   --color-ring: var(--color-gray-ring);
   --color-border-hover: var(--color-gray-border-hover);
   --color-solid-light: var(--color-gray-solid-light);
+
   --color-solid: var(--color-gray-solid);
   --color-solid-hover: var(--color-gray-solid-hover);
   --color-fill-light: var(--color-gray-fill);
