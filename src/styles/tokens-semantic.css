@@ -41,8 +41,8 @@
   --text-pill: calc(11px + (1 * var(--fluid-step)));
   --text-meta: calc(12px + (2 * var(--fluid-step)));
   --text-small: calc(15px + (2 * var(--fluid-step)));
-  --text-body: calc(16px + (3 * var(--fluid-step)));
-  --text-heading: calc(17px + (3 * var(--fluid-step)));
+  --text-body: calc(16px + (2 * var(--fluid-step)));
+  --text-heading: calc(17px + (2 * var(--fluid-step)));
   --text-title: calc(19px + (6 * var(--fluid-step)));
 
   --text-pill--line-height: 1;
