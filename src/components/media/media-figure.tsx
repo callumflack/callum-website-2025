@@ -22,12 +22,20 @@ export const mediaFigureVariants = cva({
         // lg:w-hero
       ],
     },
+    /*
+     * Portrait is a ceiling. Tighter of height×aspect vs width×aspect wins.
+     *
+     * Change height → max-h on this variant.
+     * Change width → max-w on the matching compound (inGrid / inMdxDialog /
+     * superOutset).
+     * fill-available: leave it; only does work if the parent has a height.
+     * Landscape: last compound, w-full, no height cap — don't put max-h on base.
+     */
     isPortrait: {
-      // these styles allow control when images are within dialogs
       true: [
         "isPortrait flex flex-col justify-center",
         "[&_img]:mx-auto [&_video]:mx-auto",
-        "[&_img]:max-h-[70vh] [&_video]:max-h-[70vh]",
+        "[&_img]:max-h-[62.5vh] [&_video]:max-h-[62.5vh]",
         "[&_img]:h-[-webkit-fill-available] [&_video]:h-[-webkit-fill-available]",
       ],
     },
@@ -41,6 +49,7 @@ export const mediaFigureVariants = cva({
     {
       isPortrait: true,
       figureIntent: "inMdxDialog",
+      // dialog portrait width
       className: "[&_img]:max-w-[280px] [&_video]:max-w-[280px]",
     },
     {

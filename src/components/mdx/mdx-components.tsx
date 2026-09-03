@@ -14,6 +14,7 @@ import {
 } from "@/components/page";
 import config from "@/config";
 import { cn } from "@/lib/utils";
+import type { CategoryType } from "@/types/content";
 import { CodeCopyButton } from "./code-copy-button";
 import {
   type MdxImageProps,
@@ -144,6 +145,21 @@ export const components = {
     </div>
   ),
 };
+
+export function getMdxComponents(category?: CategoryType) {
+  return {
+    ...components,
+    Image: (props: MdxImageProps) => (
+      <ZoomableImage {...props} category={category} />
+    ),
+    Video: (props: ZoomableVideoProps) => (
+      <ZoomableVideo {...props} category={category} />
+    ),
+    img: (props: MdxImageProps) => (
+      <ZoomableImage {...props} category={category} />
+    ),
+  };
+}
 
 function Pre({ children, className, wrap = false, ...props }: PreProps) {
   return (

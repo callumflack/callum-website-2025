@@ -1,10 +1,17 @@
-import { buttonVariants, Link, Text } from "@/components/atoms";
+import type { Post } from "content-collections";
+import Image from "next/image";
+import type { ReactNode } from "react";
+import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { Mdx } from "@/components/mdx";
 import config from "@/config";
-import { formatPostDate, formatPostMonthYear, formatYear } from "@/lib/utils";
-import type { Post } from "content-collections";
+import {
+  cn,
+  formatPostDate,
+  formatPostMonthYear,
+  formatYear,
+} from "@/lib/utils";
 
 type Props = {
   post: Post;
@@ -17,16 +24,92 @@ type PostMetaProps = Props & {
 
 const categoryMeta = (category: Post["category"]) =>
   ({
-    projects: { href: "/work", label: "Projects" },
+    projects: { href: "/work", label: "Project" },
     writing: { href: "/writing", label: "Writing" },
     notes: { href: "/writing?sort=notes", label: "Notes" },
     shelf: { href: "/writing?sort=shelf", label: "Shelf" },
     page: null,
   })[category];
 
+type CategoryMeta = NonNullable<ReturnType<typeof categoryMeta>>;
+
+function PostMetaNav({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Text
+      as="div"
+      intent="pill"
+      dim
+      className={cn("flex items-center gap-2.5", className)}
+    >
+      {children}
+    </Text>
+  );
+}
+
+function MetaSep() {
+  return (
+    <span aria-hidden className="select-none">
+      •
+    </span>
+  );
+}
+
+function MetaLink({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn("hover:text-fill no-underline!", className)}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function MetaHome() {
+  return (
+    <>
+      <MetaLink href="/" className="inline-flex items-center gap-2.25">
+        <Image
+          src="/images/callum-flack.jpg"
+          alt=""
+          width={18}
+          height={18}
+          sizes="18px"
+          className="bg-background-hover shrink-0 translate-y-[-0.1em] rounded-full"
+        />
+        Callum
+      </MetaLink>
+      <MetaSep />
+    </>
+  );
+}
+
+function MetaCategory({ category }: { category: CategoryMeta }) {
+  return (
+    <>
+      <MetaLink href={category.href}>{category.label}</MetaLink>
+      <MetaSep />
+    </>
+  );
+}
+
 export const PostPage = ({ post, theme }: Props) => {
-  // console.log(post);
   const isPage = post.type === "page";
+  const category = categoryMeta(post.category);
 
   return (
     <>
@@ -37,40 +120,18 @@ export const PostPage = ({ post, theme }: Props) => {
               {post.title}
             </Link>
           </Text>
-
-          {theme === "post" && (
-            <div className="flex items-center gap-2">
-              <PostMeta post={post} theme={theme} />
-              {/* <hr className="hr-vertical border-border-hover h-[12px]" /> */}
-              {/* <PostTags tags={post.tags} /> */}
-            </div>
-          )}
+          {theme === "post" ? <PostMeta post={post} theme={theme} /> : null}
         </TitleHeader>
       )}
 
-      <Mdx code={post.content}>
-        {theme === "post" && post.tags && (
-          <div className="pt-w4 flex items-center gap-1">
-            {categoryMeta(post.category) && (
-              <Text
-                as="div"
-                intent="pill"
-                dim
-                className="flex items-center gap-2.5 pr-1.5"
-              >
-                <Link
-                  href={categoryMeta(post.category)!.href}
-                  className="hover:text-fill no-underline!"
-                >
-                  {categoryMeta(post.category)!.label}
-                </Link>
-                <hr className="hr-vertical border-border-hover h-[12px] border-l!" />
-              </Text>
-            )}
+      <Mdx category={post.category} code={post.content}>
+        {theme === "post" && post.tags ? (
+          <PostMetaNav className="pt-minor">
+            {category ? <MetaCategory category={category} /> : null}
             <PostTags tags={post.tags} />
-          </div>
-        )}
-        {theme === "feed" && <PostMeta post={post} theme={theme} />}
+          </PostMetaNav>
+        ) : null}
+        {theme === "feed" ? <PostMeta post={post} theme={theme} /> : null}
       </Mdx>
     </>
   );
@@ -102,8 +163,10 @@ export const PostMeta = ({
       ? monthYear
       : dateFormat === "lastUpdatedMonthYear"
         ? `Last updated ${lastEditedMonthYear ?? monthYear}`
-        : post.category === "writing" || post.category === "notes"
-          ? date
+        : post.category === "writing" ||
+            post.category === "notes" ||
+            post.category === "shelf"
+          ? monthYear
           : post.lastEditedDate
             ? `Last edited ${lastEditedDate}`
             : theme === "feed"
@@ -113,79 +176,50 @@ export const PostMeta = ({
   const category = categoryMeta(post.category);
 
   return (
-    <Text as="div" intent="pill" dim className="flex items-center gap-2.5">
-      <>
-        {/* Category */}
-        {category && (
+    <PostMetaNav>
+      <MetaHome />
+      {category ? <MetaCategory category={category} /> : null}
+      <span>
+        {post.projectIsOngoing ? <span>Since&nbsp;</span> : null}
+
+        {post.category === "page" ? (
+          dateContent
+        ) : (
+          <MetaLink href={`${categoryLink}?sort=year#${year}`}>
+            {dateContent}
+          </MetaLink>
+        )}
+
+        {endYear ? (
           <>
-            <Link href={category.href} className="hover:text-fill no-underline">
-              {category.label}
-            </Link>
-            <hr className="hr-vertical border-border-hover h-[12px]" />
+            &ndash;
+            <MetaLink href={`${categoryLink}?sort=year#${endYear}`}>
+              {endYear}
+            </MetaLink>
           </>
-        )}
-
-        {/* Date */}
-        <span>
-          {/* Ongoing */}
-          {post.projectIsOngoing && <span>Since&nbsp;</span>}
-
-          {post.category === "page" ? (
-            dateContent
-          ) : (
-            <Link href={`${categoryLink}?sort=year#${year}`}>
-              {dateContent}
-            </Link>
-          )}
-
-          {/* End date, e.g. for a project */}
-          {endYear ? (
-            <>
-              &ndash;
-              <Link href={`${categoryLink}?sort=year#${endYear}`}>
-                {endYear}
-              </Link>
-            </>
-          ) : null}
-        </span>
-
-        {/* Reading time */}
-        <>
-          <hr className="hr-vertical border-border-hover h-[12px]" />
-          {readingMinutes} min
-          {readingMinutes !== 1 ? "s" : ""}
-        </>
-
-        {/* Feed share */}
-        {theme === "feed" && (
-          <ShareButtonWrapper
-            url={`${config.PUBLIC_URL}/${post.slug}`}
-            theme={theme}
-          />
-        )}
-      </>
-    </Text>
+        ) : null}
+      </span>
+      <MetaSep />
+      {readingMinutes} min
+      {readingMinutes !== 1 ? "s" : ""}
+      {theme === "feed" ? (
+        <ShareButtonWrapper
+          url={`${config.PUBLIC_URL}/${post.slug}`}
+          theme={theme}
+        />
+      ) : null}
+    </PostMetaNav>
   );
 };
 
 export const PostTags = ({ tags }: { tags: string[] | undefined }) => {
   if (!tags) return null;
 
-  return (
-    <div className="flex items-center gap-1">
-      {tags
-        .filter((tag) => tag !== "featured")
-        .map((tag) => (
-          <Link
-            key={tag}
-            href={`/topic/${tag}`}
-            className={buttonVariants({
-              variant: "pillLink",
-            })}
-          >
-            <span>{tag}</span>
-          </Link>
-        ))}
-    </div>
-  );
+  return tags
+    .filter((tag) => tag !== "featured")
+    .map((tag) => (
+      <MetaLink key={tag} href={`/topic/${tag}`}>
+        {tag}
+      </MetaLink>
+    ));
 };

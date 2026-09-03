@@ -19,6 +19,7 @@ import {
   type ZoomableProps,
 } from "@/components/media/zoomable-02";
 import { cn } from "@/lib/utils";
+import type { CategoryType } from "@/types/content";
 
 export type MdxImageProps = Partial<ZoomableProps> &
   Partial<Omit<MediaFigureProps, "children">> &
@@ -27,6 +28,7 @@ export type MdxImageProps = Partial<ZoomableProps> &
     caption?: React.ReactNode;
     aspect: AspectRatio;
     breathe?: boolean;
+    category?: CategoryType;
   };
 
 export type ZoomableVideoProps = Omit<VideoProps, "className"> &
@@ -34,6 +36,7 @@ export type ZoomableVideoProps = Omit<VideoProps, "className"> &
   Partial<MediaWrapperProps> & {
     caption?: React.ReactNode;
     breathe?: boolean;
+    category?: CategoryType;
   };
 
 /**
@@ -58,13 +61,17 @@ function extractCaption(alt: string = "", explicitCaption?: React.ReactNode) {
   return { caption: undefined, cleanAlt: alt };
 }
 
-// export const mdxMediaSpacing = "py-small first:pt-0 first:pb-gap";
-export const mdxMediaSpacing = "py-minor first:pt-0 first:pb-gap";
+export const mdxMediaSpacing = "py-submajor first:pt-0 first:pb-gap";
+const mdxMediaSpacingWriting = "py-small first:pt-0 first:pb-gap";
+
+function mediaSpacing(category?: CategoryType) {
+  return category === "writing" ? mdxMediaSpacingWriting : mdxMediaSpacing;
+}
 
 /** Rest width/rhythm for MDX Image/Video. Open/zoom size lives in zoomable-02. */
-export function mdxMediaClass(breathe?: boolean) {
+export function mdxMediaClass(breathe?: boolean, category?: CategoryType) {
   return cn(
-    mdxMediaSpacing,
+    mediaSpacing(category),
     breathe
       ? "py-submajor mx-auto md:w-[calc(var(--container-text)+2*var(--spacing-super))]"
       : "md:w-text"
@@ -85,6 +92,7 @@ export function ZoomableImage(props: MdxImageProps) {
     background,
     rounded,
     breathe,
+    category,
   } = props;
 
   // console.log("ZoomableImage props:", props);
@@ -93,7 +101,7 @@ export function ZoomableImage(props: MdxImageProps) {
   const { width, height } = getImageDimensions(aspect);
 
   return (
-    <Zoomable02 className={mdxMediaClass(breathe)} aspect={aspect}>
+    <Zoomable02 className={mdxMediaClass(breathe, category)} aspect={aspect}>
       <MediaFigure
         caption={extractedCaption}
         captionClassName={breathe ? breatheCaptionClass : undefined}
@@ -128,6 +136,7 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
     rounded,
     allowSound,
     breathe,
+    category,
     ...rest
   } = props;
 
@@ -154,14 +163,17 @@ export function ZoomableVideo(props: ZoomableVideoProps) {
   // focusable div (role="button") instead of skipping zoom here.
   if (allowSound) {
     return (
-      <div className={mdxMediaClass(breathe)} data-component="Zoomable">
+      <div
+        className={mdxMediaClass(breathe, category)}
+        data-component="Zoomable"
+      >
         {video}
       </div>
     );
   }
 
   return (
-    <Zoomable02 className={mdxMediaClass(breathe)} aspect={aspect}>
+    <Zoomable02 className={mdxMediaClass(breathe, category)} aspect={aspect}>
       {video}
     </Zoomable02>
   );
