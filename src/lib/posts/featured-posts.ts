@@ -1,23 +1,23 @@
 /*
- * Editor-curated slug lists for the site's featured surfaces.
+ * Editor-curated slug lists. Order = render order.
  *
- * These drive both the HOME page sections and the "Selected" sort option on
- * index pages (work, writing, gallery). Order in each array = render order.
+ *   featuredWorkSlugs    → work Reel (default tab) and work/gallery Selected
+ *                          via sortSelectedPosts(). Selected then appends any
+ *                          extra projects tagged `featured`.
+ *   featuredWritingSlugs → writing Selected via sortSelectedPosts(), same
+ *                          featured-tag tail.
  *
- * Home surfaces:
- *   featuredWorkSlugs    → "Selected Work" carousel (ZoomCarousel).
- *   featuredWritingSlugs → "Selected Writing" blocks.
- *   featuredNotesSlugs   → Grid-mode only (GRID_TOGGLE_ENABLED feature flag).
- *   homeLatest           → "Latest" section: pin + exclude + row limit.
- *
- * Gallery/work/writing reuse: featuredWorkSlugs and featuredWritingSlugs are
- * also read by sortSelectedPosts() for the "Selected" sort mode — that's why
- * they live here and not in a home-only module.
+ * Do not import this module into MDX: Content Collections would snapshot the
+ * arrays at compile time. Live home (`posts/pages/home.mdx`) inlines its own
+ * ZoomCarousel / StoryPostList slugs — keep those arrays in sync by hand.
+ * Work currently matches; writing home omits ways-of-seeing-generative-ai.
  */
 
 export const featuredWorkSlugs = [
+  "vana-2025",
   "kalaurie",
   "the-library-of-economic-possibility",
+  "open-data-labs",
   "vana",
   "replier",
   "studio-round",
@@ -27,31 +27,10 @@ export const featuredWorkSlugs = [
 ];
 
 export const featuredWritingSlugs = [
-  // "organising-design-system-styles",
   "you-cant-design-a-ui-without-designing-the-code",
   "the-instantaneous-language-of-beauty",
   "the-matter-of-taste",
   "ways-of-seeing-generative-ai",
   "creativity-starts-with-love-and-theft",
+  "answerable-vocabulary-for-llm-work",
 ];
-
-export const featuredNotesSlugs = [
-  "notes-on-coding-with-llms",
-  "notes-on-deciphering-sun-tzu",
-];
-
-/*
- * Home "Latest" section configuration.
- *
- * The section is labelled chronological but editor-pinnable. `pinned` slugs
- * are forced to the top in array order, then the remaining feed fills in by
- * date desc, capped to `limit`.
- *
- * `exclude` removes slugs that exist as posts but are not part of the dated
- * writing feed (personal pages, pitch pages, etc).
- */
-export const homeLatest = {
-  pinned: ["you-cant-design-a-ui-without-designing-the-code"],
-  exclude: ["the-work-and-team-im-after", "about", "letters"],
-  limit: 5,
-} as const;

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
-import { getPostsByTopic, getPublishedPosts } from "@/lib/posts/actions";
+import {
+  getPostsByTopic,
+  getPublishedPosts,
+  toPostListItem,
+} from "@/lib/posts/actions";
 import { ListHeading } from "./list-heading";
 
 export function generateStaticParams() {
@@ -23,7 +26,7 @@ export default async function TopicPage({
   params: Promise<{ topic: string }>;
 }) {
   const { topic } = await params;
-  const posts = getPostsByTopic(topic);
+  const posts = getPostsByTopic(topic).map(toPostListItem);
 
   if (posts.length === 0) {
     notFound();
@@ -41,13 +44,11 @@ export default async function TopicPage({
             <span className="capitalize">{topic}</span>
           </Text>
         </TitleHeader>
-        <Suspense fallback={null}>
-          <FullOrIndexPosts
-            posts={posts}
-            topic={topic}
-            listHeaderNode={<ListHeading title={topic} />}
-          />
-        </Suspense>
+        <FullOrIndexPosts
+          posts={posts}
+          topic={topic}
+          listHeaderNode={<ListHeading title={topic} />}
+        />
       </PageInner>
     </PageWrapper>
   );

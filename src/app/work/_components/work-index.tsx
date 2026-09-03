@@ -1,11 +1,11 @@
-import { getWorkMode, type WorkSearchParams } from "./work-mode";
+import { DEFAULT_WORK_MODE, getWorkMode, type WorkSearchParams } from "./work-mode";
 import { WorkPostsView } from "./work-posts-view";
 import { WorkTabs } from "./work-tabs";
 
 export function WorkIndexFallback() {
   return (
     <main data-component="WorkIndex">
-      <WorkTabs />
+      <WorkTabs activeMode={DEFAULT_WORK_MODE} />
     </main>
   );
 }

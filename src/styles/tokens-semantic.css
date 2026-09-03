@@ -40,18 +40,23 @@
   --text-fine: calc(9.5px + (1 * var(--fluid-step)));
   --text-pill: calc(11px + (1 * var(--fluid-step)));
   --text-meta: calc(12px + (2 * var(--fluid-step)));
-  --text-body: calc(15px + (2 * var(--fluid-step)));
-  --text-heading: calc(17px + (3 * var(--fluid-step)));
+  --text-small: calc(15px + (2 * var(--fluid-step)));
+  --text-body: calc(16px + (2 * var(--fluid-step)));
+  --text-heading: calc(17px + (2 * var(--fluid-step)));
   --text-title: calc(19px + (6 * var(--fluid-step)));
 
   --text-pill--line-height: 1;
   --text-meta--line-height: 1.45;
+  --text-small--line-height: 1.45;
   --text-body--line-height: 1.45;
   --text-heading--line-height: 1.25;
   --text-title--line-height: 1.1;
 
-  --text-pill--letter-spacing: 0.03em;
   --text-fine--letter-spacing: 0.0175em;
+  --text-pill--letter-spacing: 0.03em;
+  --text-meta--letter-spacing: 0;
+  --text-small--letter-spacing: 0;
+  --text-body--letter-spacing: -0.01em;
   --text-heading--letter-spacing: -0.01em;
   --text-title--letter-spacing: -0.02em;
 
@@ -59,7 +64,7 @@
   --text-title--font-weight: 500;
 
   /* container: hooks into @container/cqw container-query machinery. Intent: content widths (prose, hero, read). */
-  --container-text: 660px; /* ~70ch @18px = 720 */
+  --container-text: 680px; /* ~70ch @18px = 720 */
   --container-hero: 1040px;
   --container-text-inset: calc(
     var(--container-text) + (var(--spacing-inset) * 2)
@@ -77,8 +82,9 @@
   --spacing-gap: var(--spacing-w4);
   --spacing-small: var(--spacing-w6);
   --spacing-minor: var(--spacing-w10);
-  --spacing-submajor: var(--spacing-w20);
+  --spacing-submajor: var(--spacing-w16);
   --spacing-major: var(--spacing-w24);
+  --spacing-super: var(--spacing-w32);
 
   --spacing-w4: calc(10.5px + (5.5 * var(--fluid-step)));
   --spacing-w5: calc(12px + (8 * var(--fluid-step)));
@@ -116,12 +122,12 @@
 
   /* colors */
   --color-*: initial;
+  --color-zero: var(--color-zero);
   --color-canvas: var(--color-gray-base);
-  --color-canvas-contrast: var(--color-canvas-contrast);
-  --color-panel: var(--color-canvas-contrast);
   --color-background: var(--color-gray-bg-hover);
   --color-background-hover: var(--color-gray-bg-active);
   --color-background-active: var(--color-gray-bg-active);
+
   --color-thumbnail-background: color-mix(
     in oklab,
     var(--color-gray-bg-hover) 80%,
@@ -132,6 +138,7 @@
   --color-ring: var(--color-gray-ring);
   --color-border-hover: var(--color-gray-border-hover);
   --color-solid-light: var(--color-gray-solid-light);
+
   --color-solid: var(--color-gray-solid);
   --color-solid-hover: var(--color-gray-solid-hover);
   --color-fill-light: var(--color-gray-fill);

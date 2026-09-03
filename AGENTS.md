@@ -20,6 +20,7 @@ Read the live file before inventing a parallel type, token, route, or media comp
 - Slug is the filename. Folders are not URL segments. Reserved slug `home`. About, letters, and now are `[slug]` posts, not route files.
 - `_*.mdx` and `_archive/` never enter the collection. `draft: true` stays in `allPosts`, hidden in prod.
 - Frontmatter `assets` are thumbs, OG, and story slides. Article media is MDX `<Image>` / `<Video>`. Aspect is pixel `"1728-1080"`, not `"16-9"`. No markdown images.
+- Upload new video files to Bunny Storage with `bun media:upload <local-file> [--to <remote-path>]`. Configuration lives in ignored `.env.local`; never print or commit `BUNNY_STORAGE_API_KEY`. The command refuses existing remote paths unless explicitly given `--force`, verifies Bunny's stored checksum and size, and checks CDN delivery. Prefer immutable video filenames. This uploader is for video only; keep image assets on the existing image workflow.
 - `thumbnailLink` makes a link-out card. `type: link` does not.
 - List UIs take `PostListItem` via `toPostListItem`. Do not pass compiled `Post.content` to client lists.
 - Home is `src/app/page.tsx` + `posts/pages/home.mdx`. Ignore `src/app/(home)/home-page.tsx`. Do not add `src/app/(home)/page.tsx`. Do not copy old homes into `src/`.
@@ -52,6 +53,7 @@ Open the live file. Dated docs next to it are intent only. Confirm before follow
 - Tokens / `cn`: `src/styles/tokens-semantic.css`, `src/lib/classes.ts`
 - Type roles: `src/components/atoms/text.tsx` (intent snapshot: `docs/typography.md`)
 - MDX: `src/components/mdx/mdx.css`, `mdx-components.tsx`, `mdx-media.tsx`
+- Video upload: `scripts/upload-media.mjs`; run `bun media:upload <local-file>`. Add `--poster <public-path> --aspect <width-height>` together when a paste-ready `<Video>` snippet is useful.
 - Flex / sticky bugs: `src/styles/_CSS-GOTCHAS.md`
 - Cache Components: `.agents/skills/next-cache-components/SKILL.md`
 - Next conventions: `.agents/skills/next-best-practices/SKILL.md`

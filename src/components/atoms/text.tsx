@@ -13,6 +13,7 @@ export const textVariants = cva({
       pillMeta: ["text-pillMeta font-mono uppercase"],
       fine: "text-fine subpixel-antialiased",
       meta: "text-meta",
+      small: "text-small",
       body: "text-body",
       heading: "text-heading",
       title: "text-title",

@@ -12,8 +12,8 @@ import {
 } from "@/components/media/media-utils";
 import { mediaWrapperVariants } from "@/components/media/media-wrapper";
 import { cn, formatYear } from "@/lib/utils";
+import { type GalleryItem, getGalleryItems } from "./gallery-projects";
 import { GalleryVideo } from "./gallery-video";
-import { getGalleryItems, type GalleryItem } from "./gallery-projects";
 
 type GalleryGridItem = {
   expanded: boolean;
@@ -139,7 +139,9 @@ function GalleryTile({
             preload="none"
             src={asset.src}
             style={{ aspectRatio: getAspectRatioCSS(asset.aspect) }}
-          />
+          >
+            <track kind="captions" label="English" src="data:text/vtt,WEBVTT" srcLang="en" />
+          </video>
         )
       ) : (
         <Image

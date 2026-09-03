@@ -136,6 +136,12 @@
 .Prose > [data-component="Zoomable"] + [data-component="SectionHeader"] {
   @apply mt-w6; /* purposefully not --spacing-minor */
 }
+/* .Prose p + [data-component="Zoomable"] {
+  @apply pt-[calc(var(--spacing-submajor)-(--spacing(4)))];
+} */
+.Prose > p:has(+ [data-component="Zoomable"]) {
+  margin-block-end: 0;
+}
 
 /* MEDIA OVERRIDES */
 .Prose button:first-child > .MediaFigure {

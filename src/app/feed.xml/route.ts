@@ -1,7 +1,6 @@
 import { Feed } from "feed";
 import { cacheLife } from "next/cache";
 import config from "@/config";
-import { isVideoFile } from "@/components/media/media-utils";
 import { getPublishedPosts } from "@/lib/posts/actions";
 
 async function buildFeedXml(): Promise<string> {
@@ -31,9 +30,7 @@ async function buildFeedXml(): Promise<string> {
       date: new Date(post.date),
       description: post.summary,
       image: post.assets?.[0]?.src
-        ? isVideoFile(post.assets[0].src)
-          ? post.assets[0].src
-          : `${config.PUBLIC_URL}${post.assets[0].src}`
+        ? new URL(post.assets[0].src, config.PUBLIC_URL).toString()
         : "",
       author: [{ name: "Callum Flack" }],
     });

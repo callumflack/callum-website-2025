@@ -1,16 +1,22 @@
 "use client";
 
 /**
- * Zoomable - Simple inline zoom component
+ * Zoomable — inline zoom. Grid centers; width stays in flow.
  *
- * Width changes preserve inline flow while CSS Grid keeps expanded content centered.
+ * Rest width is NOT owned here. MDX passes it via className (`mdxMediaClass`):
+ * default `md:w-text`, breathe `text + 2×super`. Do not put `md:w-text` back
+ * on this wrapper — breathe cannot win against it.
  *
- * The server and the client's first render must produce identical markup, so
- * nothing here reads the viewport during render: responsive width lives in
- * CSS (`md:`), and mobile zoom-disabling is checked at click time.
+ * Open width IS owned here: `scaleAmount × --container-text`, capped to the
+ * content well. Never `100% * scaleAmount` or `70vw` — those follow rest
+ * width / sit below 2×text on normal screens, so breathe barely moves.
+ * Set it as an inline style on this wrapper so it beats the rest class.
+ *
+ * SSR: no viewport reads during render. `md:` for rest; mobile disable at click.
  */
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { centerInViewport } from "@/lib/center-in-viewport";
 import { cn } from "@/lib/utils";
 
@@ -40,8 +46,7 @@ export function Zoomable({
   };
   const [isZoomed, setIsZoomed] = useState(false);
 
-  // Controls the ZOOMED (open) state max width as fraction of viewport (0.7 = 70vw)
-  const zoomedMaxVw = 0.7;
+  const zoomedWidth = `min(calc(var(--container-text) * ${scaleAmount}), calc(100vw - 2 * var(--spacing-inset)))`;
 
   // Parse aspect ratio to detect portrait/square (no zoom for these)
   const aspectRatio = aspect
@@ -111,9 +116,7 @@ export function Zoomable({
   );
 
   const contentStyle = {
-    width: isZoomed
-      ? `min(calc(100% * ${scaleAmount}), ${zoomedMaxVw * 100}vw)`
-      : "100%",
+    width: "100%",
     transition: `all ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
     position: "relative" as const,
     zIndex: isZoomed ? 49 : 1,
@@ -123,13 +126,15 @@ export function Zoomable({
     <div
       // NB! We rely on an exact sentence case for CSS styling in mdx-prose
       data-component="Zoomable"
-      className={cn("md:w-text w-full", className)}
+      className={cn("w-full", className)}
       style={{
         display: "grid",
         justifyItems: "center",
         position: "relative",
         margin: "0 auto",
-        overflow: "visible", // Allow content to overflow
+        overflow: "visible",
+        width: isZoomed ? zoomedWidth : undefined,
+        transition: `width ${transitionDuration}s cubic-bezier(0.4, 0, 0.2, 1)`,
       }}
     >
       {isZoomable ? (

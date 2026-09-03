@@ -16,7 +16,7 @@ export default function WorkPage({
       <PageInner variant="indexSticky">
         <TitleHeader>
           <Text as="h1" intent="title">
-            Projects
+            Work
           </Text>
           {/* <Text as="h1" intent="title">
             Designing since 1998. Coding since 2010.
@@ -41,6 +41,7 @@ export default function WorkPage({
 
 export const instant = {
   unstable_samples: [
+    { searchParams: {} },
     { searchParams: { sort: "projects" } },
     { searchParams: { sort: "year" } },
   ],

@@ -1,7 +1,7 @@
-import { cn } from "@/lib/classes";
 import { cva, type VariantProps } from "cva";
 import type { ComponentProps } from "react";
-import { getAspectRatioCSS, type AspectRatio } from "./media-utils";
+import { cn } from "@/lib/classes";
+import { type AspectRatio, getAspectRatioCSS } from "./media-utils";
 
 export const mediaWrapperVariants = cva({
   base: [
@@ -32,8 +32,7 @@ export const mediaWrapperVariants = cva({
 });
 
 export interface MediaWrapperProps
-  extends ComponentProps<"div">,
-    VariantProps<typeof mediaWrapperVariants> {
+  extends ComponentProps<"div">, VariantProps<typeof mediaWrapperVariants> {
   aspect: AspectRatio;
 }
 

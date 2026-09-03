@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "media:upload": "bun scripts/upload-media.mjs",
     "create-post": "npx tsx ./create-post.ts",
     "organize-posts": "node scripts/organize-posts.mjs",
     "check-posts": "node scripts/check-post-structure.mjs",

@@ -13,12 +13,30 @@ const categoryMap: Record<ListCategory, Category> = {
 };
 
 /*
+ * Content Collections watch can emit the same file twice after a rename
+ * (same `_id` / slug, stale title). Indexes map the full array, so a ghost
+ * row shows up. Keep the first occurrence.
+ */
+function uniqueById(posts: readonly Post[]): Post[] {
+  const seen = new Set<string>();
+  const unique: Post[] = [];
+  for (const post of posts) {
+    if (seen.has(post._id)) continue;
+    seen.add(post._id);
+    unique.push(post);
+  }
+  return unique;
+}
+
+const uniquePosts = uniqueById(allPosts);
+
+/*
  * The single draft gate for route surfaces (pages, sitemap, feed, posts.json).
  * `draft: true` posts stay fully out of production; in development they still
  * render at their URL for preview.
  */
 export function getPublishedPosts(): Post[] {
-  return allPosts.filter((post) => !post.draft);
+  return uniquePosts.filter((post) => !post.draft);
 }
 
 export function isPubliclyVisible(post: Post): boolean {
@@ -49,31 +67,31 @@ export function toPostListItem(post: Post): PostListItem {
 }
 
 export function getShelfPosts(): PostListItem[] {
-  return allPosts
+  return uniquePosts
     .filter((p) => !p.draft && p.category === Category.SHELF)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map(toPostListItem);
 }
 
 export function getPosts(category: ListCategory): Post[] {
-  return allPosts.filter(
+  return uniquePosts.filter(
     (p) => !p.draft && p.category === categoryMap[category]
   );
 }
 
 export function getAllPosts(): ListPostsData {
   return {
-    projects: allPosts.filter(
+    projects: uniquePosts.filter(
       (p) => !p.draft && p.category === categoryMap.projects
     ),
-    writing: allPosts.filter(
+    writing: uniquePosts.filter(
       (p) => !p.draft && p.category === categoryMap.writing
     ),
   };
 }
 
 export function getWritingIndexPosts(): WritingIndexPostsData {
-  const publishedPosts = allPosts.filter((post) => !post.draft);
+  const publishedPosts = uniquePosts.filter((post) => !post.draft);
   const newestFirst = (posts: Post[]) =>
     [...posts].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -93,7 +111,7 @@ export function getWritingIndexPosts(): WritingIndexPostsData {
 }
 
 export function getAllPostsChronological(): Post[] {
-  return allPosts
+  return uniquePosts
     .filter(
       (p) =>
         !p.draft && p.type !== "page" && p.slug !== "the-work-and-team-im-after"
@@ -102,7 +120,7 @@ export function getAllPostsChronological(): Post[] {
 }
 
 export function getPostsByTopic(topic: string): Post[] {
-  return allPosts
+  return uniquePosts
     .filter(
       (p) =>
         !p.draft &&

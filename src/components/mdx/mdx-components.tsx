@@ -5,15 +5,16 @@ import { Link, Text } from "@/components/atoms";
 import {
   Avatar,
   Contacts,
+  IndexFooter,
   Intro,
   Outro,
-  IndexFooter,
   SectionHeader,
   ViewAll,
   WhatIWantLink,
 } from "@/components/page";
 import config from "@/config";
 import { cn } from "@/lib/utils";
+import type { CategoryType } from "@/types/content";
 import { CodeCopyButton } from "./code-copy-button";
 import {
   type MdxImageProps,
@@ -21,10 +22,10 @@ import {
   ZoomableVideo,
   type ZoomableVideoProps,
 } from "./mdx-media";
+import { MdxZoomCarousel } from "./mdx-zoom-carousel";
 import { ProjectHeroCarousel } from "./project-hero-carousel";
 import { StoryCarousel } from "./story-carousel";
 import { StoryPost, StoryPostList } from "./story-post";
-import { ZoomCarousel } from "./zoom-carousel";
 
 /*
   mdx-components: Element Definition (Zero Styling)
@@ -62,7 +63,7 @@ export const components = {
   StoryPost,
   StoryPostList,
   ViewAll,
-  ZoomCarousel,
+  ZoomCarousel: MdxZoomCarousel,
   // This doesn't fucking work
   img: (props: MdxImageProps) => {
     // console.log("img props:", props);
@@ -144,6 +145,21 @@ export const components = {
     </div>
   ),
 };
+
+export function getMdxComponents(category?: CategoryType) {
+  return {
+    ...components,
+    Image: (props: MdxImageProps) => (
+      <ZoomableImage {...props} category={category} />
+    ),
+    Video: (props: ZoomableVideoProps) => (
+      <ZoomableVideo {...props} category={category} />
+    ),
+    img: (props: MdxImageProps) => (
+      <ZoomableImage {...props} category={category} />
+    ),
+  };
+}
 
 function Pre({ children, className, wrap = false, ...props }: PreProps) {
   return (

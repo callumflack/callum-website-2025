@@ -7,7 +7,7 @@ export const ListHeader = ({
   className,
   ariaLabel,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   rhsNode?: React.ReactNode;
   showContained?: boolean;
   className?: string;

@@ -4,16 +4,18 @@ import { SpeakerLoudIcon, SpeakerOffIcon } from "@radix-ui/react-icons";
 import type { SVGProps, VideoHTMLAttributes } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
-  getAspectRatioCSS,
   type AspectRatio,
+  getAspectRatioCSS,
 } from "@/components/media/media-utils";
-import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { MediaErrorBoundary } from "@/components/utils";
+import { useDeviceDetect } from "@/lib/hooks/use-device-detect";
 import { VideoLoader } from "./video-loader";
 // import { useIsMobileViewport } from "@/hooks/use-breakpoint";
 
-export interface VideoProps
-  extends Omit<VideoHTMLAttributes<HTMLVideoElement>, "onError"> {
+export interface VideoProps extends Omit<
+  VideoHTMLAttributes<HTMLVideoElement>,
+  "onError"
+> {
   src: string;
   poster: string;
   aspect: AspectRatio;
@@ -230,6 +232,7 @@ export function CarbonPlayFilledAlt(props: SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
+      <title>Play</title>
       <path
         d="M7 28a1 1 0 0 1-1-1V5a1 1 0 0 1 1.482-.876l20 11a1 1 0 0 1 0 1.752l-20 11A1 1 0 0 1 7 28Z"
         fill="currentColor"

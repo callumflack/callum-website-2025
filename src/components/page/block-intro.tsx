@@ -70,7 +70,7 @@ export const Intro = ({
         Hi, I&apos;m Callum Flack, an Australian designer-engineer. I began in
         brand design, moved into code to design the whole product, and now work
         across interface design, code and context engineering. Currently
-        plucking language models to unlock the adjacent possible.{" "}
+        plucking on language models to unlock the adjacent possible.{" "}
         {showWhatIWant && (
           <Text as="span">
             <LinkWithArrow

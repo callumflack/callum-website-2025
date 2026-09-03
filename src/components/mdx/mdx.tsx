@@ -1,15 +1,17 @@
 import { useMDXComponent } from "@content-collections/mdx/react";
 import { MDXErrorBoundary } from "@/components/utils";
-import { components } from "./mdx-components";
+import type { CategoryType } from "@/types/content";
+import { getMdxComponents } from "./mdx-components";
 import { MdxProse } from "./mdx-prose";
 
 interface MdxProps {
+  category?: CategoryType;
   className?: string;
   code: string;
   children?: React.ReactNode;
 }
 
-export function Mdx({ className, code, children }: MdxProps) {
+export function Mdx({ category, className, code, children }: MdxProps) {
   const Component = useMDXComponent(code);
 
   return (
@@ -19,7 +21,7 @@ export function Mdx({ className, code, children }: MdxProps) {
             inherent to @content-collections/mdx — its identity is stable for
             a given `code`. */}
         {/* eslint-disable-next-line react-hooks/static-components */}
-        <Component components={components} />
+        <Component components={getMdxComponents(category)} />
       </MDXErrorBoundary>
 
       {/* allow children to be passed in to make it easy to compose eg. MetaTags, ContactIcons or Available components */}
