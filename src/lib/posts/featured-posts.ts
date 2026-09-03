@@ -29,6 +29,7 @@ export const featuredWorkSlugs = [
 
 export const featuredWritingSlugs = [
   // "organising-design-system-styles",
+  "answerable-vocabulary-for-llm-work",
   "you-cant-design-a-ui-without-designing-the-code",
   "the-instantaneous-language-of-beauty",
   "the-matter-of-taste",
