@@ -40,18 +40,23 @@
   --text-fine: calc(9.5px + (1 * var(--fluid-step)));
   --text-pill: calc(11px + (1 * var(--fluid-step)));
   --text-meta: calc(12px + (2 * var(--fluid-step)));
-  --text-body: calc(15px + (2 * var(--fluid-step)));
+  --text-small: calc(15px + (2 * var(--fluid-step)));
+  --text-body: calc(16px + (3 * var(--fluid-step)));
   --text-heading: calc(17px + (3 * var(--fluid-step)));
   --text-title: calc(19px + (6 * var(--fluid-step)));
 
   --text-pill--line-height: 1;
   --text-meta--line-height: 1.45;
+  --text-small--line-height: 1.45;
   --text-body--line-height: 1.45;
   --text-heading--line-height: 1.25;
   --text-title--line-height: 1.1;
 
-  --text-pill--letter-spacing: 0.03em;
   --text-fine--letter-spacing: 0.0175em;
+  --text-pill--letter-spacing: 0.03em;
+  --text-meta--letter-spacing: 0;
+  --text-small--letter-spacing: 0;
+  --text-body--letter-spacing: -0.01em;
   --text-heading--letter-spacing: -0.01em;
   --text-title--letter-spacing: -0.02em;
 
@@ -59,7 +64,7 @@
   --text-title--font-weight: 500;
 
   /* container: hooks into @container/cqw container-query machinery. Intent: content widths (prose, hero, read). */
-  --container-text: 660px; /* ~70ch @18px = 720 */
+  --container-text: 680px; /* ~70ch @18px = 720 */
   --container-hero: 1040px;
   --container-text-inset: calc(
     var(--container-text) + (var(--spacing-inset) * 2)
