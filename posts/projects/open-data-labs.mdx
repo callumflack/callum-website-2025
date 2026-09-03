@@ -5,12 +5,12 @@ projectIsOngoing: true
 title: Open Data Labs
 summary: The company around the Vana protocol — website, playground, and PDPP identity for consented personal data.
 assets:
-  - src: /2026-09-02-odl-playground-02.mp4
-    alt: ODL Playground
-    aspect: 2880-2000
-  - src: /odl-site-.mp4
+  - src: https://cfd-media.b-cdn.net/odl-site-overview-260902.mp4
     alt: ODL website
     aspect: 1512-1080
+  - src: https://cfd-media.b-cdn.net/odl-playground-02-260902.mp4
+    alt: ODL Playground
+    aspect: 2880-2000
 category: projects
 tags:
   - design
@@ -19,32 +19,38 @@ tags:
 nextPostLink: vana
 ---
 
-[Open Data Labs](https://www.opendatalabs.com/) is the company. [Vana](https://docs.vana.org/) is the protocol.
-
-Vana is an open protocol for private, user-owned data — a peer-to-peer network where access, encryption, and payment are first-class, on-chain concerns. A user owns their data and grants access on their own terms. Builders request it from the user's Personal Server. The protocol is designed to work without ODL: the SDK path uses only permissionless surfaces.
-
-ODL operates the convenience layer on top. In the [stack](https://docs.vana.org/), that is the Data Pipe (public data in) and the Context Gateway (OAuth, USD billing for builders and enterprises). Commercially, ODL is the AI training-data company around that protocol: a user context API and a marketplace for consented datasets. Same problem as the [2022–24 Vana stint](/vana) — personal data in the age of LLM agents — different layer. I came back in mid-2025 as UX designer and web engineer.
+I returned to Vana in mid-2025 as UX designer and web engineer. [Vana](https://vana.org/) is an open protocol for private, user-owned data. Vana's sister entity, [Open Data Labs (ODL)](https://www.opendatalabs.com/), is the company around the protocol. So my work bleeds across both.
 
 ## ODL Website
 
-I designed and built the ODL website in 2 days. The result is a much more performant experience. With the code in place, the team has since iterated on the design and content with ease using Claude Code — no need for the obstacle of a CMS with a good codebase organised around a robust design system. Visit [Open Data Labs](https://www.opendatalabs.com/).
+I designed the ODL website with creative director [Ciaran Moore](https://www.cicici.ci/). Originally it was built externally, then I rebuilt it in 2 days. By owning the content in code instead of a CMS, the team has since iterated on the design and content with much greater tempo using Claude Code.
 
 <Video
   breathe
   aspect="1512-1080"
-  src="/odl-site-.mp4"
+  src="https://cfd-media.b-cdn.net/odl-site-overview-260902.mp4"
   poster=""
   alt="ODL website"
 />
 
+My favourite element in the design language is the simple dashed testimonials box. It's a subtle but effective way to add depth to the design.
+
+<Image
+  src="/images/odl-site-testimonials-260903.png"
+  alt="ODL Site testimonials for Wired and The Verge"
+  aspect="2264-760"
+  background={false}
+  border={false}
+/>
+
 ## ODL Playground
 
-I designed and built the ODL Playground in 3 days. My favourite part of it is the tailored typography fade and swap on scroll, using CSS only. Visit [ODL Playground](https://playground.opendatalabs.xyz/).
+I designed and built the ODL Playground: a shop window for private, user-authorized data you can’t scrape. My favourite part of it is the tailored typography fade and swap on scroll, using CSS only. Visit [ODL Playground](https://playground.opendatalabs.xyz/).
 
 <Video
   breathe
   aspect="2880-2000"
-  src="/2026-09-02-odl-playground-02.mp4"
+  src="https://cfd-media.b-cdn.net/odl-playground-02-260902.mp4"
   poster=""
   alt="ODL Playground"
 />
@@ -55,4 +61,4 @@ I designed the identity for [PDPP](https://pdpp.dev/), an open protocol for scop
 
 <Image breathe src="/pdpp-logo.png" alt="PDPP logotype" aspect="2560-1664" />
 
-The [2022–24 work](/vana) is a separate post.
+For more Vana work, visit [2022–24 work archive](/vana) or the [2025– archive](/vana-2025).
