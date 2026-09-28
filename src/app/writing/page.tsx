@@ -2,13 +2,14 @@ import { allPosts } from "content-collections";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { focusVisibleOutlineStyle, Link, Text } from "@/components/atoms";
-import { Intro, NewsletterSubscribe, PageWrapper } from "@/components/page";
+import { Intro, PageWrapper } from "@/components/page";
 import { cn } from "@/lib/utils";
 import {
   WritingIndex,
   WritingIndexFallback,
 } from "./_components/writing-index";
 import type { WritingSearchParams } from "./_components/writing-mode";
+import { WritingLoadingPreview } from "./_components/writing-loading-preview";
 
 export default function WritingPage({
   searchParams,
@@ -22,6 +23,12 @@ export default function WritingPage({
   if (!writingStory) {
     throw new Error("Missing published writing story: posts/pages/writing.mdx");
   }
+
+  const index = (
+    <Suspense fallback={<WritingIndexFallback />}>
+      <WritingIndex code={writingStory.content} searchParams={searchParams} />
+    </Suspense>
+  );
 
   return (
     <PageWrapper hideFooter navigation={null}>
@@ -69,16 +76,13 @@ export default function WritingPage({
         </header>
 
         <div className="pt-w8" data-slot="writing-content">
-          <Suspense fallback={<WritingIndexFallback />}>
-            <WritingIndex
-              code={writingStory.content}
-              searchParams={searchParams}
-            />
-          </Suspense>
-        </div>
-
-        <div className="pt-w16 container">
-          <NewsletterSubscribe />
+          {process.env.NODE_ENV === "development" ? (
+            <WritingLoadingPreview fallback={<WritingIndexFallback />}>
+              {index}
+            </WritingLoadingPreview>
+          ) : (
+            index
+          )}
         </div>
       </div>
     </PageWrapper>

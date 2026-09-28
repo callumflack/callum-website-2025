@@ -2,6 +2,9 @@
 
 ## 2026-09-29
 
+- Writing loader: approved three featured-row skeletons (thumbnail, heading, three text lines) with “Loading…” replacing Start here. Match current row geometry; keep newsletter with resolved content. Add a temporary dev-only toggle, initially showing loading, for visual review; remove it after review. No commit or push requested for this change.
+- Loader implemented and left active at local `/writing`; the bottom-right toggle switches to content and back. Desktop/mobile rendering, both views, production build/TypeScript, scoped ESLint/Prettier, and Next runtime diagnostics pass. Production shell has three skeleton rows and no newsletter or preview control; no editor diagnostics API is exposed. Resolved: Callum approved the design and asked to retain the dev-only toggle for future design work. Supersedes the removal plan: default to content, retain Show loading, and commit this change; no push requested.
+
 - Fix the production homepage flash: remove dormant Recent-tab URL state and its empty Suspense fallback. Preserve current content, spacing, and unrelated local edits. Completion requires production HTML containing the home content before hydration, plus rendered-page and focused code checks.
 - Locally verified: production build and TypeScript pass; initial HTML includes Latest, Work, and Writing on `/` and `/?view=recent`, with no client-render bailout. The same check fails on current production. Rendered production build, focused ESLint/Prettier, and Next runtime diagnostics pass. No editor diagnostics API is exposed in this session. Resolved: committed and pushed only this fix from main. Production deployment remains unverified; unrelated edits and this worklog stay local.
 
