@@ -43,7 +43,7 @@
   --text-small: calc(15px + (2 * var(--fluid-step)));
   --text-body: calc(16px + (2 * var(--fluid-step)));
   --text-heading: calc(17px + (2 * var(--fluid-step)));
-  --text-title: calc(19px + (6 * var(--fluid-step)));
+  --text-title: calc(19px + (5 * var(--fluid-step)));
 
   --text-pill--line-height: 1;
   --text-meta--line-height: 1.45;
@@ -56,9 +56,9 @@
   --text-pill--letter-spacing: 0.03em;
   --text-meta--letter-spacing: 0;
   --text-small--letter-spacing: 0;
-  --text-body--letter-spacing: -0.01em;
-  --text-heading--letter-spacing: -0.01em;
-  --text-title--letter-spacing: -0.02em;
+  --text-body--letter-spacing: 0;
+  --text-heading--letter-spacing: 0;
+  --text-title--letter-spacing: -0.01em;
 
   --text-heading--font-weight: 500;
   --text-title--font-weight: 500;
