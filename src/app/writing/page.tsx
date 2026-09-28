@@ -1,48 +1,93 @@
+import { allPosts } from "content-collections";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Text } from "@/components/atoms";
-import { TitleHeader } from "@/components/elements";
-import { PageInner, PageWrapper } from "@/components/page";
-import { WritingIndexPosts } from "@/components/page/writing-index-posts";
-import { getWritingIndexPosts } from "@/lib/posts/actions";
+import { focusVisibleOutlineStyle, Link, Text } from "@/components/atoms";
+import { Intro, NewsletterSubscribe, PageWrapper } from "@/components/page";
+import { cn } from "@/lib/utils";
+import {
+  WritingIndex,
+  WritingIndexFallback,
+} from "./_components/writing-index";
+import type { WritingSearchParams } from "./_components/writing-mode";
 
-export default function WritingPage() {
-  const posts = getWritingIndexPosts();
+export default function WritingPage({
+  searchParams,
+}: {
+  searchParams: Promise<WritingSearchParams>;
+}) {
+  const writingStory = allPosts.find(
+    (post) => !post.draft && post.slug === "writing"
+  );
+
+  if (!writingStory) {
+    throw new Error("Missing published writing story: posts/pages/writing.mdx");
+  }
 
   return (
-    <PageWrapper activeNav="writing" theme="feed">
-      <PageInner variant="indexSticky">
-        <TitleHeader>
-          {/* <Text
-              as="h1"
-              intent="pill"
-              color="solid"
-              className="absolute top-[-2em] pl-0.5"
-            >
-              Writing
-            </Text> */}
-          <Text as="h1" intent="title">
-            Writing
-          </Text>
-          {/* <Text as="h2" intent="title">
-              If you have the words, you&apos;ll find the way.
-            </Text> */}
-          {/* <Text dim balance intent="meta">
-            Writing about creativity, design and complexity through the lens of
-            attention, interfaces and systems composition.{" "}
-            <LinkWithArrow href={config.SUBSTACK_URL} className="link">
-              Signup for new posts
-            </LinkWithArrow>
-            .
-            </Text> */}
-        </TitleHeader>
-        <Suspense fallback={null}>
-          <WritingIndexPosts posts={posts} />
-        </Suspense>
-      </PageInner>
+    <PageWrapper hideFooter navigation={null}>
+      <div className="pt-w20 pb-w72" data-slot="writing-inner">
+        <header className="container">
+          <Intro
+            showLabel={false}
+            showContacts={false}
+            metaNode={
+              <Text as="nav" aria-label="About, work and RSS" dim intent="meta">
+                <Link
+                  className={cn("hover:text-fill", focusVisibleOutlineStyle)}
+                  href="/about?from=writing"
+                  prefetch={true}
+                >
+                  About
+                </Link>
+                <span className="mx-1.5 font-light">|</span>
+                <Link
+                  className={cn("hover:text-fill", focusVisibleOutlineStyle)}
+                  href="/"
+                >
+                  Work
+                </Link>
+                <span className="mx-1.5 font-light">|</span>
+                <a
+                  className={cn("hover:text-fill", focusVisibleOutlineStyle)}
+                  href="/feed.xml"
+                >
+                  RSS
+                </a>
+              </Text>
+            }
+            showCurrentPrev={false}
+            showWhatIWant={false}
+            textIntent="body"
+          >
+            Hi, I&apos;m Callum Flack, an Australian{" "}
+            <Link className={cn("link", focusVisibleOutlineStyle)} href="/">
+              designer-engineer
+            </Link>
+            . I write about how attention becomes judgment, and how judgment
+            shapes tools, groups and systems.{" "}
+          </Intro>
+        </header>
+
+        <div className="pt-w8" data-slot="writing-content">
+          <Suspense fallback={<WritingIndexFallback />}>
+            <WritingIndex
+              code={writingStory.content}
+              searchParams={searchParams}
+            />
+          </Suspense>
+        </div>
+
+        <div className="pt-w16 container">
+          <NewsletterSubscribe />
+        </div>
+      </div>
     </PageWrapper>
   );
 }
+
+export const instant = {
+  unstable_samples: [{ searchParams: {} }, { searchParams: { sort: "year" } }],
+};
 
 export const metadata: Metadata = {
   title: "Writing",

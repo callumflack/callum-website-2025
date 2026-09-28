@@ -25,6 +25,7 @@ export interface StoryPostProps extends StorySlide {
 }
 
 export interface StoryPostListProps {
+  linkSuffix?: string;
   showThumbnails?: boolean;
   slugs: readonly string[];
 }
@@ -94,6 +95,7 @@ function renderStoryPostBody({
 }
 
 export function StoryPostList({
+  linkSuffix = "",
   showThumbnails = false,
   slugs,
 }: StoryPostListProps) {
@@ -111,9 +113,9 @@ export function StoryPostList({
     >
       {posts.map((post) =>
         showThumbnails ? (
-          <StoryPostBlock key={post._id} post={post} />
+          <StoryPostBlock key={post._id} linkSuffix={linkSuffix} post={post} />
         ) : (
-          <StoryPostLine key={post._id} post={post} />
+          <StoryPostLine key={post._id} linkSuffix={linkSuffix} post={post} />
         )
       )}
     </div>
@@ -168,26 +170,38 @@ export function StoryPostCard({
   );
 }
 
-function StoryPostBlock({ post }: { post: Post }) {
+function StoryPostBlock({
+  linkSuffix = "",
+  post,
+}: {
+  linkSuffix?: string;
+  post: Post;
+}) {
   const listItem = toCanonicalListItem(post);
 
   return (
     <Link
       className="text-fill! hover:text-fill! focus-visible:text-fill! block no-underline!"
-      href={`/${post.slug}`}
+      href={`/${post.slug}${linkSuffix}`}
     >
       <PostBlock post={listItem} priority={false} />
     </Link>
   );
 }
 
-function StoryPostLine({ post }: { post: Post }) {
+function StoryPostLine({
+  linkSuffix = "",
+  post,
+}: {
+  linkSuffix?: string;
+  post: Post;
+}) {
   const listItem = toCanonicalListItem(post);
 
   return (
     <Link
       className="text-fill! hover:text-fill! focus-visible:text-fill! block no-underline!"
-      href={`/${post.slug}`}
+      href={`/${post.slug}${linkSuffix}`}
     >
       <PostLine post={listItem} />
     </Link>
@@ -205,7 +219,7 @@ function resolveStoryPost(slug: string): Post {
   const post = publishedPostsBySlug.get(slug);
 
   if (!post) {
-    throw new Error(`Homepage story references missing or draft post: ${slug}`);
+    throw new Error(`Story index references missing or draft post: ${slug}`);
   }
 
   return post;

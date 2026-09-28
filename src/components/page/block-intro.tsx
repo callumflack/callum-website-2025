@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import {
   focusVisibleOutlineStyle,
   Link,
@@ -17,6 +18,8 @@ const INTRO_NAV = [
 ] as const;
 
 type Props = {
+  children?: ReactNode;
+  metaNode?: ReactNode;
   showLabel?: boolean;
   showWhatIWant?: boolean;
   showCurrentPrev?: boolean;
@@ -25,6 +28,8 @@ type Props = {
 };
 
 export const Intro = ({
+  children,
+  metaNode,
   showLabel = true,
   showWhatIWant = true,
   showCurrentPrev = true,
@@ -67,10 +72,15 @@ export const Intro = ({
         {/* Hi, I&apos;m Callum Flack, an Australian designer and engineer. I unite
         language, interaction and code in beautiful hypertext products that work
         in the blink of an eye, earning the most valuable currency—trust.{" "} */}
-        Hi, I&apos;m Callum Flack, an Australian designer-engineer. I began in
-        brand design, moved into code to design the whole product, and now work
-        across interface design, code and context engineering. Currently
-        plucking on language models to unlock the adjacent possible.{" "}
+        {children ?? (
+          <>
+            Hi, I&apos;m Callum Flack, an Australian designer-engineer. I began
+            in brand design, moved into code to design the whole product, and
+            now work across interface design, code and context engineering.
+            Currently plucking on language models to unlock the adjacent
+            possible.{" "}
+          </>
+        )}
         {showWhatIWant && (
           <Text as="span">
             <LinkWithArrow
@@ -99,13 +109,14 @@ export const Intro = ({
           </Text>
         )}
       </Text> */}
-      {showCurrentPrev && (
-        <Text as="p" intent="meta" wrap="pretty" dim>
-          Current: Vana
-          <span className="mx-1.5 font-light">|</span>
-          Prev: Cleared (first commit → sale), Saatchi & Saatchi (brand)
-        </Text>
-      )}
+      {metaNode ??
+        (showCurrentPrev && (
+          <Text as="p" intent="meta" wrap="pretty" dim>
+            Current: Vana
+            <span className="mx-1.5 font-light">|</span>
+            Prev: Cleared (first commit → sale), Saatchi & Saatchi (brand)
+          </Text>
+        ))}
 
       {showContacts ? (
         <div className="flex items-center justify-between gap-4 pt-0.5">

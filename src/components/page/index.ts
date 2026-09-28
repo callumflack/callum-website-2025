@@ -1,4 +1,6 @@
 export * from "./page-wrapper";
+export * from "./return-link";
+export * from "./contextual-return-link";
 export * from "./post-page";
 export * from "./posts-index-or-featured";
 export * from "./posts-index-or-full";

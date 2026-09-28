@@ -7,12 +7,18 @@ import { buttonVariants } from "@/components/atoms";
 import { ClickConfirmationSurface } from "@/components/elements/copy-button";
 import { cn } from "@/lib/utils";
 
-export const HomeButton = () => (
+export const ReturnLink = ({
+  href = "/",
+  label = "Home",
+}: {
+  href?: string;
+  label?: string;
+}) => (
   <Tooltip.Root>
     <Tooltip.Trigger asChild>
       <Link
-        href="/"
-        aria-label="Return home"
+        href={href}
+        aria-label={`Return to ${label.toLowerCase()}`}
         className={cn(
           buttonVariants({ variant: "icon", size: "sm" }),
           "bg-canvas text-heading -mt-[0.35em]",
@@ -26,7 +32,7 @@ export const HomeButton = () => (
     <Tooltip.Portal>
       <Tooltip.Content asChild side="top" sideOffset={12}>
         <ClickConfirmationSurface hasError={false} className="z-50 min-w-max">
-          Home
+          {label}
         </ClickConfirmationSurface>
       </Tooltip.Content>
     </Tooltip.Portal>

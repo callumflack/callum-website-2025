@@ -35,7 +35,7 @@ export const HomePage = ({
   return (
     <PageWrapper
       hideFooter={isGridMode}
-      showNav={false}
+      navigation={null}
       footerNode={
         isGridMode ? undefined : (
           /* OUTRO */

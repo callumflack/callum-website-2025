@@ -25,7 +25,11 @@ import {
 import { MdxZoomCarousel } from "./mdx-zoom-carousel";
 import { ProjectHeroCarousel } from "./project-hero-carousel";
 import { StoryCarousel } from "./story-carousel";
-import { StoryPost, StoryPostList } from "./story-post";
+import {
+  StoryPost,
+  StoryPostList,
+  type StoryPostListProps,
+} from "./story-post";
 
 /*
   mdx-components: Element Definition (Zero Styling)
@@ -146,7 +150,10 @@ export const components = {
   ),
 };
 
-export function getMdxComponents(category?: CategoryType) {
+export function getMdxComponents(
+  category?: CategoryType,
+  storyPostLinkSuffix?: string
+) {
   return {
     ...components,
     Image: (props: MdxImageProps) => (
@@ -157,6 +164,12 @@ export function getMdxComponents(category?: CategoryType) {
     ),
     img: (props: MdxImageProps) => (
       <ZoomableImage {...props} category={category} />
+    ),
+    StoryPostList: (props: StoryPostListProps) => (
+      <StoryPostList
+        {...props}
+        linkSuffix={props.linkSuffix ?? storyPostLinkSuffix}
+      />
     ),
   };
 }

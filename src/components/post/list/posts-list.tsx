@@ -14,6 +14,7 @@ interface PostLinesProps {
   dateFormat?: "date" | "year";
   isFeed?: boolean;
   postLinkPrefix?: string;
+  postLinkSuffix?: string;
   posts: PostListItem[];
   showFeatured?: boolean;
   wrapperClassName?: string;
@@ -23,6 +24,7 @@ export const PostLines = ({
   dateFormat,
   isFeed,
   postLinkPrefix = "",
+  postLinkSuffix = "",
   posts,
   showFeatured = true,
   wrapperClassName,
@@ -34,7 +36,7 @@ export const PostLines = ({
         href={
           post.thumbnailLink
             ? post.thumbnailLink
-            : `${postLinkPrefix}${post.slug}`
+            : `${postLinkPrefix}${post.slug}${postLinkSuffix}`
         }
         className="block"
       >

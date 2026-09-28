@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { cacheLife } from "next/cache";
 import config from "@/config";
 import { getPublishedPosts } from "@/lib/posts/actions";
+import { isStaticPageSlug } from "@/lib/posts/static-pages";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   "use cache";
@@ -42,10 +43,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${config.PUBLIC_URL}/gallery`,
       lastModified: new Date(),
     },
-    ...publishedPosts.map((post) => ({
-      url: `${config.PUBLIC_URL}/${post.slug}`,
-      lastModified: new Date(),
-    })),
+    ...publishedPosts
+      .filter((post) => !isStaticPageSlug(post.slug))
+      .map((post) => ({
+        url: `${config.PUBLIC_URL}/${post.slug}`,
+        lastModified: new Date(),
+      })),
     {
       url: `${config.PUBLIC_URL}/topic`,
       lastModified: new Date(),

@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "cva";
 import { cn } from "@/lib/utils";
 import { Category } from "@/types/content";
 import { NewsletterSubscribe } from "./block-newsletter";
-import { HomeButton } from "./home-button";
+import { ReturnLink } from "./return-link";
 
 export enum NavRoute {
   LOG = "log",
@@ -47,7 +47,7 @@ type Props = {
   shareNode?: React.ReactNode;
   footerNode?: React.ReactNode;
   hideFooter?: boolean;
-  showNav?: boolean;
+  navigation?: React.ReactNode;
   theme?: "post" | "feed";
 };
 
@@ -56,12 +56,17 @@ export const PageWrapper = ({
   shareNode,
   footerNode,
   hideFooter = false,
-  showNav = true,
+  navigation,
 }: Props) => {
+  const resolvedNavigation =
+    navigation === undefined ? <ReturnLink /> : navigation;
+
   return (
     <>
       <div className="relative" data-slot="PageWrapper-Content">
-        {showNav && <PageWrapperNav />}
+        {resolvedNavigation ? (
+          <PageWrapperNav>{resolvedNavigation}</PageWrapperNav>
+        ) : null}
         {children}
       </div>
 
@@ -74,15 +79,13 @@ export const PageWrapper = ({
   );
 };
 
-const PageWrapperNav = () => (
+const PageWrapperNav = ({ children }: { children: React.ReactNode }) => (
   <aside
     data-component="PageWrapper-Nav"
     className="pointer-events-none absolute inset-0 z-200"
   >
     <nav aria-label="Site navigation" className="top-gap sm:top-w20 sticky">
-      <div className="relative container">
-        <HomeButton />
-      </div>
+      <div className="relative container">{children}</div>
     </nav>
   </aside>
 );

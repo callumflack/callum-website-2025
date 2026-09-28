@@ -36,7 +36,7 @@ export default function Home260818Page() {
   }));
 
   return (
-    <PageWrapper hideFooter showNav={false}>
+    <PageWrapper hideFooter navigation={null}>
       <main className="pt-w20 pb-w72">
         <header className="container">
           <Intro

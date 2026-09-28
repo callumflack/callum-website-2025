@@ -1,5 +1,4 @@
 import type { Post } from "content-collections";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import { Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
@@ -76,25 +75,6 @@ function MetaLink({
     >
       {children}
     </Link>
-  );
-}
-
-function MetaHome() {
-  return (
-    <>
-      <MetaLink href="/" className="inline-flex items-center gap-2.25">
-        <Image
-          src="/images/callum-flack.jpg"
-          alt=""
-          width={18}
-          height={18}
-          sizes="18px"
-          className="bg-background-hover shrink-0 translate-y-[-0.1em] rounded-full"
-        />
-        Callum
-      </MetaLink>
-      <MetaSep />
-    </>
   );
 }
 
@@ -177,7 +157,6 @@ export const PostMeta = ({
 
   return (
     <PostMetaNav>
-      <MetaHome />
       {category ? <MetaCategory category={category} /> : null}
       <span>
         {post.projectIsOngoing ? <span>Since&nbsp;</span> : null}

@@ -12,7 +12,7 @@ export default function Home() {
   }
 
   return (
-    <PageWrapper hideFooter showNav={false}>
+    <PageWrapper hideFooter navigation={null}>
       <div className="pt-w20 pb-w72" data-slot="home-inner">
         <header className="container">
           <Intro

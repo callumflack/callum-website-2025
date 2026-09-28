@@ -2,12 +2,14 @@ import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { allPosts } from "content-collections";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { buttonVariants, Link, Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { ShareButtonWrapper } from "@/components/elements/share-button-wrapper";
 import { isVideoFile } from "@/components/media";
 import {
   getCategoryNavRoute,
+  ContextualReturnLink,
   NavRoute,
   NewsletterSubscribe,
   PageInner,
@@ -15,8 +17,10 @@ import {
   PostMeta,
   PostPage,
 } from "@/components/page";
+import type { ReturnSearchParams } from "@/components/page";
 import config from "@/config";
 import { getPublishedPosts, isPubliclyVisible } from "@/lib/posts/actions";
+import { isStaticPageSlug } from "@/lib/posts/static-pages";
 import { cn } from "@/lib/utils";
 
 /* UNUSED POSSIBILITIES! */
@@ -29,12 +33,14 @@ interface Params {
 
 export default async function SlugPage({
   params,
+  searchParams,
 }: {
   params: Promise<Params>;
+  searchParams: Promise<ReturnSearchParams>;
 }) {
   const { slug } = await params;
 
-  if (slug === "home") {
+  if (isStaticPageSlug(slug)) {
     notFound();
   }
 
@@ -64,6 +70,13 @@ export default async function SlugPage({
       activeNav={renderActiveNav()}
       /* Remove the entire footer (no wrapper spacing) for content pages like letters */
       hideFooter={isLettersPage}
+      navigation={
+        isAboutPage || post.type !== "page" ? (
+          <Suspense fallback={null}>
+            <ContextualReturnLink searchParams={searchParams} />
+          </Suspense>
+        ) : undefined
+      }
       shareNode={
         isLettersPage ? null : (
           <div className="pt-w8 space-y-0">
@@ -140,7 +153,7 @@ export default async function SlugPage({
 
 export function generateStaticParams(): Params[] {
   return getPublishedPosts()
-    .filter((post) => post.slug !== "home")
+    .filter((post) => !isStaticPageSlug(post.slug))
     .map((post) => ({
       slug: post.slug,
     }));
@@ -174,6 +187,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `/${post.slug}` },
     openGraph: {
       title: `${title} — Callum Flack`,
       description,
