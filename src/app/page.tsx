@@ -1,7 +1,5 @@
 import { allPosts } from "content-collections";
-import { Suspense } from "react";
 import { Intro, NewsletterSubscribe, PageWrapper } from "@/components/page";
-import { getAllPostsChronological, toPostListItem } from "@/lib/posts/actions";
 import { HomeIndex } from "./(home)/home-index";
 
 export default function Home() {
@@ -12,10 +10,6 @@ export default function Home() {
   if (!homeStory) {
     throw new Error("Missing published homepage story: posts/pages/home.mdx");
   }
-
-  const recentPosts = getAllPostsChronological()
-    .slice(0, 12)
-    .map(toPostListItem);
 
   return (
     <PageWrapper hideFooter showNav={false}>
@@ -31,12 +25,7 @@ export default function Home() {
         </header>
 
         <div className="pt-small" data-slot="home-content">
-          <Suspense fallback={null}>
-            <HomeIndex
-              homeContent={homeStory.content}
-              recentPosts={recentPosts}
-            />
-          </Suspense>
+          <HomeIndex homeContent={homeStory.content} />
         </div>
 
         <div className="pt-w12 container">
