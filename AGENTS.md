@@ -12,6 +12,8 @@ Read the live file before inventing a parallel type, token, route, or media comp
 - `bun dev`, `bun lint`, `bunx tsc --noEmit` (no typecheck script).
 - After new MDX, `bun check-posts`.
 
+Before claiming done: `bunx prettier --check` the files you touched, and `bun lint` (or `bunx eslint` on that set). Read editor diagnostics on the same files; TypeScript and ESLint in the editor are not replaced by `bun lint`. Remaining diagnostics or unformatted files on that set block done. Do not sweep the existing prettier/eslint backlog on files you did not touch.
+
 ## Content
 
 - Files live in `posts/{writing,projects,notes,pages,shelf}/` matching frontmatter `category`. `category: page` goes in `posts/pages/`.
