@@ -2,13 +2,90 @@
 date: 2021-08-26
 title: Do the grid fins still fold in?
 summary: During a tour of SpaceX rocket-building facility, Elon Musk delivers an excellent distillation of his 5-step build process — question assumptions, eliminate excess, focus on essentials, speed up development, and finally, automate. A masterclass in problem priorisation that is widely applicable.
-thumbnailLink: https://thelittoralline.substack.com/p/ll17-do-the-grid-fins-still-fold
 category: writing
 thumbnailText: "Fold"
-type: link
 tags:
   - engineering
   - teamwork
 ---
 
-No content…
+> That’s why the Griffin fins don’t fold down, because it’s a whole extra mechanism that we don’t need.
+
+I’ve been working at a new intensity with a US-based team on a healthcare start-up for the last year (I run a dev team, push code, design UIs, document processes, do many daily video calls, etc. to punch the product into shape — we’re still early days). It’s not as if I was not a hard worker, but the wide scope of general requirements synthesis and the dynamic, ever-changing nature of those requirements has necessarily ratcheted up my tempo. It’s interesting work and I’ve earned myself a solid chunk of _knowhow_. As a result, I’m going to post public notes of learnings as fast contemplations. I would like to be blogging—about old and important ideas of beauty, wonder, fingerspitzengefühl, whitespace and so on, as those of you who may have previously read this newsletter might expect from me (the last of which was almost 2 years ago)—but alas sharper, work-in-progress self-reflections like this seem more important for the moment.
+
+The genesis of this post was a rare lunchtime chill-out: a tour of Musk’s SpaceX rocket-building facility. After 13 minutes, Musk delivers [an excellent 15-minute story of his 5-step build process](https://www.youtube.com/watch?v=t705r8ICkRw&t=802s). There’s so much quality building knowledge here that I naturally scribbled down notes and, even with 3.6 million YouTube views, I felt it a little too buried within the long video not to extrapolate and share.
+
+Musk’s 5-step build process:
+
+- Make your requirements less dumb
+- Delete the part or process
+- Simplify or optimise
+- Accelerate cycle time
+- Automate
+
+What follows is my fast notes.
+
+---
+
+#### Make your requirements less dumb
+
+- **your requirements are definitely dumb**
+- it’s particularly dangerous if a smart person gave you the requirements b/c you might not **question them** enough
+- everyone's wrong at least some of the time
+- always **question the person** who gave the requirement, not the department
+
+#### Delete the part or process
+
+- **if you're not occasionally adding things back in 10% of the time, you're not deleting enough**
+- you can make "in case" arguments for most things; **don't hedge bets …** run at tight margins to get into orbit
+- _CF note: a prime example of Thiel’s Definitive Optimism (as opposed to the “just in case” Indefinite Optimism bet-hedging): “a bad plan is better than no plan”_
+- **do not build what you do not need — “**that's why the griffins don't fold down because it's a whole mechanism we don't need … our simulation show that so long as they follow the flow, it’s neither here nor there … so long as they don’t have a high angle of attack it doesn’t matter … can be added later … why were we adding them anyway?”
+- **whatever it is, it must come with a name, not a department** — otherwise, you can have requirements that were randomly given 2 years ago by someone who has left etc … it may have been thought of as gospel but was actually just mentioned by someone in passing
+- **a person must always hold responsibility for a requirement**, this allows you to question the person who gave the requirement
+
+#### Simplify or optimise
+
+- **The most common error of a smart engineer is to optimise a thing that should not exist**
+- **everyone's been trained to answer the question (convergent logic)** — you can't tell your professor he's dumb or you'll get a bad grade, you must answer the question **— this is an automatic mental straightjacket**
+- safety can be **overcorrected**: "neither of those is true, it's not cyanide nor is it that healthy for you" — story where they passed around a cup of hydrazine so everyone knew what it smelt like — showing that there’s no need to optimise a safety issue that does not exist
+
+#### Accelerate cycle time
+
+- you're moving too slowly, go faster
+- …but don't go faster until you've worked on the other 3 steps first — **if you're digging your grave, don't dig it faster, stop digging your grave**
+- **you can always make things go faster**
+
+#### Automate
+
+- _CF note: Musk doesn’t even give reasons here as it’s self-explanatory: once a process is assured, automate it_
+- _CF note: we work with a lab testing agency who will not let us push and pull results via API, we’re forced to manually drag and drop PDFs … much human error ensues … “a little caution will get you killed.” — Cooper, Interstellar_
+
+#### Bonus: do not do in reverse + do not accidentally set limiters
+
+- **do not do it in reverse!** ie. automated, accelerated, optimising/simplified, deleted…
+- great example story of “the mat” ([23:30](https://youtu.be/t705r8ICkRw?t=1405)):
+  - He was living on the production line because some process was choking their entire system
+  - “I asked the battery safety team, what are these mats for? Then I asked the insulation team. **Each team said it was the other team's prerogative …like a Dilbert cartoon”**
+  - so they tested the car with and without fibreglass mats and couldn't tell the difference, so they deleted them
+- too much in-process testing ([25:00](https://youtu.be/t705r8ICkRw?t=1492)): **don't set an accidental limiter which leads to false positives and throwing away good parts**
+  - you don't know where it's breaking, so test WIP to isolate the mistake
+  - forget to remove the in-process testing even though end-of-line testing is passing … creates useless debugging which chokes the cycle time
+  - always remove almost every test when ready
+  - _CF note: one could say there’s a relation between overcorrection and false positives — so conservative thought can be uncertain thought, which leads to overcorrection, too many “just in case” arguments, enlarged scope, and so on — character matters, strong founders matter! We think in terms of agility (externalised as a method) when perhaps we should think in terms of character (internalised as intellect)_
+
+---
+
+To finish up, here’s a few complementary and contrasting tangents that came to mind while consolidating the above notes:
+
+- [heijunka (production smoothing)](https://www.wikiwand.com/en/Production_leveling)
+- [the case against over-planning](https://www.pmoadvisory.com/blog/think-slow-and-act-fast/): “many projects … are too highly complex to be comprehensively catered for by scenario & project planning … flexibility & agility become necessary characteristics.” That is, _**think slow and act fast**_. But it may also be an example of [Indefinite Optimism](https://blakemasters.tumblr.com/post/23435743973/peter-thiels-cs183-startup-class-13-notes). Doesn’t matter, still good ideas here.
+- **[saying No is far more important than saying Yes](https://twitter.com/jdegoes/status/1429810807366422537?s=20)**
+- **Acting fast makes your requirements less dumb**: [“you should probably optimize for speed even when you don't have to, because it's one of the easiest/best ways to prioritize subtraction and parsimony in the solution space”](https://twitter.com/patrickc/status/1380556517208825856?s=20)
+- …which can be rephrased as _**[speed becomes the arrow that forces resolution](https://twitter.com/callumflack/status/1381081493011767296?s=20)**_.
+
+Fin.
+
+<Note>
+  This article was originally published on [The Littoral
+  Line](https://thelittoralline.substack.com/p/ll17-do-the-grid-fins-still-fold).
+</Note>
