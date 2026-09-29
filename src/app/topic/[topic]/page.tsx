@@ -67,5 +67,6 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `/topic/${encodeURIComponent(topic)}` },
   };
 }

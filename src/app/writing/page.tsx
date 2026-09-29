@@ -97,4 +97,5 @@ export const metadata: Metadata = {
   title: "Writing",
   description:
     "Writing about creativity, design and complexity through the lens of attention, interfaces and systems composition.",
+  alternates: { canonical: "/writing" },
 };

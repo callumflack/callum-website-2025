@@ -50,4 +50,5 @@ export const instant = {
 export const metadata: Metadata = {
   title: "Work",
   description: "An archive of design and code projects produced since 1998.",
+  alternates: { canonical: "/work" },
 };

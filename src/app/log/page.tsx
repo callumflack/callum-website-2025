@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Text } from "@/components/atoms";
 import { TitleHeader } from "@/components/elements";
 import { FullOrIndexPosts, PageInner, PageWrapper } from "@/components/page";
-import {
-  getAllPostsChronological,
-  toPostListItem,
-} from "@/lib/posts/actions";
+import { getAllPostsChronological, toPostListItem } from "@/lib/posts/actions";
 
 export default function LogPage() {
   const posts = getAllPostsChronological().map(toPostListItem);
@@ -27,4 +24,5 @@ export default function LogPage() {
 export const metadata: Metadata = {
   title: "Log",
   description: "An archive of notes and thoughts.",
+  alternates: { canonical: "/log" },
 };

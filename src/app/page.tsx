@@ -1,6 +1,11 @@
 import { allPosts } from "content-collections";
+import type { Metadata } from "next";
 import { Intro, NewsletterSubscribe, PageWrapper } from "@/components/page";
 import { HomeIndex } from "./(home)/home-index";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const homeStory = allPosts.find(

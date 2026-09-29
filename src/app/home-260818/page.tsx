@@ -93,4 +93,5 @@ function getHome260818Posts(): Post[] {
 export const metadata: Metadata = {
   title: "Home 260818",
   description: "Selected work, writing, and recent posts by Callum Flack.",
+  robots: { index: false, follow: true },
 };

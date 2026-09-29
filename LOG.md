@@ -2,6 +2,8 @@
 
 ## 2026-09-29
 
+- Search Console duplicate-canonical repair: public index routes rendered without canonical links, while post routes already provided them. Added route-specific canonicals for the home, index, and topic surfaces so view/query variants consolidate to their clean URLs. The unlinked dated alternate homepage (`/home-260818`) is not a distinct public document; it is now noindex. Local Next rendering confirms each canonical and the exclusion; scoped Prettier/ESLint and TypeScript pass. No editor diagnostics API is exposed in this session. Production deploy and Google re-crawl remain separate verification.
+
 - Writing loader: approved three featured-row skeletons (thumbnail, heading, three text lines) with “Loading…” replacing Start here. Match current row geometry; keep newsletter with resolved content. Add a temporary dev-only toggle, initially showing loading, for visual review; remove it after review. No commit or push requested for this change.
 - Loader implemented and left active at local `/writing`; the bottom-right toggle switches to content and back. Desktop/mobile rendering, both views, production build/TypeScript, scoped ESLint/Prettier, and Next runtime diagnostics pass. Production shell has three skeleton rows and no newsletter or preview control; no editor diagnostics API is exposed. Resolved: Callum approved the design and asked to retain the dev-only toggle for future design work. Supersedes the removal plan: default to content, retain Show loading, and commit this change; no push requested.
 

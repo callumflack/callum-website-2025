@@ -53,4 +53,5 @@ export default async function TopicIndexPage() {
 export const metadata: Metadata = {
   title: "Topics",
   description: "Browse posts by topics.",
+  alternates: { canonical: "/topic" },
 };

@@ -28,4 +28,5 @@ export const metadata: Metadata = {
   title: "Gallery",
   description:
     "Visual gallery of highlights from design and code projects produced since 1998.",
+  alternates: { canonical: "/gallery" },
 };

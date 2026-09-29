@@ -29,4 +29,5 @@ export default function ShelfPage() {
 export const metadata: Metadata = {
   title: "Shelf",
   description: "Curated lists — favourite articles, heroes, books, music.",
+  alternates: { canonical: "/shelf" },
 };
