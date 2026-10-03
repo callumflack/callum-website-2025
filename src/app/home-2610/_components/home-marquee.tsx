@@ -46,6 +46,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     let snapFrame = 0;
     let touchActive = false;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(width < 660px)");
 
     const cancelSnap = () => {
       cancelAnimationFrame(snapFrame);
@@ -53,6 +54,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     };
 
     const snapToCenter = () => {
+      if (mobileViewport.matches) return;
       const start = track.scrollLeft;
       const trackCenter =
         track.getBoundingClientRect().left + track.clientWidth / 2;
@@ -63,7 +65,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
         if (Math.abs(candidate) < Math.abs(distance)) distance = candidate;
       }
 
-      // Match proximity snapping: leave distant resting positions alone.
+      // Match desktop proximity snapping: leave distant resting positions alone.
       if (
         !Number.isFinite(distance) ||
         Math.abs(distance) > track.clientWidth * 0.3
@@ -124,6 +126,11 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
       stop();
       clearTimeout(snapTimer);
       cancelSnap();
+      if (mobileViewport.matches) {
+        track.dataset.browsing = "true";
+        track.dataset.snap = "center";
+        return;
+      }
       track.dataset.snap = "none";
       if (track.dataset.browsing !== "true") {
         track.dataset.browsing = "true";
@@ -132,6 +139,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     };
 
     const settleScroll = () => {
+      if (mobileViewport.matches) return;
       if (track.dataset.browsing !== "true" || track.dataset.snap !== "none")
         return;
       clearTimeout(snapTimer);
@@ -163,6 +171,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     const handleWheel = (event: WheelEvent) => {
       if (event.ctrlKey || event.metaKey) return;
       beginBrowsing();
+      if (mobileViewport.matches) return;
       settleScroll();
 
       // Leave horizontal trackpad gestures to the native scroll container.
@@ -210,7 +219,15 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
         track.dataset.snap = "none";
         settleScroll();
       }
-      if (track.dataset.browsing === "true") updateBrowsingInsets();
+      if (track.dataset.browsing === "true") {
+        if (mobileViewport.matches) {
+          track.style.removeProperty("padding-inline-start");
+          track.style.removeProperty("padding-inline-end");
+          track.dataset.snap = "center";
+        } else {
+          updateBrowsingInsets();
+        }
+      }
       const first = track.querySelector<HTMLElement>("[data-slide-copy='0']");
       const repeat = track.querySelector<HTMLElement>("[data-slide-copy='1']");
       if (first && repeat) cycleWidth = repeat.offsetLeft - first.offsetLeft;

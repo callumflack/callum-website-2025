@@ -102,6 +102,10 @@
     width: calc(100vw - var(--project-strip-gap));
   }
 
+  .track[data-snap="center"] {
+    scroll-snap-type: x mandatory;
+  }
+
   .panel {
     align-items: center;
   }
