@@ -1,0 +1,119 @@
+.home {
+  /* One rhythm for the gap between slides and the space beneath the strip. */
+  --project-strip-gap: var(--spacing-inset);
+  display: grid;
+  min-height: 100svh;
+  grid-template-rows: auto minmax(18rem, 1fr);
+  padding-bottom: var(--project-strip-gap);
+}
+
+.marquee {
+  min-width: 0;
+  container-type: size;
+  --slide-padding-x: calc(var(--spacing-w12) * 3);
+  --slide-padding-y: calc(var(--spacing-w8) * 3);
+  --slide-caption-height: calc(
+    var(--text-meta) * var(--text-meta--line-height)
+  );
+  --slide-gap: calc(var(--spacing) * 2.5);
+  --slide-media-height: calc(
+    100cqh - var(--slide-caption-height) - var(--slide-gap) -
+      var(--slide-padding-y) * 2
+  );
+}
+
+.track {
+  position: relative;
+  display: flex;
+  height: 100%;
+  gap: var(--project-strip-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-inline: max(var(--spacing-inset), var(--spacing-inset-text));
+}
+
+.slide {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--slide-gap);
+  width: calc(
+    var(--slide-media-height) * var(--slide-aspect) + var(--slide-padding-x) * 2
+  );
+  height: 100%;
+}
+
+/* A narrow snap area keeps even slides wider than the viewport centred. */
+.slide::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  scroll-snap-align: center;
+  pointer-events: none;
+}
+
+.track[data-snap="center"] {
+  scroll-snap-type: x proximity;
+}
+
+.slide > figcaption {
+  flex: none;
+  height: var(--slide-caption-height);
+  white-space: nowrap;
+}
+
+.panel {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 0;
+  padding: var(--slide-padding-y) var(--slide-padding-x);
+}
+
+.media {
+  width: calc(var(--slide-media-height) * var(--slide-aspect));
+  height: var(--slide-media-height);
+}
+
+.media > div,
+.media [data-slot="VideoLoader"] {
+  height: 100%;
+}
+
+@media (width < 660px) {
+  .home {
+    grid-template-rows: auto auto;
+    align-content: space-between;
+  }
+
+  .marquee {
+    height: calc(
+      100vw - var(--project-strip-gap) + var(--slide-caption-height) +
+        var(--slide-gap)
+    );
+  }
+
+  .slide {
+    width: calc(100vw - var(--project-strip-gap));
+  }
+
+  .track[data-snap="center"] {
+    scroll-snap-type: x mandatory;
+  }
+
+  .panel {
+    align-items: center;
+  }
+
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    aspect-ratio: var(--slide-aspect);
+  }
+}

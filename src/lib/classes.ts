@@ -8,12 +8,13 @@ import { extendTailwindMerge } from "tailwind-merge";
  * defaults reject non-stock values (text/radius/spacing/container all default
  * to t-shirt sizes or numbers) must be listed here.
  *
- * Colors are NOT listed: twMerge's default `color: [isAny]` already accepts
- * any token, so bg-*, text-*, border-*, etc. dedupe correctly without help.
+ * Colors already accept any token via `color: [isAny]`; named project
+ * surfaces remain explicit below. bg-*, text-*, border-*, etc. still dedupe.
  */
 const customTwMerge = extendTailwindMerge({
   extend: {
     theme: {
+      color: ["project-panel"],
       // Custom font sizes (text-*)
       text: ["fine", "pill", "meta", "body", "heading", "title"],
       // Custom radius (rounded-*)
