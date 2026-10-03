@@ -44,22 +44,6 @@
   height: 100%;
 }
 
-/* A narrow snap area keeps even slides wider than the viewport centred. */
-.slide::before {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  left: 50%;
-  width: 1px;
-  transform: translateX(-50%);
-  scroll-snap-align: center;
-  pointer-events: none;
-}
-
-.track[data-snap="center"] {
-  scroll-snap-type: x proximity;
-}
-
 .slide > figcaption {
   flex: none;
   height: var(--slide-caption-height);
@@ -100,6 +84,18 @@
 
   .slide {
     width: calc(100vw - var(--project-strip-gap));
+  }
+
+  /* A narrow snap area keeps even slides wider than the viewport centred. */
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    scroll-snap-align: center;
+    pointer-events: none;
   }
 
   .track[data-snap="center"] {

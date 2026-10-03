@@ -15,7 +15,6 @@ import styles from "../home.module.css";
 import type { HomeSlide } from "./slides";
 
 const SPEED = 20; // Pixels per second, independent of refresh rate.
-const SNAP_DURATION = 1200; // Roughly four times the previous native snap.
 
 export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -26,139 +25,55 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     if (trackRef.current) trackRef.current.dataset.motion = "stopped";
   }
 
-  function play(figure: HTMLElement) {
-    stop();
-    void figure
-      .querySelector("video")
-      ?.play()
-      .catch(() => {});
-  }
-
-  function pause(figure: HTMLElement) {
-    figure.querySelector("video")?.pause();
-  }
-
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    let snapTimer: ReturnType<typeof setTimeout> | undefined;
-    let snapFrame = 0;
-    let touchActive = false;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobileViewport = window.matchMedia("(width < 660px)");
+    let pointer: { x: number; y: number } | null = null;
+    let activeVideo: HTMLVideoElement | null = null;
+    let playbackFrame = 0;
 
-    const cancelSnap = () => {
-      cancelAnimationFrame(snapFrame);
-      snapFrame = 0;
-    };
-
-    const snapToCenter = () => {
-      if (mobileViewport.matches) return;
-      const start = track.scrollLeft;
-      const trackCenter =
-        track.getBoundingClientRect().left + track.clientWidth / 2;
-      let distance = Infinity;
-      for (const slide of track.children) {
-        const rect = slide.getBoundingClientRect();
-        const candidate = rect.left + rect.width / 2 - trackCenter;
-        if (Math.abs(candidate) < Math.abs(distance)) distance = candidate;
-      }
-
-      // Match desktop proximity snapping: leave distant resting positions alone.
-      if (
-        !Number.isFinite(distance) ||
-        Math.abs(distance) > track.clientWidth * 0.3
-      ) {
-        return;
-      }
-      const target = Math.max(
-        0,
-        Math.min(start + distance, track.scrollWidth - track.clientWidth)
+    const findSlide = (element: Element | null) => {
+      const slide = element?.closest<HTMLElement>(
+        '[data-slot="home-marquee-slide"]'
       );
-      if (reducedMotion.matches || Math.abs(target - start) < 1) {
-        track.scrollLeft = target;
-        track.dataset.snap = "center";
-        return;
-      }
-
-      track.dataset.snap = "animating";
-      const startedAt = performance.now();
-      const glide = (time: number) => {
-        const progress = Math.min((time - startedAt) / SNAP_DURATION, 1);
-        const eased = 1 - (1 - progress) ** 3;
-        track.scrollLeft = start + (target - start) * eased;
-        if (progress < 1) {
-          snapFrame = requestAnimationFrame(glide);
-        } else {
-          snapFrame = 0;
-          track.dataset.snap = "center";
-        }
-      };
-      snapFrame = requestAnimationFrame(glide);
+      return slide && track.contains(slide) ? slide : null;
     };
-
-    const updateBrowsingInsets = () => {
-      const first = track.firstElementChild as HTMLElement | null;
-      const last = track.lastElementChild as HTMLElement | null;
-      if (!first || !last) return;
-
-      const previousInset = Number.parseFloat(
-        getComputedStyle(track).paddingLeft
-      );
-      const previousPosition = track.scrollLeft;
-      // Read the responsive text inset before supplying extra room to centre
-      // the first/last slides. Offset scrollLeft so the visible slides stay put.
-      track.style.removeProperty("padding-inline-start");
-      track.style.removeProperty("padding-inline-end");
-      const inset = Number.parseFloat(getComputedStyle(track).paddingLeft);
-      const start = Math.max(
-        inset,
-        (track.clientWidth - first.offsetWidth) / 2
-      );
-      const end = Math.max(inset, (track.clientWidth - last.offsetWidth) / 2);
-      track.style.paddingInlineStart = `${start}px`;
-      track.style.paddingInlineEnd = `${end}px`;
-      track.scrollLeft = previousPosition + start - previousInset;
+    const updatePlayback = () => {
+      cancelAnimationFrame(playbackFrame);
+      playbackFrame = 0;
+      // Scroll can move a new slide under an unmoving pointer without sending
+      // pointerenter/leave. Hit-test the current layout instead of those events.
+      const hovered = pointer
+        ? findSlide(document.elementFromPoint(pointer.x, pointer.y))
+        : null;
+      const focused = findSlide(document.activeElement);
+      const slide = hovered ?? focused;
+      if (slide) stop();
+      const video = slide?.querySelector("video") ?? null;
+      if (video === activeVideo) return;
+      activeVideo?.pause();
+      activeVideo = video;
+      void activeVideo?.play().catch(() => {});
     };
-
+    const schedulePlayback = () => {
+      if (!playbackFrame) playbackFrame = requestAnimationFrame(updatePlayback);
+    };
+    const handlePointer = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      pointer = { x: event.clientX, y: event.clientY };
+      updatePlayback();
+    };
+    const handlePointerLeave = () => {
+      pointer = null;
+      updatePlayback();
+    };
     const beginBrowsing = () => {
       stop();
-      clearTimeout(snapTimer);
-      cancelSnap();
-      if (mobileViewport.matches) {
-        track.dataset.browsing = "true";
-        track.dataset.snap = "center";
-        return;
-      }
-      track.dataset.snap = "none";
-      if (track.dataset.browsing !== "true") {
-        track.dataset.browsing = "true";
-        updateBrowsingInsets();
-      }
-    };
-
-    const settleScroll = () => {
-      if (mobileViewport.matches) return;
-      if (track.dataset.browsing !== "true" || track.dataset.snap !== "none")
-        return;
-      clearTimeout(snapTimer);
-      if (touchActive) return;
-      snapTimer = setTimeout(snapToCenter, 160);
-    };
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (event.pointerType !== "touch") {
-        if (snapFrame) beginBrowsing();
-        return;
-      }
-      touchActive = true;
-      beginBrowsing();
-    };
-    const handlePointerUp = () => {
-      if (!touchActive) return;
-      touchActive = false;
-      settleScroll();
+      track.dataset.browsing = "true";
+      track.dataset.snap = mobileViewport.matches ? "center" : "none";
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
@@ -172,7 +87,8 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
       if (event.ctrlKey || event.metaKey) return;
       beginBrowsing();
       if (mobileViewport.matches) return;
-      settleScroll();
+      pointer = { x: event.clientX, y: event.clientY };
+      schedulePlayback();
 
       // Leave horizontal trackpad gestures to the native scroll container.
       if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
@@ -190,20 +106,21 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     };
     // Cancel vertical page scrolling only over this strip, never at the root.
     track.addEventListener("wheel", handleWheel, { passive: false });
-    track.addEventListener("scroll", settleScroll, { passive: true });
-    track.addEventListener("pointerdown", handlePointerDown);
-    track.addEventListener("pointerup", handlePointerUp);
-    track.addEventListener("pointercancel", handlePointerUp);
+    track.addEventListener("pointerdown", beginBrowsing);
     track.addEventListener("keydown", handleKeyDown);
+    track.addEventListener("pointerenter", handlePointer);
+    track.addEventListener("pointermove", handlePointer);
+    track.addEventListener("pointerleave", handlePointerLeave);
+    track.addEventListener("focusin", updatePlayback);
+    track.addEventListener("focusout", schedulePlayback);
+    // Observe both strip scrolling and page scrolling beneath a fixed pointer.
+    window.addEventListener("scroll", schedulePlayback, {
+      capture: true,
+      passive: true,
+    });
 
     const respectReducedMotion = () => {
-      if (reducedMotion.matches) {
-        stop();
-        if (snapFrame) {
-          cancelSnap();
-          snapToCenter();
-        }
-      }
+      if (reducedMotion.matches) stop();
     };
     respectReducedMotion();
     reducedMotion.addEventListener("change", respectReducedMotion);
@@ -214,20 +131,11 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
     let cycleWidth = 0;
 
     const measure = () => {
-      if (snapFrame) {
-        cancelSnap();
-        track.dataset.snap = "none";
-        settleScroll();
-      }
-      if (track.dataset.browsing === "true") {
-        if (mobileViewport.matches) {
-          track.style.removeProperty("padding-inline-start");
-          track.style.removeProperty("padding-inline-end");
-          track.dataset.snap = "center";
-        } else {
-          updateBrowsingInsets();
-        }
-      }
+      track.dataset.snap =
+        mobileViewport.matches && track.dataset.browsing === "true"
+          ? "center"
+          : "none";
+      schedulePlayback();
       const first = track.querySelector<HTMLElement>("[data-slide-copy='0']");
       const repeat = track.querySelector<HTMLElement>("[data-slide-copy='1']");
       if (first && repeat) cycleWidth = repeat.offsetLeft - first.offsetLeft;
@@ -254,15 +162,18 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
 
     return () => {
       cancelAnimationFrame(frame);
-      cancelSnap();
-      clearTimeout(snapTimer);
+      cancelAnimationFrame(playbackFrame);
+      activeVideo?.pause();
       observer.disconnect();
       track.removeEventListener("wheel", handleWheel);
-      track.removeEventListener("scroll", settleScroll);
-      track.removeEventListener("pointerdown", handlePointerDown);
-      track.removeEventListener("pointerup", handlePointerUp);
-      track.removeEventListener("pointercancel", handlePointerUp);
+      track.removeEventListener("pointerdown", beginBrowsing);
       track.removeEventListener("keydown", handleKeyDown);
+      track.removeEventListener("pointerenter", handlePointer);
+      track.removeEventListener("pointermove", handlePointer);
+      track.removeEventListener("pointerleave", handlePointerLeave);
+      track.removeEventListener("focusin", updatePlayback);
+      track.removeEventListener("focusout", schedulePlayback);
+      window.removeEventListener("scroll", schedulePlayback, true);
       reducedMotion.removeEventListener("change", respectReducedMotion);
     };
   }, []);
@@ -302,18 +213,6 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
                     ...style,
                   } as CSSProperties
                 }
-                onPointerEnter={(event) => {
-                  if (event.pointerType !== "touch") play(event.currentTarget);
-                }}
-                onPointerLeave={(event) => {
-                  if (!event.currentTarget.contains(document.activeElement))
-                    pause(event.currentTarget);
-                }}
-                onFocus={(event) => play(event.currentTarget)}
-                onBlur={(event) => {
-                  if (!event.currentTarget.contains(event.relatedTarget))
-                    pause(event.currentTarget);
-                }}
               >
                 <ProjectStripCaption
                   {...project}
