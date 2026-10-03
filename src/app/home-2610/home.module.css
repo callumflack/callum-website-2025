@@ -84,3 +84,32 @@
 .media [data-slot="VideoLoader"] {
   height: 100%;
 }
+
+@media (width < 660px) {
+  .home {
+    grid-template-rows: auto auto;
+    align-content: space-between;
+  }
+
+  .marquee {
+    height: calc(
+      100vw - var(--project-strip-gap) + var(--slide-caption-height) +
+        var(--slide-gap)
+    );
+  }
+
+  .slide {
+    width: calc(100vw - var(--project-strip-gap));
+  }
+
+  .panel {
+    align-items: center;
+  }
+
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    aspect-ratio: var(--slide-aspect);
+  }
+}

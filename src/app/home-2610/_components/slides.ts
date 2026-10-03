@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { isVideoFile } from "@/components/media/media-utils";
 import { getPublishedPosts } from "@/lib/posts/actions";
 import type { CarouselProject } from "@/lib/posts/carousel-projects";
 import { formatPostYearSpan } from "@/lib/utils";
@@ -17,6 +18,7 @@ const slides: Pick<HomeSlide, "slug" | "asset" | "style">[] = [
     slug: "vana-2025",
     asset: {
       src: "https://cfd-media.b-cdn.net/vana-data-connect-demo-02-260210.mp4",
+      poster: "/images/vana-data-connect-demo-02-260210-poster.jpg",
       alt: "Data Connect Demo",
       aspect: "3152-2160",
     },
@@ -43,6 +45,7 @@ const slides: Pick<HomeSlide, "slug" | "asset" | "style">[] = [
     slug: "open-data-labs",
     asset: {
       src: "https://cfd-media.b-cdn.net/odl-site-overview-260902.mp4",
+      poster: "/images/odl-site-overview-260902-poster.jpg",
       alt: "ODL website",
       aspect: "1512-1080",
     },
@@ -105,6 +108,9 @@ export function getHomeSlides(): HomeSlide[] {
   const posts = new Map(getPublishedPosts().map((post) => [post.slug, post]));
 
   return slides.map((slide) => {
+    if (isVideoFile(slide.asset.src) && !slide.asset.poster) {
+      throw new Error(`Home video slide requires a poster: ${slide.slug}`);
+    }
     const post = posts.get(slide.slug);
     if (!post)
       throw new Error(`Home slide references missing post: ${slide.slug}`);
