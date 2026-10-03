@@ -1,16 +1,14 @@
 import type { Post } from "content-collections";
 import { Link } from "@/components/atoms/next-link";
+import { isVideoFile } from "@/components/media/media-utils";
 import { PostBlock } from "@/components/post/list/post-block";
 import { PostLines } from "@/components/post/list/posts-list";
 import { getPosts, toPostListItem } from "@/lib/posts/actions";
 import { sortSelectedPosts } from "@/lib/posts/sorting";
 import type { WorkMode } from "./work-mode";
-import { WorkReel } from "./work-reel";
 
 export function WorkPostsView({ mode }: { mode: WorkMode }) {
   switch (mode) {
-    case "reel":
-      return <WorkReel />;
     case "year":
       return (
         <div className="container">
@@ -29,7 +27,16 @@ export function WorkPostsView({ mode }: { mode: WorkMode }) {
           data-component="WorkSelectedPosts"
         >
           {sortSelectedPosts(getPosts("projects"), "projects")
-            .map(toPostListItem)
+            .map((post) => ({
+              ...toPostListItem(post),
+              assets: post.assets?.flatMap((asset) =>
+                isVideoFile(asset.src)
+                  ? asset.poster
+                    ? [{ ...asset, src: asset.poster }]
+                    : []
+                  : [asset]
+              ),
+            }))
             .map((post, index) => (
               <Link href={post.thumbnailLink ?? `/${post.slug}`} key={post._id}>
                 <PostBlock post={post} priority={index < 4} />

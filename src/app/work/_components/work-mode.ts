@@ -1,11 +1,10 @@
 export const WORK_MODES = [
-  { label: "Reel", value: "reel" },
   { label: "Selected", value: "projects" },
   { label: "Chrono", value: "year" },
 ] as const;
 
 export type WorkMode = (typeof WORK_MODES)[number]["value"];
-export const DEFAULT_WORK_MODE: WorkMode = "reel";
+export const DEFAULT_WORK_MODE: WorkMode = "projects";
 
 export type WorkSearchParams = Record<string, string | string[] | undefined>;
 

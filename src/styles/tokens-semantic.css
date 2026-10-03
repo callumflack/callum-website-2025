@@ -133,6 +133,11 @@
     var(--color-gray-bg-hover) 80%,
     var(--color-accent3-bg)
   );
+  --color-project-panel: color-mix(
+    in oklab,
+    var(--color-background) 92%,
+    #8ca9d0
+  );
   --color-border: var(--color-gray-border);
   --color-line: var(--color-gray-line);
   --color-ring: var(--color-gray-ring);

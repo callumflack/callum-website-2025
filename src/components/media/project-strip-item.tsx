@@ -41,15 +41,18 @@ export function ProjectStripCaption({
   slug,
   title,
   yearSpan,
+  tabIndex,
 }: {
   slug: string;
   title: string;
   yearSpan: string;
+  tabIndex?: number;
 }) {
   return (
     <Caption className="w-full">
       <Link
         href={`/${slug}`}
+        tabIndex={tabIndex}
         className="hover:text-fill! focus-visible:text-fill! no-underline!"
       >
         <ProjectStripCaptionInner title={title} yearSpan={yearSpan} />
@@ -81,7 +84,7 @@ export function ProjectStripMedia({
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden bg-zero",
+        "bg-zero relative w-full overflow-hidden",
         mediaWrapperVariants({ border: true, background: false })
       )}
       style={{ height: imageHeight }}
@@ -144,7 +147,7 @@ export function ProjectStripCard({
         index={index}
         isPortrait={false}
       />
-      <Caption className="w-full group-hover:text-fill! group-focus-visible:text-fill!">
+      <Caption className="group-hover:text-fill! group-focus-visible:text-fill! w-full">
         <ProjectStripCaptionInner title={title} yearSpan={yearSpan} />
       </Caption>
     </Link>
