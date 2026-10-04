@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Link } from "@/components/atoms";
+import { Link, MetadataSeparator } from "@/components/atoms";
 import { Caption } from "@/components/media/caption";
 import { MediaFigure } from "@/components/media/media-figure";
 import {
@@ -31,7 +31,7 @@ function ProjectStripCaptionInner({
   return (
     <span className="flex items-center gap-1.5">
       <span>{title}</span>
-      <hr className="hr-vertical border-border-hover h-[12px]" />
+      <MetadataSeparator />
       <span>{yearSpan}</span>
     </span>
   );

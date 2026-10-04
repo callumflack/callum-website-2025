@@ -1,5 +1,5 @@
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { Text } from "@/components/atoms";
+import { MetadataSeparator, Text } from "@/components/atoms";
 import { CardImage } from "@/components/card";
 import { mediaWrapperVariants } from "@/components/media";
 import { cn, formatPostYearSpan } from "@/lib/utils";
@@ -31,7 +31,7 @@ export const PostBlock = ({
       )}
     >
       {/* IMAGE */}
-      <div className={cn("relative col-span-6 sm:col-span-5")}>
+      <div className={cn("relative col-span-full sm:col-span-5")}>
         <div className="relative">
           {post.assets && post.assets.length > 0 ? (
             <CardImage
@@ -86,28 +86,28 @@ export const PostBlock = ({
       {/* CAPTION */}
       <div
         className={cn(
-          "contents sm:col-span-15 sm:block",
-          "sm:translate-y-[-0.25em] sm:transform sm:space-y-1"
+          "col-span-full space-y-1 sm:col-span-15",
+          "sm:translate-y-[-0.25em] sm:transform"
         )}
       >
-        <PostLinkHeadingWrapper className="col-span-14 -translate-y-[0.25em] flex-col items-start gap-1 sm:translate-y-0 sm:flex-row sm:items-baseline sm:gap-2.5">
+        <PostLinkHeadingWrapper className="items-baseline gap-2.5">
           <Text as="h2" intent="body" weight="medium">
             {post.title}
           </Text>
-          <hr className="hr-vertical border-border-hover hidden h-[12px] sm:block" />
-          <Text as="span" dim intent="pill">
+          <MetadataSeparator className="hidden sm:inline-block" />
+          <Text as="span" dim intent="pill" className="hidden sm:inline">
             {formatPostYearSpan(post)}
           </Text>
           {post.thumbnailLink && !isExternal ? (
             <ArrowTopRightIcon className={cn(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
-        <Text
-          dim
-          intent="meta"
-          className="group-hover:text-fill-light! col-span-full"
-        >
-          {post.summary}
+        <Text dim intent="meta" className="group-hover:text-fill-light!">
+          <span className="mr-1.5 inline-flex items-center gap-1.5 sm:hidden">
+            <span>{formatPostYearSpan(post)}</span>
+            <MetadataSeparator />
+          </span>
+          <Text as="span">{post.summary}</Text>
           {/* <span className={cn("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}
             </span> */}
