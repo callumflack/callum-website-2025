@@ -22,6 +22,7 @@ export const PostBlock = ({
   return (
     <div
       data-component="PostBlock"
+      data-slot="post-block"
       className={cn(
         "group gap-w4 grid grid-cols-20",
         lineHoverStyle,
@@ -85,15 +86,15 @@ export const PostBlock = ({
       {/* CAPTION */}
       <div
         className={cn(
-          "col-span-14 sm:col-span-15",
-          "translate-y-[-0.25em] transform space-y-1"
+          "contents sm:col-span-15 sm:block",
+          "sm:translate-y-[-0.25em] sm:transform sm:space-y-1"
         )}
       >
-        <PostLinkHeadingWrapper className="items-baseline gap-2.5">
+        <PostLinkHeadingWrapper className="col-span-14 -translate-y-[0.25em] flex-col items-start gap-1 sm:translate-y-0 sm:flex-row sm:items-baseline sm:gap-2.5">
           <Text as="h2" intent="body" weight="medium">
             {post.title}
           </Text>
-          <hr className="hr-vertical border-border-hover h-[12px]" />
+          <hr className="hr-vertical border-border-hover hidden h-[12px] sm:block" />
           <Text as="span" dim intent="pill">
             {formatPostYearSpan(post)}
           </Text>
@@ -101,7 +102,11 @@ export const PostBlock = ({
             <ArrowTopRightIcon className={cn(postIconStyle)} />
           ) : null}
         </PostLinkHeadingWrapper>
-        <Text dim intent="meta" className="group-hover:text-fill-light!">
+        <Text
+          dim
+          intent="meta"
+          className="group-hover:text-fill-light! col-span-full"
+        >
           {post.summary}
           {/* <span className={cn("Text-subheading text-solid")}>
               {date ? format(parseISO(date), "yyyy") : "HEY"}

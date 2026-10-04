@@ -33,11 +33,16 @@ function WritingFeatureSkeleton() {
       data-slot="writing-feature-skeleton"
     >
       <div className="bg-background rounded-button col-span-6 aspect-[1.6] sm:col-span-5" />
-      <div className="col-span-14 -translate-y-[0.25em] space-y-1 sm:col-span-15">
-        <div className="text-body flex h-[1.45em] items-center">
-          <div className="bg-border rounded-soft h-[0.75em] w-4/5" />
+      <div className="contents sm:col-span-15 sm:block sm:-translate-y-[0.25em] sm:space-y-1">
+        <div className="col-span-14 -translate-y-[0.25em] space-y-1 sm:translate-y-0 sm:space-y-0">
+          <div className="text-body flex h-[1.45em] items-center">
+            <div className="bg-border rounded-soft h-[0.75em] w-4/5" />
+          </div>
+          <div className="text-pill flex h-[1.45em] items-center sm:hidden">
+            <div className="bg-background rounded-soft h-[0.65em] w-1/5" />
+          </div>
         </div>
-        <div className="text-meta">
+        <div className="text-meta col-span-full">
           <div className="flex h-[1.45em] items-center">
             <div className="bg-background rounded-soft h-[0.65em] w-full" />
           </div>
