@@ -41,6 +41,16 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
       );
       return slide && track.contains(slide) ? slide : null;
     };
+    const findCenteredSlide = () => {
+      const rect = track.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) return null;
+      const center = rect.left + rect.width / 2;
+      for (const slide of track.children) {
+        const bounds = slide.getBoundingClientRect();
+        if (Math.abs(bounds.left + bounds.width / 2 - center) < 1) return slide;
+      }
+      return null;
+    };
     const updatePlayback = () => {
       cancelAnimationFrame(playbackFrame);
       playbackFrame = 0;
@@ -50,7 +60,13 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
         ? findSlide(document.elementFromPoint(pointer.x, pointer.y))
         : null;
       const focused = findSlide(document.activeElement);
-      const slide = hovered ?? focused;
+      // Native mobile snapping chooses the position; we only follow it for
+      // playback, after interaction has permanently stopped the marquee.
+      const slide = mobileViewport.matches
+        ? track.dataset.browsing === "true"
+          ? findCenteredSlide()
+          : focused
+        : (hovered ?? focused);
       if (slide) stop();
       const video = slide?.querySelector("video") ?? null;
       if (video === activeVideo) return;
@@ -74,6 +90,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
       stop();
       track.dataset.browsing = "true";
       track.dataset.snap = mobileViewport.matches ? "center" : "none";
+      schedulePlayback();
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
