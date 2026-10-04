@@ -25,7 +25,7 @@ Before claiming done: `bunx prettier --check` the files you touched, and `bun li
 - Upload new video files to Bunny Storage with `bun media:upload <local-file> [--to <remote-path>]`. Configuration lives in ignored `.env.local`; never print or commit `BUNNY_STORAGE_API_KEY`. The command refuses existing remote paths unless explicitly given `--force`, verifies Bunny's stored checksum and size, and checks CDN delivery. Prefer immutable video filenames. This uploader is for video only; keep image assets on the existing image workflow.
 - `thumbnailLink` makes a link-out card. `type: link` does not.
 - List UIs take `PostListItem` via `toPostListItem`. Do not pass compiled `Post.content` to client lists.
-- Home is `src/app/page.tsx` + `posts/pages/home.mdx`. Ignore `src/app/(home)/home-page.tsx`. Do not add `src/app/(home)/page.tsx`. Do not copy old homes into `src/`.
+- Home is `src/app/page.tsx` → `src/app/home-2610/_components/home-page.tsx`; `/home-2610` previews the same composition. `/home-260930` preserves the former homepage using `posts/pages/home.mdx`. Ignore `src/app/(home)/home-page.tsx`. Do not add `src/app/(home)/page.tsx`. Add homepage archives only when requested.
 
 ## UI
 
@@ -51,7 +51,7 @@ Open the live file. Dated docs next to it are intent only. Confirm before follow
 - Queries / list payload: `src/lib/posts/actions.ts`
 - New post: `.agents/skills/create-post/SKILL.md`, then put the file in the category folder (the skill still writes posts root). `bun organize-posts` does not know `shelf`.
 - Chrome / indexes: `src/components/page/page-wrapper.tsx`, `src/app/work/`
-- Home: `src/app/page.tsx`, `posts/pages/home.mdx`
+- Home: `src/app/page.tsx`, `src/app/home-2610/_components/home-page.tsx`; archive: `src/app/home-260930/page.tsx`, `posts/pages/home.mdx`
 - Tokens / `cn`: `src/styles/tokens-semantic.css`, `src/lib/classes.ts`
 - Type roles: `src/components/atoms/text.tsx` (intent snapshot: `docs/typography.md`)
 - MDX: `src/components/mdx/mdx.css`, `mdx-components.tsx`, `mdx-media.tsx`

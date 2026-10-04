@@ -76,6 +76,7 @@
   }
 
   .marquee {
+    --slide-padding-x: calc(var(--spacing-w12) * 1.5);
     height: calc(
       100vw - var(--project-strip-gap) + var(--slide-caption-height) +
         var(--slide-gap)
