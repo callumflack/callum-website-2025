@@ -32,8 +32,8 @@ function WritingFeatureSkeleton() {
       className="gap-w4 grid grid-cols-20"
       data-slot="writing-feature-skeleton"
     >
-      <div className="bg-background rounded-button col-span-6 aspect-[1.6] sm:col-span-5" />
-      <div className="col-span-14 -translate-y-[0.25em] space-y-1 sm:col-span-15">
+      <div className="bg-background rounded-button col-span-full aspect-[1.6] sm:col-span-5" />
+      <div className="col-span-full space-y-1 sm:col-span-15 sm:-translate-y-[0.25em]">
         <div className="text-body flex h-[1.45em] items-center">
           <div className="bg-border rounded-soft h-[0.75em] w-4/5" />
         </div>

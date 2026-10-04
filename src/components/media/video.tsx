@@ -146,6 +146,7 @@ export const Video = ({
           loop
           muted={!isMobileViewport && !sound}
           playsInline
+          poster={poster || undefined}
           ref={videoRef}
           style={{
             display:

@@ -1,7 +1,7 @@
 /*
  * Editor-curated slug lists. Order = render order.
  *
- *   featuredWorkSlugs    → work Reel (default tab) and work/gallery Selected
+ *   featuredWorkSlugs    → work/gallery Selected
  *                          via sortSelectedPosts(). Selected then appends any
  *                          extra projects tagged `featured`.
  *   featuredWritingSlugs → writing Selected via sortSelectedPosts(), same
