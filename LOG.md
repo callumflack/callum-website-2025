@@ -2,6 +2,8 @@
 
 ## 2026-10-06
 
+- Poster handoff correction: use homepage-specific JPEGs extracted from each exact MP4's opening frame, with matching native dimensions and slide ratios. Existing shared thumbnails remain unchanged. Preserve the decoded-frame handoff and publish this follow-up to PR #18 without merging.
+
 - Homepage poster loading now has a reel-specific sharp image layer independent of video metadata, with paused MP4 sources deferred until selection and the poster retained until a decoded frame is ready. Article media and layout are unchanged; desktop hover and native mobile snap/playback contracts are retained. Publish as a new PR for review, without merging. Next route-sample inference also required replacing absent sort values with explicit null values in Work/Writing to restore the production type gate.
 
 ## 2026-10-04
