@@ -9,10 +9,10 @@ import {
   parseAspectRatio,
 } from "@/components/media/media-utils";
 import { ProjectStripCaption } from "@/components/media/project-strip-item";
-import { Video } from "@/components/media/video";
 import { cn } from "@/lib/utils";
 import styles from "../home.module.css";
 import type { HomeSlide } from "./slides";
+import { HOME_MEDIA_SIZES, HomeVideo } from "./home-video";
 
 const SPEED = 20; // Pixels per second, independent of refresh rate.
 
@@ -72,6 +72,11 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
       if (video === activeVideo) return;
       activeVideo?.pause();
       activeVideo = video;
+      // Posters own initial loading. Attach an MP4 only when interaction
+      // selects it, synchronously before play() to retain the user gesture.
+      if (activeVideo && !activeVideo.getAttribute("src")) {
+        activeVideo.src = activeVideo.dataset.src!;
+      }
       void activeVideo?.play().catch(() => {});
     };
     const schedulePlayback = () => {
@@ -241,16 +246,10 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
                 >
                   <div className={styles.media} data-slot="home-marquee-media">
                     {isVideoFile(asset.src) ? (
-                      <Video
-                        src={asset.src}
-                        poster={asset.poster ?? ""}
-                        aspect={asset.aspect}
-                        className="h-full w-full object-contain"
-                        autoPlay={false}
-                        muted
-                        preload="auto"
-                        posterPriority={copy === 0 && index < 2}
-                        aria-label={asset.alt}
+                      <HomeVideo
+                        asset={asset}
+                        eager={copy === 0 && index < 2}
+                        first={copy === 0 && index === 0}
                       />
                     ) : (
                       <Image
@@ -258,7 +257,7 @@ export function HomeMarquee({ slides }: { slides: HomeSlide[] }) {
                         alt={asset.alt}
                         width={width}
                         height={height}
-                        sizes="(max-width: 660px) 700px, 1200px"
+                        sizes={`auto, ${HOME_MEDIA_SIZES}`}
                         className="h-full w-full object-contain"
                         loading={copy === 0 && index < 2 ? "eager" : "lazy"}
                         draggable={false}

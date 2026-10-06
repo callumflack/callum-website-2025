@@ -90,7 +90,10 @@ export default function WritingPage({
 }
 
 export const instant = {
-  unstable_samples: [{ searchParams: {} }, { searchParams: { sort: "year" } }],
+  unstable_samples: [
+    { searchParams: { sort: null } },
+    { searchParams: { sort: "year" } },
+  ],
 };
 
 export const metadata: Metadata = {
