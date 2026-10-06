@@ -41,7 +41,7 @@ export default function WorkPage({
 
 export const instant = {
   unstable_samples: [
-    { searchParams: {} },
+    { searchParams: { sort: null } },
     { searchParams: { sort: "projects" } },
     { searchParams: { sort: "year" } },
   ],
